@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <title>SvS</title>
+        <link rel="icon" type="image/x-icon" href="Images/Luigi.jpg"> <!-- Change it to an actual good image later-->
+    </head>
+
+    <body>
+        <div class="mainBox"> <!-- Everything to be fit inside this main box div-->
+            
+            <div class="TitleBox"> <!-- The first important box with the title-->
+                <b id="rainbow" style="color: rgb(255, 95, 31); font-size: 40px;">SvS.(something)</b>
+                <a href="https://youtube.com" target="_blank" style="color: blueviolet; text-decoration: none; ">bingus</a>
+            </div>
+
+            <hr style="border: 2px solid rgba(125, 18, 255,0.6)"> <!-- Break line-->
+
+            <table style="width: 100%; height: 550px;"> <!-- The main chonk-->
+                <tbody>
+                    <tr>
+                        <th style="width: 20%;">
+                            <div class="sidebar" style="top: -50px;"> 
+                            <!-- Navigation hub, multiple web pages needed so a template for the website will be made or each out link will lead to something other design (good to be consistent though)-->
+                                <ul>
+                                    <li><a href="index.html">home</a></li>
+                                    <li><a href="#A">2</a></li>
+                                    <li><a href="#A">3</a></li>
+                                    <li><a href="#A">4</a></li>
+                                    <li><a href="#A">5</a></li>
+                                </ul>
+                            </div>
+                            
+                            <hr style="border: 2px solid rgba(125, 18, 255,0.6); position: relative; top: -45px;"> <!-- Break line-->
+                            
+                            <div class="linkBar"> 
+                            <!-- These need to actually be <a> tags as they are meant to be outbound links using images as the link button-->
+                                <ul style="width: 40%;">
+                                    <li><img src="Images/github.png"></li>
+                                    <li><img src="Images/spotify.png"></li>
+                                    <li><img src="Images/silksong1.jpg"></li>
+                                    <li><img src="Images/Mewo_Sleep_(Demo).gif"></li>
+                                    <li><img src="Images/Mewo_Sleep_(Demo).gif"></li>
+                                    <li><img src="Images/Mewo_Sleep_(Demo).gif"></li>
+                                </ul>
+                            </div>
+                        </th>
+                        <th style="border-left: 2px solid rgb(125, 18, 255);"> 
+                        <!-- Place welcome text here, what will be shown upon website loading.-->
+                            <div class="intro">
+                                Hello my name is <b>Sam</b> or <b>SvS</b>.
+                            </div>
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <hr style="border: 2px solid rgba(125, 18, 255,0.6); position: relative; top: 4px;"> <!-- Break line-->
+
+            <!-- First pop up - a moon phase widget (credits on the widget on page)-->
+            <div class="popup">
+                <iframe style="border:none; width: 100%; height:100%;" src="https://dimden.dev/moon?custom=1" name="dimdenmoonwidget"></iframe>
+            </div>
+
+            <!-- Second pop up - a music player that syncs to spotify using last.fm api-->
+            <!-- Note that the API key is public and will need some sort of backend js to keep spotify account safe ;-;-->
+            <div class="popup1">
+                <div id="now-playing" style="padding: 10px;"></div>
+            </div>
+            
+            <!-- Image dump-->
+            <img class="leafeon" src="Images/leafeon 2.png">
+            <img class="mari" src="Images/Mari_Breaktime_Default.gif">
+            <img class="animegirl" src="Images/animegirl 1.gif">
+            <img class="fackuup" src="Images/wellfackuupgif.gif">
+            <img class="hornet" src="Images/Hornet_Ritual_end0008.png">
+            <img src="https://img.pokemondb.net/sprites/sword-shield/normal/vulpix-alolan.png" class="vulpix">
+        </div>
+
+        <!-- Open source scripts (use ctrl + click to open them)-->
+        <script src="js/rainbow.js"></script> 
+        <script src="js/music.js"></script>
+
+    </body>
+</html>
