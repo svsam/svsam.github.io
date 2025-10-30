@@ -1,0 +1,45 @@
+.leafeon {
+  position: fixed;
+  width: 200px;
+  top: -240px;
+  right: 1px;
+  z-index: -1;
+}
+
+.mari {
+  position: fixed;
+  top: 10px;
+  z-index: -1;
+}
+
+.animegirl {
+  position: fixed;
+  width: 100px;
+  top: 552px;
+  z-index: 3;
+  left: -36px;
+}
+
+.fackuup {
+  position: fixed;
+  width: 307px;
+  top: -64px;
+  z-index: 3;
+  left: 844px;
+}
+
+.hornet {
+  position: fixed;
+  width: 161px;
+  top: 525px;
+  z-index: 3;
+  left: 734px;
+}
+
+.vulpix {
+  position: fixed;
+  width: 156px;
+  top: -145px;
+  z-index: 3;
+  left: 746px;
+}
