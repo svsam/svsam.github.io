@@ -120,12 +120,13 @@ li img {
 
 .intro {
   /*border: 1px solid rgb(125, 18, 255);*/
-  width: 100%;
-  padding: 20px;
+  width: 90%;
+  padding: 50px;
   text-align: left;
   font-family: monospace;
+  font-size: 15px;
   position: relative;
-  top: -255px;
+  top: -125px;
 }
 
 
