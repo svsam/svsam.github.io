@@ -26,7 +26,7 @@ const loadTrackFromDatabase = async () => {
             locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}`,
         });
         const db = new SQL.Database(new Uint8Array(buffer));
-        const result = db.exec('SELECT title, artist, image FROM tracks ORDER BY id DESC LIMIT 1;');
+        const result = db.exec('SELECT title, artist, image FROM tracks ORDER BY RANDOM() LIMIT 1;');
 
         if (!result.length || !result[0].values.length) {
             renderTrack(null);
