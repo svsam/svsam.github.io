@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/page-transition.css">
+        <title>SvS</title>
+        <link rel="icon" type="image/x-icon" href="css/Images/Luigi.jpg"> <!-- Change it to an actual good image later-->
+    </head>
+
+    <body>
+        <div class="mainBox"> <!-- Everything to be fit inside this main box div-->
+            
+            <div class="TitleBox"> <!-- The first important box with the title-->
+                <b id="rainbow" style="color: rgb(255, 95, 31);">SamvS</b>
+                <a style="color: blueviolet; text-decoration: none; ">Journal</a>
+            </div>
+
+            <hr style="border: 2px solid rgba(125, 18, 255,0.6)"> <!-- Break line-->
+
+            <table class="mainContent"> <!-- The main chonk-->
+                <tbody>
+                    <tr>
+                        <th class="sidebarColumn">
+                            <div class="sidebar"> 
+                            <!-- Navigation hub, multiple web pages needed so a template for the website wi@ll be made or each out link will lead to something other design (good to be consistent though)-->
+                                <ul class="fileTree">
+                                    <li class="treeFile">
+                                        <a href="homepage.html">Homepage</a>
+                                    </li>
+                                    <li class="treeFolder">
+                                        <span>Work related</span>
+                                        <ul>
+                                            <li class="treeFile">
+                                                <a style="color: aquamarine;" href="#">Journal</a>
+                                            </li>
+                                            <li class="treeFile">
+                                                <a style="color: aquamarine;" href="cv.html">CV</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="treeFolder">
+                                        <span>Photodump</span>
+                                        <ul>
+                                            <li class="treeFile">
+                                                <span style="color: aquamarine;">Bingus</span>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <hr class="sidebarDivider" style="border: 2px solid rgba(125, 18, 255,0.6);"> <!-- Break line-->
+                            
+                            <div class="linkBar">
+                                <div class="linkHeader">LINKS</div>
+                                <ul class="linkList">
+                                    <li>
+                                        <a class="linkRowLink" href="https://github.com" target="_blank" rel="noopener noreferrer">
+                                            <img src="css/Images/github.png" alt="GitHub">
+                                            <span class="linkRowLabel">GitHub</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="linkRowLink" href="https://open.spotify.com" target="_blank" rel="noopener noreferrer">
+                                            <img src="css/Images/spotify.png" alt="Spotify">
+                                            <span class="linkRowLabel">Spotify</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="linkRowLink" href="https://www.hollowknightsilksong.com" target="_blank" rel="noopener noreferrer">
+                                            <img src="css/Images/silksong1.jpg" alt="Silksong">
+                                            <span class="linkRowLabel">Silksong</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="linkRowLink" href="https://store.steampowered.com" target="_blank" rel="noopener noreferrer">
+                                            <img src="css/Images/steam.jpg" alt="Steam">
+                                            <span class="linkRowLabel">Steam</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="linkRowLink" href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                                            <img src="css/Images/twitter.png" alt="Twitter">
+                                            <span class="linkRowLabel">Twitter</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="linkRowLink" href="https://www.omori-game.com" target="_blank" rel="noopener noreferrer">
+                                            <img src="css/Images/Mewo_Sleep_(Demo).gif" alt="Mewo">
+                                            <span class="linkRowLabel">Mewo</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </th>
+                        <th class="contentColumn"> 
+                            <div class="intro">
+                                <div class="journalHeader">
+                                    <h1>Entries</h1>
+                                    <p>This is where I will log any updates with the website or my life, if you care about me in some sort of parasocial way or just want to look at my life this may be of use to you!</p>
+                                </div>
+                                <div id="journalEntries" class="journalEntries"></div>
+                            </div>
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Conveyor belt section -->
+            <div class="conveyor">
+                <div class="belt">
+                <img src="css/Images/8xpl.png">
+                <img src="css/Images/8pxl image 2.png">
+                <img src="css/Images/silksong1.jpg">
+                <img src="css/Images/Hornet_Ritual_end0008.png">
+                <img src="css/Images/spinning shark.gif">
+                <img src="css/Images/Luigi.jpg">
+                <!-- Duplicate for seamless loop -->
+                <img src="css/Images/8xpl.jpg">
+                <img src="css/Images/8pxl image 2.png">
+                <img src="css/Images/silksong1.jpg">
+                <img src="css/Images/Hornet_Ritual_end0008.png">
+                <img src="css/Images/spinning shark.gif">
+                <img src="css/Images/Luigi.jpg">
+                </div>
+            </div>
+
+            <hr style="border: 2px solid rgba(125, 18, 255,0.6); position: relative; top: 4px;"> <!-- Break line-->
+            
+        </div>
+
+        <template id="journalEntryTemplate">
+            <details class="journalEntry">
+                <summary class="journalEntrySummary">
+                    <span class="journalEntryDate"></span>
+                    <span class="journalEntryDivider">-</span>
+                    <span class="journalEntryTitle"></span>
+                </summary>
+                <div class="journalEntryBody"></div>
+            </details>
+        </template>
+
+        <!-- Open source scripts (use ctrl + click to open them)-->
+        <script src="js/rainbow.js"></script> 
+        <script src="js/journal.js"></script> 
+        <script src="js/page-transition.js"></script>
+
+    </body>
+</html>
