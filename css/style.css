@@ -1,0 +1,427 @@
+html {
+  min-height: 100%;
+}
+
+:root {
+  --left-rail-width: clamp(145px, 8vw, 190px);
+  --left-rail-font-size: clamp(12px, 0.75vw, 14px);
+  --left-rail-icon-size: clamp(40px, 2.2vw, 50px);
+}
+
+/* Global font and background image */
+body {
+  min-height: 200vh;
+  margin: 0;
+
+  background-image: url("wp7505161-windows-xp-night-wallpapers1767290563.webp");
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: center top;
+  background-size: 100% 100%;
+
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 8px;
+  color: rgb(125, 18, 255);
+  letter-spacing: 1px;
+}
+
+
+.mainBox {
+  box-sizing: border-box;
+  border: 5px double rgba(125, 18, 255, 0.5);
+  border-radius: 0;
+
+  outline: 1px solid rgb(125, 18, 255);
+
+  position: relative;
+  top: 0;
+  left: auto;
+  transform: none;
+  margin: 0 auto;
+  
+  background: rgba(0,0,0,0.5);
+  
+  width: 60vw;
+  min-height: 200vh;
+  overflow: visible;
+  
+  padding: 18px 24px;
+}
+
+
+.TitleBox {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  min-width: 420px;
+  padding: 10px 16px;
+  font-size: 50px;
+
+  /*border:5px solid rgba(125, 18, 255, 0.5);*/
+
+  left: 50%;
+  transform: translateX(-50%);
+
+  text-align: center;
+  word-wrap: break-word;
+}
+
+.TitleBox #rainbow {
+  display: block;
+  font-size: 1em;
+  line-height: 1.1;
+}
+
+.TitleBox a {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 0.34em;
+}
+
+
+table, tr, th {
+  /*border: 5px solid rgb(125, 18, 255);*/
+  border-collapse: collapse;
+}
+
+th {
+  vertical-align: top;
+}
+
+.mainContent {
+  width: 100%;
+  min-height: calc(200vh - 210px);
+  table-layout: fixed;
+}
+
+.sidebarColumn {
+  width: 20%;
+  padding: 18px 18px 0 0;
+}
+
+.contentColumn {
+  width: 80%;
+  border-left: 2px solid rgb(125, 18, 255);
+  padding-left: 18px;
+}
+
+.linkBar {
+  text-align: left;
+  position: relative;
+  width: min(100%, var(--left-rail-width));
+  margin: 0 auto;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+.linkHeader {
+  border-bottom: 1px solid rgba(125, 18, 255, 0.28);
+  padding: 0 0 8px;
+  font-weight: bold;
+  font-size: 14px;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.linkList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: var(--left-rail-font-size);
+}
+
+.linkList li {
+  width: 100%;
+}
+
+.linkRowLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 6px 4px;
+  color: whitesmoke;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+.linkRowLink:hover {
+  color: rgb(255, 95, 31);
+  border-color: rgba(125, 18, 255, 0.35);
+  background: rgba(125, 18, 255, 0.08);
+}
+
+.linkRowLink img {
+  width: var(--left-rail-icon-size);
+  height: var(--left-rail-icon-size);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.linkRowLabel {
+  font-size: var(--left-rail-font-size);
+  letter-spacing: 1px;
+}
+
+.fileTree,
+.fileTree ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  font-size: var(--left-rail-font-size);
+}
+
+.fileTree > li {
+  margin-bottom: 8px;
+}
+
+.fileTree > li:last-child {
+  margin-bottom: 0;
+}
+
+.fileTree a,
+.fileTree span {
+  display: block;
+  padding: 4px 0;
+  color: whitesmoke;
+  text-align: left;
+  text-decoration: none;
+}
+
+.fileTree a:hover {
+  color: rgb(255, 95, 31);
+}
+
+.treeFile > a::before,
+.treeFile > span::before {
+  content: "[ ] ";
+  color: rgba(125, 18, 255, 0.85);
+}
+
+.treeFolder > span {
+  font-weight: bold;
+  color: rgb(255, 95, 31);
+}
+
+.treeFolder > span::before {
+  content: "[+] ";
+  color: rgba(125, 18, 255, 0.85);
+}
+
+.treeFolder ul {
+  margin-top: 4px;
+  margin-left: 12px;
+  padding-left: 12px;
+  border-left: 1px solid rgba(125, 18, 255, 0.3);
+}
+
+.treeFolder ul .treeFile a::before,
+.treeFolder ul .treeFile span::before {
+  content: "- ";
+  color: rgba(125, 18, 255, 0.85);
+}
+
+
+ul {
+  box-sizing: border-box;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  font-size: 11px;
+}
+
+.sidebar {
+  /*border: 1px solid rgb(125, 18, 255);*/
+  position: relative;
+  left: 0;
+  width: min(100%, var(--left-rail-width));
+  margin: 6px auto 0;
+  padding: 4px 2px;
+}
+
+.sidebar .fileTree a,
+.sidebar .fileTree span {
+  color: whitesmoke;
+  display: block;
+  width: 100%;
+  padding: 4px 0;
+  font-size: var(--left-rail-font-size);
+  text-decoration: none;
+  text-align: left;
+  font-style: normal;
+}
+
+.sidebar .fileTree a:hover {
+  color: rgb(255, 95, 31);
+}
+
+.sidebarDivider {
+  width: min(100%, var(--left-rail-width));
+  margin: 16px auto 18px;
+}
+li img {
+  display: block;
+  width: 60px;
+  left: 0px;
+  position: relative;
+  padding: 5px;
+  text-decoration: none;
+}
+
+
+.intro {
+  /*border: 1px solid rgb(125, 18, 255);*/
+  width: auto;
+  padding: 24px 30px;
+  text-align: left;
+  font-family: monospace;
+  font-size: 15px;
+  position: relative;
+  top: 0;
+}
+
+.journalHeader {
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.journalHeader h1 {
+  margin: 0 0 6px;
+  font-size: 28px;
+  letter-spacing: 2px;
+}
+
+.journalHeader p {
+  margin: 0;
+  font-size: 13px;
+  color: whitesmoke;
+}
+
+.journalEntries {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.journalEntry {
+  border: 2px solid rgba(125, 18, 255, 0.45);
+  background: rgba(7, 7, 7, 0.7);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.journalEntry[open] {
+  border-color: rgba(125, 18, 255, 0.85);
+  background: rgba(12, 12, 12, 0.88);
+}
+
+.journalEntrySummary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  list-style: none;
+  color: whitesmoke;
+}
+
+.journalEntrySummary::-webkit-details-marker {
+  display: none;
+}
+
+.journalEntrySummary::before {
+  content: "+";
+  width: 18px;
+  color: rgb(255, 95, 31);
+  font-size: 18px;
+  text-align: center;
+}
+
+.journalEntry[open] .journalEntrySummary::before {
+  content: "-";
+}
+
+.journalEntryDate {
+  color: rgb(255, 95, 31);
+  min-width: 92px;
+}
+
+.journalEntryDivider {
+  color: rgba(125, 18, 255, 0.8);
+}
+
+.journalEntryTitle {
+  flex: 1;
+}
+
+.journalEntryBody {
+  border-top: 1px solid rgba(125, 18, 255, 0.35);
+  padding: 14px 18px 16px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: whitesmoke;
+}
+
+.journalEntryBody p {
+  margin: 0 0 12px;
+}
+
+.journalEntryBody p:last-child {
+  margin-bottom: 0;
+}
+
+
+.popup {
+  position: relative;
+  justify-items: center;
+  border: 2px solid rgba(125, 18, 255,0.6);
+  text-align: center;                     
+  word-wrap: break-word;
+  background: rgb(0, 0, 0);
+}
+
+
+.images{
+  position: fixed;
+}
+
+
+.conveyor {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 70px; /* adjust height to match your images */
+  border-top: 2px solid rgba(125, 18, 255, 0.6);
+  margin-top: 20px;
+}
+.belt {
+  display: flex;
+  width: calc(200%); /* allows images to scroll continuously */
+  animation: moveBelt 20s linear infinite;
+}
+.belt img {
+  height: 100px; /* or match your desired height */
+  margin: 0 10px;
+  border-radius: 10px;
+  user-select: none;
+  pointer-events: none;
+}
+.belt img:hover {
+  transform: scale(1.8); /* optional: zoom effect on hover */
+}
+/* Animation for continuous motion */
+@keyframes moveBelt {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}
+.conveyor:hover .belt {
+  animation-play-state: paused;
+}
