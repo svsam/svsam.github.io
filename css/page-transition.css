@@ -1,0 +1,35 @@
+.page-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  opacity: 1;
+  pointer-events: none;
+  background: rgba(176, 72, 144, 0.2);
+  transition: opacity 0.45s ease;
+  will-change: opacity;
+}
+
+.page-transition-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.08) 0,
+      rgba(255, 255, 255, 0.08) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+}
+
+.page-transition-overlay.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.page-transition-overlay.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
