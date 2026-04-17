@@ -1,16 +1,20 @@
-setInterval(rainbow, 1000);
-function rainbow() {
-    // i.c. random color
-    var ic = document.getElementById('rainbow');
-    ic.style.color = getRandomColor();
-}
+const rainbowTitle = document.getElementById("rainbow");
 
-// random color function, returns a random hex
-function getRandomColor() {
-  var letters = '0123456789ABCDEF';
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
+if (rainbowTitle) {
+  const computedStyles = getComputedStyle(document.documentElement);
+  const palette = [
+    computedStyles.getPropertyValue("--ink-heading").trim(),
+    computedStyles.getPropertyValue("--ink-label").trim(),
+    computedStyles.getPropertyValue("--ink-marker").trim()
+  ].filter(Boolean);
+
+  let paletteIndex = 0;
+
+  const applyPaletteColor = () => {
+    rainbowTitle.style.color = palette[paletteIndex];
+    paletteIndex = (paletteIndex + 1) % palette.length;
+  };
+
+  applyPaletteColor();
+  setInterval(applyPaletteColor, 3200);
 }
