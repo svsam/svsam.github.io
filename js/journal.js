@@ -11,6 +11,14 @@ const journalEntries = [
         type: "text",
         value: "I'll see what I feel this website needs, though lately I have been doing a few personal projects related to my degree so maybe I'll create a new section for it. Though if you ever want to view it yourself you can always visit my github, my most recent projects will be pinned on my profile.",
       },
+      {
+        type: "text",
+        value: "",
+      },
+      {
+        type: "text",
+        value: "This is an entry from like 3 hours later, I think im going to rework this design into something really minimalist, I think I am trying too hard to make this look pretty while also doing really intricate designs. It just doesn't feel me. So I will redo this whole section in another layout. Everything that would be here will stay the same."
+      }
     ],
   },
   {

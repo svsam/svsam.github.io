@@ -1,0 +1,16 @@
+body {
+    background-color: #000000;
+    font-family: "Times New Roman", Times, serif;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.satelliteImage {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    transform: translate(-50%, -50%);
+}

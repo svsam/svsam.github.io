@@ -6,6 +6,7 @@ const pageNames = {
   home: "Homepage",
   journal: "Journal",
   cv: "CV",
+  projects: "Projects",
 };
 
 const pageViews = Array.from(document.querySelectorAll(".pageView[data-page]"));
@@ -68,6 +69,10 @@ const resolvePageFromHref = (href) => {
     return "cv";
   }
 
+  if (path.endsWith("projects.html")) {
+    return "projects";
+  }
+
   return null;
 };
 
@@ -86,6 +91,10 @@ const resolvePageFromLocation = () => {
 
   if (path.endsWith("cv.html")) {
     return "cv";
+  }
+
+  if (path.endsWith("projects.html")) {
+    return "projects";
   }
 
   return "home";
