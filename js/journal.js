@@ -1,5 +1,19 @@
 const journalEntries = [
   {
+    date: "2026-05-27",
+    title: "Exam season is over!",
+    content: [
+      {
+        type: "text",
+        value: "I am finally finished with my exams and I will slowly during the course of the next few weeks and days change this website again, I think it looks too janky and I think it deserves a redesign.",
+      },
+      {
+        type: "text",
+        value: "I'll see what I feel this website needs, though lately I have been doing a few personal projects related to my degree so maybe I'll create a new section for it. Though if you ever want to view it yourself you can always visit my github, my most recent projects will be pinned on my profile.",
+      },
+    ],
+  },
+  {
     date: "2026-04-17",
     title: "Redesign!!!!1",
     content: [
