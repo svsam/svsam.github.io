@@ -40,17 +40,22 @@ const appendProjectBlock = (body, block) => {
     const image = document.createElement("img");
     image.src = block.src;
     image.alt = block.alt || "";
-    image.className = "journalImage";
+    image.className = "journalImage projectImage";
     body.appendChild(image);
   }
 };
 
 if (projectContainer && projectTemplate) {
-  projectEntries.forEach((entry) => {
+  projectEntries.forEach((entry, index) => {
     const projectNode = projectTemplate.content.cloneNode(true);
+    const number = projectNode.querySelector(".projectEntryNumber");
     const date = projectNode.querySelector(".projectEntryDate");
     const title = projectNode.querySelector(".projectEntryTitle");
     const body = projectNode.querySelector(".projectEntryBody");
+
+    if (number) {
+      number.textContent = `No. ${String(index + 1).padStart(2, "0")}`;
+    }
 
     date.textContent = entry.date;
     title.textContent = entry.title;

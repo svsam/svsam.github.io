@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/style2.css">
+        <title>SvS | Projects</title>
+        <link rel="icon" type="image/x-icon" href="css/Images/heliocentrism.jpg">
+    </head>
+
+    <body class="projectPageBody" data-page="projects">
+        <main class="projectWorkshop">
+            <nav class="projectTopLinks" aria-label="Projects navigation">
+                <a class="satelliteText projectHomeLink" href="index2.html" data-rainbow="space">Homebase</a>
+                <div class="projectNavCluster">
+                    <a class="outwardLink" href="journal.html">Journal</a>
+                    <a class="outwardLink" href="index2.html#cv">CV</a>
+                    <a class="outwardLink" href="index2.html#scrapbook">Scrapbook</a>
+                </div>
+            </nav>
+
+            <header class="projectWorkshopHero">
+                <div class="projectHeroCopy">
+                    <p class="projectKicker">/workbench/project.js</p>
+                    <h1 data-rainbow="space">Project Workshop</h1>
+                    <p>Blueprints, loose bolts, and things that are slowly becoming real.</p>
+                </div>
+
+                <div class="projectMachine" aria-hidden="true">
+                    <div class="projectGauge">
+                        <span></span>
+                    </div>
+                    <div class="projectCog projectCog--large"></div>
+                    <div class="projectCog projectCog--small"></div>
+                </div>
+            </header>
+
+            <section class="projectStatusRail" aria-label="Workshop status">
+                <article class="projectStatusDial">
+                    <span>Source</span>
+                    <strong>project.js</strong>
+                </article>
+                <article class="projectStatusDial">
+                    <span>Mode</span>
+                    <strong>Prototype</strong>
+                </article>
+                <article class="projectStatusDial">
+                    <span>Archive</span>
+                    <strong>Blueprints</strong>
+                </article>
+            </section>
+
+            <section class="projectBlueprintShelf" aria-label="Project entries">
+                <div class="projectShelfHeader">
+                    <h2>Active Blueprints</h2>
+                    <p>Notes are pulled from the project log and pinned here like workbench plans.</p>
+                </div>
+                <div id="projectEntries" class="projectEntries"></div>
+            </section>
+        </main>
+
+        <template id="projectEntryTemplate">
+            <article class="projectEntry">
+                <div class="projectEntryPlate">
+                    <span class="projectEntryNumber"></span>
+                    <span class="projectEntryDate"></span>
+                </div>
+                <h2 class="projectEntryTitle"></h2>
+                <div class="projectEntryBody"></div>
+                <footer class="projectEntryFooter">
+                    <span class="projectEntryDivider">BRASSWORKS</span>
+                    <span class="projectEntryStamp">In progress</span>
+                </footer>
+            </article>
+        </template>
+
+        <script src="js/rainbow.js"></script>
+        <script src="js/project.js"></script>
+    </body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/style2.css">
+        <title>SvS | Journal</title>
+        <link rel="icon" type="image/x-icon" href="css/Images/heliocentrism.jpg">
+    </head>
+
+    <body class="journalPageBody" data-page="journal">
+        <main class="journalPage">
+            <nav class="journalTopLinks" aria-label="Journal navigation">
+                <a class="satelliteText journalHomeLink" href="index2.html" data-rainbow="space">Return to Homebase</a>
+                <div class="journalNavCluster">
+                    <a class="outwardLink" href="projects.html">Projects</a>
+                    <a class="outwardLink" href="index2.html#cv">CV</a>
+                    <a class="outwardLink" href="index2.html#scrapbook">Scrapbook</a>
+                </div>
+            </nav>
+
+            <header class="journalMasthead">
+                <h1 data-rainbow="space">Journal</h1>
+                <p>Journal, mainly website related but if there's any work related stuff It'll most likely be in the projects section or here 🤷🏻</p>
+            </header>
+
+            <section class="journalLogPanel" aria-label="Journal entries">
+                <div id="journalEntries" class="journalEntries"></div>
+            </section>
+        </main>
+
+        <template id="journalEntryTemplate">
+            <details class="journalEntry">
+                <summary class="journalEntrySummary">
+                    <span class="journalEntryDate"></span>
+                    <span class="journalEntryDivider">//</span>
+                    <span class="journalEntryTitle"></span>
+                </summary>
+                <div class="journalEntryBody"></div>
+            </details>
+        </template>
+
+        <script src="js/rainbow.js"></script>
+        <script src="js/journal.js"></script>
+    </body>
+</html>

@@ -246,7 +246,7 @@ document.addEventListener("click", (event) => {
   const pageFromHref = resolvePageFromHref(link.getAttribute("href"));
   const targetPage = pageFromData || pageFromHref;
 
-  if (!targetPage) {
+  if (!targetPage || !availablePages.has(targetPage)) {
     return;
   }
 
