@@ -1,16 +1,112 @@
 body {
+    --site-border-color: #001f4d;
+    --space-text-color: #7fb8ff;
+    --space-rainbow-blue: #7fb8ff;
+    --space-rainbow-cyan: #77f4ff;
+    --space-rainbow-violet: #b59cff;
+    --space-rainbow-pink: #ff86d7;
+    --space-rainbow-star: #dcecff;
+
     background-color: #000000;
     font-family: "Times New Roman", Times, serif;
     min-height: 100vh;
     margin: 0;
+    padding: 10px;
+    border: 4px solid var(--site-border-color);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    isolation: isolate;
+    position: relative;
+}
+
+body::before {
+    background-image: url("Images/starrybackground.gif");
+    background-position: center;
+    background-size: cover;
+    content: "";
+    inset: 0;
+    opacity: 0.5;
+    pointer-events: none;
+    position: fixed;
+    z-index: -1;
+}
+
+.satelliteContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: min(100%, 520px);
 }
 
 .satelliteImage {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
     object-fit: contain;
-    transform: translate(-50%, -50%);
+}
+
+.satelliteText {
+    color: var(--space-text-color);
+    display: inline-block;
+    margin: 12px 0 0;
+    border: 0;
+    text-decoration: underline;
+    text-shadow: 0 0 8px rgba(127, 184, 255, 0.65);
+    transition: color 0.9s ease;
+}
+
+.outwardLinks {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 18px;
+    width: 100%;
+}
+
+.outwardLink {
+    border: 2px solid var(--site-border-color);
+    border-style: hidden solid hidden hidden;
+    color: var(--space-text-color);
+    padding: 8px 12px;
+    text-decoration: underline;
+    text-align: center;
+}
+
+.outwardLink[aria-current="page"] {
+    color: var(--space-rainbow-pink);
+}
+
+.pageView {
+    color: var(--space-text-color);
+    margin-top: 22px;
+    width: 100%;
+}
+
+.pageView[hidden] {
+    display: none;
+}
+
+.pageShell {
+    margin: 0 auto;
+    max-width: 420px;
+}
+
+.pageShell h1 {
+    color: var(--space-rainbow-star);
+    font-size: 1.2rem;
+    font-weight: normal;
+    margin: 0 0 8px;
+    text-decoration: underline;
+}
+
+.pageShell p {
+    margin: 0;
+}
+
+@media (max-width: 520px) {
+    .outwardLinks {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }

@@ -9,7 +9,49 @@
         <link rel="icon" type="image/x-icon" href="css/Images/heliocentrism.jpg">
     </head>
 
-    <body>
-        <img class="satelliteImage" src="css/Images/satellite image.jpg" alt="Satellite image">
+    <body data-page="home">
+        <main class="satelliteContent" data-active-page="home">
+            <img class="satelliteImage" src="css/Images/satellite image.jpg" alt="Satellite image">
+            <a class="satelliteText" href="#home" data-page-link="home" data-rainbow="space">Homebase</a>
+            <nav class="outwardLinks" aria-label="Outward links">
+                <a class="outwardLink" href="#journal" data-page-link="journal">Journal</a>
+                <a class="outwardLink" href="#projects" data-page-link="projects">Projects</a>
+                <a class="outwardLink" href="#cv" data-page-link="cv">CV</a>
+                <a class="outwardLink" href="#scrapbook" data-page-link="scrapbook" style="border-style: hidden;">Scrapbook</a>
+            </nav>
+
+            <section class="pageView pageView--home is-active" data-page="home" aria-label="Home"></section>
+
+            <section class="pageView" data-page="journal" hidden>
+                <div class="pageShell">
+                    <h1>Journal</h1>
+                    <p>Journal entries will live here.</p>
+                </div>
+            </section>
+
+            <section class="pageView" data-page="projects" hidden>
+                <div class="pageShell">
+                    <h1>Projects</h1>
+                    <p>Project notes and links will live here.</p>
+                </div>
+            </section>
+
+            <section class="pageView" data-page="cv" hidden>
+                <div class="pageShell">
+                    <h1>CV</h1>
+                    <p>CV details will live here.</p>
+                </div>
+            </section>
+
+            <section class="pageView" data-page="scrapbook" hidden>
+                <div class="pageShell">
+                    <h1>Scrapbook</h1>
+                    <p>Scrapbook fragments will live here.</p>
+                </div>
+            </section>
+        </main>
+
+        <script src="js/rainbow.js"></script>
+        <script src="js/page-transition.js"></script>
     </body>
 </html>

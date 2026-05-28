@@ -1,5 +1,20 @@
 const journalEntries = [
   {
+    date: "2026-05-28",
+    title: "Redesign pt. 2",
+    content: [
+      {
+        type: "text",
+        value: "The website will be redesigned again, this page won't be visible but the date is signified as when this change has happened, below will be a picture of the old design for the memories :)",
+      },
+      {
+        type: "image",
+        src: "css/Images/floralTerminal.png",
+        alt: "Floral Terminal Design"
+      }
+    ]
+  },
+  {
     date: "2026-05-27",
     title: "Exam season is over!",
     content: [

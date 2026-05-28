@@ -7,19 +7,22 @@ const pageNames = {
   journal: "Journal",
   cv: "CV",
   projects: "Projects",
+  scrapbook: "Scrapbook",
 };
 
 const pageViews = Array.from(document.querySelectorAll(".pageView[data-page]"));
+const availablePages = new Set(pageViews.map((view) => view.dataset.page));
 const pageLinks = Array.from(document.querySelectorAll("[data-page-link]"));
 const pageLabel = document.getElementById("pageLabel");
-const mainBox = document.querySelector(".mainBox");
+const activePageContainers = Array.from(document.querySelectorAll("[data-active-page]"));
 const contentColumn = document.querySelector(".contentColumn");
 
 let activePage = null;
 let transitionTimer = null;
 
 const hasPage = (pageId) =>
-  Object.prototype.hasOwnProperty.call(pageNames, pageId);
+  Object.prototype.hasOwnProperty.call(pageNames, pageId) &&
+  (availablePages.size === 0 || availablePages.has(pageId));
 
 const resolvePageId = (candidate) => {
   if (!candidate) {
@@ -73,6 +76,10 @@ const resolvePageFromHref = (href) => {
     return "projects";
   }
 
+  if (path.endsWith("scrapbook.html")) {
+    return "scrapbook";
+  }
+
   return null;
 };
 
@@ -95,6 +102,10 @@ const resolvePageFromLocation = () => {
 
   if (path.endsWith("projects.html")) {
     return "projects";
+  }
+
+  if (path.endsWith("scrapbook.html")) {
+    return "scrapbook";
   }
 
   return "home";
@@ -124,9 +135,9 @@ const renderPage = (pageId) => {
   activePage = normalizePage(pageId);
   document.body.dataset.page = activePage;
 
-  if (mainBox) {
-    mainBox.dataset.activePage = activePage;
-  }
+  activePageContainers.forEach((container) => {
+    container.dataset.activePage = activePage;
+  });
 
   if (pageLabel) {
     pageLabel.textContent = pageNames[activePage];

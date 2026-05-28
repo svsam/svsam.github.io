@@ -1,20 +1,54 @@
-const rainbowTitle = document.getElementById("rainbow");
+const fallbackPalettes = {
+  default: ["#2d345d", "#6f5270", "#7a5d79"],
+  space: ["#7fb8ff", "#77f4ff", "#b59cff", "#ff86d7", "#dcecff"],
+};
 
-if (rainbowTitle) {
-  const computedStyles = getComputedStyle(document.documentElement);
-  const palette = [
-    computedStyles.getPropertyValue("--ink-heading").trim(),
-    computedStyles.getPropertyValue("--ink-label").trim(),
-    computedStyles.getPropertyValue("--ink-marker").trim()
-  ].filter(Boolean);
+const getStyleValue = (styles, propertyName) =>
+  styles.getPropertyValue(propertyName).trim();
+
+const getPaletteFromStyles = (target, mode) => {
+  const targetStyles = getComputedStyle(target);
+  const rootStyles = getComputedStyle(document.documentElement);
+  const propertyNames =
+    mode === "space"
+      ? [
+          "--space-rainbow-blue",
+          "--space-rainbow-cyan",
+          "--space-rainbow-violet",
+          "--space-rainbow-pink",
+          "--space-rainbow-star",
+        ]
+      : ["--ink-heading", "--ink-label", "--ink-marker"];
+
+  return propertyNames
+    .map(
+      (propertyName) =>
+        getStyleValue(targetStyles, propertyName) ||
+        getStyleValue(rootStyles, propertyName)
+    )
+    .filter(Boolean);
+};
+
+const rainbowTargets = Array.from(document.querySelectorAll("[data-rainbow]"));
+const legacyRainbowTitle = document.getElementById("rainbow");
+
+if (legacyRainbowTitle && !rainbowTargets.includes(legacyRainbowTitle)) {
+  rainbowTargets.push(legacyRainbowTitle);
+}
+
+rainbowTargets.forEach((target) => {
+  const mode = target.dataset.rainbow || "default";
+  const palette = getPaletteFromStyles(target, mode);
+  const colors =
+    palette.length > 0 ? palette : fallbackPalettes[mode] || fallbackPalettes.default;
 
   let paletteIndex = 0;
 
   const applyPaletteColor = () => {
-    rainbowTitle.style.color = palette[paletteIndex];
-    paletteIndex = (paletteIndex + 1) % palette.length;
+    target.style.color = colors[paletteIndex];
+    paletteIndex = (paletteIndex + 1) % colors.length;
   };
 
   applyPaletteColor();
   setInterval(applyPaletteColor, 3200);
-}
+});
