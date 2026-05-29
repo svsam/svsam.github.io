@@ -11,6 +11,10 @@ const projectEntries = [
         type: "text",
         value: "I'll see what I feel this website needs, though lately I have been doing a few personal projects related to my degree so maybe I'll create a new section for it. Though if you ever want to view it yourself you can always visit my github, my most recent projects will be pinned on my profile.",
       },
+      {
+        type: "image",
+        src: "css/Images/hrdiagram.png"
+      }
     ],
   },
   {
@@ -19,7 +23,7 @@ const projectEntries = [
     content: [
       {
         type: "text",
-        value: "I have a new idea for a project that I think could be really cool. I'm going to start working on it soon.",
+        value: "Cogito Ergo Sum, I THINK THEREFORE I AM!",
       }
     ]
   },
