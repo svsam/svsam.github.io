@@ -321,12 +321,22 @@ body.projectPageBody::before {
 
 body.projectPageBody::after {
     background:
-        radial-gradient(circle, transparent 0 16%, rgba(199, 134, 56, 0.28) 17% 23%, transparent 24%),
-        repeating-conic-gradient(from 8deg, rgba(199, 134, 56, 0.18) 0deg 10deg, transparent 10deg 22deg);
+        radial-gradient(circle at 42% 32%, rgba(255, 226, 166, 0.22), transparent 30%),
+        linear-gradient(135deg, rgba(199, 134, 56, 0.28), rgba(26, 18, 11, 0.42)),
+        url("Images/cogs.gif");
+    background-blend-mode: color, multiply, normal;
+    background-position: center;
+    background-size: cover;
+    border: 3px solid rgba(225, 168, 79, 0.38);
     border-radius: 50%;
+    box-shadow:
+        inset 0 0 0 18px rgba(26, 18, 11, 0.72),
+        inset 0 0 58px rgba(0, 0, 0, 0.64),
+        0 0 34px rgba(199, 134, 56, 0.18);
     content: "";
+    filter: sepia(0.78) saturate(1.18) hue-rotate(340deg) brightness(0.76) contrast(1.08);
     height: 360px;
-    opacity: 0.28;
+    opacity: 0.32;
     pointer-events: none;
     position: fixed;
     right: -110px;
@@ -454,87 +464,99 @@ body.projectPageBody::after {
     box-shadow:
         inset 0 0 0 1px rgba(255, 226, 166, 0.08),
         inset 0 0 28px rgba(0, 0, 0, 0.32);
-    display: grid;
     min-height: 220px;
     overflow: hidden;
-    place-items: center;
     position: relative;
 }
 
-.projectGauge {
+.projectGauge,
+.projectCog {
     aspect-ratio: 1;
     background:
-        radial-gradient(circle, rgba(255, 226, 166, 0.96) 0 35%, rgba(58, 33, 17, 0.92) 36% 42%, rgba(199, 134, 56, 0.88) 43% 48%, rgba(19, 13, 8, 0.92) 49%),
-        conic-gradient(from 215deg, #78b7a4 0deg 52deg, #e1a84f 52deg 104deg, #9b4f27 104deg 145deg, transparent 145deg 360deg);
+        radial-gradient(circle at 50% 46%, rgba(255, 226, 166, 0.2), transparent 48%),
+        linear-gradient(135deg, rgba(92, 49, 22, 0.96), rgba(18, 12, 7, 0.98));
     border: 3px solid #e1a84f;
     border-radius: 50%;
     box-shadow:
         inset 0 0 0 8px rgba(26, 18, 11, 0.9),
+        inset 0 0 30px rgba(0, 0, 0, 0.54),
         0 0 26px rgba(199, 134, 56, 0.22);
-    position: relative;
-    width: 150px;
+    overflow: hidden;
+    position: absolute;
     z-index: 2;
 }
 
-.projectGauge::before {
-    background: #1a120b;
-    bottom: 50%;
-    content: "";
-    height: 5px;
+.projectGauge {
     left: 50%;
-    position: absolute;
-    transform: rotate(-28deg);
-    transform-origin: left center;
-    width: 52px;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
 }
 
-.projectGauge::after {
-    background: #1a120b;
-    border: 2px solid #e1a84f;
-    border-radius: 50%;
+.projectGauge::before,
+.projectCog::before {
+    background:
+        radial-gradient(circle at 42% 32%, rgba(255, 226, 166, 0.32), transparent 30%),
+        linear-gradient(135deg, rgba(199, 134, 56, 0.28), rgba(26, 18, 11, 0.4));
+    border-radius: inherit;
     content: "";
-    height: 14px;
-    left: calc(50% - 8px);
+    inset: 0;
+    mix-blend-mode: color;
+    pointer-events: none;
     position: absolute;
-    top: calc(50% - 8px);
-    width: 14px;
+    z-index: 2;
 }
 
-.projectGauge span {
-    background: rgba(26, 18, 11, 0.86);
-    border: 1px solid rgba(225, 168, 79, 0.8);
-    bottom: 28px;
-    height: 10px;
-    left: calc(50% - 28px);
+.projectGauge::after,
+.projectCog::after {
+    border: 1px solid rgba(255, 226, 166, 0.42);
+    border-radius: inherit;
+    box-shadow:
+        inset 0 0 0 8px rgba(26, 18, 11, 0.76),
+        inset 0 0 22px rgba(0, 0, 0, 0.54);
+    content: "";
+    inset: 0;
+    pointer-events: none;
     position: absolute;
-    width: 56px;
+    z-index: 3;
+}
+
+.projectGauge img,
+.projectCog img {
+    border-radius: 50%;
+    display: block;
+    filter: sepia(0.78) saturate(1.18) hue-rotate(340deg) brightness(0.88) contrast(1.1);
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.84;
+    width: 100%;
+}
+
+.projectGauge img::selection,
+.projectCog img::selection {
+    background: transparent;
 }
 
 .projectCog {
-    aspect-ratio: 1;
-    background:
-        radial-gradient(circle, transparent 0 18%, var(--project-iron) 19% 28%, transparent 29%),
-        repeating-conic-gradient(from 4deg, var(--project-brass) 0deg 10deg, var(--project-copper) 10deg 17deg, transparent 17deg 25deg);
-    border: 2px solid #e1a84f;
-    border-radius: 50%;
     box-shadow:
         inset 0 0 0 7px rgba(26, 18, 11, 0.84),
         0 0 18px rgba(199, 134, 56, 0.26);
     display: block;
     flex: 0 0 auto;
     position: absolute;
+    z-index: 1;
 }
 
 .projectCog--large {
-    bottom: 18px;
-    right: 24px;
+    left: calc(50% + 40px);
+    top: calc(50% + 22px);
     width: 88px;
 }
 
 .projectCog--small {
-    left: 28px;
+    left: calc(50% - 105px);
     opacity: 0.7;
-    top: 24px;
+    top: calc(50% - 86px);
     width: 58px;
 }
 
@@ -733,10 +755,6 @@ body.projectPageBody::after {
 
     .projectWorkshopHero {
         grid-template-columns: 1fr;
-    }
-
-    .projectCog--small {
-        display: none;
     }
 
     .projectWorkshopHero h1 {
