@@ -9,7 +9,7 @@ const journalEntries = [
       },
       {
         type: "image",
-        src: "css/Images/floralTerminal.png",
+        src: "images/floralTerminal.png",
         alt: "Floral Terminal Design"
       }
     ]
@@ -51,7 +51,7 @@ const journalEntries = [
       },
       {
         type: "image",
-        src: "css/Images/Screenshot 2026-04-17 013544.png",
+        src: "images/Screenshot 2026-04-17 013544.png",
         alt: "Older version of the website",
       },
       {

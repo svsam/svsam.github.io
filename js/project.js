@@ -13,7 +13,7 @@ const projectEntries = [
       },
       {
         type: "image",
-        src: "css/Images/hrdiagram.png"
+        src: "images/hrdiagram.png"
       }
     ],
   },
