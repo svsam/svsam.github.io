@@ -56,6 +56,14 @@ const resolvePageFromHref = (href) => {
     .replace(/\\/g, "/")
     .toLowerCase();
 
+  if (path.endsWith("journal/")) {
+    return "journal";
+  }
+
+  if (path.endsWith("projects/")) {
+    return "projects";
+  }
+
   if (!path || path === "." || path === "./" || path.endsWith("/")) {
     return "home";
   }
@@ -91,6 +99,14 @@ const resolvePageFromLocation = () => {
   }
 
   const path = window.location.pathname.replace(/\\/g, "/").toLowerCase();
+
+  if (path.endsWith("/journal/")) {
+    return "journal";
+  }
+
+  if (path.endsWith("/projects/")) {
+    return "projects";
+  }
 
   if (path.endsWith("journal.html")) {
     return "journal";
