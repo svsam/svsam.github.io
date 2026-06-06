@@ -1,11 +1,3 @@
-.satelliteContent {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    width: min(100%, 520px);
-}
-
 .homeClock {
     align-items: baseline;
     color: var(--space-text-color);
@@ -13,7 +5,6 @@
     flex-wrap: wrap;
     gap: 6px;
     justify-content: center;
-    margin: 0 0 12px;
     padding: 8px 12px;
     text-shadow: 0 0 8px rgba(127, 184, 255, 0.55);
 }
@@ -24,54 +15,12 @@
 }
 
 .satelliteImage {
-    height: 300px;
     object-fit: contain;
-    width: 300px;
-}
-
-.outwardLinks {
-    display: grid;
-    gap: 10px;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    margin-top: 18px;
-    width: 100%;
-}
-
-.outwardLinks .outwardLink:last-child {
-    border-style: hidden;
-}
-
-.pageView {
-    color: var(--space-text-color);
-    margin-top: 22px;
-    width: 100%;
-}
-
-.pageView[hidden] {
-    display: none;
-}
-
-.pageShell {
-    margin: 0 auto;
-    max-width: 420px;
-}
-
-.pageShell h1 {
-    color: var(--space-rainbow-star);
-    font-size: 1.2rem;
-    font-weight: normal;
-    margin: 0 0 8px;
-    text-decoration: underline;
-}
-
-.pageShell p {
-    margin: 0;
 }
 
 .homeDecoration {
     height: auto;
     position: fixed;
-    z-index: 1000;
 }
 
 .homeDecoration--flag {
@@ -81,11 +30,19 @@
     width: 500px;
 }
 
-.homeDecoration--blinkie {
+.homeDecoration--blinkie,
+.homeDecoration--blinkieSecond {
     bottom: 10px;
-    left: 10px;
     opacity: 0.8;
     width: 300px;
+}
+
+.homeDecoration--blinkie {
+    left: 10px;
+}
+
+.homeDecoration--blinkieSecond {
+    left: 300px;
 }
 
 .homeDecoration--satellite {
@@ -95,8 +52,258 @@
     width: 250px;
 }
 
+.homeBody {
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    padding: 10px;
+}
+
+.homePage {
+    --orbit-diameter: min(34vw, 42vh, 620px);
+    --orbit-radius: calc(var(--orbit-diameter) / 2);
+
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 28px);
+    position: relative;
+    text-align: center;
+    width: 100%;
+    z-index: 2;
+}
+
+.sunToggle {
+    background: rgba(0, 8, 24, 0.72);
+    border: 2px solid var(--site-border-color);
+    color: var(--space-text-color);
+    cursor: pointer;
+    font: inherit;
+    padding: 8px 12px;
+    position: fixed;
+    right: 18px;
+    text-decoration: underline;
+    top: 18px;
+    z-index: 20;
+}
+
+.sunToggle:hover,
+.sunToggle:focus-visible {
+    background: rgba(0, 18, 48, 0.9);
+    border-color: var(--space-rainbow-cyan);
+    color: var(--space-rainbow-star);
+}
+
+.homePage .homeClock {
+    bottom: 18px;
+    left: 50%;
+    margin: 0;
+    position: absolute;
+    top: auto;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    z-index: 6;
+}
+
+.orbitStage {
+    aspect-ratio: 1;
+    display: grid;
+    left: 50%;
+    place-items: center;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: var(--orbit-diameter);
+}
+
+.orbitCircle {
+    --orbit-inclination: 0deg;
+    --orbit-scale-x: 1;
+    --orbit-scale-y: 0.48;
+
+    border: 2px solid rgba(127, 184, 255, 0.65);
+    border-radius: 50%;
+    inset: 0;
+    position: absolute;
+    transform:
+        rotate(var(--orbit-inclination))
+        scaleX(var(--orbit-scale-x))
+        scaleY(var(--orbit-scale-y));
+}
+
+.orbitCircle--journal {
+    --orbit-inclination: -5deg;
+    --orbit-scale-x: 0.72;
+    --orbit-scale-y: 0.245;
+}
+
+.orbitCircle--projects {
+    --orbit-inclination: -3deg;
+    --orbit-scale-x: 1.02;
+    --orbit-scale-y: 0.51;
+}
+
+.orbitCircle--checklist {
+    --orbit-inclination: -1deg;
+    --orbit-scale-x: 1.32;
+    --orbit-scale-y: 0.528;
+}
+
+.orbitCircle--scrapbook {
+    --orbit-inclination: 0deg;
+    --orbit-scale-x: 1.62;
+    --orbit-scale-y: 0.972;
+}
+
+.orbitCircle--test-one {
+    --orbit-inclination: 2deg;
+    --orbit-scale-x: 1.92;
+    --orbit-scale-y: 0.845;
+}
+
+.orbitCircle--test-two {
+    --orbit-inclination: 4deg;
+    --orbit-scale-x: 2.22;
+    --orbit-scale-y: 1.465;
+}
+
+.orbitCircle--test-three {
+    --orbit-inclination: 5deg;
+    --orbit-scale-x: 2.52;
+    --orbit-scale-y: 1.31;
+}
+
+.orbitCircle--back {
+    clip-path: inset(0 0 50% 0);
+    opacity: 0.16;
+    z-index: 0;
+}
+
+.orbitCircle--front {
+    clip-path: inset(50% 0 0 0);
+    opacity: 0.2;
+    z-index: 4;
+}
+
+.orbitSatellite {
+    height: 260px;
+    object-fit: contain;
+    position: relative;
+    width: 260px;
+    z-index: 2;
+}
+
+.orbitingLinks {
+    inset: 0;
+    position: absolute;
+}
+
+.orbitItem {
+    height: 0;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    will-change: transform;
+    width: 0;
+}
+
+.orbitItem .outwardLink {
+    align-items: center;
+    background: radial-gradient(circle, rgba(127, 217, 255, 0.08), rgba(17, 29, 69, 0.03) 58%, rgba(0, 4, 18, 0.14) 100%);
+    border: 2px solid rgba(127, 184, 255, 0.82);
+    border-radius: 50%;
+    box-shadow:
+        inset -8px -10px 16px rgba(0, 8, 28, 0.22),
+        0 0 12px rgba(127, 184, 255, 0.24);
+    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(1px);
+    box-sizing: border-box;
+    display: flex;
+    height: 80px;
+    justify-content: center;
+    left: 0;
+    min-width: 0;
+    padding: 10px;
+    position: absolute;
+    text-shadow: 0 1px 4px #000000;
+    top: 0;
+    transform: translate(-50%, -50%);
+    white-space: normal;
+    width: 80px;
+}
+
+.orbitWelcome {
+    left: 50%;
+    margin: 0;
+    position: absolute;
+    top: 18px;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    z-index: 6;
+}
+
+.orbitDecoration {
+    z-index: -1;
+}
+
+@media (max-width: 700px) {
+    .homePage {
+        --orbit-diameter: min(35vw, 44vh, 245px);
+    }
+
+    .orbitSatellite {
+        height: min(38vw, 250px);
+        width: min(38vw, 250px);
+    }
+
+    .homePage .homeClock {
+        bottom: 14px;
+    }
+
+    .orbitItem .outwardLink {
+        font-size: 0.76rem;
+        height: 64px;
+        line-height: 1.05;
+        padding: 6px;
+        width: 64px;
+    }
+
+}
+
 @media (max-width: 520px) {
-    .outwardLinks {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+    .homePage {
+        --orbit-diameter: min(35vw, 40vh, 160px);
+    }
+
+    .homePage .homeClock {
+        bottom: 10px;
+        font-size: 0.88rem;
+    }
+
+    .orbitItem .outwardLink {
+        font-size: 0.52rem;
+        height: 44px;
+        padding: 4px;
+        width: 44px;
+    }
+
+    .orbitWelcome {
+        font-size: 0.88rem;
+    }
+
+    .sunToggle {
+        font-size: 0.78rem;
+        padding: 6px 8px;
+        right: 10px;
+        top: 10px;
+    }
+
+}
+
+@media (max-width: 380px) {
+    .orbitItem .outwardLink {
+        font-size: 0.48rem;
+        height: 38px;
+        width: 38px;
     }
 }
