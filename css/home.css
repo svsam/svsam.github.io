@@ -1,0 +1,102 @@
+.satelliteContent {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: min(100%, 520px);
+}
+
+.homeClock {
+    align-items: baseline;
+    color: var(--space-text-color);
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+    margin: 0 0 12px;
+    padding: 8px 12px;
+    text-shadow: 0 0 8px rgba(127, 184, 255, 0.55);
+}
+
+.homeClock time {
+    color: var(--space-rainbow-star);
+    font-variant-numeric: tabular-nums;
+}
+
+.satelliteImage {
+    height: 300px;
+    object-fit: contain;
+    width: 300px;
+}
+
+.outwardLinks {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin-top: 18px;
+    width: 100%;
+}
+
+.outwardLinks .outwardLink:last-child {
+    border-style: hidden;
+}
+
+.pageView {
+    color: var(--space-text-color);
+    margin-top: 22px;
+    width: 100%;
+}
+
+.pageView[hidden] {
+    display: none;
+}
+
+.pageShell {
+    margin: 0 auto;
+    max-width: 420px;
+}
+
+.pageShell h1 {
+    color: var(--space-rainbow-star);
+    font-size: 1.2rem;
+    font-weight: normal;
+    margin: 0 0 8px;
+    text-decoration: underline;
+}
+
+.pageShell p {
+    margin: 0;
+}
+
+.homeDecoration {
+    height: auto;
+    position: fixed;
+    z-index: 1000;
+}
+
+.homeDecoration--flag {
+    bottom: 10px;
+    opacity: 0.1;
+    right: 10px;
+    width: 500px;
+}
+
+.homeDecoration--blinkie {
+    bottom: 10px;
+    left: 10px;
+    opacity: 0.8;
+    width: 300px;
+}
+
+.homeDecoration--satellite {
+    bottom: 40px;
+    left: 10px;
+    opacity: 0.8;
+    width: 250px;
+}
+
+@media (max-width: 520px) {
+    .outwardLinks {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}

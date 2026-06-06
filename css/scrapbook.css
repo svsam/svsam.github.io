@@ -1,0 +1,76 @@
+body.scrapbookPageBody {
+    --scrapbook-ink: #241c17;
+    --scrapbook-muted-ink: #5a4437;
+
+    align-items: flex-start;
+    background-color: #e6e1d8;
+    border: 0;
+    color: var(--scrapbook-ink);
+    justify-content: center;
+    min-height: 100vh;
+    padding: clamp(24px, 5vw, 56px) 18px;
+}
+
+body.scrapbookPageBody::before {
+    background-image:
+        linear-gradient(rgba(244, 240, 231, 0.12), rgba(223, 216, 202, 0.12)),
+        url("Images/scrunched-up-paper.jpeg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: contrast(1.04);
+    opacity: 1;
+}
+
+.scrapbookPage {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: min(100%, 960px);
+}
+
+.scrapbookTopLinks {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+.scrapbookTopLinks a {
+    color: var(--scrapbook-muted-ink);
+    padding: 4px 2px;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+.scrapbookTopLinks a:hover,
+.scrapbookTopLinks a:focus-visible {
+    color: #000000;
+}
+
+.scrapbookTitle {
+    color: var(--scrapbook-ink);
+    font-size: clamp(3rem, 9vw, 6.5rem);
+    font-style: italic;
+    font-weight: normal;
+    letter-spacing: -0.05em;
+    line-height: 0.9;
+    margin: 0;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.45);
+    transform: rotate(-1deg);
+}
+
+.scrapbookTitle::after {
+    background: var(--scrapbook-ink);
+    content: "";
+    display: block;
+    height: 2px;
+    margin: 16px auto 0;
+    opacity: 0.62;
+    transform: rotate(0.5deg);
+    width: min(72vw, 520px);
+}

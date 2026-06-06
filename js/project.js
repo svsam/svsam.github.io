@@ -1,16 +1,16 @@
 const projectEntries = [
   {
-    date: "2026-05-27",
-    title: "Exam season is over!",
+    date: "May 2026",
+    title: "H-R Diagram from the ESA Gaia Archive DR3 data release ",
     content: [
       {
         type: "text",
-        value: "I am finally finished with my exams and I will slowly during the course of the next few weeks and days change this website again, I think it looks too janky and I think it deserves a redesign.",
-      },
+        value: "This is one the first personal projects I did ever since starting the summer holidays, I made it using Python and plotted using matplotlib for python, additionally the data collected was 1 million stars which was queried using ADQL (Astronomical Data Query Language) which is similar to SQL."
+        },
       {
         type: "text",
-        value: "I'll see what I feel this website needs, though lately I have been doing a few personal projects related to my degree so maybe I'll create a new section for it. Though if you ever want to view it yourself you can always visit my github, my most recent projects will be pinned on my profile.",
-      },
+        value: "Below is the finished project image of the million stars made into a diagram similar to a H-R diagram, if compared to a graph which is typically seen online, there is usually a lack of white dwarfs this is mainly due to the amount of stars in the universe that we have detected so far to not have as many relative to regular stars in the main sequence/giant stars."
+        },
       {
         type: "image",
         src: "../css/Images/hrdiagram.png"
@@ -18,7 +18,7 @@ const projectEntries = [
     ],
   },
   {
-    date: "2026-06-01",
+    date: "May 2026",
     title: "New project idea!",
     content: [
       {
@@ -27,6 +27,46 @@ const projectEntries = [
       }
     ]
   },
+  {
+    date: "February 2026",
+    title: "Another project idea!",
+    content: [
+      {
+        type: "text",
+        value: "Let's see how this one turns out!",
+      }
+    ]
+  },
+  {
+    date: "February 2026",
+    title: "Another project idea!",
+    content: [
+      {
+        type: "text",
+        value: "Let's see how this one turns out!",
+      }
+    ]
+  },
+  {
+    date: "February 2026",
+    title: "Another project idea!",
+    content: [
+      {
+        type: "text",
+        value: "Let's see how this one turns out!",
+      }
+    ]
+  },
+  {
+    date: "February 2026",
+    title: "Another project idea!",
+    content: [
+      {
+        type: "text",
+        value: "Let's see how this one turns out!",
+      }
+    ]
+  }
 ];
 
 const projectContainer = document.getElementById("projectEntries");

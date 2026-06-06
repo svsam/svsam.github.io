@@ -64,6 +64,10 @@ const resolvePageFromHref = (href) => {
     return "projects";
   }
 
+  if (path.endsWith("scrapbook/")) {
+    return "scrapbook";
+  }
+
   if (!path || path === "." || path === "./" || path.endsWith("/")) {
     return "home";
   }
@@ -106,6 +110,10 @@ const resolvePageFromLocation = () => {
 
   if (path.endsWith("/projects/")) {
     return "projects";
+  }
+
+  if (path.endsWith("/scrapbook/")) {
+    return "scrapbook";
   }
 
   if (path.endsWith("journal.html")) {
