@@ -121,7 +121,7 @@
     --orbit-scale-x: 1;
     --orbit-scale-y: 0.48;
 
-    border: 2px solid rgba(127, 184, 255, 0.65);
+    border: 1px dashed rgba(127, 184, 255, 0.65);
     border-radius: 50%;
     inset: 0;
     position: absolute;
@@ -186,10 +186,10 @@
 }
 
 .orbitSatellite {
-    height: 260px;
+    height: 150px;
     object-fit: contain;
     position: relative;
-    width: 260px;
+    width: 150px;
     z-index: 2;
 }
 
@@ -252,8 +252,8 @@
     }
 
     .orbitSatellite {
-        height: min(38vw, 250px);
-        width: min(38vw, 250px);
+        height: min(30vw, 190px);
+        width: min(30vw, 190px);
     }
 
     .homePage .homeClock {
