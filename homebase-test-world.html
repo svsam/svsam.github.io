@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/base.css">
+        <link rel="stylesheet" href="css/home.css">
+        <link rel="stylesheet" href="css/homebase-test-world.css">
+        <title>SvS | Homebase Test World</title>
+        <link rel="icon" type="image/x-icon" href="css/Images/heliocentrism.jpg">
+    </head>
+
+    <body class="orbitTestBody" data-page="home">
+        <button class="sunToggle" id="sunToggle" type="button" aria-pressed="false">
+            Show Fat Man Sun
+        </button>
+
+        <main class="orbitTestPage">
+            <p class="homeClock" role="timer" aria-live="off" aria-atomic="true">
+                My current time is: <time id="ukClock" datetime="">Loading...</time>!
+            </p>
+
+            <div class="orbitStage">
+                <div class="orbitCircle orbitCircle--journal orbitCircle--back" aria-hidden="true"></div>
+                <div class="orbitCircle orbitCircle--projects orbitCircle--back" aria-hidden="true"></div>
+                <div class="orbitCircle orbitCircle--checklist orbitCircle--back" aria-hidden="true"></div>
+                <div class="orbitCircle orbitCircle--scrapbook orbitCircle--back" aria-hidden="true"></div>
+                <div class="orbitCircle orbitCircle--test-one orbitCircle--back" aria-hidden="true"></div>
+                <div class="orbitCircle orbitCircle--test-two orbitCircle--back" aria-hidden="true"></div>
+                <div class="orbitCircle orbitCircle--test-three orbitCircle--back" aria-hidden="true"></div>
+                <img
+                    class="satelliteImage orbitSatellite"
+                    id="orbitSun"
+                    src="css/Images/sun.gif"
+                    alt="Sun"
+                    data-sun-src="css/Images/sun.gif"
+                    data-fatman-src="css/Images/fatmansun.gif"
+                >
+                <div class="orbitCircle orbitCircle--journal orbitCircle--front" aria-hidden="true"></div>
+                <div class="orbitCircle orbitCircle--projects orbitCircle--front" aria-hidden="true"></div>
+                <div class="orbitCircle orbitCircle--checklist orbitCircle--front" aria-hidden="true"></div>
+                <div class="orbitCircle orbitCircle--scrapbook orbitCircle--front" aria-hidden="true"></div>
+                <div class="orbitCircle orbitCircle--test-one orbitCircle--front" aria-hidden="true"></div>
+                <div class="orbitCircle orbitCircle--test-two orbitCircle--front" aria-hidden="true"></div>
+                <div class="orbitCircle orbitCircle--test-three orbitCircle--front" aria-hidden="true"></div>
+
+                <nav class="orbitingLinks" aria-label="Outward links">
+                    <span class="orbitItem orbitItem--journal">
+                        <a class="outwardLink" href="journal/">Journal</a>
+                    </span>
+                    <span class="orbitItem orbitItem--projects">
+                        <a class="outwardLink" href="projects/">Projects</a>
+                    </span>
+                    <span class="orbitItem orbitItem--checklist">
+                        <a class="outwardLink" href="./#checklist">Checklist</a>
+                    </span>
+                    <span class="orbitItem orbitItem--scrapbook">
+                        <a class="outwardLink" href="scrapbook/">Scrapbook</a>
+                    </span>
+                    <span class="orbitItem orbitItem--test-one">
+                        <a class="outwardLink" href="#test-1">PlaceholderA</a>
+                    </span>
+                    <span class="orbitItem orbitItem--test-two">
+                        <a class="outwardLink" href="#test-2">PlaceholderB</a>
+                    </span>
+                    <span class="orbitItem orbitItem--test-three">
+                        <a class="outwardLink" href="#test-3">PlaceholderC</a>
+                    </span>
+                </nav>
+            </div>
+
+            <a class="satelliteText orbitWelcome" href="./" data-rainbow="space">Welcome to - Homebase</a>
+        </main>
+
+        <img class="homeDecoration homeDecoration--flag orbitDecoration" src="css/Images/Animated-Flag-United-Kingdom.gif" alt="Union Jack">
+        <img class="homeDecoration homeDecoration--blinkie orbitDecoration" src="css/Images/blinkiesCafe-ic.gif" alt="Blinkies Cafe">
+        <img class="homeDecoration homeDecoration--blinkie orbitDecoration" src="css/Images/blinkiesCafe-Ep.gif"  style="left: 300px;" alt="Blinkies Cafe2">
+        <img class="homeDecoration homeDecoration--satellite orbitDecoration" src="css/Images/icon1.gif" alt="Turning satellite dish">
+
+        <script src="js/rainbow.js"></script>
+        <script src="js/uk-clock.js"></script>
+        <script src="js/homebase-test-world.js"></script>
+    </body>
+</html>

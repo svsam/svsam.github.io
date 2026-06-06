@@ -20,13 +20,10 @@ body.projectPageBody {
 }
 
 body.projectPageBody::before {
-    background-image:
-        radial-gradient(circle at 14% 20%, rgba(199, 134, 56, 0.22), transparent 18rem),
-        radial-gradient(circle at 86% 12%, rgba(155, 79, 39, 0.22), transparent 16rem),
-        linear-gradient(135deg, rgba(12, 8, 5, 0.94), rgba(37, 24, 14, 0.88)),
-        repeating-linear-gradient(90deg, rgba(255, 226, 166, 0.04) 0 1px, transparent 1px 34px);
+    background-image: url("Images/starrybackground-effects.gif");
+    background-position: center;
     background-size: auto;
-    opacity: 1;
+    opacity: 0.5;
     z-index: -3;
 }
 
