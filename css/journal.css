@@ -5,6 +5,14 @@ body.journalPageBody {
     padding: 16px;
 }
 
+body.journalPageBody::before {
+    background-image: url("Images/starrybackground-effects.gif");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.5;
+}
+
 .journalPage {
     color: var(--space-text-color);
     display: flex;

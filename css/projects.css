@@ -20,11 +20,7 @@ body.projectPageBody {
 }
 
 body.projectPageBody::before {
-    background-image: url("Images/starrybackground-effects.gif");
-    background-position: center;
-    background-size: auto;
-    opacity: 0.5;
-    z-index: -3;
+    background-image: none;
 }
 
 body.projectPageBody::after {
