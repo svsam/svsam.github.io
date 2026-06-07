@@ -38,7 +38,6 @@ body.projectPageBody::after {
         inset 0 0 58px rgba(0, 0, 0, 0.64),
         0 0 34px rgba(199, 134, 56, 0.18);
     content: "";
-    filter: sepia(0.78) saturate(1.18) hue-rotate(340deg) brightness(0.76) contrast(1.08);
     height: 360px;
     opacity: 0.32;
     pointer-events: none;
@@ -52,7 +51,7 @@ body.projectPageBody::after {
 
 .projectPendulum {
     animation: projectPendulumSwing 5.8s ease-in-out infinite;
-    filter: blur(9px) sepia(0.72) saturate(1.2);
+    contain: layout paint;
     height: 132vh;
     left: 50%;
     opacity: 0.24;
@@ -61,6 +60,7 @@ body.projectPageBody::after {
     top: -18vh;
     transform: translateX(-50%) rotate(-13deg);
     transform-origin: 50% 0;
+    will-change: transform;
     width: min(72vw, 820px);
     z-index: -2;
 }
@@ -294,7 +294,6 @@ body.projectPageBody::after {
 .projectCog img {
     border-radius: 50%;
     display: block;
-    filter: sepia(0.78) saturate(1.18) hue-rotate(340deg) brightness(0.88) contrast(1.1);
     height: 100%;
     object-fit: cover;
     opacity: 0.84;
@@ -394,6 +393,7 @@ body.projectPageBody::after {
     font-weight: normal;
     margin: 0;
     text-decoration: underline;
+    padding-bottom: 10px;
 }
 
 .projectShelfHeader p {
@@ -420,6 +420,8 @@ body.projectPageBody::after {
         0 0 18px rgba(199, 134, 56, 0.12);
     box-sizing: border-box;
     color: var(--space-text-color);
+    contain: layout paint style;
+    content-visibility: auto;
     display: flex;
     flex-direction: column;
     min-height: 260px;
@@ -427,6 +429,7 @@ body.projectPageBody::after {
     padding: 16px;
     position: relative;
     text-align: left;
+    contain-intrinsic-size: 300px;
 }
 
 .projectEntry::before,
@@ -478,11 +481,20 @@ body.projectPageBody::after {
 }
 
 .projectEntryTitle {
-    color: var(--space-rainbow-star);
     font-size: 1.28rem;
     font-weight: normal;
     margin: 16px 0 0;
+}
+
+.projectEntryTitleLink {
+    color: var(--space-rainbow-star);
     text-decoration: underline;
+}
+
+.projectEntryTitleLink:hover,
+.projectEntryTitleLink:focus-visible {
+    color: var(--space-rainbow-cyan);
+    text-shadow: 0 0 8px rgba(225, 168, 79, 0.48);
 }
 
 .projectEntryBody {

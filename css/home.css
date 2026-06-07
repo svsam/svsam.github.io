@@ -27,7 +27,7 @@
     bottom: 10px;
     opacity: 0.1;
     right: 10px;
-    width: 500px;
+    width: 300px;
 }
 
 .homeDecoration--blinkie,
@@ -230,6 +230,40 @@
     transform: translate(-50%, -50%);
     white-space: normal;
     width: 80px;
+}
+
+.orbitPlanetLink {
+    overflow: hidden;
+}
+
+.orbitItem .orbitPlanetLink--journal {
+    background:
+        radial-gradient(circle at 35% 28%, rgba(127, 217, 255, 0.34), transparent 36%),
+        linear-gradient(135deg, #112d5c, #000818 72%);
+}
+
+.orbitItem .orbitPlanetLink--projects {
+    background:
+        radial-gradient(circle at 35% 28%, rgba(255, 226, 166, 0.34), transparent 36%),
+        linear-gradient(135deg, #9b4f27, #1a120b 72%);
+    border-color: #c78638;
+}
+
+.orbitPlanetImage {
+    height: 72%;
+    object-fit: contain;
+    width: 72%;
+}
+
+.orbitPlanetLabel {
+    background: rgba(0, 4, 18, 0.72);
+    bottom: 5px;
+    color: var(--space-text-color);
+    left: 50%;
+    line-height: 1;
+    padding: 2px 4px;
+    position: absolute;
+    transform: translateX(-50%);
 }
 
 .orbitWelcome {

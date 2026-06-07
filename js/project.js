@@ -2,6 +2,7 @@ const projectEntries = [
   {
     date: "Pending",
     title: "RAG (Retrieval Augmented Generation) AI (Python)",
+    url: "https://github.com/svsam",
     content: [
       {
         type: "text",
@@ -12,6 +13,7 @@ const projectEntries = [
   {
     date: "Pending",
     title: "C++ Tetris",
+    url: "https://github.com/svsam",
     content: [
       {
         type: "text",
@@ -22,6 +24,7 @@ const projectEntries = [
   {
     date: "May 2026",
     title: "H-R Diagram from the ESA Gaia Archive DR3 data release ",
+    url: "https://github.com/svsam/H-R-Diagram",
     content: [
       {
         type: "text",
@@ -40,6 +43,7 @@ const projectEntries = [
   {
     date: "May 2026 (Still in development)",
     title: "Exoplanet orbital temperatures and modelling eccentricity using training data",
+    url: "https://github.com/your-username/your-repository",
     content: [
       {
         type: "text",
@@ -54,6 +58,7 @@ const projectEntries = [
   {
     date: "February 2026",
     title: "Black Hole Model (Jupyter Notebook)",
+    url: "https://github.com/your-username/your-repository",
     content: [
       {
         type: "text",
@@ -68,6 +73,7 @@ const projectEntries = [
   {
     date: "April 2025",
     title: "Minesweeper Algorithm (Python)",
+    url: "https://github.com/your-username/your-repository",
     content: [
       {
         type: "text",
@@ -93,6 +99,8 @@ const appendProjectBlock = (body, block) => {
     image.src = block.src;
     image.alt = block.alt || "";
     image.className = "journalImage projectImage";
+    image.loading = "lazy";
+    image.decoding = "async";
     body.appendChild(image);
   }
 };
@@ -102,7 +110,7 @@ if (projectContainer && projectTemplate) {
     const projectNode = projectTemplate.content.cloneNode(true);
     const number = projectNode.querySelector(".projectEntryNumber");
     const date = projectNode.querySelector(".projectEntryDate");
-    const title = projectNode.querySelector(".projectEntryTitle");
+    const titleLink = projectNode.querySelector(".projectEntryTitleLink");
     const body = projectNode.querySelector(".projectEntryBody");
 
     if (number) {
@@ -110,7 +118,10 @@ if (projectContainer && projectTemplate) {
     }
 
     date.textContent = entry.date;
-    title.textContent = entry.title;
+    titleLink.textContent = entry.title;
+    titleLink.href = entry.url;
+    titleLink.target = "_blank";
+    titleLink.rel = "noopener noreferrer";
 
     entry.content.forEach((block) => {
       appendProjectBlock(body, block);
