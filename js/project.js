@@ -1,7 +1,30 @@
 const projectEntries = [
   {
+    date: "TBD",
+    title: "C++ Tetris",
+    url: "https://github.com/svsam",
+    content: [
+      {
+        type: "text",
+        value: "Currently under construction..."
+      }
+    ]
+  },
+  {
+    date: "TBD",
+    title: "Retrieval-Augmented Generation (RAG) system",
+    url: "https://github.com/svsam",
+    content: [
+      {
+        type: "text",
+        value: "Currently under construction..."
+      }
+    ]
+  },
+  {
     date: "May 2026",
     title: "H-R Diagram from the ESA Gaia Archive DR3 data release ",
+    url: "https://github.com/svsam/H-R-Diagram",
     content: [
       {
         type: "text",
@@ -20,6 +43,7 @@ const projectEntries = [
   {
     date: "May 2026",
     title: "New project idea!",
+    url: "https://github.com/your-username/your-repository",
     content: [
       {
         type: "text",
@@ -30,6 +54,7 @@ const projectEntries = [
   {
     date: "February 2026",
     title: "Another project idea!",
+    url: "https://github.com/your-username/your-repository",
     content: [
       {
         type: "text",
@@ -40,6 +65,7 @@ const projectEntries = [
   {
     date: "February 2026",
     title: "Another project idea!",
+    url: "https://github.com/your-username/your-repository",
     content: [
       {
         type: "text",
@@ -50,6 +76,7 @@ const projectEntries = [
   {
     date: "February 2026",
     title: "Another project idea!",
+    url: "https://github.com/your-username/your-repository",
     content: [
       {
         type: "text",
@@ -60,6 +87,7 @@ const projectEntries = [
   {
     date: "February 2026",
     title: "Another project idea!",
+    url: "https://github.com/your-username/your-repository",
     content: [
       {
         type: "text",
@@ -85,6 +113,8 @@ const appendProjectBlock = (body, block) => {
     image.src = block.src;
     image.alt = block.alt || "";
     image.className = "journalImage projectImage";
+    image.loading = "lazy";
+    image.decoding = "async";
     body.appendChild(image);
   }
 };
@@ -94,7 +124,7 @@ if (projectContainer && projectTemplate) {
     const projectNode = projectTemplate.content.cloneNode(true);
     const number = projectNode.querySelector(".projectEntryNumber");
     const date = projectNode.querySelector(".projectEntryDate");
-    const title = projectNode.querySelector(".projectEntryTitle");
+    const titleLink = projectNode.querySelector(".projectEntryTitleLink");
     const body = projectNode.querySelector(".projectEntryBody");
 
     if (number) {
@@ -102,7 +132,10 @@ if (projectContainer && projectTemplate) {
     }
 
     date.textContent = entry.date;
-    title.textContent = entry.title;
+    titleLink.textContent = entry.title;
+    titleLink.href = entry.url;
+    titleLink.target = "_blank";
+    titleLink.rel = "noopener noreferrer";
 
     entry.content.forEach((block) => {
       appendProjectBlock(body, block);

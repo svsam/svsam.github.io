@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SvS | Journal Test Page</title>
+        <link rel="icon" type="image/x-icon" href="../css/Images/heliocentrism.jpg">
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+
+            html,
+            body {
+                background: #000000;
+                margin: 0;
+                min-height: 100%;
+                overflow: hidden;
+            }
+
+            body {
+                min-height: 100vh;
+                position: relative;
+            }
+
+            .earthScene {
+                height: 100vh;
+                left: 0;
+                overflow: hidden;
+                position: absolute;
+                top: 0;
+                width: 58vw;
+            }
+
+            .earth {
+                aspect-ratio: 1;
+                border-radius: 50%;
+                box-shadow:
+                    0 0 26px rgba(79, 199, 255, 0.72),
+                    0 0 90px rgba(34, 112, 190, 0.38);
+                height: min(108vh, 72vw);
+                left: -34%;
+                overflow: hidden;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .earthImage {
+                display: block;
+                filter: grayscale(1) sepia(1) saturate(4) hue-rotate(165deg) brightness(0.82) contrast(1.18);
+                height: 170%;
+                left: 50%;
+                object-fit: contain;
+                position: absolute;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                width: 170%;
+            }
+
+            .earthGrid {
+                border-radius: 50%;
+                inset: 0;
+                overflow: hidden;
+                pointer-events: none;
+                position: absolute;
+            }
+
+            .latitude,
+            .longitude {
+                border: 1px solid rgba(158, 231, 255, 0.3);
+                border-radius: 50%;
+                left: 50%;
+                position: absolute;
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            .latitude {
+                height: var(--height);
+                width: 100%;
+            }
+
+            .longitude {
+                height: 100%;
+                transform: translate(-50%, -50%) rotate(var(--turn));
+                width: var(--width);
+            }
+
+            .earthShade {
+                background:
+                    radial-gradient(circle at 31% 30%, transparent 0 36%, rgba(0, 0, 0, 0.12) 58%, rgba(0, 0, 0, 0.74) 90%),
+                    linear-gradient(90deg, transparent 46%, rgba(0, 0, 0, 0.42));
+                border-radius: 50%;
+                inset: 0;
+                pointer-events: none;
+                position: absolute;
+            }
+
+            .satelliteStation {
+                height: 28px;
+                position: fixed;
+                width: 68px;
+                z-index: 5;
+            }
+
+            .satelliteStation--primary {
+                left: 49vw;
+                top: 32%;
+            }
+
+            .satellite {
+                background: transparent;
+                border: 0;
+                cursor: pointer;
+                height: 28px;
+                padding: 0;
+                position: relative;
+                transform: rotate(var(--tilt, -12deg));
+                width: 68px;
+            }
+
+            .satellite:focus-visible {
+                outline: 1px solid #ffffff;
+                outline-offset: 8px;
+            }
+
+            .satelliteBody {
+                background:
+                    linear-gradient(135deg, rgba(255, 255, 255, 0.72), transparent 34%),                                  
+                    linear-gradient(135deg, #d8d8d8, #3f3f3f 72%);
+                border: 2px solid #f2f2f2;
+                border-radius: 3px;
+                box-shadow:
+                    inset -8px -8px 12px rgba(0, 0, 0, 0.42),
+                    0 0 8px rgba(255, 255, 255, 0.3);
+                height: 22px;
+                left: 25px;
+                position: absolute;
+                top: 3px;
+                width: 18px;
+                z-index: 2;
+            }
+
+            .solarPanel {
+                background:
+                    repeating-linear-gradient(90deg, transparent 0 13px, rgba(255, 255, 255, 0.34) 13px 15px),
+                    repeating-linear-gradient(0deg, #202020 0 11px, #575757 11px 13px);
+                border: 2px solid #bdbdbd;
+                box-shadow: 0 0 8px rgba(255, 255, 255, 0.18);
+                height: 14px;
+                position: absolute;
+                top: 7px;
+                width: 24px;
+            }
+
+            .solarPanel--left {
+                left: 0;
+            }
+
+            .solarPanel--right {
+                right: 0;
+            }
+
+            .satelliteMenu {
+                background: rgba(5, 5, 5, 0.96);
+                border: 1px solid #bdbdbd;
+                box-shadow: 0 0 12px rgba(255, 255, 255, 0.18);
+                display: grid;
+                gap: 3px;
+                left: calc(100% + 14px);
+                min-width: 150px;
+                opacity: 0;
+                padding: 7px;
+                pointer-events: none;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%) translateX(-6px);
+                transition:
+                    opacity 160ms ease,
+                    transform 160ms ease;
+                visibility: hidden;
+            }
+
+            .satelliteMenu::before {
+                content: "";
+                bottom: 0;
+                left: -14px;
+                position: absolute;
+                top: 0;
+                width: 14px;
+            }
+
+            .satelliteMenu a {
+                color: #e4e4e4;
+                padding: 6px 8px;
+                text-align: center;
+                text-decoration: underline;
+                white-space: nowrap;
+            }
+
+            .satelliteMenu a:hover,
+            .satelliteMenu a:focus-visible {
+                background: #e4e4e4;
+                color: #080808;
+                outline: none;
+            }
+
+            .satelliteStation:hover .satelliteMenu,
+            .satelliteStation:focus-within .satelliteMenu {
+                opacity: 1;
+                pointer-events: auto;
+                transform: translateY(-50%) translateX(0);
+                visibility: visible;
+            }
+
+            .journalDrawer {
+                background: rgba(3, 3, 3, 0.98);
+                border-left: 1px solid #8f8f8f;
+                bottom: 0;
+                box-shadow: -14px 0 30px rgba(255, 255, 255, 0.08);
+                color: #e4e4e4;
+                overflow-y: auto;
+                padding: 24px 18px;
+                position: fixed;
+                right: 0;
+                top: 0;
+                transform: translateX(100%);
+                transition: transform 240ms ease;
+                width: min(430px, 92vw);
+                z-index: 10;
+            }
+
+            .journalDrawer.isOpen {
+                transform: translateX(0);
+            }
+
+            .journalDrawerHeader {
+                align-items: center;
+                border-bottom: 1px solid #666666;
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 14px;
+                padding-bottom: 12px;
+            }
+
+            .journalDrawerHeader h1 {
+                font-size: 1.35rem;
+                font-weight: normal;
+                margin: 0;
+            }
+
+            .journalDrawerEmpty {
+                color: #9d9d9d;
+                margin: 18px 0;
+                text-align: center;
+            }
+
+            .journalDrawerClose {
+                background: #111111;
+                border: 1px solid #aaaaaa;
+                color: #ffffff;
+                cursor: pointer;
+                font: inherit;
+                padding: 5px 9px;
+            }
+
+            .journalDrawerEntries {
+                display: grid;
+                gap: 10px;
+            }
+
+            .drawerEntry {
+                border: 1px solid #555555;
+                background: #090909;
+            }
+
+            .drawerEntry summary {
+                align-items: center;
+                cursor: pointer;
+                display: grid;
+                gap: 10px;
+                grid-template-columns: 72px 1fr;
+                list-style: none;
+                padding: 10px;
+            }
+
+            .drawerEntry summary::-webkit-details-marker {
+                display: none;
+            }
+
+            .drawerEntryTitle {
+                display: grid;
+                gap: 3px;
+            }
+
+            .drawerEntryDate {
+                color: #9d9d9d;
+                font-size: 0.78rem;
+            }
+
+            .drawerEntryBody {
+                border-top: 1px solid #444444;
+                line-height: 1.5;
+                padding: 12px;
+            }
+
+            .drawerEntryBody p {
+                margin: 0 0 10px;
+            }
+
+            .drawerEntryBody img {
+                display: block;
+                height: auto;
+                max-width: 100%;
+            }
+
+            .entrySatellite {
+                height: 28px;
+                position: relative;
+                transform: rotate(-8deg);
+                width: 68px;
+            }
+
+            .orbitalSatellites {
+                inset: 0;
+                pointer-events: none;
+                position: fixed;
+                z-index: 3;
+            }
+
+            .orbitalSatelliteStation {
+                height: 28px;
+                left: var(--x);
+                pointer-events: auto;
+                position: absolute;
+                top: var(--y);
+                transform: translate(-50%, -50%);
+                width: 68px;
+            }
+
+            .orbitalSatelliteStation .satelliteMenu {
+                z-index: 6;
+            }
+
+            @media (max-width: 700px) {
+                .earthScene {
+                    width: 78vw;
+                }
+
+                .earth {
+                    height: 82vh;
+                    left: -58%;
+                }
+
+            }
+
+        </style>
+    </head>
+
+    <body>
+        <main class="earthScene" aria-label="Rotating Earth">
+            <div class="earth" role="img" aria-label="Rotating Earth">
+                <img class="earthImage" src="../css/Images/rotating earth slow.gif" alt="">
+
+                <div class="earthGrid" aria-hidden="true">
+                    <span class="latitude" style="--height: 18%;"></span>
+                    <span class="latitude" style="--height: 40%;"></span>
+                    <span class="latitude" style="--height: 64%;"></span>
+                    <span class="latitude" style="--height: 86%;"></span>
+
+                    <span class="longitude" style="--width: 20%; --turn: 0deg;"></span>
+                    <span class="longitude" style="--width: 48%; --turn: 0deg;"></span>
+                    <span class="longitude" style="--width: 76%; --turn: 0deg;"></span>
+                    <span class="longitude" style="--width: 48%; --turn: 38deg;"></span>
+                    <span class="longitude" style="--width: 48%; --turn: -38deg;"></span>
+                </div>
+
+                <div class="earthShade" aria-hidden="true"></div>
+            </div>
+        </main>
+
+        <div class="orbitalSatellites" id="orbitalSatellites"></div>
+
+        <aside class="journalDrawer" id="journalDrawer" aria-hidden="true" aria-label="Journal entries">
+            <header class="journalDrawerHeader">
+                <h1 id="journalDrawerTitle">Journal transmissions</h1>
+                <button class="journalDrawerClose" id="journalDrawerClose" type="button">Close</button>
+            </header>
+            <div class="journalDrawerEntries" id="journalDrawerEntries"></div>
+        </aside>
+
+        <script src="../js/journal.js"></script>
+        <script>
+            const orbitalPositions = [
+                ["58vw", "15vh", "-16deg"],
+                ["70vw", "12vh", "-8deg"],
+                ["82vw", "16vh", "6deg"],
+                ["91vw", "26vh", "16deg"],
+                ["93vw", "40vh", "24deg"],
+                ["91vw", "54vh", "-20deg"],
+                ["84vw", "67vh", "-10deg"],
+                ["61vw", "32vh", "14deg"],
+                ["72vw", "31vh", "4deg"],
+                ["82vw", "36vh", "-8deg"],
+                ["84vw", "49vh", "-18deg"],
+                ["77vw", "59vh", "12deg"],
+                ["65vw", "58vh", "22deg"]
+            ];
+            const satelliteFilters = [
+                ...Array.from({ length: 12 }, (_, index) => ({
+                    label: new Date(2026, index).toLocaleString("en-GB", { month: "long" }),
+                    month: index
+                })),
+                { label: "Archive", archive: true }
+            ];
+            const orbitalSatellites = document.getElementById("orbitalSatellites");
+            const journalDrawer = document.getElementById("journalDrawer");
+            const journalDrawerTitle = document.getElementById("journalDrawerTitle");
+            const journalDrawerClose = document.getElementById("journalDrawerClose");
+            const journalDrawerEntries = document.getElementById("journalDrawerEntries");
+            let activeSatellite;
+
+            orbitalPositions.forEach(([x, y, tilt], index) => {
+                const filter = satelliteFilters[index];
+                const station = document.createElement("div");
+                station.className = "satelliteStation orbitalSatelliteStation";
+                station.style.setProperty("--x", x);
+                station.style.setProperty("--y", y);
+                station.style.setProperty("--tilt", tilt);
+                station.innerHTML = `
+                    <button class="satellite satelliteToggle" type="button" data-filter-index="${index}" aria-controls="journalDrawer" aria-expanded="false" aria-label="Open ${filter.label} journal entries">
+                        <span class="solarPanel solarPanel--left"></span>
+                        <span class="solarPanel solarPanel--right"></span>
+                        <span class="satelliteBody"></span>
+                    </button>
+                    <div class="satelliteMenu">
+                        <a href="#" class="satelliteJournalLink" data-filter-index="${index}">${filter.label} journals</a>
+                        <a href="../">Homebase</a>
+                        <a href="../projects/">Projects</a>
+                    </div>
+                `;
+                orbitalSatellites.appendChild(station);
+            });
+
+            const satelliteToggles = Array.from(document.querySelectorAll(".satelliteToggle"));
+
+            const setDrawerOpen = (isOpen) => {
+                journalDrawer.classList.toggle("isOpen", isOpen);
+                journalDrawer.setAttribute("aria-hidden", String(!isOpen));
+                satelliteToggles.forEach((toggle) => {
+                    toggle.setAttribute("aria-expanded", String(isOpen && toggle === activeSatellite));
+                });
+
+                if (isOpen) {
+                    journalDrawerClose.focus();
+                }
+            };
+
+            const renderJournalEntries = (filterIndex) => {
+                const filter = satelliteFilters[filterIndex];
+                const filteredEntries = journalEntries.filter((entry) => {
+                    const [year, month] = entry.date.split("-").map(Number);
+                    return filter.archive
+                        ? year !== 2026
+                        : year === 2026 && month === filter.month + 1;
+                });
+
+                journalDrawerTitle.textContent = `${filter.label} transmissions`;
+                journalDrawerEntries.replaceChildren();
+
+                if (!filteredEntries.length) {
+                    const emptyMessage = document.createElement("p");
+                    emptyMessage.className = "journalDrawerEmpty";
+                    emptyMessage.textContent = "No journal entries in this section yet.";
+                    journalDrawerEntries.appendChild(emptyMessage);
+                    return;
+                }
+
+                filteredEntries.forEach((entry) => {
+                    const details = document.createElement("details");
+                    const summary = document.createElement("summary");
+                    const miniSatellite = document.createElement("span");
+                    const heading = document.createElement("span");
+                    const title = document.createElement("span");
+                    const date = document.createElement("span");
+                    const body = document.createElement("div");
+
+                    details.className = "drawerEntry";
+                    miniSatellite.className = "entrySatellite";
+                    miniSatellite.innerHTML = `
+                        <span class="solarPanel solarPanel--left"></span>
+                        <span class="solarPanel solarPanel--right"></span>
+                        <span class="satelliteBody"></span>
+                    `;
+                    heading.className = "drawerEntryTitle";
+                    date.className = "drawerEntryDate";
+                    body.className = "drawerEntryBody";
+
+                    title.textContent = entry.title;
+                    date.textContent = entry.date;
+                    heading.append(title, date);
+                    summary.append(miniSatellite, heading);
+
+                    entry.content.forEach((block) => {
+                        appendJournalBlock(body, block);
+                    });
+
+                    details.append(summary, body);
+                    journalDrawerEntries.appendChild(details);
+                });
+            };
+
+            const openFilteredDrawer = (toggle, filterIndex) => {
+                activeSatellite = toggle;
+                renderJournalEntries(filterIndex);
+                setDrawerOpen(true);
+            };
+
+            satelliteToggles.forEach((toggle) => {
+                toggle.addEventListener("click", () => {
+                    openFilteredDrawer(toggle, Number(toggle.dataset.filterIndex));
+                });
+            });
+
+            document.querySelectorAll(".satelliteJournalLink").forEach((link) => {
+                link.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    const toggle = link.closest(".satelliteStation").querySelector(".satelliteToggle");
+                    openFilteredDrawer(toggle, Number(link.dataset.filterIndex));
+                });
+            });
+
+            journalDrawerClose.addEventListener("click", () => {
+                setDrawerOpen(false);
+                activeSatellite.focus();
+            });
+
+            document.addEventListener("keydown", (event) => {
+                if (event.key === "Escape" && journalDrawer.classList.contains("isOpen")) {
+                    setDrawerOpen(false);
+                    activeSatellite.focus();
+                }
+            });
+        </script>
+    </body>
+</html>
