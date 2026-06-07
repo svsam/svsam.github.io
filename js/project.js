@@ -67,6 +67,10 @@ const projectEntries = [
       {
         type: "text",
         value: "The equations for each method are as follows: For the Newtonian method, the equation is given by: F = G * (m1 * m2) / r^2, where F is the force of gravity, G is the gravitational constant, m1 and m2 are the masses of the two objects, and r is the distance between the two objects. For the gravitational lensing method, the equation is given by: θ = (4 * G * M) / (c^2 * b), where θ is the deflection angle of light, G is the gravitational constant, M is the mass of the black hole, c is the speed of light, and b is the impact parameter (the closest distance between the light ray and the black hole)."
+      },
+      {
+        type: "image",
+        src: "../css/Images/Black-Hole-simulations.png"
       }
     ]
   },
@@ -78,6 +82,10 @@ const projectEntries = [
       {
         type: "text",
         value: "First AI project, it uses an iterative technique on each unrevealed cell and calculates the probability of there being a mine on that cell based on the number of mines left and the number of unrevealed cells, it then selects the cell with the lowest probability of being a mine and reveals it, this process is repeated until all cells are revealed or a mine is hit. There are cases where it is impossible to mathmateically determine which cell is a mine and which cell is not, in these cases the algorithm will select a random cell from the remaining unrevealed cells and reveal it, this is not an optimal solution but it is a scenario that needs to be considered. More complicated techniques have been taught to the AI, such as common patterns to quickly identify mines and safe cells. Using heuristics and probability to solve the minesweeper game.",
+      },
+      {
+        type: "image",
+        src: "../css/Images/minesweeper.png"
       }
     ]
   }
