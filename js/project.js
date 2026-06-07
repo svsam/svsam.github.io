@@ -43,7 +43,7 @@ const projectEntries = [
   {
     date: "May 2026 (Still in development)",
     title: "Exoplanet orbital temperatures and modelling eccentricity using training data",
-    url: "https://github.com/your-username/your-repository",
+    url: "https://github.com/svsam/Exoplanet-orbital-temperatures-and-modelling-eccentricity-using-training-data",
     content: [
       {
         type: "text",
@@ -58,7 +58,7 @@ const projectEntries = [
   {
     date: "February 2026",
     title: "Black Hole Model (Jupyter Notebook)",
-    url: "https://github.com/your-username/your-repository",
+    url: "https://github.com/svsam/Black-Hole-simulations",
     content: [
       {
         type: "text",
@@ -73,7 +73,7 @@ const projectEntries = [
   {
     date: "April 2025",
     title: "Minesweeper Algorithm (Python)",
-    url: "https://github.com/your-username/your-repository",
+    url: "https://github.com/svsam/Minesweeper-Calculator",
     content: [
       {
         type: "text",
