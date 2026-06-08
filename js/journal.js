@@ -1,5 +1,15 @@
 const journalEntries = [
   {
+    date: "2026-06-07",
+    title: "Overhaul, mega progress in the past few days",
+    content: [
+      {
+        type: "text",
+        value: "Solar system website, it looks decent but every other page is like something different, but I think it might be unique compared to other website, also fits my theme of space because its my degree."
+      }
+    ]
+  },
+  {
     date: "2026-06-06",
     title: "Missed entries and update",
     content: [
