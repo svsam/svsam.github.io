@@ -1,0 +1,11 @@
+name = "svsam-journal-guestbook"
+main = "src/index.js"
+compatibility_date = "2026-06-12"
+workers_dev = true
+
+[vars]
+GITHUB_OWNER = "svsam"
+GITHUB_REPO = "svsam.github.io"
+GITHUB_BRANCH = "main"
+GUESTBOOK_PATH = "data/guestbook.json"
+ALLOWED_ORIGINS = "https://svsam.com,https://www.svsam.com,http://localhost:8765"

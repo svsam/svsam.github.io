@@ -4,6 +4,10 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="theme-color" content="#090512">
+        <meta
+            name="guestbook-api"
+            content="https://svsam-journal-guestbook.svsam.workers.dev"
+        >
         <link rel="stylesheet" href="../css/base.css">
         <link rel="stylesheet" href="../css/journal.css">
         <title>SvS | Journal Room</title>
@@ -11,6 +15,24 @@
     </head>
 
     <body class="voxelJournalBody" data-page="journal">
+        <section
+            id="experienceWarning"
+            class="experienceWarning"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="warningTitle"
+        >
+            <div class="warningPanel">
+                <span class="warningKicker">Before you enter</span>
+                <h1 id="warningTitle">Desktop experience recommended</h1>
+                <p>
+                    The Journal Room is a 3D space designed for a keyboard and mouse.
+                    Mobile devices can enter, but movement and interaction work best on desktop.
+                </p>
+                <button id="enterJournalRoom" type="button">Enter Journal Room</button>
+            </div>
+        </section>
+
         <main class="voxelJournal" aria-label="Interactive voxel journal">
             <div id="voxelWorld" class="voxelWorld" aria-hidden="true"></div>
 
@@ -85,21 +107,130 @@
             </div>
         </section>
 
+        <section
+            id="guestbookReader"
+            class="guestbookReader"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="guestbookTitle"
+            hidden
+        >
+            <div class="bookBackdrop" data-close-guestbook></div>
+            <div class="guestbookStage">
+                <button
+                    class="closeBook"
+                    type="button"
+                    data-close-guestbook
+                    aria-label="Close guestbook"
+                >
+                    ×
+                </button>
+
+                <div class="book guestbookBook">
+                    <div class="bookSpine" aria-hidden="true"></div>
+                    <article class="bookPage bookPageLeft guestbookMessagesPage">
+                        <span class="bookKicker">A book from the shelves</span>
+                        <h2 id="guestbookTitle">Visitors' Volume</h2>
+                        <p class="bookIntro">Messages left by people who found the room.</p>
+                        <div id="guestbookMessages" class="guestbookMessages" aria-live="polite">
+                            <p class="guestbookEmpty">Opening the volume...</p>
+                        </div>
+                    </article>
+
+                    <article class="bookPage bookPageRight guestbookFormPage">
+                        <span class="bookKicker">Leave a note</span>
+                        <h2>Write in the book</h2>
+                        <form id="guestbookForm" class="guestbookForm">
+                            <label for="guestbookName">Name</label>
+                            <input
+                                id="guestbookName"
+                                name="name"
+                                type="text"
+                                maxlength="40"
+                                autocomplete="name"
+                                required
+                            >
+
+                            <label for="guestbookMessage">Message</label>
+                            <textarea
+                                id="guestbookMessage"
+                                name="message"
+                                maxlength="500"
+                                rows="7"
+                                required
+                            ></textarea>
+
+                            <label class="guestbookHoneypot" aria-hidden="true">
+                                Website
+                                <input name="website" type="text" tabindex="-1" autocomplete="off">
+                            </label>
+
+                            <button type="submit">Sign the guestbook</button>
+                            <p id="guestbookStatus" class="guestbookStatus" role="status"></p>
+                        </form>
+                    </article>
+                </div>
+            </div>
+        </section>
+
         <script>
             window.__journalSceneStarted = false;
-            window.setTimeout(function () {
-                if (!window.__journalSceneStarted) {
-                    document.getElementById("runtimeError").hidden = false;
+            window.__journalSceneFailed = false;
+            (function () {
+                var enterButton = document.getElementById("enterJournalRoom");
+                var warning = document.getElementById("experienceWarning");
+                var runtimeError = document.getElementById("runtimeError");
+                var runtimeErrorText = runtimeError.querySelector("span");
+
+                window.addEventListener("error", function (event) {
+                    window.__journalSceneFailed = true;
+                    runtimeErrorText.textContent =
+                        event.message || "An unexpected rendering error occurred.";
+                    runtimeError.hidden = false;
+                });
+
+                function loadScript(source) {
+                    return new Promise(function (resolve, reject) {
+                        var script = document.createElement("script");
+                        script.src = source;
+                        script.onload = resolve;
+                        script.onerror = reject;
+                        document.body.appendChild(script);
+                    });
                 }
-            }, 5000);
+
+                enterButton.addEventListener("click", function () {
+                    enterButton.disabled = true;
+                    enterButton.textContent = "Entering...";
+
+                    loadScript("../js/vendor/three.min.js")
+                        .then(function () {
+                            return loadScript("../js/journal.js");
+                        })
+                        .then(function () {
+                            if (
+                                !window.__journalSceneStarted ||
+                                window.__journalSceneFailed
+                            ) {
+                                throw new Error("The scene did not start.");
+                            }
+                            warning.hidden = true;
+                        })
+                        .catch(function () {
+                            runtimeError.hidden = false;
+                            enterButton.disabled = false;
+                            enterButton.textContent = "Try again";
+                        });
+                });
+
+                if (
+                    (window.location.hostname === "localhost" ||
+                        window.location.hostname === "127.0.0.1") &&
+                    new URLSearchParams(window.location.search).has("enter")
+                ) {
+                    enterButton.click();
+                }
+            }());
         </script>
-        <script
-            src="../js/vendor/three.min.js"
-            onerror="document.getElementById('runtimeError').hidden = false"
-        ></script>
-        <script
-            src="../js/journal.js"
-            onerror="document.getElementById('runtimeError').hidden = false"
-        ></script>
     </body>
 </html>

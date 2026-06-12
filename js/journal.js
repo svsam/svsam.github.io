@@ -153,6 +153,14 @@ const pageControls = document.getElementById("pageControls");
 const pageNumber = document.getElementById("pageNumber");
 const previousEntry = document.getElementById("previousEntry");
 const nextEntry = document.getElementById("nextEntry");
+const interactionPromptLabel = interactionPrompt.querySelector("span:last-child");
+const guestbookReader = document.getElementById("guestbookReader");
+const guestbookMessages = document.getElementById("guestbookMessages");
+const guestbookForm = document.getElementById("guestbookForm");
+const guestbookStatus = document.getElementById("guestbookStatus");
+const guestbookApiUrl =
+  document.querySelector('meta[name="guestbook-api"]')?.content.trim() || "";
+const guestbookDataUrl = "../data/guestbook.json";
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 let activeEntryIndex = -1;
@@ -315,7 +323,98 @@ const openBook = () => {
 const closeBook = () => {
   bookReader.hidden = true;
   bookReader.classList.remove("isOpening");
-  document.body.classList.remove("bookIsOpen");
+  if (guestbookReader.hidden) document.body.classList.remove("bookIsOpen");
+  lastFocusedElement?.focus?.();
+};
+
+const formatGuestbookDate = (dateString) => {
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return "";
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(date);
+};
+
+const renderGuestbookMessages = (messages) => {
+  guestbookMessages.replaceChildren();
+  const safeMessages = Array.isArray(messages) ? messages.slice(0, 100) : [];
+
+  if (!safeMessages.length) {
+    guestbookMessages.appendChild(
+      createElement(
+        "p",
+        "guestbookEmpty",
+        "No one has written here yet. You could be the first.",
+      ),
+    );
+    return;
+  }
+
+  safeMessages.forEach((message) => {
+    const entry = createElement("article", "guestbookMessage");
+    const header = createElement("header", "guestbookMessageHeader");
+    header.append(
+      createElement("h3", "guestbookMessageName", message.name || "Anonymous"),
+      createElement(
+        "time",
+        "guestbookMessageDate",
+        formatGuestbookDate(message.createdAt),
+      ),
+    );
+    entry.append(
+      header,
+      createElement("p", "guestbookMessageText", message.message || ""),
+    );
+    guestbookMessages.appendChild(entry);
+  });
+};
+
+const fetchGuestbookMessages = async () => {
+  const sources = [guestbookApiUrl, guestbookDataUrl].filter(Boolean);
+
+  for (const source of sources) {
+    try {
+      const response = await fetch(source, {
+        headers: { Accept: "application/json" },
+        cache: "no-store",
+      });
+      if (!response.ok) continue;
+      const payload = await response.json();
+      renderGuestbookMessages(payload.messages);
+      return;
+    } catch (error) {
+      // Fall through to the static JSON file when the write API is unavailable.
+    }
+  }
+
+  guestbookMessages.replaceChildren(
+    createElement(
+      "p",
+      "guestbookEmpty",
+      "The shared pages could not be reached. Please try again later.",
+    ),
+  );
+};
+
+const openGuestbook = () => {
+  if (!guestbookReader.hidden) return;
+  lastFocusedElement = document.activeElement;
+  guestbookReader.hidden = false;
+  document.body.classList.add("bookIsOpen");
+  guestbookStatus.textContent = "";
+  fetchGuestbookMessages();
+  requestAnimationFrame(() => {
+    guestbookReader.classList.add("isOpening");
+    guestbookReader.querySelector(".closeBook").focus();
+  });
+};
+
+const closeGuestbook = () => {
+  guestbookReader.hidden = true;
+  guestbookReader.classList.remove("isOpening");
+  if (bookReader.hidden) document.body.classList.remove("bookIsOpen");
   lastFocusedElement?.focus?.();
 };
 
@@ -332,9 +431,21 @@ bookReader.addEventListener("click", (event) => {
 indexTab.addEventListener("click", renderIndex);
 previousEntry.addEventListener("click", () => renderEntry(activeEntryIndex - 1));
 nextEntry.addEventListener("click", () => renderEntry(activeEntryIndex + 1));
-interactionPrompt.addEventListener("click", openBook);
+interactionPrompt.addEventListener("click", () => {
+  if (activeInteraction === "guestbook") {
+    openGuestbook();
+  } else {
+    openBook();
+  }
+});
 
 const handleJournalKeys = (event) => {
+  if (event.key === "Escape" && !guestbookReader.hidden) {
+    event.preventDefault();
+    closeGuestbook();
+    return;
+  }
+
   if (event.key === "Escape" && !bookReader.hidden) {
     event.preventDefault();
     closeBook();
@@ -343,10 +454,15 @@ const handleJournalKeys = (event) => {
 
   if (
     bookReader.hidden &&
+    guestbookReader.hidden &&
     (event.code === "KeyE" || event.key.toLowerCase() === "e")
   ) {
     event.preventDefault();
-    openBook();
+    if (activeInteraction === "guestbook") {
+      openGuestbook();
+    } else {
+      openBook();
+    }
     return;
   }
 
@@ -366,9 +482,10 @@ const handleJournalKeys = (event) => {
 window.addEventListener("keydown", handleJournalKeys, { capture: true });
 
 const trapBookFocus = (event) => {
-  if (event.key !== "Tab" || bookReader.hidden) return;
+  const dialog = event.currentTarget;
+  if (event.key !== "Tab" || dialog.hidden) return;
   const focusable = [
-    ...bookReader.querySelectorAll(
+    ...dialog.querySelectorAll(
       "button:not([disabled]), a[href], [tabindex]:not([tabindex='-1'])",
     ),
   ].filter((element) => !element.hidden);
@@ -386,6 +503,59 @@ const trapBookFocus = (event) => {
 };
 
 bookReader.addEventListener("keydown", trapBookFocus);
+guestbookReader.addEventListener("keydown", trapBookFocus);
+
+guestbookReader.addEventListener("click", (event) => {
+  if (event.target.closest("[data-close-guestbook]")) closeGuestbook();
+});
+
+guestbookForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const submitButton = guestbookForm.querySelector('button[type="submit"]');
+  const formData = new FormData(guestbookForm);
+  const payload = {
+    name: String(formData.get("name") || "").trim(),
+    message: String(formData.get("message") || "").trim(),
+    website: String(formData.get("website") || ""),
+  };
+
+  if (!payload.name || !payload.message) {
+    guestbookStatus.textContent = "Please add both a name and a message.";
+    return;
+  }
+
+  if (!guestbookApiUrl) {
+    guestbookStatus.textContent = "The shared guestbook service is not configured.";
+    return;
+  }
+
+  submitButton.disabled = true;
+  guestbookStatus.textContent = "Writing your message...";
+
+  try {
+    const response = await fetch(guestbookApiUrl, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      throw new Error(result.error || "The message could not be saved.");
+    }
+
+    renderGuestbookMessages(result.messages);
+    guestbookForm.reset();
+    guestbookStatus.textContent = "Your message is now in the book.";
+  } catch (error) {
+    guestbookStatus.textContent =
+      error.message || "The message could not be saved. Please try again.";
+  } finally {
+    submitButton.disabled = false;
+  }
+});
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x08050e);
@@ -431,7 +601,6 @@ renderer.domElement.setAttribute(
 );
 renderer.domElement.tabIndex = 0;
 world.appendChild(renderer.domElement);
-window.__journalSceneStarted = true;
 
 const maxAnisotropy = renderer.capabilities.getMaxAnisotropy();
 const clock = new THREE.Clock();
@@ -540,6 +709,11 @@ const boundaryMaterial = new THREE.MeshBasicMaterial({
 const bookMaterials = [0x77323b, 0x31566d, 0x60417b, 0x84612d, 0x315e4c].map(
   (color) => makeMaterial(color, null),
 );
+const guestbookMaterial = makeMaterial(0x66d1c6, null, {
+  emissive: 0x1d706f,
+  emissiveIntensity: 1.15,
+  roughness: 0.48,
+});
 
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
 
@@ -690,7 +864,7 @@ const createPillar = (x, z, height) => {
   animatedRunes.push({ object: lamp, baseY: height + 0.35, offset: x + z });
 };
 
-const createBookshelf = (x, z, rotationY = 0) => {
+const createBookshelf = (x, z, rotationY = 0, options = {}) => {
   const shelf = new THREE.Group();
   shelf.position.set(x, 0, z);
   shelf.rotation.y = rotationY;
@@ -726,20 +900,34 @@ const createBookshelf = (x, z, rotationY = 0) => {
     }
 
     for (let index = 0; index < 13; index += 1) {
-      const height = 1.05 + ((index + row * 2) % 4) * 0.12;
-      const material =
-        bookMaterials[(index + row * 3) % bookMaterials.length];
-      addBox(
+      const isGuestbook = options.guestbook && row === 2 && index === 6;
+      const height = isGuestbook
+        ? 1.48
+        : 1.05 + ((index + row * 2) % 4) * 0.12;
+      const material = isGuestbook
+        ? guestbookMaterial
+        : bookMaterials[(index + row * 3) % bookMaterials.length];
+      const bookX = -1.82 + index * 0.3;
+      const bookY = shelfY + 0.16 + height / 2;
+      const bookZ = isGuestbook ? 0.22 : -0.02;
+      const book = addBox(
         shelf,
-        [0.25, height, 0.58],
-        [
-          -1.82 + index * 0.3,
-          shelfY + 0.16 + height / 2,
-          -0.02,
-        ],
+        [isGuestbook ? 0.34 : 0.25, height, 0.58],
+        [bookX, bookY, bookZ],
         material,
-        [0, 0, (index + row) % 6 === 0 ? 0.06 : -0.015],
+        [0, 0, isGuestbook ? -0.04 : (index + row) % 6 === 0 ? 0.06 : -0.015],
       );
+
+      if (isGuestbook) {
+        book.userData.interactive = "guestbook";
+        interactiveMeshes.push(book);
+        addBox(
+          shelf,
+          [0.045, height - 0.12, 0.62],
+          [bookX, bookY, bookZ + 0.015],
+          goldMaterial,
+        );
+      }
     }
   }
 
@@ -916,7 +1104,7 @@ const createTable = () => {
   );
 
   [leftCover, rightCover, leftPages, rightPages, spine].forEach((mesh) => {
-    mesh.userData.interactive = "book";
+    mesh.userData.interactive = "journal";
     interactiveMeshes.push(mesh);
   });
 
@@ -1007,7 +1195,8 @@ createCeilingSolarSystem();
   [-9, 9, 5],
   [9, 9, 5],
 ].forEach(([x, z, height]) => createPillar(x, z, height));
-[-6, 0, 6].forEach((x) => createBookshelf(x, -10.65, 0));
+[-6, 6].forEach((x) => createBookshelf(x, -10.65, 0));
+createBookshelf(0, -10.65, 0, { guestbook: true });
 [-6.2, 0, 6.2].forEach((z) => {
   createBookshelf(-10.65, z, Math.PI / 2);
   createBookshelf(10.65, z, -Math.PI / 2);
@@ -1048,7 +1237,7 @@ let pitch = 0;
 let dragging = false;
 let pointerMoved = false;
 let previousPointer = { x: 0, y: 0 };
-let hoveredBook = false;
+let activeInteraction = null;
 
 const lookAtTable = () => {
   const direction = new THREE.Vector3()
@@ -1088,7 +1277,7 @@ const clampCameraPosition = () => {
 };
 
 renderer.domElement.addEventListener("pointerdown", (event) => {
-  if (!bookReader.hidden) return;
+  if (!bookReader.hidden || !guestbookReader.hidden) return;
   renderer.domElement.focus();
   dragging = true;
   pointerMoved = false;
@@ -1124,18 +1313,24 @@ renderer.domElement.addEventListener("pointercancel", () => {
 });
 
 renderer.domElement.addEventListener("click", (event) => {
-  if (pointerMoved || !bookReader.hidden) return;
+  if (pointerMoved || !bookReader.hidden || !guestbookReader.hidden) return;
   const bounds = renderer.domElement.getBoundingClientRect();
   pointer.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
   pointer.y = -((event.clientY - bounds.top) / bounds.height) * 2 + 1;
   raycaster.setFromCamera(pointer, camera);
-  if (raycaster.intersectObjects(interactiveMeshes, false).length) openBook();
+  const intersection = raycaster.intersectObjects(interactiveMeshes, false)[0];
+  if (!intersection) return;
+  if (intersection.object.userData.interactive === "guestbook") {
+    openGuestbook();
+  } else {
+    openBook();
+  }
 });
 
 renderer.domElement.addEventListener(
   "wheel",
   (event) => {
-    if (!bookReader.hidden) return;
+    if (!bookReader.hidden || !guestbookReader.hidden) return;
     const forward = new THREE.Vector3();
     camera.getWorldDirection(forward);
     forward.y = 0;
@@ -1151,7 +1346,8 @@ window.addEventListener("keydown", (event) => {
     ["KeyW", "KeyA", "KeyS", "KeyD", "ArrowUp", "ArrowDown"].includes(
       event.code,
     ) &&
-    bookReader.hidden
+    bookReader.hidden &&
+    guestbookReader.hidden
   ) {
     event.preventDefault();
     keys.add(event.code);
@@ -1175,7 +1371,7 @@ document.querySelectorAll("[data-move]").forEach((button) => {
 });
 
 const updateMovement = (delta) => {
-  if (!bookReader.hidden) return;
+  if (!bookReader.hidden || !guestbookReader.hidden) return;
 
   const forwardInput =
     Number(keys.has("KeyW") || keys.has("ArrowUp") || touchMovement.has("forward")) -
@@ -1204,13 +1400,17 @@ const updateMovement = (delta) => {
 const updateBookInteraction = () => {
   raycaster.setFromCamera(centerPointer, camera);
   const intersections = raycaster.intersectObjects(interactiveMeshes, false);
-  const closeEnough =
-    intersections.length > 0 && intersections[0].distance < 18.5;
-  if (closeEnough === hoveredBook) return;
+  const interaction =
+    intersections.length > 0 && intersections[0].distance < 18.5
+      ? intersections[0].object.userData.interactive
+      : null;
+  if (interaction === activeInteraction) return;
 
-  hoveredBook = closeEnough;
-  interactionPrompt.hidden = !closeEnough;
-  renderer.domElement.classList.toggle("canInteract", closeEnough);
+  activeInteraction = interaction;
+  interactionPrompt.hidden = !interaction;
+  interactionPromptLabel.textContent =
+    interaction === "guestbook" ? "Open visitors' volume" : "Open journal";
+  renderer.domElement.classList.toggle("canInteract", Boolean(interaction));
 };
 
 const animate = () => {
@@ -1251,3 +1451,12 @@ window.addEventListener("resize", () => {
 });
 
 animate();
+window.__journalSceneStarted = true;
+
+if (
+  (window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1") &&
+  new URLSearchParams(window.location.search).has("guestbook")
+) {
+  openGuestbook();
+}

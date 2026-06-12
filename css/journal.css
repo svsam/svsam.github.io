@@ -32,6 +32,78 @@ a {
     -webkit-tap-highlight-color: transparent;
 }
 
+.experienceWarning {
+    align-items: center;
+    background: #07040c;
+    color: #eee7ff;
+    display: flex;
+    inset: 0;
+    justify-content: center;
+    padding: 28px;
+    position: fixed;
+    z-index: 200;
+}
+
+.experienceWarning[hidden] {
+    display: none;
+}
+
+.warningPanel {
+    max-width: 590px;
+    text-align: center;
+}
+
+.warningKicker {
+    color: var(--cyan);
+    display: block;
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+}
+
+.warningPanel h1 {
+    font-family: "Cinzel", serif;
+    font-size: clamp(1.8rem, 5vw, 3.3rem);
+    font-weight: 500;
+    letter-spacing: 0.07em;
+    line-height: 1.15;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.warningPanel p {
+    color: #c7bbd7;
+    font-size: 0.78rem;
+    line-height: 1.8;
+    margin: 24px auto 30px;
+    max-width: 520px;
+}
+
+.warningPanel button {
+    background: transparent;
+    border: 1px solid var(--violet);
+    color: #f5eeff;
+    cursor: pointer;
+    font: 0.68rem "Space Mono", monospace;
+    letter-spacing: 0.16em;
+    padding: 13px 20px;
+    text-transform: uppercase;
+}
+
+.warningPanel button:hover,
+.warningPanel button:focus-visible {
+    background: var(--violet);
+    color: #090512;
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+}
+
+.warningPanel button:disabled {
+    cursor: wait;
+    opacity: 0.6;
+}
+
 .voxelJournal,
 .voxelWorld {
     height: 100%;
@@ -264,11 +336,13 @@ kbd,
     z-index: 50;
 }
 
-.bookReader[hidden] {
+.bookReader[hidden],
+.guestbookReader[hidden] {
     display: none;
 }
 
-.bookReader.isOpening .bookStage {
+.bookReader.isOpening .bookStage,
+.guestbookReader.isOpening .guestbookStage {
     animation: openBook 0.65s cubic-bezier(0.18, 0.8, 0.25, 1) both;
 }
 
@@ -280,6 +354,22 @@ kbd,
 }
 
 .bookStage {
+    left: 50%;
+    max-width: 1080px;
+    perspective: 1600px;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(88vw, 1080px);
+}
+
+.guestbookReader {
+    inset: 0;
+    position: fixed;
+    z-index: 55;
+}
+
+.guestbookStage {
     left: 50%;
     max-width: 1080px;
     perspective: 1600px;
@@ -534,6 +624,124 @@ kbd,
     text-align: center;
 }
 
+.guestbookMessagesPage,
+.guestbookFormPage {
+    padding-top: clamp(35px, 4vw, 54px);
+}
+
+.guestbookMessages {
+    display: grid;
+    gap: 13px;
+    margin-top: 24px;
+}
+
+.guestbookMessage {
+    border-bottom: 1px solid rgba(74, 42, 26, 0.22);
+    padding-bottom: 12px;
+}
+
+.guestbookMessageHeader {
+    align-items: baseline;
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.guestbookMessageName {
+    color: #713b36;
+    font-family: "Cinzel", serif;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.guestbookMessageDate {
+    color: #795944;
+    font: 0.48rem "Space Mono", monospace;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+}
+
+.guestbookMessageText {
+    line-height: 1.5;
+    margin: 6px 0 0;
+    overflow-wrap: anywhere;
+}
+
+.guestbookEmpty {
+    color: #705542;
+    font-style: italic;
+}
+
+.guestbookForm {
+    display: grid;
+    gap: 9px;
+    margin-top: 22px;
+}
+
+.guestbookForm label {
+    color: #704530;
+    font: 0.55rem "Space Mono", monospace;
+    letter-spacing: 0.13em;
+    margin-top: 6px;
+    text-transform: uppercase;
+}
+
+.guestbookForm input,
+.guestbookForm textarea {
+    background: rgba(255, 250, 226, 0.35);
+    border: 0;
+    border-bottom: 1px solid rgba(94, 54, 35, 0.55);
+    border-radius: 0;
+    box-sizing: border-box;
+    color: var(--ink);
+    font: 1rem "IM Fell English", Georgia, serif;
+    padding: 8px 5px;
+    resize: vertical;
+    width: 100%;
+}
+
+.guestbookForm input:focus,
+.guestbookForm textarea:focus {
+    border-color: #743c38;
+    outline: 1px solid rgba(116, 60, 56, 0.4);
+}
+
+.guestbookForm button {
+    background: #4b2525;
+    border: 1px solid #7d4b3e;
+    color: #f2dfbd;
+    cursor: pointer;
+    font: 0.58rem "Space Mono", monospace;
+    letter-spacing: 0.1em;
+    margin-top: 10px;
+    padding: 10px;
+    text-transform: uppercase;
+}
+
+.guestbookForm button:hover,
+.guestbookForm button:focus-visible {
+    background: #713b36;
+    outline: 1px solid #713b36;
+}
+
+.guestbookForm button:disabled {
+    cursor: wait;
+    opacity: 0.55;
+}
+
+.guestbookStatus {
+    color: #713b36;
+    font-size: 0.78rem;
+    line-height: 1.35;
+    margin: 3px 0 0;
+    min-height: 1.1em;
+}
+
+.guestbookHoneypot {
+    left: -10000px;
+    position: absolute;
+}
+
 .indexTab,
 .closeBook,
 .pageControls button {
@@ -632,7 +840,7 @@ kbd,
     position: fixed;
     text-align: center;
     transform: translateX(-50%);
-    z-index: 100;
+    z-index: 300;
 }
 
 .runtimeError[hidden] {
@@ -697,6 +905,11 @@ kbd,
     }
 
     .bookStage {
+        height: 88vh;
+        width: 92vw;
+    }
+
+    .guestbookStage {
         height: 88vh;
         width: 92vw;
     }
