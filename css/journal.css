@@ -177,33 +177,6 @@ a {
     text-transform: uppercase;
 }
 
-.worldInstructions {
-    bottom: 28px;
-    color: rgba(238, 231, 255, 0.72);
-    font-size: 0.58rem;
-    left: 30px;
-    letter-spacing: 0.08em;
-    line-height: 1.7;
-    pointer-events: none;
-    position: fixed;
-    text-shadow: 0 1px 8px #000;
-    text-transform: uppercase;
-    z-index: 5;
-}
-
-.worldInstructions p {
-    align-items: center;
-    display: flex;
-    gap: 5px;
-    margin: 3px 0;
-}
-
-.worldInstructions .instructionLabel {
-    color: var(--violet);
-    letter-spacing: 0.25em;
-    margin-bottom: 8px;
-}
-
 kbd,
 .promptKey {
     background: rgba(12, 7, 22, 0.7);
@@ -216,25 +189,6 @@ kbd,
     justify-content: center;
     min-width: 18px;
     padding: 1px 4px;
-}
-
-.mouseIcon {
-    border: 1px solid rgba(181, 140, 255, 0.75);
-    border-radius: 7px;
-    display: inline-block;
-    height: 18px;
-    position: relative;
-    width: 11px;
-}
-
-.mouseIcon::before {
-    background: var(--cyan);
-    content: "";
-    height: 4px;
-    left: 5px;
-    position: absolute;
-    top: 2px;
-    width: 1px;
 }
 
 .interactionPrompt {
@@ -777,12 +731,6 @@ kbd,
     to {
         opacity: 1;
         transform: translate(-50%, -50%) rotateX(0) scale(1);
-    }
-}
-
-@media (pointer: coarse) {
-    .worldInstructions {
-        display: none;
     }
 }
 
