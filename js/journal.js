@@ -1,5 +1,15 @@
 const journalEntries = [
   {
+    date: "2026-06-12",
+    title: "Journal page.",
+    content: [
+      {
+        type: "text",
+        value: "There is a voxel engine for this page now... If you wondering how I did this I reccomend you learn threejs (threejs.org for documentation). Very much helped with the addition of codex to learn this, AI is scary but as its purpose it supposed to be a tool. This page looks great in my opinion."
+      }
+    ]
+  },
+  {
     date: "2026-06-07",
     title: "Overhaul, mega progress in the past few days",
     content: [
@@ -707,7 +717,7 @@ const bookMaterials = [0x77323b, 0x31566d, 0x60417b, 0x84612d, 0x315e4c].map(
 );
 const guestbookMaterial = makeMaterial(0x66d1c6, null, {
   emissive: 0x1d706f,
-  emissiveIntensity: 1.15,
+  emissiveIntensity: 0.55,
   roughness: 0.48,
 });
 

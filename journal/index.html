@@ -27,7 +27,7 @@
                 <h1 id="warningTitle">Desktop experience recommended</h1>
                 <p>
                     The Journal Room is a 3D space that works best on a desktop environment.
-                    Mobile users are warned.
+                    Mobile users are warned about this.
                 </p>
                 <button id="enterJournalRoom" type="button">Enter Journal Room</button>
             </div>
@@ -53,11 +53,6 @@
                 <span>Open journal</span>
             </button>
 
-            <noscript>
-                <div class="webglFallback">
-                    This journal needs JavaScript to build its archive chamber.
-                </div>
-            </noscript>
 
             <div id="runtimeError" class="runtimeError" role="alert" hidden>
                 <strong>The 3D scene could not start.</strong>
@@ -118,16 +113,14 @@
                 <div class="book guestbookBook">
                     <div class="bookSpine" aria-hidden="true"></div>
                     <article class="bookPage bookPageLeft guestbookMessagesPage">
-                        <span class="bookKicker">A book from the shelves</span>
                         <h2 id="guestbookTitle">Visitors' Volume</h2>
-                        <p class="bookIntro">Messages left by people who found the room.</p>
+                        <p class="bookIntro">Leave a message!</p>
                         <div id="guestbookMessages" class="guestbookMessages" aria-live="polite">
                             <p class="guestbookEmpty">Opening the volume...</p>
                         </div>
                     </article>
 
                     <article class="bookPage bookPageRight guestbookFormPage">
-                        <span class="bookKicker">Leave a note</span>
                         <h2>Write in the book</h2>
                         <form id="guestbookForm" class="guestbookForm">
                             <label for="guestbookName">Name</label>
@@ -154,7 +147,7 @@
                                 <input name="website" type="text" tabindex="-1" autocomplete="off">
                             </label>
 
-                            <button type="submit">Sign the guestbook</button>
+                            <button type="submit">Enter</button>
                             <p id="guestbookStatus" class="guestbookStatus" role="status"></p>
                         </form>
                     </article>

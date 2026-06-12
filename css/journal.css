@@ -396,7 +396,6 @@ kbd,
     position: relative;
 }
 
-.bookKicker,
 .entryDate {
     color: #744a32;
     font: 0.62rem "Space Mono", monospace;
@@ -736,16 +735,6 @@ kbd,
 .pageControls button:disabled {
     cursor: default;
     opacity: 0.35;
-}
-
-.webglFallback {
-    background: #0b0712;
-    color: #eee7ff;
-    inset: 0;
-    padding: 30vh 10vw;
-    position: fixed;
-    text-align: center;
-    z-index: 100;
 }
 
 .runtimeError {
