@@ -96,14 +96,6 @@ a {
     text-align: center;
 }
 
-.worldEyebrow {
-    color: var(--cyan);
-    display: block;
-    font-size: 0.57rem;
-    letter-spacing: 0.3em;
-    margin-bottom: 6px;
-}
-
 .worldTitle h1 {
     font-family: "Cinzel", serif;
     font-size: clamp(1rem, 2vw, 1.55rem);
@@ -111,12 +103,6 @@ a {
     letter-spacing: 0.12em;
     margin: 0;
     text-transform: uppercase;
-}
-
-.worldNav {
-    display: flex;
-    gap: 22px;
-    justify-self: end;
 }
 
 .worldInstructions {
@@ -698,16 +684,8 @@ kbd,
         text-align: right;
     }
 
-    .worldEyebrow {
-        font-size: 0.45rem;
-    }
-
     .worldTitle h1 {
         font-size: 0.85rem;
-    }
-
-    .worldNav {
-        display: none;
     }
 
     .crosshair {

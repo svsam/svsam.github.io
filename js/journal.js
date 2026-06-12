@@ -203,7 +203,7 @@ const renderIndex = () => {
   const intro = createElement(
     "p",
     "bookIntro",
-    "Notes from the slow construction of a small corner of the internet.",
+    "Journal entries from time to time, enjoy the room you are in...",
   );
   const leftEntries = createElement("div", "indexEntries");
   const rightEntries = createElement("div", "indexEntries");
@@ -287,7 +287,7 @@ const renderEntry = (index) => {
         createElement(
           "p",
           "pageQuote",
-          "A page does not have to be full to have said what it needed to say.",
+          "Small entry huh...",
         ),
       );
     }
@@ -444,10 +444,13 @@ const pointer = new THREE.Vector2();
 const centerPointer = new THREE.Vector2(0, 0);
 const tableGroup = new THREE.Group();
 const bookGroup = new THREE.Group();
+const ceilingSolarSystem = new THREE.Group();
+const orbitingPlanets = [];
 const tempObject = new THREE.Object3D();
 const tempColor = new THREE.Color();
 
 scene.add(tableGroup);
+scene.add(ceilingSolarSystem);
 
 const makePixelTexture = (palette, size = 64) => {
   const canvas = document.createElement("canvas");
@@ -534,6 +537,9 @@ const boundaryMaterial = new THREE.MeshBasicMaterial({
   fog: false,
   toneMapped: false,
 });
+const bookMaterials = [0x77323b, 0x31566d, 0x60417b, 0x84612d, 0x315e4c].map(
+  (color) => makeMaterial(color, null),
+);
 
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
 
@@ -589,17 +595,16 @@ const createRoomBoundary = () => {
   roomWireframe.position.y = roomCenterY;
   scene.add(roomWireframe);
 
-  const makeBoundaryGrid = (y) => {
+  const makeBoundaryGrid = (y, opacity) => {
     const grid = new THREE.GridHelper(roomSize, 23, 0xb58cff, 0x4a3268);
     grid.position.y = y;
     grid.material.fog = false;
-    grid.material.opacity = 0.5;
+    grid.material.opacity = opacity;
     grid.material.transparent = true;
     scene.add(grid);
   };
 
-  makeBoundaryGrid(ROOM_BOTTOM + 0.04);
-  makeBoundaryGrid(ROOM_TOP - 0.04);
+  makeBoundaryGrid(ROOM_BOTTOM + 0.04, 0.5);
 
   [-ROOM_HALF_SIZE, ROOM_HALF_SIZE].forEach((x) => {
     [-ROOM_HALF_SIZE, ROOM_HALF_SIZE].forEach((z) => {
@@ -689,24 +694,146 @@ const createBookshelf = (x, z, rotationY = 0) => {
   const shelf = new THREE.Group();
   shelf.position.set(x, 0, z);
   shelf.rotation.y = rotationY;
-  addBox(shelf, [4.6, 0.35, 0.7], [0, 0.1, 0], woodMaterial);
-  addBox(shelf, [4.6, 0.28, 0.7], [0, 2.3, 0], woodMaterial);
-  addBox(shelf, [0.3, 2.55, 0.7], [-2.15, 1.15, 0], woodMaterial);
-  addBox(shelf, [0.3, 2.55, 0.7], [2.15, 1.15, 0], woodMaterial);
+  const shelfWidth = 4.8;
+  const shelfHeight = 7.1;
+  const rowCount = 4;
+  const rowHeight = 1.65;
 
-  const bookColors = [0x77323b, 0x31566d, 0x60417b, 0x84612d, 0x315e4c];
-  for (let index = 0; index < 13; index += 1) {
-    const height = 1.15 + (index % 4) * 0.13;
-    const material = makeMaterial(bookColors[index % bookColors.length], null);
-    addBox(
-      shelf,
-      [0.25, height, 0.52],
-      [-1.78 + index * 0.3, 0.3 + height / 2, 0],
-      material,
-      [0, 0, (index % 5 === 0 ? 1 : -1) * 0.04],
-    );
+  addBox(shelf, [shelfWidth, 0.38, 0.8], [0, 0.1, 0], woodMaterial);
+  addBox(
+    shelf,
+    [shelfWidth, 0.32, 0.8],
+    [0, shelfHeight, 0],
+    woodMaterial,
+  );
+  addBox(
+    shelf,
+    [0.34, shelfHeight + 0.3, 0.8],
+    [-shelfWidth / 2 + 0.17, shelfHeight / 2, 0],
+    woodMaterial,
+  );
+  addBox(
+    shelf,
+    [0.34, shelfHeight + 0.3, 0.8],
+    [shelfWidth / 2 - 0.17, shelfHeight / 2, 0],
+    woodMaterial,
+  );
+
+  for (let row = 0; row < rowCount; row += 1) {
+    const shelfY = 0.3 + row * rowHeight;
+    if (row > 0) {
+      addBox(shelf, [shelfWidth, 0.24, 0.8], [0, shelfY, 0], woodMaterial);
+    }
+
+    for (let index = 0; index < 13; index += 1) {
+      const height = 1.05 + ((index + row * 2) % 4) * 0.12;
+      const material =
+        bookMaterials[(index + row * 3) % bookMaterials.length];
+      addBox(
+        shelf,
+        [0.25, height, 0.58],
+        [
+          -1.82 + index * 0.3,
+          shelfY + 0.16 + height / 2,
+          -0.02,
+        ],
+        material,
+        [0, 0, (index + row) % 6 === 0 ? 0.06 : -0.015],
+      );
+    }
   }
+
   scene.add(shelf);
+};
+
+const createCeilingSolarSystem = () => {
+  const ceilingY = ROOM_TOP - 0.45;
+  ceilingSolarSystem.position.y = ceilingY;
+
+  const ceilingDisc = new THREE.Mesh(
+    new THREE.CircleGeometry(10.4, 64),
+    new THREE.MeshBasicMaterial({
+      color: 0x08050f,
+      opacity: 0.94,
+      side: THREE.DoubleSide,
+      transparent: true,
+      fog: false,
+    }),
+  );
+  ceilingDisc.rotation.x = Math.PI / 2;
+  ceilingSolarSystem.add(ceilingDisc);
+
+  const sunMaterial = new THREE.MeshBasicMaterial({
+    color: 0xffc35a,
+    fog: false,
+    toneMapped: false,
+  });
+  const sun = new THREE.Mesh(new THREE.SphereGeometry(0.72, 20, 14), sunMaterial);
+  sun.position.y = -0.42;
+  ceilingSolarSystem.add(sun);
+
+  const sunGlow = new THREE.PointLight(0xffb35d, 12, 12, 2);
+  sunGlow.position.y = -0.8;
+  ceilingSolarSystem.add(sunGlow);
+
+  const planets = [
+    { radius: 1.5, size: 0.15, color: 0xa9978d, speed: 0.75 },
+    { radius: 2.25, size: 0.22, color: 0xe0a967, speed: 0.58 },
+    { radius: 3.05, size: 0.24, color: 0x5e9fdb, speed: 0.45 },
+    { radius: 3.85, size: 0.2, color: 0xb85d42, speed: 0.36 },
+    { radius: 5.0, size: 0.46, color: 0xc59b72, speed: 0.24 },
+    { radius: 6.3, size: 0.4, color: 0xd6be83, speed: 0.18, ring: true },
+    { radius: 7.5, size: 0.31, color: 0x75b5c7, speed: 0.13 },
+    { radius: 8.6, size: 0.3, color: 0x586fc3, speed: 0.1 },
+  ];
+
+  planets.forEach((planet, index) => {
+    const orbitRing = new THREE.Mesh(
+      new THREE.RingGeometry(planet.radius - 0.018, planet.radius + 0.018, 96),
+      new THREE.MeshBasicMaterial({
+        color: index % 2 ? 0x70508e : 0x426f83,
+        opacity: 0.65,
+        side: THREE.DoubleSide,
+        transparent: true,
+        fog: false,
+      }),
+    );
+    orbitRing.rotation.x = Math.PI / 2;
+    orbitRing.position.y = -0.12;
+    ceilingSolarSystem.add(orbitRing);
+
+    const pivot = new THREE.Group();
+    pivot.rotation.y = index * 0.83;
+    ceilingSolarSystem.add(pivot);
+
+    const planetMesh = new THREE.Mesh(
+      new THREE.SphereGeometry(planet.size, 16, 12),
+      new THREE.MeshStandardMaterial({
+        color: planet.color,
+        emissive: planet.color,
+        emissiveIntensity: 0.2,
+        roughness: 0.75,
+      }),
+    );
+    planetMesh.position.set(planet.radius, -0.42, 0);
+    pivot.add(planetMesh);
+
+    if (planet.ring) {
+      const ring = new THREE.Mesh(
+        new THREE.RingGeometry(planet.size * 1.35, planet.size * 2.05, 32),
+        new THREE.MeshBasicMaterial({
+          color: 0xdfc38f,
+          opacity: 0.8,
+          side: THREE.DoubleSide,
+          transparent: true,
+        }),
+      );
+      ring.rotation.x = Math.PI / 2.5;
+      planetMesh.add(ring);
+    }
+
+    orbitingPlanets.push({ pivot, speed: planet.speed });
+  });
 };
 
 const createTable = () => {
@@ -873,16 +1000,18 @@ const createDust = () => {
 
 createRoomBoundary();
 createFloor();
+createCeilingSolarSystem();
 [
   [-9, -9, 5],
   [9, -9, 5],
   [-9, 9, 5],
   [9, 9, 5],
 ].forEach(([x, z, height]) => createPillar(x, z, height));
-createBookshelf(-7.5, 4.5, Math.PI / 2);
-createBookshelf(7.5, 4.5, -Math.PI / 2);
-createBookshelf(-3, -9.5, 0);
-createBookshelf(3, -9.5, 0);
+[-6, 0, 6].forEach((x) => createBookshelf(x, -10.65, 0));
+[-6.2, 0, 6.2].forEach((z) => {
+  createBookshelf(-10.65, z, Math.PI / 2);
+  createBookshelf(10.65, z, -Math.PI / 2);
+});
 createTable();
 createFloatingRunes();
 const dust = createDust();
@@ -1096,6 +1225,9 @@ const animate = () => {
     bookGroup.rotation.y = -0.24 + Math.sin(elapsed * 0.48) * 0.1;
     tableLight.intensity = 17 + Math.sin(elapsed * 2.1) * 1.4;
     dust.rotation.y = elapsed * 0.012;
+    orbitingPlanets.forEach(({ pivot, speed }) => {
+      pivot.rotation.y += delta * speed;
+    });
 
     animatedRunes.forEach((rune, index) => {
       rune.object.position.y =
