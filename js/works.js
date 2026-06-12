@@ -1,7 +1,7 @@
-const projectEntries = [
+const worksEntries = [
   {
     date: "Pending",
-    title: "RAG (Retrieval Augmented Generation) AI (Python)",
+    title: "RAG (Retrieval Augmented Generation) AI",
     url: "https://github.com/svsam",
     content: [
       {
@@ -52,7 +52,7 @@ const projectEntries = [
       {
         type: "text",
         value: "The temperatures of the planets are calculated using the Stefan-Boltzmann law which is a physical law that describes the power radiated from a black body in terms of its temperature. The formula is given by: P = σ * A * T^4, where P is the total power radiated, σ is the Stefan-Boltzmann constant, A is the surface area of the black body, and T is the absolute temperature of the black body. In this project, I use this formula to calculate the equilibrium temperature of exoplanets based on their distance from their host star and the luminosity of the star."
-      } 
+      }
     ]
   },
   {
@@ -91,10 +91,10 @@ const projectEntries = [
   }
 ];
 
-const projectContainer = document.getElementById("projectEntries");
-const projectTemplate = document.getElementById("projectEntryTemplate");
+const worksContainer = document.getElementById("worksEntries");
+const worksTemplate = document.getElementById("worksEntryTemplate");
 
-const appendProjectBlock = (body, block) => {
+const appendWorksBlock = (body, block) => {
   if (typeof block === "string" || block?.type === "text") {
     const paragraph = document.createElement("p");
     paragraph.textContent = typeof block === "string" ? block : block.value || "";
@@ -106,20 +106,20 @@ const appendProjectBlock = (body, block) => {
     const image = document.createElement("img");
     image.src = block.src;
     image.alt = block.alt || "";
-    image.className = "journalImage projectImage";
+    image.className = "journalImage worksImage";
     image.loading = "lazy";
     image.decoding = "async";
     body.appendChild(image);
   }
 };
 
-if (projectContainer && projectTemplate) {
-  projectEntries.forEach((entry, index) => {
-    const projectNode = projectTemplate.content.cloneNode(true);
-    const number = projectNode.querySelector(".projectEntryNumber");
-    const date = projectNode.querySelector(".projectEntryDate");
-    const titleLink = projectNode.querySelector(".projectEntryTitleLink");
-    const body = projectNode.querySelector(".projectEntryBody");
+if (worksContainer && worksTemplate) {
+  worksEntries.forEach((entry, index) => {
+    const worksNode = worksTemplate.content.cloneNode(true);
+    const number = worksNode.querySelector(".worksEntryNumber");
+    const date = worksNode.querySelector(".worksEntryDate");
+    const titleLink = worksNode.querySelector(".worksEntryTitleLink");
+    const body = worksNode.querySelector(".worksEntryBody");
 
     if (number) {
       number.textContent = `No. ${String(index + 1).padStart(2, "0")}`;
@@ -132,9 +132,9 @@ if (projectContainer && projectTemplate) {
     titleLink.rel = "noopener noreferrer";
 
     entry.content.forEach((block) => {
-      appendProjectBlock(body, block);
+      appendWorksBlock(body, block);
     });
 
-    projectContainer.appendChild(projectNode);
+    worksContainer.appendChild(worksNode);
   });
 }

@@ -137,7 +137,7 @@
     --orbit-scale-y: 0.245;
 }
 
-.orbitCircle--projects {
+.orbitCircle--works {
     --orbit-inclination: -3deg;
     --orbit-scale-x: 1.02;
     --orbit-scale-y: 0.51;
@@ -242,7 +242,7 @@
         linear-gradient(135deg, #112d5c, #000818 72%);
 }
 
-.orbitItem .orbitPlanetLink--projects {
+.orbitItem .orbitPlanetLink--works {
     background:
         radial-gradient(circle at 35% 28%, rgba(255, 226, 166, 0.34), transparent 36%),
         linear-gradient(135deg, #9b4f27, #1a120b 72%);

@@ -3,47 +3,108 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" content="#090512">
         <link rel="stylesheet" href="../css/base.css">
         <link rel="stylesheet" href="../css/journal.css">
-        <title>SvS | Journal</title>
+        <title>SvS | The Enchanted Journal</title>
         <link rel="icon" type="image/x-icon" href="../css/Images/heliocentrism.jpg">
     </head>
 
-    <body class="journalPageBody" data-page="journal">
-        <main class="journalPage">
-            <nav class="journalTopLinks" aria-label="Journal navigation">
-                <a class="satelliteText journalHomeLink" href="../" data-rainbow="space">Return to Homebase</a>
-                <div class="journalNavCluster">
-                    <a class="outwardLink" href="../projects/">Projects</a>
-                    <a class="outwardLink" href="../#checklist">Checklist</a>
-                    <a class="outwardLink" href="../scrapbook/">Scrapbook</a>
-                </div>
-            </nav>
+    <body class="voxelJournalBody" data-page="journal">
+        <main class="voxelJournal" aria-label="Interactive voxel journal">
+            <div id="voxelWorld" class="voxelWorld" aria-hidden="true"></div>
 
-            <header class="journalMasthead">
-                <h1 data-rainbow="space">Journal</h1>
-                <p>Journal, mainly website/personal life related but if there's any work related stuff It'll most likely be in the projects section 🧑🏻‍💻</p>
+            <header class="worldHeader">
+                <a class="worldHomeLink" href="../">← Homebase</a>
+                <div class="worldTitle">
+                    <span class="worldEyebrow">ARCHIVE CHAMBER // 01</span>
+                    <h1>The Enchanted Journal</h1>
+                </div>
+                <nav class="worldNav" aria-label="Site navigation">
+                    <a href="../works/">Works</a>
+                    <a href="../scrapbook/">Scrapbook</a>
+                </nav>
             </header>
 
-            <section class="journalLogPanel" aria-label="Journal entries">
-                <div id="journalEntries" class="journalEntries"></div>
-            </section>
+            <aside class="worldInstructions" aria-label="Controls">
+                <p class="instructionLabel">EXPLORE</p>
+                <p><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> move</p>
+                <p><span class="mouseIcon" aria-hidden="true"></span> drag to look</p>
+                <p><kbd>E</kbd> open book</p>
+            </aside>
+
+            <div class="crosshair" aria-hidden="true"></div>
+
+            <button id="interactionPrompt" class="interactionPrompt" type="button" hidden>
+                <span class="promptKey">E</span>
+                <span>Open journal</span>
+            </button>
+
+            <div class="touchControls" aria-label="Camera movement">
+                <button type="button" data-move="forward" aria-label="Move forward">▲</button>
+                <button type="button" data-move="left" aria-label="Move left">◀</button>
+                <button type="button" data-move="backward" aria-label="Move backward">▼</button>
+                <button type="button" data-move="right" aria-label="Move right">▶</button>
+            </div>
+
+            <noscript>
+                <div class="webglFallback">
+                    This journal needs JavaScript to build its archive chamber.
+                </div>
+            </noscript>
+
+            <div id="runtimeError" class="runtimeError" role="alert" hidden>
+                <strong>The 3D scene could not start.</strong>
+                <span>Try refreshing the page or opening it through a local web server.</span>
+            </div>
         </main>
 
-        <template id="journalEntryTemplate">
-            <details class="journalEntry">
-                <summary class="journalEntrySummary">
-                    <span class="journalEntryDate"></span>
-                    <span class="journalEntryDivider">//</span>
-                    <span class="journalEntryTitle"></span>
-                </summary>
-                <div class="journalEntryBody"></div>
-            </details>
-        </template>
-        
-        <img class="journalDecoration" src="../css/Images/Enchanting_table.gif" style="z-index: -1;" alt="">
+        <section
+            id="bookReader"
+            class="bookReader"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="bookTitle"
+            hidden
+        >
+            <div class="bookBackdrop" data-close-book></div>
+            <div class="bookStage">
+                <button id="indexTab" class="indexTab" type="button" hidden>
+                    ← All entries
+                </button>
+                <button class="closeBook" type="button" data-close-book aria-label="Close journal">
+                    ×
+                </button>
 
-        <script src="../js/rainbow.js"></script>
-        <script src="../js/journal.js"></script>
+                <div class="book" id="journalBook">
+                    <div class="bookSpine" aria-hidden="true"></div>
+                    <article class="bookPage bookPageLeft" id="leftPage"></article>
+                    <article class="bookPage bookPageRight" id="rightPage"></article>
+                </div>
+
+                <nav class="pageControls" id="pageControls" aria-label="Journal entry navigation" hidden>
+                    <button id="previousEntry" type="button">← Previous</button>
+                    <span id="pageNumber"></span>
+                    <button id="nextEntry" type="button">Next →</button>
+                </nav>
+            </div>
+        </section>
+
+        <script>
+            window.__journalSceneStarted = false;
+            window.setTimeout(function () {
+                if (!window.__journalSceneStarted) {
+                    document.getElementById("runtimeError").hidden = false;
+                }
+            }, 5000);
+        </script>
+        <script
+            src="../js/vendor/three.min.js"
+            onerror="document.getElementById('runtimeError').hidden = false"
+        ></script>
+        <script
+            src="../js/journal.js"
+            onerror="document.getElementById('runtimeError').hidden = false"
+        ></script>
     </body>
 </html>

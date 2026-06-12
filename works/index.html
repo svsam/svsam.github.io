@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../css/base.css">
+        <link rel="stylesheet" href="../css/works.css">
+        <title>SvS | Works</title>
+        <link rel="icon" type="image/x-icon" href="../css/Images/heliocentrism.jpg">
+    </head>
+
+    <body class="worksPageBody" data-page="works">
+        <div class="worksPendulum" aria-hidden="true"></div>
+
+        <main class="worksWorkshop">
+            <nav class="worksTopLinks" aria-label="Works navigation">
+                <a class="satelliteText worksHomeLink" href="../" data-rainbow="space">Return to Homebase</a>
+                <div class="worksNavCluster">
+                    <a class="outwardLink" href="../journal/">Journal</a>
+                    <a class="outwardLink" href="../#checklist">Checklist</a>
+                    <a class="outwardLink" href="../scrapbook/">Scrapbook</a>
+                </div>
+            </nav>
+
+            <header class="worksWorkshopHero">
+                <div class="worksHeroCopy">
+                    <h1 data-rainbow="space">Sam's Workshop</h1>
+                    <p>Stuff that's been tinkered or needs tinkering.</p>
+                </div>
+
+                <div class="worksMachine" aria-hidden="true">
+                    <div class="worksGauge">
+                        <img src="../css/Images/cogs.gif" style="z-index: -1;" alt="">
+                    </div>
+                    <div class="worksCog worksCog--large"></div>
+                    <div class="worksCog worksCog--small"></div>
+                </div>
+            </header>
+
+            <section class="worksBlueprintShelf" aria-label="Works entries">
+                <div class="worksShelfHeader">
+                    <h2>Look on works ye mighty and despair</h2>
+                    <p>If you feel like your device is running slower when opening this page specifically, no it obviously isn't my unoptimised design choices you just have a poor system!!1</p>
+                </div>
+                <div id="worksEntries" class="worksEntries"></div>
+            </section>
+        </main>
+
+        <template id="worksEntryTemplate">
+            <article class="worksEntry">
+                <div class="worksEntryPlate">
+                    <span class="worksEntryNumber"></span>
+                    <span class="worksEntryDate"></span>
+                </div>
+                <h2 class="worksEntryTitle">
+                    <a class="worksEntryTitleLink" href=""></a>
+                </h2>
+                <div class="worksEntryBody"></div>
+                <footer class="worksEntryFooter">
+                    <span class="worksEntryDivider">Cogworks</span>
+                    <span class="worksEntryStamp">Tinkering...</span>
+                </footer>
+            </article>
+        </template>
+
+        <script src="../js/rainbow.js"></script>
+        <script src="../js/works.js"></script>
+    </body>
+</html>

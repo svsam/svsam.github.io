@@ -1,4 +1,4 @@
-body.projectPageBody {
+body.worksPageBody {
     --site-border-color: #7c4a20;
     --space-text-color: #f0c783;
     --space-rainbow-blue: #b87333;
@@ -6,10 +6,10 @@ body.projectPageBody {
     --space-rainbow-violet: #8d5b2f;
     --space-rainbow-pink: #f0b15d;
     --space-rainbow-star: #ffe2a6;
-    --project-brass: #c78638;
-    --project-copper: #9b4f27;
-    --project-iron: #1a120b;
-    --project-smoke: rgba(16, 10, 6, 0.86);
+    --works-brass: #c78638;
+    --works-copper: #9b4f27;
+    --works-iron: #1a120b;
+    --works-smoke: rgba(16, 10, 6, 0.86);
 
     align-items: flex-start;
     background-color: #130d08;
@@ -19,11 +19,11 @@ body.projectPageBody {
     padding: 16px;
 }
 
-body.projectPageBody::before {
+body.worksPageBody::before {
     background-image: none;
 }
 
-body.projectPageBody::after {
+body.worksPageBody::after {
     background:
         radial-gradient(circle at 42% 32%, rgba(255, 226, 166, 0.22), transparent 30%),
         linear-gradient(135deg, rgba(199, 134, 56, 0.28), rgba(26, 18, 11, 0.42)),
@@ -49,12 +49,12 @@ body.projectPageBody::after {
     z-index: -1;
 }
 
-.projectPendulum {
-    animation: projectPendulumSwing 5.8s ease-in-out infinite;
+.worksPendulum {
+    animation: worksPendulumSwing 5.8s ease-in-out infinite;
     contain: layout paint;
     height: 132vh;
     left: 50%;
-    opacity: 0.24;
+    opacity: 0.08;
     pointer-events: none;
     position: fixed;
     top: -18vh;
@@ -65,7 +65,7 @@ body.projectPageBody::after {
     z-index: -2;
 }
 
-.projectPendulum::before {
+.worksPendulum::before {
     background:
         linear-gradient(90deg, transparent, rgba(255, 226, 166, 0.54), transparent),
         linear-gradient(180deg, rgba(225, 168, 79, 0.84), rgba(91, 50, 22, 0.92));
@@ -79,7 +79,7 @@ body.projectPageBody::after {
     width: 32px;
 }
 
-.projectPendulum::after {
+.worksPendulum::after {
     background:
         radial-gradient(circle at 40% 32%, rgba(255, 226, 166, 0.72), transparent 28%),
         radial-gradient(circle, rgba(199, 134, 56, 0.9) 0 38%, rgba(91, 50, 22, 0.94) 39% 68%, rgba(26, 18, 11, 0.88) 69%);
@@ -96,7 +96,7 @@ body.projectPageBody::after {
     width: min(48vw, 520px);
 }
 
-@keyframes projectPendulumSwing {
+@keyframes worksPendulumSwing {
     0%,
     100% {
         transform: translateX(-50%) rotate(-14deg);
@@ -108,13 +108,13 @@ body.projectPageBody::after {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .projectPendulum {
+    .worksPendulum {
         animation: none;
         transform: translateX(-50%) rotate(-8deg);
     }
 }
 
-.projectWorkshop {
+.worksWorkshop {
     color: var(--space-text-color);
     display: flex;
     flex-direction: column;
@@ -123,7 +123,7 @@ body.projectPageBody::after {
     width: min(100%, 1160px);
 }
 
-.projectTopLinks {
+.worksTopLinks {
     align-items: center;
     display: flex;
     flex-wrap: wrap;
@@ -132,18 +132,18 @@ body.projectPageBody::after {
     width: 100%;
 }
 
-.projectHomeLink {
+.worksHomeLink {
     margin: 0;
 }
 
-.projectNavCluster {
+.worksNavCluster {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     justify-content: flex-end;
 }
 
-.projectNavCluster .outwardLink {
+.worksNavCluster .outwardLink {
     background: rgba(26, 18, 11, 0.72);
     border: 2px solid var(--site-border-color);
     box-shadow: inset 0 0 0 1px rgba(255, 226, 166, 0.08);
@@ -152,7 +152,7 @@ body.projectPageBody::after {
     min-width: 96px;
 }
 
-.projectWorkshopHero {
+.worksWorkshopHero {
     background:
         linear-gradient(135deg, rgba(42, 28, 17, 0.94), rgba(13, 9, 6, 0.9)),
         repeating-linear-gradient(90deg, rgba(255, 226, 166, 0.04) 0 1px, transparent 1px 18px);
@@ -172,8 +172,8 @@ body.projectPageBody::after {
     text-align: left;
 }
 
-.projectWorkshopHero::before,
-.projectWorkshopHero::after {
+.worksWorkshopHero::before,
+.worksWorkshopHero::after {
     border: 2px solid rgba(225, 168, 79, 0.55);
     content: "";
     height: 42px;
@@ -181,28 +181,28 @@ body.projectPageBody::after {
     width: 42px;
 }
 
-.projectWorkshopHero::before {
+.worksWorkshopHero::before {
     border-right: 0;
     border-bottom: 0;
     left: 12px;
     top: 12px;
 }
 
-.projectWorkshopHero::after {
+.worksWorkshopHero::after {
     border-left: 0;
     border-top: 0;
     bottom: 12px;
     right: 12px;
 }
 
-.projectHeroCopy {
+.worksHeroCopy {
     align-self: center;
     max-width: 560px;
     position: relative;
     z-index: 1;
 }
 
-.projectKicker {
+.worksKicker {
     color: var(--space-rainbow-cyan);
     display: block;
     font-size: 0.86rem;
@@ -211,7 +211,7 @@ body.projectPageBody::after {
     text-transform: uppercase;
 }
 
-.projectWorkshopHero h1 {
+.worksWorkshopHero h1 {
     color: var(--space-rainbow-star);
     font-size: 3rem;
     font-weight: normal;
@@ -219,12 +219,12 @@ body.projectPageBody::after {
     text-decoration: underline;
 }
 
-.projectWorkshopHero p {
+.worksWorkshopHero p {
     line-height: 1.55;
     margin: 0;
 }
 
-.projectMachine {
+.worksMachine {
     align-items: center;
     background:
         radial-gradient(circle at 50% 50%, rgba(255, 226, 166, 0.12), transparent 8rem),
@@ -238,8 +238,8 @@ body.projectPageBody::after {
     position: relative;
 }
 
-.projectGauge,
-.projectCog {
+.worksGauge,
+.worksCog {
     aspect-ratio: 1;
     background:
         radial-gradient(circle at 50% 46%, rgba(255, 226, 166, 0.2), transparent 48%),
@@ -255,15 +255,15 @@ body.projectPageBody::after {
     z-index: 2;
 }
 
-.projectGauge {
+.worksGauge {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     width: 150px;
 }
 
-.projectGauge::before,
-.projectCog::before {
+.worksGauge::before,
+.worksCog::before {
     background:
         radial-gradient(circle at 42% 32%, rgba(255, 226, 166, 0.32), transparent 30%),
         linear-gradient(135deg, rgba(199, 134, 56, 0.28), rgba(26, 18, 11, 0.4));
@@ -276,8 +276,8 @@ body.projectPageBody::after {
     z-index: 2;
 }
 
-.projectGauge::after,
-.projectCog::after {
+.worksGauge::after,
+.worksCog::after {
     border: 1px solid rgba(255, 226, 166, 0.42);
     border-radius: inherit;
     box-shadow:
@@ -290,8 +290,8 @@ body.projectPageBody::after {
     z-index: 3;
 }
 
-.projectGauge img,
-.projectCog img {
+.worksGauge img,
+.worksCog img {
     border-radius: 50%;
     display: block;
     height: 100%;
@@ -300,16 +300,16 @@ body.projectPageBody::after {
     width: 100%;
 }
 
-.projectGauge img::selection,
-.projectCog img::selection {
+.worksGauge img::selection,
+.worksCog img::selection {
     background: transparent;
 }
 
-.projectGauge img {
+.worksGauge img {
     transform: scaleX(-1);
 }
 
-.projectCog {
+.worksCog {
     box-shadow:
         inset 0 0 0 7px rgba(26, 18, 11, 0.84),
         0 0 18px rgba(199, 134, 56, 0.26);
@@ -319,26 +319,26 @@ body.projectPageBody::after {
     z-index: 1;
 }
 
-.projectCog--large {
+.worksCog--large {
     left: calc(50% + 40px);
     top: calc(50% + 22px);
     width: 88px;
 }
 
-.projectCog--small {
+.worksCog--small {
     left: calc(50% - 105px);
     opacity: 0.7;
     top: calc(50% - 86px);
     width: 58px;
 }
 
-.projectStatusRail {
+.worksStatusRail {
     display: grid;
     gap: 12px;
     grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.projectStatusDial {
+.worksStatusDial {
     background:
         linear-gradient(135deg, rgba(31, 20, 12, 0.9), rgba(13, 9, 6, 0.86)),
         repeating-linear-gradient(0deg, rgba(255, 226, 166, 0.04) 0 1px, transparent 1px 10px);
@@ -351,20 +351,20 @@ body.projectPageBody::after {
     padding: 14px;
 }
 
-.projectStatusDial span {
+.worksStatusDial span {
     color: #78b7a4;
     font-size: 0.84rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
 }
 
-.projectStatusDial strong {
+.worksStatusDial strong {
     color: var(--space-rainbow-star);
     font-size: 1.15rem;
     font-weight: normal;
 }
 
-.projectBlueprintShelf {
+.worksBlueprintShelf {
     background: rgba(16, 10, 6, 0.74);
     border: 2px solid var(--site-border-color);
     box-shadow:
@@ -377,7 +377,7 @@ body.projectPageBody::after {
     width: 100%;
 }
 
-.projectShelfHeader {
+.worksShelfHeader {
     align-items: end;
     border-bottom: 2px solid rgba(124, 74, 32, 0.78);
     display: grid;
@@ -387,7 +387,7 @@ body.projectPageBody::after {
     text-align: left;
 }
 
-.projectShelfHeader h2 {
+.worksShelfHeader h2 {
     color: var(--space-rainbow-star);
     font-size: 1.45rem;
     font-weight: normal;
@@ -396,20 +396,20 @@ body.projectPageBody::after {
     padding-bottom: 10px;
 }
 
-.projectShelfHeader p {
+.worksShelfHeader p {
     color: var(--space-text-color);
     line-height: 1.55;
     margin: 0;
 }
 
-.projectEntries {
+.worksEntries {
     display: grid;
     gap: 14px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     width: 100%;
 }
 
-.projectEntry {
+.worksEntry {
     background:
         radial-gradient(circle at top right, rgba(120, 183, 164, 0.14), transparent 9rem),
         linear-gradient(135deg, rgba(44, 28, 15, 0.95), rgba(13, 9, 6, 0.9)),
@@ -432,8 +432,8 @@ body.projectPageBody::after {
     contain-intrinsic-size: 300px;
 }
 
-.projectEntry::before,
-.projectEntry::after {
+.worksEntry::before,
+.worksEntry::after {
     background: #e1a84f;
     border-radius: 50%;
     box-shadow: 0 0 10px rgba(225, 168, 79, 0.3);
@@ -444,15 +444,15 @@ body.projectPageBody::after {
     width: 8px;
 }
 
-.projectEntry::before {
+.worksEntry::before {
     left: 10px;
 }
 
-.projectEntry::after {
+.worksEntry::after {
     right: 10px;
 }
 
-.projectEntryPlate {
+.worksEntryPlate {
     align-items: center;
     border-bottom: 2px solid rgba(124, 74, 32, 0.78);
     display: flex;
@@ -461,54 +461,54 @@ body.projectPageBody::after {
     padding-bottom: 12px;
 }
 
-.projectEntryNumber {
+.worksEntryNumber {
     color: #78b7a4;
     font-size: 0.84rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
 }
 
-.projectEntryDate {
+.worksEntryDate {
     color: var(--space-rainbow-cyan);
     font-size: 0.9rem;
     font-variant-numeric: tabular-nums;
 }
 
-.projectEntryDivider {
-    color: var(--project-brass);
+.worksEntryDivider {
+    color: var(--works-brass);
     font-size: 0.78rem;
     letter-spacing: 0.08em;
 }
 
-.projectEntryTitle {
+.worksEntryTitle {
     font-size: 1.28rem;
     font-weight: normal;
     margin: 16px 0 0;
 }
 
-.projectEntryTitleLink {
+.worksEntryTitleLink {
     color: var(--space-rainbow-star);
     text-decoration: underline;
 }
 
-.projectEntryTitleLink:hover,
-.projectEntryTitleLink:focus-visible {
+.worksEntryTitleLink:hover,
+.worksEntryTitleLink:focus-visible {
     color: var(--space-rainbow-cyan);
     text-shadow: 0 0 8px rgba(225, 168, 79, 0.48);
 }
 
-.projectEntryBody {
+.worksEntryBody {
     display: grid;
     gap: 12px;
     margin-top: 14px;
 }
 
-.projectEntryBody p {
+.worksEntryBody p {
     line-height: 1.65;
     margin: 0;
 }
 
-.projectEntryFooter {
+.worksEntryFooter {
     align-items: center;
     border-top: 2px solid rgba(124, 74, 32, 0.78);
     display: flex;
@@ -518,12 +518,12 @@ body.projectPageBody::after {
     padding-top: 14px;
 }
 
-.projectEntryStamp {
+.worksEntryStamp {
     color: #78b7a4;
     font-size: 0.84rem;
 }
 
-.projectImage {
+.worksImage {
     border: 2px solid var(--site-border-color);
     box-shadow: 0 0 20px rgba(199, 134, 56, 0.2);
     display: block;
@@ -534,26 +534,26 @@ body.projectPageBody::after {
 }
 
 @media (max-width: 700px) {
-    .projectWorkshopHero {
+    .worksWorkshopHero {
         grid-template-columns: 1fr;
     }
 
-    .projectWorkshopHero h1 {
+    .worksWorkshopHero h1 {
         font-size: 2.25rem;
     }
 
-    .projectStatusRail,
-    .projectShelfHeader,
-    .projectEntries {
+    .worksStatusRail,
+    .worksShelfHeader,
+    .worksEntries {
         grid-template-columns: 1fr;
     }
 
-    .projectNavCluster {
+    .worksNavCluster {
         justify-content: stretch;
         width: 100%;
     }
 
-    .projectNavCluster .outwardLink {
+    .worksNavCluster .outwardLink {
         flex: 1 1 130px;
     }
 }
