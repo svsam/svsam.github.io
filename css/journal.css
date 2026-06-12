@@ -237,39 +237,6 @@ kbd,
     width: 1px;
 }
 
-.crosshair {
-    height: 14px;
-    left: 50%;
-    opacity: 0.7;
-    pointer-events: none;
-    position: fixed;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 14px;
-    z-index: 4;
-}
-
-.crosshair::before,
-.crosshair::after {
-    background: rgba(255, 255, 255, 0.8);
-    box-shadow: 0 0 6px var(--violet);
-    content: "";
-    left: 50%;
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.crosshair::before {
-    height: 1px;
-    width: 14px;
-}
-
-.crosshair::after {
-    height: 14px;
-    width: 1px;
-}
-
 .interactionPrompt {
     align-items: center;
     background: rgba(9, 5, 18, 0.82);
@@ -292,42 +259,6 @@ kbd,
 
 .interactionPrompt[hidden] {
     display: none;
-}
-
-.touchControls {
-    bottom: 20px;
-    display: none;
-    grid-template-columns: repeat(3, 42px);
-    grid-template-rows: repeat(2, 42px);
-    position: fixed;
-    right: 20px;
-    z-index: 6;
-}
-
-.touchControls button {
-    background: rgba(9, 5, 18, 0.58);
-    border: 1px solid rgba(181, 140, 255, 0.42);
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 0.7rem;
-}
-
-.touchControls [data-move="forward"] {
-    grid-column: 2;
-}
-
-.touchControls [data-move="left"] {
-    grid-column: 1;
-    grid-row: 2;
-}
-
-.touchControls [data-move="backward"] {
-    grid-column: 2;
-    grid-row: 2;
-}
-
-.touchControls [data-move="right"] {
-    grid-column: 3;
-    grid-row: 2;
 }
 
 .bookReader {
@@ -568,15 +499,6 @@ kbd,
 
 .entryText p {
     margin: 0 0 1em;
-}
-
-.entryText p:first-child::first-letter {
-    color: #733938;
-    float: left;
-    font-family: "Cinzel", serif;
-    font-size: 3.4em;
-    line-height: 0.84;
-    padding: 8px 8px 0 0;
 }
 
 .entryImageWrap {
@@ -870,10 +792,6 @@ kbd,
 }
 
 @media (pointer: coarse) {
-    .touchControls {
-        display: grid;
-    }
-
     .worldInstructions {
         display: none;
     }
@@ -896,12 +814,8 @@ kbd,
         font-size: 0.85rem;
     }
 
-    .crosshair {
-        display: none;
-    }
-
     .interactionPrompt {
-        bottom: 90px;
+        bottom: 24px;
     }
 
     .bookStage {

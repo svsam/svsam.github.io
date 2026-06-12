@@ -205,7 +205,6 @@ const renderIndex = () => {
   indexTab.hidden = true;
   pageControls.hidden = true;
 
-  const kicker = createElement("span", "bookKicker", "Volume I · 2025—2026");
   const title = createElement("h2", "", "Journal index");
   title.id = "bookTitle";
   const intro = createElement(
@@ -222,7 +221,7 @@ const renderIndex = () => {
     list.appendChild(makeIndexEntry(entry, index));
   });
 
-  leftPage.append(kicker, title, intro, leftEntries);
+  leftPage.append(title, intro, leftEntries);
   rightPage.append(
     createElement("span", "bookKicker", "Choose an entry"),
     createElement("div", "pageFlourish", "❦"),
@@ -572,7 +571,6 @@ camera.position.set(7.2, 4.6, 8.8);
 const ROOM_HALF_SIZE = 11.5;
 const ROOM_BOTTOM = -0.05;
 const ROOM_TOP = 10;
-const CAMERA_WALL_MARGIN = 0.65;
 
 let renderer;
 try {
@@ -597,7 +595,7 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.domElement.setAttribute(
   "aria-label",
-  "A movable 3D voxel chamber containing an enchantment table",
+  "A 3D voxel chamber containing an enchantment table",
 );
 renderer.domElement.tabIndex = 0;
 world.appendChild(renderer.domElement);
@@ -606,8 +604,6 @@ const maxAnisotropy = renderer.capabilities.getMaxAnisotropy();
 const clock = new THREE.Clock();
 const interactiveMeshes = [];
 const animatedRunes = [];
-const keys = new Set();
-const touchMovement = new Set();
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
 const centerPointer = new THREE.Vector2(0, 0);
@@ -1107,15 +1103,6 @@ const createTable = () => {
     mesh.userData.interactive = "journal";
     interactiveMeshes.push(mesh);
   });
-
-  const bookmark = addBox(
-    bookGroup,
-    [0.13, 0.035, 1.25],
-    [0.13, 0.2, 0.55],
-    goldMaterial,
-    [0, 0.08, 0.02],
-  );
-  bookmark.castShadow = false;
 };
 
 const createRuneSprite = (symbol, color) => {
@@ -1232,88 +1219,12 @@ const warmLight = new THREE.PointLight(0xff8e62, 8, 12, 2);
 warmLight.position.set(6, 3, -4);
 scene.add(warmLight);
 
-let yaw = 0;
-let pitch = 0;
-let dragging = false;
-let pointerMoved = false;
-let previousPointer = { x: 0, y: 0 };
 let activeInteraction = null;
 
-const lookAtTable = () => {
-  const direction = new THREE.Vector3()
-    .subVectors(new THREE.Vector3(0, 3.15, 0), camera.position)
-    .normalize();
-  yaw = Math.atan2(-direction.x, -direction.z);
-  pitch = Math.asin(direction.y);
-};
-
-lookAtTable();
-
-const updateCameraRotation = () => {
-  camera.rotation.order = "YXZ";
-  camera.rotation.y = yaw;
-  camera.rotation.x = pitch;
-};
-
-updateCameraRotation();
-
-const clampCameraPosition = () => {
-  const horizontalLimit = ROOM_HALF_SIZE - CAMERA_WALL_MARGIN;
-  camera.position.x = THREE.MathUtils.clamp(
-    camera.position.x,
-    -horizontalLimit,
-    horizontalLimit,
-  );
-  camera.position.z = THREE.MathUtils.clamp(
-    camera.position.z,
-    -horizontalLimit,
-    horizontalLimit,
-  );
-  camera.position.y = THREE.MathUtils.clamp(
-    camera.position.y,
-    ROOM_BOTTOM + 2.1,
-    ROOM_TOP - CAMERA_WALL_MARGIN,
-  );
-};
-
-renderer.domElement.addEventListener("pointerdown", (event) => {
-  if (!bookReader.hidden || !guestbookReader.hidden) return;
-  renderer.domElement.focus();
-  dragging = true;
-  pointerMoved = false;
-  previousPointer = { x: event.clientX, y: event.clientY };
-  renderer.domElement.setPointerCapture(event.pointerId);
-});
-
-renderer.domElement.addEventListener("pointermove", (event) => {
-  const bounds = renderer.domElement.getBoundingClientRect();
-  pointer.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
-  pointer.y = -((event.clientY - bounds.top) / bounds.height) * 2 + 1;
-
-  if (!dragging) return;
-  const deltaX = event.clientX - previousPointer.x;
-  const deltaY = event.clientY - previousPointer.y;
-  if (Math.abs(deltaX) + Math.abs(deltaY) > 2) pointerMoved = true;
-  previousPointer = { x: event.clientX, y: event.clientY };
-  yaw -= deltaX * 0.0032;
-  pitch -= deltaY * 0.0032;
-  pitch = THREE.MathUtils.clamp(pitch, -1.05, 0.85);
-  updateCameraRotation();
-});
-
-renderer.domElement.addEventListener("pointerup", (event) => {
-  dragging = false;
-  if (renderer.domElement.hasPointerCapture(event.pointerId)) {
-    renderer.domElement.releasePointerCapture(event.pointerId);
-  }
-});
-
-renderer.domElement.addEventListener("pointercancel", () => {
-  dragging = false;
-});
+camera.lookAt(0, 3.15, 0);
 
 renderer.domElement.addEventListener("click", (event) => {
-  if (pointerMoved || !bookReader.hidden || !guestbookReader.hidden) return;
+  if (!bookReader.hidden || !guestbookReader.hidden) return;
   const bounds = renderer.domElement.getBoundingClientRect();
   pointer.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
   pointer.y = -((event.clientY - bounds.top) / bounds.height) * 2 + 1;
@@ -1326,76 +1237,6 @@ renderer.domElement.addEventListener("click", (event) => {
     openBook();
   }
 });
-
-renderer.domElement.addEventListener(
-  "wheel",
-  (event) => {
-    if (!bookReader.hidden || !guestbookReader.hidden) return;
-    const forward = new THREE.Vector3();
-    camera.getWorldDirection(forward);
-    forward.y = 0;
-    forward.normalize();
-    camera.position.addScaledVector(forward, -event.deltaY * 0.004);
-    clampCameraPosition();
-  },
-  { passive: true },
-);
-
-window.addEventListener("keydown", (event) => {
-  if (
-    ["KeyW", "KeyA", "KeyS", "KeyD", "ArrowUp", "ArrowDown"].includes(
-      event.code,
-    ) &&
-    bookReader.hidden &&
-    guestbookReader.hidden
-  ) {
-    event.preventDefault();
-    keys.add(event.code);
-  }
-});
-
-window.addEventListener("keyup", (event) => keys.delete(event.code));
-window.addEventListener("blur", () => keys.clear());
-
-document.querySelectorAll("[data-move]").forEach((button) => {
-  const direction = button.dataset.move;
-  const start = (event) => {
-    event.preventDefault();
-    touchMovement.add(direction);
-  };
-  const stop = () => touchMovement.delete(direction);
-  button.addEventListener("pointerdown", start);
-  button.addEventListener("pointerup", stop);
-  button.addEventListener("pointercancel", stop);
-  button.addEventListener("pointerleave", stop);
-});
-
-const updateMovement = (delta) => {
-  if (!bookReader.hidden || !guestbookReader.hidden) return;
-
-  const forwardInput =
-    Number(keys.has("KeyW") || keys.has("ArrowUp") || touchMovement.has("forward")) -
-    Number(
-      keys.has("KeyS") ||
-        keys.has("ArrowDown") ||
-        touchMovement.has("backward"),
-    );
-  const sideInput =
-    Number(keys.has("KeyD") || touchMovement.has("right")) -
-    Number(keys.has("KeyA") || touchMovement.has("left"));
-  if (!forwardInput && !sideInput) return;
-
-  const forward = new THREE.Vector3(-Math.sin(yaw), 0, -Math.cos(yaw));
-  const right = new THREE.Vector3(Math.cos(yaw), 0, -Math.sin(yaw));
-  const movement = forward
-    .multiplyScalar(forwardInput)
-    .add(right.multiplyScalar(sideInput))
-    .normalize()
-    .multiplyScalar(delta * 4.6);
-
-  camera.position.add(movement);
-  clampCameraPosition();
-};
 
 const updateBookInteraction = () => {
   raycaster.setFromCamera(centerPointer, camera);
@@ -1417,8 +1258,6 @@ const animate = () => {
   requestAnimationFrame(animate);
   const delta = Math.min(clock.getDelta(), 0.05);
   const elapsed = clock.elapsedTime;
-
-  updateMovement(delta);
 
   if (!reduceMotion) {
     bookGroup.position.y = 3.15 + Math.sin(elapsed * 1.45) * 0.11;
