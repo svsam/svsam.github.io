@@ -966,9 +966,18 @@ const createCeilingSolarSystem = () => {
   sun.position.y = -0.42;
   ceilingSolarSystem.add(sun);
 
-  const sunGlow = new THREE.PointLight(0xffb35d, 12, 12, 2);
-  sunGlow.position.y = -0.8;
-  ceilingSolarSystem.add(sunGlow);
+  const sunLight = new THREE.PointLight(
+    0xffc46b,
+    42,
+    ROOM_HALF_SIZE * 3,
+    2,
+  );
+  sunLight.position.copy(sun.position);
+  sunLight.castShadow = true;
+  sunLight.shadow.mapSize.set(1024, 1024);
+  sunLight.shadow.bias = -0.0005;
+  sunLight.shadow.normalBias = 0.03;
+  ceilingSolarSystem.add(sunLight);
 
   const planets = [
     { radius: 1.5, size: 0.15, color: 0xa9978d, speed: 0.75 },
@@ -1205,29 +1214,11 @@ const dust = createDust();
 const hemisphereLight = new THREE.HemisphereLight(0x8d7ad1, 0x100815, 1.35);
 scene.add(hemisphereLight);
 
-const keyLight = new THREE.DirectionalLight(0xb8d9ff, 2.2);
-keyLight.position.set(7, 11, 5);
-keyLight.castShadow = true;
-keyLight.shadow.mapSize.set(1024, 1024);
-keyLight.shadow.camera.left = -14;
-keyLight.shadow.camera.right = 14;
-keyLight.shadow.camera.top = 14;
-keyLight.shadow.camera.bottom = -14;
-scene.add(keyLight);
-
 const tableLight = new THREE.PointLight(0x8f51ff, 18, 16, 2);
 tableLight.position.set(0, 4.3, 0);
 tableLight.castShadow = true;
 tableLight.shadow.mapSize.set(512, 512);
 scene.add(tableLight);
-
-const cyanLight = new THREE.PointLight(0x42e7ff, 11, 14, 2);
-cyanLight.position.set(-6, 3.5, 2);
-scene.add(cyanLight);
-
-const warmLight = new THREE.PointLight(0xff8e62, 8, 12, 2);
-warmLight.position.set(6, 3, -4);
-scene.add(warmLight);
 
 let activeInteraction = null;
 
