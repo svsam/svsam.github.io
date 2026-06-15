@@ -22,6 +22,57 @@ const worksEntries = [
     ]
   },
   {
+    date: "June 2026",
+    title: "Journal Room Voxel and Shader Engine",
+    url: "../journal/",
+    content: [
+      {
+        type: "text",
+        value: "A custom interactive 3D environment built for the Journal page using Three.js. The room is assembled from voxel-style geometry and rendered with shader-driven materials, dynamic lighting, soft shadows, fog, glowing runes, and drifting particles.",
+      },
+      {
+        type: "text",
+        value: "The scene includes an animated model solar system across the ceiling, bookshelves surrounding an enchantment table, procedural pixel textures, and raycast interactions that allow visitors to open the journal and guestbook from inside the room.",
+      },
+      {
+        type: "image",
+        src: "../css/Images/journal-voxel-engine.png",
+        alt: "The interactive voxel Journal Room with bookshelves, an enchantment table, glowing runes, and a model solar system across the ceiling",
+      },
+    ]
+  },
+  {
+    date: "June 2026",
+    title: "Museum Donation Tooltip | Hypixel Skyblock",
+    url: "https://github.com/svsam/MuseumDonationTooltip",
+    content: [
+      {
+        type: "text",
+        value: "MuseumDonationTooltip is a small client-side Fabric mod for Hypixel SkyBlock. When you hover over an item, it adds a line showing whether that item type has already been donated to your Museum.",
+      },
+      {
+        type: "text",
+        value: "You will see one of these messages:",
+      },
+      {
+        type: "list",
+        items: [
+          "Museum: Donated",
+          "Museum: Not Donated",
+          "Museum: Unknown / API unavailable",
+        ],
+      },
+      {
+        type: "text",
+        value: "The mod checks the general item type, not the exact copy in your inventory. For example, donating one Aspect of the End means every Aspect of the End you hover over will be shown as donated. Reforges, enchantments, stars, recombobulation, rarity upgrades, and item UUIDs do not change the result.",
+      },
+      {
+        type: "text",
+        value: "Items that cannot be donated to the Museum do not receive a Museum tooltip line.",
+      },
+    ]
+  },
+  {
     date: "May 2026",
     title: "H-R Diagram from the ESA Gaia Archive DR3 data release ",
     url: "https://github.com/svsam/H-R-Diagram",
@@ -99,6 +150,17 @@ const appendWorksBlock = (body, block) => {
     const paragraph = document.createElement("p");
     paragraph.textContent = typeof block === "string" ? block : block.value || "";
     body.appendChild(paragraph);
+    return;
+  }
+
+  if (block?.type === "list" && Array.isArray(block.items)) {
+    const list = document.createElement("ul");
+    block.items.forEach((item) => {
+      const listItem = document.createElement("li");
+      listItem.textContent = item;
+      list.appendChild(listItem);
+    });
+    body.appendChild(list);
     return;
   }
 
