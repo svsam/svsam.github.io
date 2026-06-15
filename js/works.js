@@ -23,7 +23,7 @@ const worksEntries = [
   },
   {
     date: "June 2026",
-    title: "Journal Room Voxel and Shader Engine",
+    title: "Journal Room Voxel and Shader Engine (JS)",
     url: "../journal/",
     content: [
       {
@@ -43,7 +43,7 @@ const worksEntries = [
   },
   {
     date: "June 2026",
-    title: "Museum Donation Tooltip | Hypixel Skyblock",
+    title: "Museum Donation Tooltip | Hypixel Skyblock (Java)",
     url: "https://github.com/svsam/MuseumDonationTooltip",
     content: [
       {
