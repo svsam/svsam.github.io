@@ -149,7 +149,7 @@
     --orbit-scale-y: 0.528;
 }
 
-.orbitCircle--scrapbook {
+.orbitCircle--board {
     --orbit-inclination: 0deg;
     --orbit-scale-x: 1.62;
     --orbit-scale-y: 0.972;
@@ -249,10 +249,82 @@
     border-color: #c78638;
 }
 
+.orbitItem .orbitPlanetLink--board {
+    background:
+        radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.38), transparent 36%),
+        radial-gradient(circle at 64% 68%, rgba(199, 134, 56, 0.28), transparent 34%),
+        linear-gradient(135deg, #d7b88b, #3b2a23 76%);
+    border-color: #d8b173;
+}
+
 .orbitPlanetImage {
     height: 72%;
     object-fit: contain;
     width: 72%;
+}
+
+.themePlanetIcon {
+    display: block;
+    height: 54px;
+    position: relative;
+    width: 54px;
+}
+
+.themePaper {
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(239, 211, 164, 0.9)),
+        #f0ddba;
+    border: 1px solid rgba(57, 38, 26, 0.48);
+    border-radius: 6px;
+    box-shadow: 0 5px 9px rgba(0, 4, 18, 0.3);
+    height: 33px;
+    left: 9px;
+    position: absolute;
+    top: 11px;
+    width: 33px;
+}
+
+.themePaper--back {
+    background:
+        linear-gradient(135deg, rgba(197, 231, 255, 0.88), rgba(150, 107, 202, 0.82)),
+        #a8c8ec;
+    transform: rotate(-13deg) translate(-4px, 2px);
+}
+
+.themePaper--front {
+    transform: rotate(9deg) translate(5px, -2px);
+}
+
+.themePaper--front::before,
+.themePaper--front::after {
+    background: rgba(76, 56, 38, 0.34);
+    content: "";
+    height: 1px;
+    left: 7px;
+    position: absolute;
+    width: 18px;
+}
+
+.themePaper--front::before {
+    top: 12px;
+}
+
+.themePaper--front::after {
+    top: 18px;
+}
+
+.themePin {
+    background: #ff86d7;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    box-shadow:
+        0 0 8px rgba(255, 134, 215, 0.74),
+        0 3px 7px rgba(0, 0, 0, 0.32);
+    height: 11px;
+    left: 21px;
+    position: absolute;
+    top: 7px;
+    width: 11px;
 }
 
 .orbitPlanetLabel {
@@ -321,6 +393,10 @@
         width: 44px;
     }
 
+    .themePlanetIcon {
+        transform: scale(0.72);
+    }
+
     .orbitWelcome {
         font-size: 0.88rem;
     }
@@ -339,5 +415,9 @@
         font-size: 0.48rem;
         height: 38px;
         width: 38px;
+    }
+
+    .themePlanetIcon {
+        transform: scale(0.62);
     }
 }

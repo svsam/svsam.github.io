@@ -37,7 +37,7 @@ const journalEntries = [
       {
         type: "text",
         value:
-          "I HAVE A PET CAT NOW! Her name is Mika and she's only a baby. This adorable little void is the reason why it's been a while since I last updated this website. Now that I have a kitten my work schedule will be a bit more lacking. This website won't be forgotten yet, but the scrapbook will be filled... with images of you know who.",
+          "I HAVE A PET CAT NOW! Her name is Mika and she's only a baby. This adorable little void is the reason why it's been a while since I last updated this website. Now that I have a kitten my work schedule will be a bit more lacking. This website won't be forgotten yet, but the board will be filled... with images of you know who.",
       },
     ],
   },

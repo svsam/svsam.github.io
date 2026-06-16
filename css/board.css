@@ -1,0 +1,536 @@
+body.boardPageBody {
+    --board-ink: #f4efff;
+    --board-muted: #cfc4ee;
+    --board-paper: #0d1005;
+    --board-paper-dark: #24262c;
+    --board-metal: #9483bd;
+    --board-brass: #b9a2ff;
+    --trello-board: #5d4590;
+    --trello-list: #090d02;
+    --trello-card: #24262c;
+    --trello-card-hover: #2f323a;
+    --trello-button: #8f7ab6;
+
+    align-items: stretch;
+    background-color: var(--trello-board);
+    border: 0;
+    color: var(--board-ink);
+    display: block;
+    justify-content: stretch;
+    min-height: 100vh;
+    overflow-x: auto;
+    padding: 0;
+}
+
+body.boardPageBody::before {
+    background:
+        radial-gradient(circle at 18% 20%, rgba(198, 174, 255, 0.18), transparent 28%),
+        radial-gradient(circle at 84% 70%, rgba(48, 36, 80, 0.34), transparent 30%),
+        linear-gradient(135deg, rgba(20, 13, 38, 0.2), transparent 46%);
+    background-position: center;
+    background-size: cover;
+    filter: contrast(1.06) saturate(0.92);
+    opacity: 1;
+}
+
+.boardSurface {
+    background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        radial-gradient(circle at 20% 78%, rgba(154, 127, 220, 0.2), transparent 26%),
+        linear-gradient(135deg, #5a408c, #5f4892 52%, #4d347e);
+    background-size: 80px 80px, 80px 80px, 100% 100%, 100% 100%;
+    box-sizing: border-box;
+    min-height: 100vh;
+    overflow: visible;
+    position: relative;
+    width: 100%;
+}
+
+.boardTopLinks {
+    align-items: center;
+    background: rgba(16, 12, 32, 0.72);
+    border: 1px solid rgba(213, 203, 255, 0.18);
+    border-radius: 999px;
+    box-shadow: 0 10px 26px rgba(14, 9, 26, 0.24);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    left: 18px;
+    padding: 8px 14px;
+    position: fixed;
+    top: 16px;
+    z-index: 20000;
+}
+
+.boardTopLinks a {
+    color: #eee8ff;
+    font-size: 0.9rem;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+.boardTopLinks a:hover,
+.boardTopLinks a:focus-visible {
+    color: #ffffff;
+}
+
+.boardIntro {
+    background:
+        linear-gradient(150deg, rgba(160, 139, 203, 0.82), rgba(72, 55, 115, 0.82)),
+        rgba(95, 72, 146, 0.9);
+    border: 1px solid rgba(229, 220, 255, 0.22);
+    border-radius: 16px;
+    box-shadow:
+        0 14px 28px rgba(15, 10, 28, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    box-sizing: border-box;
+    left: 50%;
+    max-width: min(32vw, 340px);
+    min-width: 220px;
+    padding: 10px 18px 12px;
+    position: fixed;
+    text-align: center;
+    top: 16px;
+    transform: translateX(-50%) rotate(0.35deg);
+    z-index: 19000;
+}
+
+.boardKicker {
+    color: #d8ccff;
+    display: block;
+    font-size: 0.72rem;
+    font-weight: bold;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.boardIntro h1 {
+    color: #ffffff;
+    font-size: clamp(1.9rem, 3.4vw, 3.15rem);
+    font-style: italic;
+    font-weight: normal;
+    letter-spacing: -0.055em;
+    line-height: 0.86;
+    margin: 5px 0 7px;
+    text-shadow: 0 2px 12px rgba(23, 12, 48, 0.42);
+}
+
+.boardIntro p {
+    color: var(--board-muted);
+    display: none;
+    font-size: 0.88rem;
+    line-height: 1.35;
+    margin: 0;
+}
+
+.makerPanel {
+    background:
+        linear-gradient(180deg, rgba(14, 18, 5, 0.96), rgba(6, 9, 1, 0.98)),
+        var(--trello-list);
+    border: 1px solid rgba(216, 204, 255, 0.16);
+    border-radius: 13px;
+    box-shadow:
+        0 18px 36px rgba(8, 4, 20, 0.34),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    box-sizing: border-box;
+    left: 18px;
+    padding: 14px 10px 12px;
+    position: fixed;
+    top: 76px;
+    transform: none;
+    width: min(300px, calc(100vw - 36px));
+    z-index: 20000;
+}
+
+.makerPanel::before,
+.makerPanel::after {
+    content: none;
+}
+
+.panelHandle {
+    align-items: center;
+    display: flex;
+    gap: 5px;
+    position: absolute;
+    right: 12px;
+    top: 16px;
+}
+
+.panelHandle span {
+    background: #cfc4ee;
+    border-radius: 999px;
+    display: block;
+    height: 3px;
+    opacity: 0.62;
+    width: 4px;
+}
+
+.makerPanel h2 {
+    color: #f5f1ff;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: bold;
+    line-height: 1;
+    margin: 4px 42px 14px 10px;
+}
+
+.pinForm {
+    display: grid;
+    gap: 8px;
+}
+
+.pinForm label {
+    color: #d7d0ea;
+    display: grid;
+    font-size: 0.94rem;
+    gap: 6px;
+}
+
+.optionalField {
+    color: #aaa0c9;
+    font-size: 0.82rem;
+    font-style: italic;
+}
+
+.pinForm input,
+.pinForm textarea {
+    background: var(--trello-card);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    color: #f5f1ff;
+    font: inherit;
+    min-height: 42px;
+    padding: 10px 12px;
+    width: 100%;
+}
+
+.pinForm textarea {
+    line-height: 1.45;
+    min-height: 98px;
+    resize: vertical;
+}
+
+.pinForm input[type="file"] {
+    cursor: pointer;
+    font-size: 0.88rem;
+    padding: 9px;
+}
+
+.pinForm input:focus-visible,
+.pinForm textarea:focus-visible,
+.scrapPin:focus-visible,
+.resizeHandle:focus-visible {
+    outline: 3px solid rgba(121, 78, 42, 0.36);
+    outline-offset: 3px;
+}
+
+.imagePreview {
+    align-items: center;
+    background: var(--trello-card);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 58px 1fr;
+    padding: 8px;
+}
+
+.imagePreview img {
+    aspect-ratio: 1;
+    border-radius: 10px;
+    display: block;
+    object-fit: cover;
+    width: 58px;
+}
+
+.imagePreview span {
+    color: #d7d0ea;
+    font-size: 0.9rem;
+}
+
+.formButtons {
+    display: grid;
+    gap: 9px;
+    grid-template-columns: 1fr;
+}
+
+.pinForm button {
+    background: rgba(143, 122, 182, 0.92);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: none;
+    color: #ffffff;
+    cursor: pointer;
+    font: inherit;
+    min-height: 40px;
+    padding: 9px 13px;
+}
+
+.pinForm button:hover {
+    background: #a692ce;
+}
+
+.boardStatus {
+    color: #bbb1d8;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    margin: 0;
+}
+
+.emptyBoardHint {
+    background:
+        linear-gradient(180deg, rgba(14, 18, 5, 0.93), rgba(6, 9, 1, 0.96)),
+        var(--trello-list);
+    border: 1px solid rgba(216, 204, 255, 0.16);
+    border-radius: 13px;
+    box-shadow: 0 18px 34px rgba(8, 4, 20, 0.28);
+    box-sizing: border-box;
+    color: #d7d0ea;
+    left: 50%;
+    margin: 0;
+    padding: 24px;
+    position: absolute;
+    text-align: center;
+    top: 58%;
+    transform: translate(-50%, -50%) rotate(-1.2deg);
+    width: min(78vw, 430px);
+    z-index: 1;
+}
+
+.emptyBoardHint[hidden] {
+    display: none;
+}
+
+.scrapPin {
+    --pin-rotation: -1deg;
+
+    background:
+        linear-gradient(180deg, rgba(14, 18, 5, 0.98), rgba(6, 9, 1, 0.99)),
+        var(--trello-list);
+    border: 1px solid rgba(216, 204, 255, 0.14);
+    border-radius: 13px;
+    box-shadow:
+        0 18px 34px rgba(7, 3, 18, 0.36),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    box-sizing: border-box;
+    color: #f5f1ff;
+    cursor: grab;
+    display: grid;
+    gap: 8px;
+    grid-template-rows: auto minmax(80px, 1fr) auto;
+    left: 0;
+    min-height: 210px;
+    min-width: 220px;
+    overflow: hidden;
+    padding: 10px;
+    position: absolute;
+    resize: none;
+    top: 0;
+    touch-action: none;
+    transform: rotate(0deg);
+    user-select: none;
+    width: 300px;
+    z-index: 2;
+}
+
+.scrapPin::before {
+    color: #cfc4ee;
+    content: "1";
+    font-size: 0.82rem;
+    font-weight: bold;
+    height: auto;
+    left: auto;
+    position: absolute;
+    right: 42px;
+    top: 17px;
+    transform: none;
+    width: auto;
+    z-index: 1;
+}
+
+.scrapPin.hasImage::before {
+    content: "2";
+}
+
+.scrapPin::after {
+    color: #cfc4ee;
+    content: "...";
+    font-size: 1.1rem;
+    height: auto;
+    pointer-events: none;
+    position: absolute;
+    right: 14px;
+    top: 10px;
+    width: auto;
+    z-index: 1;
+}
+
+.scrapPin.isDragging,
+.scrapPin.isResizing {
+    box-shadow:
+        0 30px 52px rgba(7, 3, 18, 0.42),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    cursor: grabbing;
+    transform: scale(1.015);
+}
+
+.scrapPin:not(.hasImage) {
+    background:
+        linear-gradient(180deg, rgba(14, 18, 5, 0.98), rgba(6, 9, 1, 0.99)),
+        var(--trello-list);
+    grid-template-rows: auto 1fr;
+}
+
+.scrapPin:not(.hasImage) .pinText {
+    align-self: stretch;
+}
+
+.scrapPin:hover {
+    box-shadow:
+        0 24px 42px rgba(7, 3, 18, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.pinHeader {
+    align-items: center;
+    display: grid;
+    gap: 12px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    min-height: 30px;
+    padding: 4px 58px 6px 10px;
+    position: relative;
+    z-index: 2;
+}
+
+.pinMenuDots {
+    display: none;
+}
+
+.pinImageWrap {
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.06)),
+        var(--trello-card);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: none;
+    min-height: 82px;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+}
+
+.pinImageWrap img {
+    display: block;
+    height: 100%;
+    min-height: 86px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.pinText {
+    background: var(--trello-card);
+    border-radius: 8px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04);
+    padding: 12px;
+    position: relative;
+    z-index: 2;
+}
+
+.scrapPin h2 {
+    color: #f5f1ff;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: bold;
+    line-height: 1.2;
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.pinDescription {
+    color: #f0edfb;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+.pinDescription h3,
+.pinDescription h4,
+.pinDescription h5,
+.pinDescription p,
+.pinDescription ul {
+    color: var(--board-muted);
+    line-height: 1.45;
+    margin: 0 0 7px;
+    overflow-wrap: anywhere;
+}
+
+.pinDescription ul {
+    padding-left: 20px;
+}
+
+.pinDescription code {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 5px;
+    color: #ffffff;
+    padding: 1px 4px;
+}
+
+.pinDescription a {
+    color: #cdbdff;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.resizeHandle {
+    background:
+        linear-gradient(135deg, transparent 0 48%, rgba(207, 196, 238, 0.5) 48% 56%, transparent 56%),
+        linear-gradient(135deg, transparent 0 68%, rgba(207, 196, 238, 0.35) 68% 76%, transparent 76%);
+    border: 0;
+    bottom: 7px;
+    cursor: nwse-resize;
+    height: 28px;
+    padding: 0;
+    position: absolute;
+    right: 7px;
+    width: 28px;
+    z-index: 3;
+    touch-action: none;
+}
+
+@media (max-width: 900px) {
+    .boardIntro {
+        max-width: min(42vw, 310px);
+    }
+
+    .boardSurface {
+        min-height: 130vh;
+    }
+}
+
+@media (max-width: 640px) {
+    .boardTopLinks {
+        border-radius: 18px;
+        right: 12px;
+        top: 10px;
+    }
+
+    .makerPanel {
+        left: 12px;
+        top: 150px;
+        width: calc(100vw - 24px);
+    }
+
+    .boardIntro {
+        max-width: calc(100vw - 24px);
+        min-width: 0;
+        top: 72px;
+        width: min(320px, calc(100vw - 24px));
+    }
+
+    .formButtons {
+        grid-template-columns: 1fr;
+    }
+
+}
