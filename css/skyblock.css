@@ -1,0 +1,510 @@
+body.skyblockPageBody {
+    --site-border-color: #234b43;
+    --space-text-color: #d8f7e5;
+    --space-rainbow-blue: #89c2ff;
+    --space-rainbow-cyan: #85f7d0;
+    --space-rainbow-violet: #d7a5ff;
+    --space-rainbow-pink: #ff9bb8;
+    --space-rainbow-star: #fff2a8;
+    --sb-bg: #07100d;
+    --sb-panel: rgba(12, 25, 21, 0.92);
+    --sb-panel-strong: rgba(18, 38, 32, 0.96);
+    --sb-line: rgba(133, 247, 208, 0.28);
+    --sb-muted: #9ccbb7;
+    --sb-gold: #ffd166;
+    --sb-red: #ff7a7a;
+    --sb-blue: #89c2ff;
+
+    align-items: flex-start;
+    background:
+        linear-gradient(135deg, rgba(7, 16, 13, 0.94), rgba(12, 14, 28, 0.92)),
+        url("Images/starrybackground.gif");
+    background-attachment: fixed;
+    background-position: center;
+    border-color: var(--site-border-color);
+    color: var(--space-text-color);
+    font-family: Georgia, "Times New Roman", Times, serif;
+    justify-content: center;
+    overflow-y: auto;
+    padding: 16px;
+}
+
+body.skyblockPageBody::before {
+    background:
+        linear-gradient(rgba(7, 16, 13, 0.34), rgba(7, 16, 13, 0.9)),
+        url("Images/omori-wallpaper.png");
+    background-position: center;
+    background-size: cover;
+    opacity: 0.16;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+.skyblockApp {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: calc(100vh - 40px);
+    width: min(100%, 1320px);
+}
+
+.skyblockTopLinks {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.skyblockNavCluster {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.skyblockTopLinks .outwardLink {
+    background: rgba(7, 16, 13, 0.76);
+    border: 2px solid var(--site-border-color);
+    box-sizing: border-box;
+    color: var(--space-text-color);
+    min-width: 86px;
+}
+
+.skyblockShell {
+    background:
+        linear-gradient(180deg, rgba(10, 29, 24, 0.94), rgba(5, 11, 17, 0.96)),
+        repeating-linear-gradient(90deg, rgba(133, 247, 208, 0.035) 0 1px, transparent 1px 22px);
+    border: 2px solid var(--site-border-color);
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+        0 18px 46px rgba(0, 0, 0, 0.36);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 22px;
+}
+
+.skyblockHeader {
+    align-items: center;
+    display: flex;
+    gap: 22px;
+    justify-content: space-between;
+}
+
+.skyblockKicker {
+    color: var(--space-rainbow-cyan);
+    display: block;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.skyblockHeader h1,
+.sectionHeader h2 {
+    color: var(--space-rainbow-star);
+    font-weight: normal;
+    margin: 4px 0 0;
+    text-decoration: underline;
+}
+
+.skyblockHeader h1 {
+    font-size: clamp(2rem, 4vw, 3.45rem);
+}
+
+.skyblockCharm {
+    aspect-ratio: 1;
+    border: 2px solid rgba(133, 247, 208, 0.34);
+    box-shadow:
+        inset 0 0 20px rgba(133, 247, 208, 0.14),
+        0 0 28px rgba(133, 247, 208, 0.16);
+    image-rendering: pixelated;
+    object-fit: cover;
+    padding: 6px;
+    width: clamp(62px, 9vw, 108px);
+}
+
+.lookupPanel,
+.filtersPanel {
+    background: var(--sb-panel);
+    border: 1px solid var(--sb-line);
+    box-sizing: border-box;
+    display: grid;
+    gap: 12px;
+    grid-template-columns: minmax(170px, 1.35fr) auto minmax(160px, 1fr) minmax(110px, 0.65fr) auto;
+    padding: 14px;
+}
+
+.lookupPanel label,
+.filtersPanel label {
+    color: var(--sb-muted);
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8rem;
+    gap: 6px;
+    min-width: 0;
+    text-transform: uppercase;
+}
+
+.lookupPanel input,
+.lookupPanel select,
+.filtersPanel input,
+.filtersPanel select {
+    background: rgba(3, 8, 12, 0.78);
+    border: 1px solid rgba(133, 247, 208, 0.34);
+    box-sizing: border-box;
+    color: #eefcf5;
+    min-height: 42px;
+    padding: 8px 10px;
+    width: 100%;
+}
+
+.lookupPanel select:disabled {
+    color: rgba(238, 252, 245, 0.48);
+    cursor: not-allowed;
+}
+
+.lookupPanel input:focus,
+.lookupPanel select:focus,
+.filtersPanel input:focus,
+.filtersPanel select:focus,
+.lookupPanel button:focus-visible,
+th button:focus-visible {
+    outline: 2px solid var(--space-rainbow-cyan);
+    outline-offset: 2px;
+}
+
+.lookupPanel button {
+    align-self: end;
+    background: linear-gradient(180deg, #d8f7e5, #84dcb9);
+    border: 1px solid #d8f7e5;
+    color: #06110d;
+    cursor: pointer;
+    min-height: 42px;
+    padding: 9px 14px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+#profileLoadButton {
+    background: rgba(3, 8, 12, 0.78);
+    color: var(--space-rainbow-cyan);
+}
+
+.lookupPanel button:disabled {
+    cursor: wait;
+    filter: grayscale(0.7);
+    opacity: 0.64;
+}
+
+.statusMessage {
+    color: var(--sb-muted);
+    line-height: 1.45;
+    margin: 0;
+    min-height: 1.4em;
+}
+
+.statusMessage.isError {
+    color: var(--sb-red);
+}
+
+.summaryGrid {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.summaryGrid article,
+.pathPanel,
+.tablePanel,
+.specialPanel {
+    background: var(--sb-panel);
+    border: 1px solid var(--sb-line);
+    box-sizing: border-box;
+}
+
+.summaryGrid article {
+    min-height: 84px;
+    padding: 13px;
+}
+
+.summaryGrid span,
+.summaryGrid strong {
+    display: block;
+}
+
+.summaryGrid span {
+    color: var(--sb-muted);
+    font-size: 0.74rem;
+    text-transform: uppercase;
+}
+
+.summaryGrid strong {
+    color: #ffffff;
+    font-size: clamp(1.3rem, 2vw, 2rem);
+    font-weight: normal;
+    margin-top: 8px;
+    overflow-wrap: anywhere;
+}
+
+.sectionHeader {
+    align-items: start;
+    display: flex;
+    gap: 14px;
+    justify-content: space-between;
+    padding: 14px;
+}
+
+.sectionHeader h2 {
+    font-size: clamp(1.25rem, 2vw, 1.9rem);
+}
+
+.sectionHeader p {
+    color: var(--sb-muted);
+    line-height: 1.35;
+    margin: 0;
+    text-align: right;
+}
+
+.pathList {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    list-style-position: inside;
+    margin: 0;
+    padding: 0 14px 14px;
+}
+
+.pathList li {
+    background: rgba(3, 8, 12, 0.52);
+    border: 1px solid rgba(133, 247, 208, 0.2);
+    box-sizing: border-box;
+    color: #ffffff;
+    line-height: 1.35;
+    min-height: 78px;
+    padding: 10px;
+}
+
+.pathList span {
+    color: var(--sb-muted);
+    display: block;
+    font-size: 0.84rem;
+    margin-top: 4px;
+}
+
+.filtersPanel {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.checkboxFilter {
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.checkboxFilter input {
+    accent-color: var(--space-rainbow-cyan);
+    min-height: auto;
+    width: 18px;
+}
+
+.tableScroller {
+    overflow-x: auto;
+    padding: 0 14px 14px;
+}
+
+table {
+    border-collapse: collapse;
+    min-width: 1080px;
+    width: 100%;
+}
+
+th,
+td {
+    border-bottom: 1px solid rgba(133, 247, 208, 0.18);
+    padding: 10px;
+    text-align: left;
+    vertical-align: top;
+}
+
+th {
+    color: var(--sb-muted);
+    font-size: 0.76rem;
+    text-transform: uppercase;
+}
+
+th button {
+    background: transparent;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    padding: 0;
+    text-align: left;
+    text-decoration: underline;
+    text-transform: inherit;
+}
+
+tbody tr:hover {
+    background: rgba(133, 247, 208, 0.06);
+}
+
+td {
+    color: #eefcf5;
+    line-height: 1.4;
+}
+
+.accessoryName {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.rarityPill,
+.methodPill {
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    display: inline-block;
+    font-size: 0.75rem;
+    line-height: 1;
+    padding: 5px 7px;
+    text-transform: uppercase;
+}
+
+.rarity-COMMON {
+    color: #f5f5f5;
+}
+
+.rarity-UNCOMMON {
+    color: #65ff65;
+}
+
+.rarity-RARE {
+    color: #77a8ff;
+}
+
+.rarity-EPIC {
+    color: #d57bff;
+}
+
+.rarity-LEGENDARY {
+    color: #ffb24f;
+}
+
+.rarity-MYTHIC {
+    color: #ff77dd;
+}
+
+.rarity-SPECIAL,
+.rarity-VERY-SPECIAL {
+    color: #ff5d5d;
+}
+
+.methodPill {
+    color: var(--sb-gold);
+}
+
+.materialsList {
+    color: var(--sb-muted);
+    margin: 0;
+    max-width: 280px;
+}
+
+.wikiLink {
+    color: var(--space-rainbow-cyan);
+}
+
+.emptyRow td {
+    color: var(--sb-muted);
+    padding: 22px 10px;
+    text-align: center;
+}
+
+.specialList {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    padding: 0 14px 14px;
+}
+
+.specialCard {
+    background: rgba(3, 8, 12, 0.52);
+    border: 1px solid rgba(133, 247, 208, 0.2);
+    box-sizing: border-box;
+    min-height: 154px;
+    padding: 12px;
+}
+
+.specialCard h3 {
+    color: #ffffff;
+    font-size: 1rem;
+    margin: 0 0 8px;
+}
+
+.specialCard dl {
+    display: grid;
+    gap: 5px 10px;
+    grid-template-columns: auto 1fr;
+    margin: 0;
+}
+
+.specialCard dt {
+    color: var(--sb-muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+.specialCard dd {
+    margin: 0;
+}
+
+@media (max-width: 1040px) {
+    .lookupPanel {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .lookupPanel button {
+        align-self: stretch;
+    }
+
+    .summaryGrid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 720px) {
+    body.skyblockPageBody {
+        padding: 10px;
+    }
+
+    .skyblockShell {
+        padding: 14px;
+    }
+
+    .skyblockHeader {
+        align-items: flex-start;
+    }
+
+    .lookupPanel,
+    .filtersPanel,
+    .summaryGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .checkboxFilter {
+        justify-content: flex-start;
+    }
+
+    .sectionHeader {
+        flex-direction: column;
+    }
+
+    .sectionHeader p {
+        text-align: left;
+    }
+}

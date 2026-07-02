@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta
+            name="skyblock-api"
+            content="https://svsam-skyblock-mp.svsam.workers.dev"
+        >
+        <link rel="stylesheet" href="../css/base.css">
+        <link rel="stylesheet" href="../css/skyblock.css">
+        <title>SvS | SkyBlock Magic Power</title>
+        <link rel="icon" type="image/x-icon" href="../css/Images/heliocentrism.jpg">
+    </head>
+
+    <body class="skyblockPageBody" data-page="skyblock">
+        <main class="skyblockApp">
+            <nav class="skyblockTopLinks" aria-label="SkyBlock tool navigation">
+                <a class="satelliteText" href="../" data-rainbow="space">Return to Homebase</a>
+                <div class="skyblockNavCluster">
+                    <a class="outwardLink" href="../journal/">Journal</a>
+                    <a class="outwardLink" href="../works/">Works</a>
+                    <a class="outwardLink" href="../board/">Board</a>
+                </div>
+            </nav>
+
+            <section class="skyblockShell" aria-labelledby="skyblockTitle">
+                <header class="skyblockHeader">
+                    <div>
+                        <span class="skyblockKicker">Hypixel SkyBlock</span>
+                        <h1 id="skyblockTitle">Magic Power Upgrade Finder</h1>
+                    </div>
+                    <img
+                        id="playerSkull"
+                        class="skyblockCharm"
+                        src="../css/Images/Enchanting_table.gif"
+                        data-default-src="../css/Images/Enchanting_table.gif"
+                        alt=""
+                        loading="eager"
+                        decoding="async"
+                    >
+                </header>
+
+                <form id="lookupForm" class="lookupPanel">
+                    <label for="usernameInput">
+                        Username or UUID
+                        <input id="usernameInput" name="username" type="text" autocomplete="off" required>
+                    </label>
+
+                    <button id="profileLoadButton" type="button">Load Profiles</button>
+
+                    <label for="profileSelect">
+                        Profile
+                        <select id="profileSelect" name="profile" disabled required>
+                            <option value="">Select a profile</option>
+                        </select>
+                    </label>
+
+                    <label for="targetSelect">
+                        Target
+                        <select id="targetSelect" name="target">
+                            <option value="500">500 MP</option>
+                            <option value="1000">1000 MP</option>
+                            <option value="1500">1500 MP</option>
+                        </select>
+                    </label>
+
+                    <button id="lookupButton" type="submit">Find Upgrades</button>
+                </form>
+
+                <p id="statusMessage" class="statusMessage" role="status"></p>
+
+                <section id="summaryPanel" class="summaryGrid" aria-label="Player accessory summary" hidden>
+                    <article>
+                        <span>Player</span>
+                        <strong id="summaryPlayer">-</strong>
+                    </article>
+                    <article>
+                        <span>Profile</span>
+                        <strong id="summaryProfile">-</strong>
+                    </article>
+                    <article>
+                        <span>Current MP</span>
+                        <strong id="summaryMp">-</strong>
+                    </article>
+                    <article>
+                        <span>Owned</span>
+                        <strong id="summaryOwned">-</strong>
+                    </article>
+                    <article>
+                        <span>Priced Missing</span>
+                        <strong id="summaryPriced">-</strong>
+                    </article>
+                    <article>
+                        <span>Special</span>
+                        <strong id="summarySpecial">-</strong>
+                    </article>
+                </section>
+
+                <section id="pathPanel" class="pathPanel" aria-labelledby="pathTitle" hidden>
+                    <div class="sectionHeader">
+                        <div>
+                            <span class="skyblockKicker">Cheapest path</span>
+                            <h2 id="pathTitle">Target Plan</h2>
+                        </div>
+                        <p id="pathTotals"></p>
+                    </div>
+                    <ol id="pathList" class="pathList"></ol>
+                </section>
+
+                <section id="filtersPanel" class="filtersPanel" aria-label="Recommendation filters" hidden>
+                    <label for="rarityFilter">
+                        Rarity
+                        <select id="rarityFilter">
+                            <option value="">All</option>
+                            <option value="COMMON">Common</option>
+                            <option value="UNCOMMON">Uncommon</option>
+                            <option value="RARE">Rare</option>
+                            <option value="EPIC">Epic</option>
+                            <option value="LEGENDARY">Legendary</option>
+                            <option value="MYTHIC">Mythic</option>
+                            <option value="SPECIAL">Special</option>
+                            <option value="VERY SPECIAL">Very Special</option>
+                        </select>
+                    </label>
+
+                    <label for="methodFilter">
+                        Method
+                        <select id="methodFilter">
+                            <option value="">All</option>
+                            <option value="auction">Auction House</option>
+                            <option value="bazaar">Bazaar</option>
+                            <option value="craft">Crafted</option>
+                            <option value="upgrade">Upgrade</option>
+                            <option value="npc">NPC</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </label>
+
+                    <label for="maxPriceFilter">
+                        Max price
+                        <input id="maxPriceFilter" type="number" min="0" step="100000" placeholder="Any">
+                    </label>
+
+                </section>
+
+                <section id="recommendationsPanel" class="tablePanel" aria-labelledby="recommendationsTitle" hidden>
+                    <div class="sectionHeader">
+                        <div>
+                            <span class="skyblockKicker">Missing accessories</span>
+                            <h2 id="recommendationsTitle">Best Price Per Magic Power</h2>
+                        </div>
+                        <p id="tableCount"></p>
+                    </div>
+
+                    <div class="tableScroller">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th><button type="button" data-sort="name">Accessory</button></th>
+                                    <th><button type="button" data-sort="rarity">Rarity</button></th>
+                                    <th><button type="button" data-sort="magicPower">MP</button></th>
+                                    <th><button type="button" data-sort="cost">Cost</button></th>
+                                    <th><button type="button" data-sort="costPerMp">Coin / MP</button></th>
+                                    <th><button type="button" data-sort="method">Method</button></th>
+                                    <th>Materials</th>
+                                    <th>Wiki</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recommendationsBody"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="specialPanel" class="specialPanel" aria-labelledby="specialTitle" hidden>
+                    <div class="sectionHeader">
+                        <div>
+                            <span class="skyblockKicker">Special cases</span>
+                            <h2 id="specialTitle">Unpriced / Special Obtain Accessories</h2>
+                        </div>
+                        <p id="specialCount"></p>
+                    </div>
+                    <div id="specialList" class="specialList"></div>
+                </section>
+            </section>
+        </main>
+
+        <script src="../js/rainbow.js"></script>
+        <script src="../js/skyblock.js"></script>
+    </body>
+</html>

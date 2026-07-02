@@ -1,0 +1,15 @@
+name = "svsam-skyblock-mp"
+main = "src/index.js"
+compatibility_date = "2026-06-18"
+workers_dev = true
+compatibility_flags = ["nodejs_compat"]
+
+[observability]
+enabled = true
+
+[vars]
+ALLOWED_ORIGINS = "https://svsam.com,https://www.svsam.com,http://localhost:8765,http://127.0.0.1:8765"
+AUCTION_PAGE_LIMIT = "80"
+AUCTION_CACHE_TTL = "300"
+MARKET_CACHE_TTL = "60"
+RESOURCE_CACHE_TTL = "21600"

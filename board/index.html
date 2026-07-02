@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../css/base.css">
+        <link rel="stylesheet" href="../css/board.css">
+        <title>SvS | Board</title>
+        <link rel="icon" type="image/x-icon" href="../css/Images/heliocentrism.jpg">
+    </head>
+
+    <body class="boardPageBody" data-page="board">
+        <main id="boardSurface" class="boardSurface" aria-label="Interactive board">
+            <nav class="boardTopLinks" aria-label="Board navigation">
+                <a href="../">Homebase</a>
+                <a href="../journal/">Journal</a>
+                <a href="../works/">Works</a>
+                <a href="../#checklist">Checklist</a>
+            </nav>
+
+            <section class="boardIntro" aria-labelledby="boardTitle">
+                <span class="boardKicker">Concept wall</span>
+                <h1 id="boardTitle">Board</h1>
+                <p>
+                    Pin ideas, images, and scraps anywhere. Drag the cards, resize them
+                    from the corner, and layer the mess until it feels right.
+                </p>
+            </section>
+
+            <section class="makerPanel" aria-labelledby="pinMakerTitle">
+                <div class="panelHandle" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <span class="boardKicker">Board list</span>
+                <h2 id="pinMakerTitle">Add a card</h2>
+
+                <form id="pinForm" class="pinForm">
+                    <label for="pinTitle">
+                        Title
+                        <input
+                            id="pinTitle"
+                            name="title"
+                            type="text"
+                            maxlength="70"
+                            placeholder="Prototype sketch"
+                            required
+                        >
+                    </label>
+
+                    <label for="pinDescription">
+                        Description <span class="optionalField">markdown supported</span>
+                        <textarea
+                            id="pinDescription"
+                            name="description"
+                            maxlength="420"
+                            rows="4"
+                            placeholder="Use **bold**, *italic*, `code`, links, headings, or lists."
+                            required
+                        ></textarea>
+                    </label>
+
+                    <label for="pinImage">
+                        Image upload <span class="optionalField">optional</span>
+                        <input id="pinImage" name="image" type="file" accept="image/*">
+                    </label>
+
+                    <div id="imagePreview" class="imagePreview" hidden>
+                        <img id="imagePreviewImg" alt="">
+                        <span>Image ready</span>
+                    </div>
+
+                    <div class="formButtons">
+                        <button id="savePinButton" type="submit">+ Add a card</button>
+                    </div>
+
+                    <p id="boardStatus" class="boardStatus" role="status">
+                        Add a title and markdown description. Image uploads are optional.
+                    </p>
+                </form>
+            </section>
+
+            <p id="emptyBoardHint" class="emptyBoardHint">
+                Your board is empty. Make a pin and place it anywhere on the page.
+            </p>
+        </main>
+
+        <script src="../js/board.js"></script>
+    </body>
+</html>
