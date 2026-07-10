@@ -21,16 +21,8 @@ let selectedImageData = "";
 let activeInteraction = null;
 
 function loadState() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(storageKey));
-    if (!saved || typeof saved !== "object") return { pins: [] };
-
-    return {
-      pins: Array.isArray(saved.pins) ? saved.pins.map(normalizePin) : [],
-    };
-  } catch (error) {
-    return { pins: [] };
-  }
+  clearSavedState();
+  return { pins: [] };
 }
 
 function normalizePin(pin, index) {
@@ -49,12 +41,16 @@ function normalizePin(pin, index) {
 }
 
 function saveState() {
+  // Notes are intentionally kept in memory only for the current page visit.
+  clearSavedState();
+}
+
+function clearSavedState() {
   try {
-    localStorage.setItem(storageKey, JSON.stringify(state));
+    localStorage.removeItem(storageKey);
+    sessionStorage.removeItem(storageKey);
   } catch (error) {
-    setStatus(
-      "The board still works, but this browser could not save the latest layout.",
-    );
+    return;
   }
 }
 
@@ -76,6 +72,7 @@ function findPin(id) {
 }
 
 function updateEmptyState() {
+  if (!emptyBoardHint) return;
   emptyBoardHint.hidden = state.pins.length > 0;
 }
 

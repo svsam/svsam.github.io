@@ -257,6 +257,14 @@
     border-color: #d8b173;
 }
 
+.orbitItem .orbitPlanetLink--skyblock {
+    background:
+        radial-gradient(circle at 35% 28%, rgba(184, 242, 255, 0.38), transparent 36%),
+        radial-gradient(circle at 64% 68%, rgba(120, 255, 171, 0.24), transparent 34%),
+        linear-gradient(135deg, #1f6a8a, #172536 76%);
+    border-color: #75d9e8;
+}
+
 .orbitPlanetImage {
     height: 72%;
     object-fit: contain;
@@ -266,6 +274,7 @@
 .themePlanetIcon {
     display: block;
     height: 54px;
+    object-fit: contain;
     position: relative;
     width: 54px;
 }
