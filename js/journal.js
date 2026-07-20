@@ -1,5 +1,23 @@
 const journalEntries = [
   {
+    date: "2026-07-20",
+    title: "Future Ideas",
+    content: [
+      {
+        type: "text",
+        value: "It has been a very long time since I have submitted a journal, so there is a few things that I will quickly mention."
+      },
+      {
+        type: "text",
+        value: "1. There's been an attempt at something to do with my favourite game, hypixel skyblock. It's supposed to be a tool to do with a key part of the game, magic find, but I still need approval for usage of the API key. 2. Board page, I might get rid of it, I don't really like it but it will stay there until I think of something better to replace it."
+      },
+      {
+        type: "text",
+        value: "Anyways, future idea maybe, I want to create an app for local tennis parks around the country, where people can sign up for and to 'gameify' it. A rise of gamification in the world, a good example being Strava or Duolingo. Any details will be mentions in future journals."
+      }
+    ],
+  },
+  {
     date: "2026-06-12",
     title: "Journal page.",
     content: [
