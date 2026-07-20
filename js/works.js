@@ -1,23 +1,12 @@
 const worksEntries = [
   {
     date: "Pending",
-    title: "RAG (Retrieval Augmented Generation) AI",
+    title: "Webstronomy (C#)",
     url: "https://github.com/svsam",
     content: [
       {
         type: "text",
-        value: "My second time delving into an artificial intelligence program, first was the minesweeper algorithm, this was is a lot more complex and requires a bit more computer power to generate. If there was a goal with this AI is would be similar to Pewdiepies odysseus AI chatbot which works directly on your local computer but that will be a project for my future self, for now I am going to make a basic AI with minimal token usage and varying depth. Subject to change but be aware!",
-      }
-    ]
-  },
-  {
-    date: "Pending",
-    title: "C++ Tetris",
-    url: "https://github.com/svsam",
-    content: [
-      {
-        type: "text",
-        value: "Currently in development, a part of my learning process to learn C++, after this tetris game it will be a 3D voxel game where I will start to tinker with the idea of using 3D models to made planetary systems.",
+        value: "Currently in development, a part of my learning process to make a video game using Godot!",
       }
     ]
   },
