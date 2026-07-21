@@ -1,0 +1,21 @@
+{
+  "name": "ascii-art-generator-web",
+  "type": "module",
+  "description": "WebAssembly adapter for ASCII Art Generator",
+  "version": "0.1.0",
+  "license": "SEE LICENSE IN ../LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/svsam/ASCIIArtGenerator"
+  },
+  "files": [
+    "ascii_art_generator_web_bg.wasm",
+    "ascii_art_generator_web.js",
+    "ascii_art_generator_web.d.ts"
+  ],
+  "main": "ascii_art_generator_web.js",
+  "types": "ascii_art_generator_web.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}

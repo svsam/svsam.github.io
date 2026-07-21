@@ -143,7 +143,7 @@
     --orbit-scale-y: 0.51;
 }
 
-.orbitCircle--checklist {
+.orbitCircle--ascii {
     --orbit-inclination: -1deg;
     --orbit-scale-x: 1.32;
     --orbit-scale-y: 0.528;
@@ -249,6 +249,31 @@
     border-color: #c78638;
 }
 
+.orbitItem .orbitPlanetLink--ascii {
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(77, 208, 225, 0.08) 0,
+            rgba(77, 208, 225, 0.08) 1px,
+            transparent 1px,
+            transparent 5px
+        ),
+        radial-gradient(circle at 35% 28%, rgba(77, 208, 225, 0.38), transparent 38%),
+        linear-gradient(135deg, #17383c, #061012 74%);
+    border-color: #4dd0e1;
+    box-shadow:
+        inset -8px -10px 16px rgba(0, 8, 12, 0.38),
+        0 0 14px rgba(77, 208, 225, 0.34);
+}
+
+.asciiPlanetGlyph {
+    color: #8df3ff;
+    font: 800 1.55rem/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+    letter-spacing: -0.14em;
+    margin-right: 0.14em;
+    text-shadow: 0 0 8px rgba(77, 208, 225, 0.92);
+}
+
 .orbitItem .orbitPlanetLink--board {
     background:
         radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.38), transparent 36%),
@@ -347,6 +372,11 @@
     transform: translateX(-50%);
 }
 
+.orbitPlanetLink--ascii .orbitPlanetLabel {
+    font-size: 0.68rem;
+    width: max-content;
+}
+
 .orbitWelcome {
     left: 50%;
     margin: 0;
@@ -406,6 +436,14 @@
         transform: scale(0.72);
     }
 
+    .asciiPlanetGlyph {
+        font-size: 0.9rem;
+    }
+
+    .orbitPlanetLink--ascii .orbitPlanetLabel {
+        font-size: 0.4rem;
+    }
+
     .orbitWelcome {
         font-size: 0.88rem;
     }
@@ -428,5 +466,13 @@
 
     .themePlanetIcon {
         transform: scale(0.62);
+    }
+
+    .asciiPlanetGlyph {
+        font-size: 0.76rem;
+    }
+
+    .orbitPlanetLink--ascii .orbitPlanetLabel {
+        font-size: 0.34rem;
     }
 }
