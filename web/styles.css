@@ -123,11 +123,6 @@ a {
   background: var(--border);
 }
 
-.local-badge {
-  color: #9ab0b3;
-  font-size: 0.7rem;
-}
-
 .button,
 .text-button {
   min-height: 1.95rem;
