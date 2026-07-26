@@ -3,8 +3,18 @@ const MIN_COLUMNS = 10;
 const MAX_COLUMNS = 400;
 const MAX_SOURCE_EDGE = 4096;
 const CONVERSION_DEBOUNCE_MS = 160;
+const PANEL_RESIZE_BREAKPOINT = 900;
+const MIN_PREVIEW_COLUMN_WIDTH = 320;
+const MIN_SETTINGS_PANEL_WIDTH = 260;
+const MIN_SOURCE_PANEL_HEIGHT = 160;
+const MIN_OUTPUT_PANEL_HEIGHT = 180;
+const RESIZER_SIZE = 7;
+const KEYBOARD_RESIZE_STEP = 16;
 
 const elements = {
+  workspaceGrid: document.querySelector(".workspace-grid"),
+  rowResizer: document.querySelector("#row-resizer"),
+  columnResizer: document.querySelector("#column-resizer"),
   openImageButton: document.querySelector("#open-image-button"),
   fileInput: document.querySelector("#file-input"),
   dropZone: document.querySelector("#drop-zone"),
@@ -128,6 +138,7 @@ elements.copyButton.addEventListener("click", copyOutput);
 elements.downloadButton.addEventListener("click", downloadOutput);
 
 new ResizeObserver(fitPreview).observe(elements.previewShell);
+setupPanelResizing();
 
 async function loadFiles(fileList) {
   const files = Array.from(fileList ?? []);
@@ -464,6 +475,146 @@ function fitPreview() {
   const fitted = (availableWidth * 12) / (state.outputColumns * characterWidthAtTwelve);
   const fontSize = Math.max(3, Math.min(12, fitted));
   elements.output.style.setProperty("--preview-font-size", `${fontSize.toFixed(2)}px`);
+}
+
+function setupPanelResizing() {
+  const resizers = [
+    {
+      element: elements.columnResizer,
+      axis: "x",
+      cursor: "col-resize",
+      resizeFromPointer(startValue, pointerDelta) {
+        setSettingsPanelWidth(startValue - pointerDelta);
+      },
+      resizeFromKeyboard(delta) {
+        const currentLeftWidth =
+          elements.columnResizer.getBoundingClientRect().left -
+          elements.workspaceGrid.getBoundingClientRect().left;
+        setSettingsPanelWidth(
+          elements.workspaceGrid.clientWidth - RESIZER_SIZE - currentLeftWidth - delta,
+        );
+      },
+    },
+    {
+      element: elements.rowResizer,
+      axis: "y",
+      cursor: "row-resize",
+      resizeFromPointer(startValue, pointerDelta) {
+        setSourcePanelHeight(startValue + pointerDelta);
+      },
+      resizeFromKeyboard(delta) {
+        setSourcePanelHeight(currentSourcePanelHeight() + delta);
+      },
+    },
+  ];
+
+  for (const resizer of resizers) {
+    let drag = null;
+
+    resizer.element.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "mouse" && event.button !== 0) {
+        return;
+      }
+      const gridStyles = getComputedStyle(elements.workspaceGrid);
+      drag = {
+        pointerId: event.pointerId,
+        startPointer: resizer.axis === "x" ? event.clientX : event.clientY,
+        startValue:
+          resizer.axis === "x"
+            ? Number.parseFloat(gridStyles.getPropertyValue("--settings-panel-width"))
+            : currentSourcePanelHeight(),
+      };
+      resizer.element.setPointerCapture(event.pointerId);
+      resizer.element.classList.add("is-resizing");
+      document.body.classList.add("is-resizing-panels");
+      document.body.style.setProperty("--panel-resize-cursor", resizer.cursor);
+      event.preventDefault();
+    });
+
+    resizer.element.addEventListener("pointermove", (event) => {
+      if (!drag || event.pointerId !== drag.pointerId) {
+        return;
+      }
+      const pointer = resizer.axis === "x" ? event.clientX : event.clientY;
+      resizer.resizeFromPointer(drag.startValue, pointer - drag.startPointer);
+    });
+
+    const finishDragging = (event) => {
+      if (!drag || event.pointerId !== drag.pointerId) {
+        return;
+      }
+      drag = null;
+      resizer.element.classList.remove("is-resizing");
+      document.body.classList.remove("is-resizing-panels");
+      document.body.style.removeProperty("--panel-resize-cursor");
+    };
+    resizer.element.addEventListener("pointerup", finishDragging);
+    resizer.element.addEventListener("pointercancel", finishDragging);
+    resizer.element.addEventListener("lostpointercapture", finishDragging);
+
+    resizer.element.addEventListener("keydown", (event) => {
+      const direction =
+        resizer.axis === "x"
+          ? { ArrowLeft: -1, ArrowRight: 1 }[event.key]
+          : { ArrowUp: -1, ArrowDown: 1 }[event.key];
+      if (!direction) {
+        return;
+      }
+      resizer.resizeFromKeyboard(direction * KEYBOARD_RESIZE_STEP);
+      event.preventDefault();
+    });
+
+    resizer.element.addEventListener("dblclick", resetPanelSizes);
+  }
+
+  new ResizeObserver(clampPanelSizes).observe(elements.workspaceGrid);
+  clampPanelSizes();
+}
+
+function setSettingsPanelWidth(width) {
+  const availableWidth = elements.workspaceGrid.clientWidth - RESIZER_SIZE;
+  const maximum = Math.max(MIN_SETTINGS_PANEL_WIDTH, availableWidth - MIN_PREVIEW_COLUMN_WIDTH);
+  const clamped = clamp(width, MIN_SETTINGS_PANEL_WIDTH, maximum);
+  elements.workspaceGrid.style.setProperty("--settings-panel-width", `${clamped}px`);
+  const dividerPosition = ((availableWidth - clamped) / availableWidth) * 100;
+  elements.columnResizer.setAttribute("aria-valuenow", String(Math.round(dividerPosition)));
+}
+
+function setSourcePanelHeight(height) {
+  const availableHeight = elements.workspaceGrid.clientHeight - RESIZER_SIZE;
+  const maximum = Math.max(MIN_SOURCE_PANEL_HEIGHT, availableHeight - MIN_OUTPUT_PANEL_HEIGHT);
+  const clamped = clamp(height, MIN_SOURCE_PANEL_HEIGHT, maximum);
+  elements.workspaceGrid.style.setProperty("--source-panel-height", `${clamped}px`);
+  elements.rowResizer.setAttribute(
+    "aria-valuenow",
+    String(Math.round((clamped / availableHeight) * 100)),
+  );
+}
+
+function clampPanelSizes() {
+  if (window.innerWidth <= PANEL_RESIZE_BREAKPOINT) {
+    return;
+  }
+  const styles = getComputedStyle(elements.workspaceGrid);
+  setSettingsPanelWidth(Number.parseFloat(styles.getPropertyValue("--settings-panel-width")));
+  setSourcePanelHeight(currentSourcePanelHeight());
+}
+
+function resetPanelSizes() {
+  elements.workspaceGrid.style.removeProperty("--settings-panel-width");
+  elements.workspaceGrid.style.removeProperty("--source-panel-height");
+  clampPanelSizes();
+}
+
+function clamp(value, minimum, maximum) {
+  return Math.min(maximum, Math.max(minimum, value));
+}
+
+function currentSourcePanelHeight() {
+  return (
+    elements.rowResizer.getBoundingClientRect().top -
+    elements.workspaceGrid.getBoundingClientRect().top
+  );
 }
 
 async function copyOutput() {

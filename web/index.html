@@ -17,7 +17,7 @@
 
     <header class="app-toolbar">
       <a class="brand" href="../" aria-label="Return to Homebase">
-        <span class="brand-mark" aria-hidden="true">A:</span>
+        <span class="brand-mark" aria-hidden="true">S:</span>
         <span><span class="brand-home">Homebase /</span> ASCII Art Generator</span>
       </a>
       <div class="toolbar-actions">
@@ -29,7 +29,7 @@
 
     <main id="workspace" class="editor-shell">
       <div class="workspace-grid">
-        <section class="panel source-panel" aria-labelledby="source-heading">
+        <section id="source-panel" class="panel source-panel" aria-labelledby="source-heading">
           <div class="panel-heading">
             <h1 id="source-heading">Source image</h1>
             <span id="source-dimensions" class="metadata"></span>
@@ -57,7 +57,35 @@
           </div>
         </section>
 
-        <section class="panel settings-panel" aria-labelledby="settings-heading">
+        <div
+          id="row-resizer"
+          class="panel-resizer row-resizer"
+          role="separator"
+          tabindex="0"
+          aria-label="Resize the source image and ASCII preview panes"
+          aria-controls="source-panel output-panel"
+          aria-orientation="horizontal"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="42"
+          title="Drag to resize; double-click to reset"
+        ></div>
+
+        <div
+          id="column-resizer"
+          class="panel-resizer column-resizer"
+          role="separator"
+          tabindex="0"
+          aria-label="Resize the preview and conversion settings panes"
+          aria-controls="source-panel output-panel settings-panel"
+          aria-orientation="vertical"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="62"
+          title="Drag to resize; double-click to reset"
+        ></div>
+
+        <section id="settings-panel" class="panel settings-panel" aria-labelledby="settings-heading">
           <div class="panel-heading">
             <h2 id="settings-heading">Conversion settings</h2>
             <button id="reset-tone-button" class="text-button" type="button">Reset tone</button>
@@ -144,7 +172,7 @@
           <p id="settings-error" class="field-error" role="alert"></p>
         </section>
 
-        <section class="panel output-panel" aria-labelledby="output-heading">
+        <section id="output-panel" class="panel output-panel" aria-labelledby="output-heading">
           <div class="panel-heading output-heading">
             <div class="preview-title">
               <h2 id="output-heading">ASCII preview</h2>
