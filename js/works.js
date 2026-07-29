@@ -11,6 +11,26 @@ const worksEntries = [
     ]
   },
   {
+    date: "July 2026",
+    title: "ASCII Art Generator (Rust)",
+    url: "https://github.com/svsam/ASCIIArtGenerator",
+    content: [
+      {
+        type: "text",
+        value: "ASCII Art Generator is a cross-platform Rust desktop editor that turns images into text you can save, share, paste into a terminal, or use wherever a picture is not an option. It exports portable monochrome .txt files and, when you want to keep the image's colour, 24-bit ANSI-colour .ansi.txt files.",
+      },
+      {
+        type: "text",
+        value: "This also contains a standalone browser editor styled after the desktop application. It accepts one image at a time, lets you change the light-to-dark character ramp, output width, tone, RGB gains, and transparency matte, and produces monochrome ASCII that you can copy or download. Conversion runs locally in a Web Worker through WebAssembly; the source image is never uploaded.",
+      },
+      {
+        type: "image",
+        src: "../css/Images/ASCIIExample.png",
+        alt: "The ASCII Art Generator desktop application with a preview of the ASCII art output and a settings panel for adjusting the conversion parameters",
+      }
+    ]
+  },
+  {
     date: "June 2026",
     title: "Journal Room Voxel and Shader Engine (JS)",
     url: "../journal/",
