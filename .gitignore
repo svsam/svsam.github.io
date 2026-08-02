@@ -1,11 +1,19 @@
-# Webpage source allowlist
+# Website file allowlist
 # Ignore every new file by default, while still traversing directories, and
-# allow only HTML, CSS, and JavaScript source files into the repository.
+# allow the source and static assets that GitHub Pages needs to publish.
 *
 !*/
 !*.html
 !*.css
 !*.js
+!*.gif
+!*.jpg
+!*.jpeg
+!*.png
+!*.webp
+!*.avif
+!*.svg
+!*.ico
 !/.gitignore
 
 # Secrets and machine-local configuration
