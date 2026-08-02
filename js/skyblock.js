@@ -45,7 +45,7 @@ function setStatus(message, isError = false) {
 function setPlayerSkull(player) {
   if (!playerSkull) return;
 
-  const fallback = playerSkull.dataset.defaultSrc || "../css/Images/Enchanting_table.gif";
+  const fallback = playerSkull.dataset.defaultSrc || "../css/Images/skyblock/player-avatar-fallback.gif";
   const uuid = player?.uuid ? String(player.uuid).replace(/-/g, "") : "";
 
   if (!uuid) {
@@ -60,7 +60,7 @@ function setPlayerSkull(player) {
 
 if (playerSkull) {
   playerSkull.addEventListener("error", () => {
-    const fallback = playerSkull.dataset.defaultSrc || "../css/Images/Enchanting_table.gif";
+    const fallback = playerSkull.dataset.defaultSrc || "../css/Images/skyblock/player-avatar-fallback.gif";
     if (playerSkull.getAttribute("src") !== fallback) {
       playerSkull.src = fallback;
       playerSkull.alt = "";

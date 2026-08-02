@@ -1,6 +1,51 @@
-# wrangler files
-.wrangler
-.dev.vars*
-!.dev.vars.example
-.env*
-!.env.example
+# Webpage source allowlist
+# Ignore every new file by default, while still traversing directories, and
+# allow only HTML, CSS, and JavaScript source files into the repository.
+*
+!*/
+!*.html
+!*.css
+!*.js
+!/.gitignore
+
+# Secrets and machine-local configuration
+# These overrides remain ignored even when their extension is otherwise
+# allowed by the webpage source allowlist above.
+.env
+.env.*
+**/.env
+**/.env.*
+.dev.vars
+.dev.vars.*
+**/.dev.vars
+**/.dev.vars.*
+**/secret.js
+**/secrets.js
+**/*-secret.js
+**/credentials.js
+**/*-credentials.js
+**/*.local.js
+**/private/
+**/secrets/
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Local tooling, generated output, and operating-system metadata
+.wrangler/
+**/.wrangler/
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+coverage/
+**/coverage/
+.cache/
+**/.cache/
+.DS_Store
+**/.DS_Store
+Thumbs.db
+
+# User-generated data retained locally
+/data/guestbook.json

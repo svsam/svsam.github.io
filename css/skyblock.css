@@ -18,7 +18,7 @@ body.skyblockPageBody {
     align-items: flex-start;
     background:
         linear-gradient(135deg, rgba(7, 16, 13, 0.94), rgba(12, 14, 28, 0.92)),
-        url("Images/starrybackground.gif");
+        url("Images/skyblock/skyblock-starfield-background.gif");
     background-attachment: fixed;
     background-position: center;
     border-color: var(--site-border-color);
@@ -32,7 +32,7 @@ body.skyblockPageBody {
 body.skyblockPageBody::before {
     background:
         linear-gradient(rgba(7, 16, 13, 0.34), rgba(7, 16, 13, 0.9)),
-        url("Images/omori-wallpaper.png");
+        url("Images/skyblock/ambient-space-pattern.png");
     background-position: center;
     background-size: cover;
     opacity: 0.16;

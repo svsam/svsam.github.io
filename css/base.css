@@ -22,7 +22,7 @@ body {
 }
 
 body::before {
-    background-image: url("Images/starrybackground.gif");
+    background-image: none;
     background-position: center;
     background-size: auto;
     content: "";
