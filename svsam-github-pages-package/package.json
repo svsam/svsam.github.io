@@ -1,0 +1,12 @@
+{
+  "name": "uk-reporting-automation-launch-kit",
+  "private": true,
+  "version": "1.0.0",
+  "description": "GitHub Pages-ready SvS launch system for managed reporting, hospitality operations and consumer stay discovery.",
+  "scripts": {
+    "check": "node tools/security-check.mjs && node tools/validate.mjs",
+    "security-check": "node tools/security-check.mjs",
+    "serve": "node tools/serve.mjs",
+    "smoke": "node tools/browser-smoke.mjs"
+  }
+}

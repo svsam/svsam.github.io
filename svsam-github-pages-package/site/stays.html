@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A pre-launch accommodation search and referral concept from SvS (SvSam). Provider connections are pending; no live inventory, prices or bookings are available.">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+  <meta name="theme-color" content="#f6f3ea">
+  <title>Find a stay | SvS by SvSam | Pre-launch concept</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="stays.css">
+  <script src="stays.js" defer></script>
+</head>
+<body class="stays-page">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <div class="stays-banner" role="status">
+    <div class="shell stays-banner-inner">
+      <span class="stays-banner-dot" aria-hidden="true"></span>
+      <strong>Pre-launch prototype</strong>
+      <span>Provider connections are pending. This page cannot check availability or make bookings.</span>
+    </div>
+  </div>
+
+  <header class="site-header stays-header" data-header>
+    <div class="shell header-inner">
+      <a class="brand stays-brand" href="stays.html" aria-label="SvS by SvSam stays home">
+        <svg class="brand-mark" viewBox="0 0 34 34" aria-hidden="true">
+          <rect x="2" y="2" width="30" height="30" rx="9"></rect>
+          <path d="M9 23V16m8 7V10m8 13v-9"></path>
+        </svg>
+        <span>SvS<span class="brand-dot">.</span> <small>by SvSam</small></span>
+      </a>
+
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="stays-nav" data-menu-button>
+        <span class="sr-only">Open menu</span>
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="primary-nav" id="stays-nav" aria-label="Stays navigation" data-menu>
+        <a href="#search">Search concept</a>
+        <a href="#how-it-works">How it may work</a>
+        <a href="#safety">Before you continue</a>
+        <a href="hospitality.html">For operators</a>
+        <a class="button button-small button-dark" href="index.html">SvSam services</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="stays-hero" id="top">
+      <div class="shell stays-hero-grid">
+        <div class="stays-hero-copy reveal">
+          <p class="eyebrow"><span></span> Accommodation discovery, in development</p>
+          <h1>One calm place to begin your <em>search for a stay.</em></h1>
+          <p class="stays-lede">Tell us the shape of your trip. This prototype organises your request and shows where future approved provider connections could appear.</p>
+          <ul class="stays-trust-list" aria-label="Prototype boundaries">
+            <li>No account needed</li>
+            <li>No data sent anywhere</li>
+            <li>No hidden booking claim</li>
+          </ul>
+        </div>
+
+        <div class="stays-postcard reveal reveal-delay" aria-hidden="true">
+          <div class="stays-postcard-sky">
+            <span class="stays-sun"></span>
+            <span class="stays-cloud stays-cloud-one"></span>
+            <span class="stays-cloud stays-cloud-two"></span>
+          </div>
+          <div class="stays-landscape">
+            <span class="stays-hill stays-hill-back"></span>
+            <span class="stays-hill stays-hill-front"></span>
+            <span class="stays-house">
+              <i class="stays-roof"></i>
+              <i class="stays-window"></i>
+              <i class="stays-door"></i>
+            </span>
+          </div>
+          <div class="stays-postcard-caption">
+            <span>SEARCH NOTE / 001</span>
+            <strong>Somewhere worth arriving at</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stays-search-band" id="search" aria-labelledby="search-title">
+      <div class="shell">
+        <div class="stays-search-card reveal">
+          <div class="stays-search-heading">
+            <div>
+              <p class="stays-kicker">Local demonstration</p>
+              <h2 id="search-title">Shape your search</h2>
+            </div>
+            <span class="stays-local-badge">Runs in this browser only</span>
+          </div>
+
+          <form class="stays-form" data-stays-form novalidate>
+            <div class="stays-form-grid">
+              <div class="stays-field stays-field-destination">
+                <label for="stay-destination">Destination</label>
+                <span class="stays-field-icon" aria-hidden="true">01</span>
+                <input id="stay-destination" name="destination" type="text" maxlength="80" autocomplete="off" placeholder="City, region or landmark" required>
+              </div>
+
+              <div class="stays-field">
+                <label for="stay-check-in">Check-in</label>
+                <span class="stays-field-icon" aria-hidden="true">02</span>
+                <input id="stay-check-in" name="checkIn" type="date" required>
+              </div>
+
+              <div class="stays-field">
+                <label for="stay-check-out">Check-out</label>
+                <span class="stays-field-icon" aria-hidden="true">03</span>
+                <input id="stay-check-out" name="checkOut" type="date" required>
+              </div>
+
+              <div class="stays-field">
+                <label for="stay-guests">Guests</label>
+                <span class="stays-field-icon" aria-hidden="true">04</span>
+                <select id="stay-guests" name="guests" required>
+                  <option value="1">1 guest</option>
+                  <option value="2" selected>2 guests</option>
+                  <option value="3">3 guests</option>
+                  <option value="4">4 guests</option>
+                  <option value="5">5 guests</option>
+                  <option value="6">6 guests</option>
+                  <option value="7">7 guests</option>
+                  <option value="8">8 guests</option>
+                  <option value="9+">9+ guests</option>
+                </select>
+              </div>
+
+              <div class="stays-field">
+                <label for="stay-type">Accommodation</label>
+                <span class="stays-field-icon" aria-hidden="true">05</span>
+                <select id="stay-type" name="accommodation" required>
+                  <option value="Any type">Any type</option>
+                  <option value="Hotel">Hotel</option>
+                  <option value="Apartment">Apartment</option>
+                  <option value="Entire home">Entire home</option>
+                  <option value="Guesthouse or B&amp;B">Guesthouse or B&amp;B</option>
+                  <option value="Hostel">Hostel</option>
+                </select>
+              </div>
+
+              <button class="button button-primary stays-search-button" type="submit">
+                Preview provider options <span aria-hidden="true">&rarr;</span>
+              </button>
+            </div>
+
+            <p class="stays-form-error" data-form-error role="alert" hidden></p>
+            <p class="stays-privacy-inline"><strong>Privacy:</strong> your entries are processed on this device to prepare a demonstration summary. Nothing is transmitted, stored, tracked or used to contact you.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="stays-results" data-results hidden aria-live="polite" aria-labelledby="results-title">
+      <div class="shell">
+        <div class="stays-results-head">
+          <div>
+            <p class="eyebrow"><span></span> Demonstration result</p>
+            <h2 id="results-title">Your search, organised.</h2>
+          </div>
+          <button class="stays-edit-button" type="button" data-edit-search>Edit search</button>
+        </div>
+
+        <dl class="stays-summary" data-search-summary>
+          <div><dt>Destination</dt><dd data-summary-destination>&mdash;</dd></div>
+          <div><dt>Dates</dt><dd data-summary-dates>&mdash;</dd></div>
+          <div><dt>Party</dt><dd data-summary-guests>&mdash;</dd></div>
+          <div><dt>Stay type</dt><dd data-summary-type>&mdash;</dd></div>
+        </dl>
+
+        <div class="stays-results-note">
+          <span aria-hidden="true">i</span>
+          <p><strong>This is not a live comparison.</strong> The cards below are placeholders showing how approved referral providers may be presented later. They contain no inventory, ranking, price or availability data.</p>
+        </div>
+
+        <div class="stays-provider-grid" data-provider-grid></div>
+      </div>
+    </section>
+
+    <section class="stays-process section" id="how-it-works">
+      <div class="shell">
+        <div class="stays-section-heading reveal">
+          <p class="eyebrow"><span></span> Proposed journey</p>
+          <h2>Simple hand-off.<br>Clear responsibility.</h2>
+          <p>If suitable commercial connections are approved, SvS would help you organise a search and then send you to the selected provider to verify and complete it.</p>
+        </div>
+
+        <ol class="stays-steps reveal">
+          <li>
+            <span>01</span>
+            <h3>Describe the trip</h3>
+            <p>Enter destination, dates, party size and the kind of accommodation you prefer.</p>
+          </li>
+          <li>
+            <span>02</span>
+            <h3>Choose a provider</h3>
+            <p>Future results may link to approved external services. Their own terms, data and inventory would apply.</p>
+          </li>
+          <li>
+            <span>03</span>
+            <h3>Verify and book there</h3>
+            <p>Review the final price, availability, cancellation rules and property details directly with that provider.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="stays-safety section" id="safety">
+      <div class="shell stays-safety-grid">
+        <div class="stays-safety-copy reveal">
+          <p class="eyebrow eyebrow-light"><span></span> Before any public launch</p>
+          <h2>Trust starts with saying exactly what the service is.</h2>
+          <p>SvS is evaluating referral or partner arrangements. Until one is formally approved and implemented, this page remains a public-source, pre-launch demonstration with no live provider connection.</p>
+        </div>
+
+        <div class="stays-boundaries reveal reveal-delay">
+          <article>
+            <span>Independent service</span>
+            <h3>No provider affiliation is claimed.</h3>
+            <p>Airbnb, Booking.com and other provider names may appear only to describe possible future destinations. SvS / SvSam is not currently affiliated with, endorsed by or acting for those providers.</p>
+          </article>
+          <article>
+            <span>External checkout</span>
+            <h3>The provider would own the booking.</h3>
+            <p>Any future reservation, payment, amendment, refund, cancellation, support request or dispute would be handled under the chosen provider's terms.</p>
+          </article>
+          <article>
+            <span>Public source code</span>
+            <h3>No secrets belong in this website.</h3>
+            <p>This static GitHub Pages build contains no credentials or private configuration. Future API keys, signed requests and sensitive operations must stay in a separate secure server environment.</p>
+          </article>
+          <article>
+            <span>Consumer clarity</span>
+            <h3>Details must be checked at source.</h3>
+            <p>Final price, fees, taxes, availability, accessibility, house rules and cancellation conditions must be verified on the provider's website before booking.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="stays-route section" aria-labelledby="stays-route-title">
+      <div class="shell stays-route-card reveal">
+        <div>
+          <p class="stays-kicker">Running accommodation professionally?</p>
+          <h2 id="stays-route-title">There is a separate route for operators.</h2>
+          <p>Hotels and professional short-stay operators can explore SvSam's reporting-service discovery page. It is distinct from this consumer concept.</p>
+        </div>
+        <a class="button button-dark" href="hospitality.html">Hospitality services <span aria-hidden="true">&rarr;</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer stays-footer">
+    <div class="shell footer-top">
+      <a class="brand brand-footer" href="stays.html" aria-label="SvS by SvSam stays home">
+        <svg class="brand-mark" viewBox="0 0 34 34" aria-hidden="true">
+          <rect x="2" y="2" width="30" height="30" rx="9"></rect>
+          <path d="M9 23V16m8 7V10m8 13v-9"></path>
+        </svg>
+        <span>SvS<span class="brand-dot">.</span> <small>by SvSam</small></span>
+      </a>
+      <p>Pre-launch accommodation discovery concept. No live inventory, prices, availability or booking capability.</p>
+      <nav aria-label="Footer navigation">
+        <a href="#search">Search concept</a>
+        <a href="hospitality.html">For operators</a>
+        <a href="index.html">SvSam services</a>
+        <a href="booking-terms.html">Booking boundaries</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="affiliate-disclosure.html">Affiliate disclosure</a>
+      </nav>
+    </div>
+    <div class="shell footer-bottom">
+      <p>© <span data-current-year>2026</span> Sam Seifi, sole trader. SvS is the temporary consumer-facing name of SvSam.</p>
+      <p>No cookies, tracking or data transmission on this prototype.</p>
+    </div>
+  </footer>
+</body>
+</html>
