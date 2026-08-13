@@ -1,0 +1,54 @@
+body {
+    background-color: #0C0C0C;
+    font-family: JetBrains Mono, monospace;
+    color: #CCCCCC;
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100svh;
+    text-align: center;
+}
+
+.devHeader {
+    border-bottom: 1px solid #CCCCCC;
+    width: 100%;
+}
+
+.devNav {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(1rem, 5vw, 3rem);
+    justify-content: center;
+    padding: 1rem;
+    text-align: center;
+}
+
+.devContent {
+    align-items: center;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.title {
+    margin: 0;
+    text-align: center;
+}
+
+.devFooter {
+    padding: 1rem;
+    text-align: center;
+}
+
+.homeClock {
+    margin: 0;
+    text-align: center;
+}
+
+.homeClock time {
+    font-variant-numeric: tabular-nums;
+}
