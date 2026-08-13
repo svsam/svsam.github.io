@@ -1,0 +1,17 @@
+record_type,period,week,channel,spend_gbp,attributed_revenue_gbp,conversions,source_extract_id,synthetic
+channel_summary,2026-06,,Google Search,42560,221400,1560,SYN-GADS-0626,true
+channel_summary,2026-06,,Meta Paid,28940,137250,1180,SYN-META-0626,true
+channel_summary,2026-06,,LinkedIn,9440,42100,356,SYN-LINK-0626,true
+channel_summary,2026-06,,TikTok,5480,21150,190,SYN-TTOK-0626,true
+channel_summary,2026-05,,Google Search,38110,195800,1410,SYN-GADS-0526,true
+channel_summary,2026-05,,Meta Paid,27480,128600,1145,SYN-META-0526,true
+channel_summary,2026-05,,LinkedIn,9100,40050,349,SYN-LINK-0526,true
+channel_summary,2026-05,,TikTok,5170,20250,200,SYN-TTOK-0526,true
+weekly_revenue,2026-06,1,All channels,,82400,,,true
+weekly_revenue,2026-06,2,All channels,,96800,,,true
+weekly_revenue,2026-06,3,All channels,,123700,,,true
+weekly_revenue,2026-06,4,All channels,,119000,,,true
+weekly_revenue,2026-05,1,All channels,,86500,,,true
+weekly_revenue,2026-05,2,All channels,,91700,,,true
+weekly_revenue,2026-05,3,All channels,,99800,,,true
+weekly_revenue,2026-05,4,All channels,,106700,,,true
