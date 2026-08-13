@@ -59,6 +59,10 @@
     padding: 10px;
 }
 
+.homeBody::before {
+    background-image: url("Images/home/home-starfield-background.gif");
+}
+
 .homePage {
     --orbit-diameter: min(34vw, 42vh, 620px);
     --orbit-radius: calc(var(--orbit-diameter) / 2);

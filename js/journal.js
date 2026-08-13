@@ -49,7 +49,7 @@ const journalEntries = [
       },
       {
         type: "image",
-        src: "../css/Images/mika_2.png",
+        src: "../css/Images/journal/mika-playing-journal-photo.png",
         alt: "Mika, the cat",
       },
       {
@@ -70,7 +70,7 @@ const journalEntries = [
       },
       {
         type: "image",
-        src: "../css/Images/floralTerminal.png",
+        src: "../css/Images/journal/legacy-floral-terminal-homepage.png",
         alt: "The old Floral Terminal website design",
       },
     ],
@@ -117,7 +117,7 @@ const journalEntries = [
       },
       {
         type: "image",
-        src: "../css/Images/Screenshot 2026-04-17 013544.png",
+        src: "../css/Images/journal/legacy-vaporwave-homepage.png",
         alt: "An older vapourwave version of the website",
       },
       {

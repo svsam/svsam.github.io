@@ -25,7 +25,7 @@ const worksEntries = [
       },
       {
         type: "image",
-        src: "../css/Images/journal-voxel-engine.png",
+        src: "../css/Images/works/journal-room-voxel-engine-screenshot.png",
         alt: "The interactive voxel Journal Room with bookshelves, an enchantment table, glowing runes, and a model solar system across the ceiling",
       },
     ]
@@ -76,7 +76,7 @@ const worksEntries = [
         },
       {
         type: "image",
-        src: "../css/Images/hrdiagram.png"
+        src: "../css/Images/works/gaia-hr-diagram.png"
       }
     ],
   },
@@ -110,7 +110,7 @@ const worksEntries = [
       },
       {
         type: "image",
-        src: "../css/Images/Black-Hole-simulations.png"
+        src: "../css/Images/works/black-hole-lensing-comparison.png"
       }
     ]
   },
@@ -125,7 +125,7 @@ const worksEntries = [
       },
       {
         type: "image",
-        src: "../css/Images/minesweeper.png"
+        src: "../css/Images/works/minesweeper-solver-screenshot.png"
       }
     ]
   }
