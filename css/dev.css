@@ -12,7 +12,6 @@ body {
 }
 
 .devHeader {
-    border-bottom: 1px solid #CCCCCC;
     width: 100%;
 }
 
@@ -30,13 +29,32 @@ body {
     align-items: center;
     display: flex;
     flex: 1;
-    justify-content: center;
-    padding: 1rem;
+    justify-content: flex-start;
+    padding: clamp(2.5rem, 10vh, 6rem) 1rem 1rem;
+}
+
+.devProfile {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
 }
 
 .title {
     margin: 0;
     text-align: center;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
+.devTextBox {
+    background-color: #141414;
+    box-sizing: border-box;
+    min-height: 10rem;
+    padding: 1rem;
+    text-align: center;
+    width: min(100%, 42rem);
 }
 
 .devFooter {
