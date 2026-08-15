@@ -22,7 +22,6 @@ body {
     gap: clamp(1rem, 5vw, 3rem);
     justify-content: center;
     padding: 1rem;
-    text-align: center;
 }
 
 .devContent {
@@ -49,7 +48,7 @@ body {
 }
 
 .devTextBox {
-    background-color: #141414;
+    background-color: #14141400 ;
     box-sizing: border-box;
     min-height: 10rem;
     padding: 1rem;
@@ -63,6 +62,7 @@ body {
 }
 
 .homeClock {
+    font-size: 12px;
     margin: 0;
     text-align: center;
 }
