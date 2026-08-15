@@ -35,7 +35,7 @@ body {
     align-items: center;
     display: grid;
     gap: clamp(1.5rem, 5vw, 5rem);
-    grid-template-columns: minmax(28rem, 1fr) minmax(18rem, 42rem);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     margin-inline: auto;
     width: min(100%, 80rem);
 }
@@ -59,11 +59,21 @@ body {
 }
 
 .devTextBox {
-    background-color: #14141400 ;
+    aspect-ratio: 20 / 12;
+    background-color: #000000;
+    border: 2px solid #FFFFFF;
     box-sizing: border-box;
     min-width: 0;
-    min-height: 10rem;
-    padding: 1rem;
+    overflow: hidden;
+    padding: 0;
+    position: relative;
+    width: 100%;
+}
+
+.blackHoleCanvas {
+    display: block;
+    height: 100%;
+    image-rendering: pixelated;
     width: 100%;
 }
 
