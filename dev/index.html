@@ -45,6 +45,7 @@
 
             .devProfile {
                 align-items: start;
+                animation: devProfileFadeIn 800ms ease-out both;
                 display: grid;
                 gap: clamp(1.95rem, 6.5vw, 6.5rem);
                 grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -109,11 +110,27 @@
                 text-align: left;
             }
 
+            @keyframes devProfileFadeIn {
+                from {
+                    opacity: 0;
+                }
+
+                to {
+                    opacity: 1;
+                }
+            }
+
             @media (max-width: 54rem) {
                 .devProfile {
                     gap: 2.6rem;
                     grid-template-columns: minmax(0, 1fr);
                     width: min(100%, 54.6rem);
+                }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                .devProfile {
+                    animation: none;
                 }
             }
 
