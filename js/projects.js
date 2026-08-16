@@ -131,8 +131,8 @@ const worksEntries = [
   }
 ];
 
-const worksContainer = document.getElementById("worksEntries");
-const worksTemplate = document.getElementById("worksEntryTemplate");
+const worksContainer = document.getElementById("projectsEntries");
+const worksTemplate = document.getElementById("projectsEntryTemplate");
 
 const appendWorksBlock = (body, block) => {
   if (typeof block === "string" || block?.type === "text") {
@@ -157,20 +157,20 @@ const appendWorksBlock = (body, block) => {
     const image = document.createElement("img");
     image.src = block.src;
     image.alt = block.alt || "";
-    image.className = "journalImage worksImage";
+    image.className = "projectsImage projectsImage";
     image.loading = "lazy";
     image.decoding = "async";
     body.appendChild(image);
   }
 };
 
-if (worksContainer && worksTemplate) {
-  worksEntries.forEach((entry, index) => {
-    const worksNode = worksTemplate.content.cloneNode(true);
-    const number = worksNode.querySelector(".worksEntryNumber");
-    const date = worksNode.querySelector(".worksEntryDate");
-    const titleLink = worksNode.querySelector(".worksEntryTitleLink");
-    const body = worksNode.querySelector(".worksEntryBody");
+if (projectsContainer && projectsTemplate) {
+  projectsEntries.forEach((entry, index) => {
+    const projectsNode = projectsTemplate.content.cloneNode(true);
+    const number = projectsNode.querySelector(".projectsEntryNumber");
+    const date = projectsNode.querySelector(".projectsEntryDate");
+    const titleLink = projectsNode.querySelector(".projectsEntryTitleLink");
+    const body = projectsNode.querySelector(".projectsEntryBody");
 
     if (number) {
       number.textContent = `No. ${String(index + 1).padStart(2, "0")}`;
@@ -186,6 +186,6 @@ if (worksContainer && worksTemplate) {
       appendWorksBlock(body, block);
     });
 
-    worksContainer.appendChild(worksNode);
+    projectsContainer.appendChild(projectsNode);
   });
 }

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../css/base.css">
+        <link rel="stylesheet" href="../css/projects.css">
+        <title>SvS | Projects</title>
+        <link rel="icon" type="image/x-icon" href="../css/Images/projects/site-favicon.jpg">
+    </head>
+
+    <body class="projectsPageBody" data-page="projects">
+        <div class="projectsPendulum" aria-hidden="true"></div>
+
+        <main class="projectsWorkshop">
+            <nav class="projectsTopLinks" aria-label="Projects navigation">
+                <a class="satelliteText projectsHomeLink" href="../" data-rainbow="space">Return to Homebase</a>
+                <div class="projectsNavCluster">
+                    <a class="outwardLink" href="../journal/">Journal</a>
+                    <a class="outwardLink" href="../#checklist">Checklist</a>
+                    <a class="outwardLink" href="../board/">Board</a>
+                </div>
+            </nav>
+
+            <header class="projectsWorkshopHero">
+                <div class="projectsHeroCopy">
+                    <h1 data-rainbow="space">Sam's Projects</h1>
+                    <p>Stuff that's been tinkered or needs tinkering.</p>
+                </div>
+
+                <div class="projectsMachine" aria-hidden="true">
+                    <div class="projectsGauge">
+                        <img src="../css/Images/projects/animated-cog-assembly.gif" style="z-index: -1;" alt="">
+                    </div>
+                    <div class="projectsCog projectsCog--large"></div>
+                    <div class="projectsCog projectsCog--small"></div>
+                </div>
+            </header>
+
+            <section class="projectsBlueprintShelf" aria-label="Projects entries">
+                <div class="projectsShelfHeader">
+                    <h2>Look on projects ye mighty and despair</h2>
+                    <p>If you feel like your device is running slower when opening this page specifically, no it obviously isn't my unoptimised design choices you just have a poor system!!1</p>
+                </div>
+                <div id="projectsEntries" class="projectsEntries"></div>
+            </section>
+        </main>
+
+        <template id="projectsEntryTemplate">
+            <article class="projectsEntry">
+                <div class="projectsEntryPlate">
+                    <span class="projectsEntryNumber"></span>
+                    <span class="projectsEntryDate"></span>
+                </div>
+                <h2 class="projectsEntryTitle">
+                    <a class="projectsEntryTitleLink" href=""></a>
+                </h2>
+                <div class="projectsEntryBody"></div>
+                <footer class="projectsEntryFooter">
+                    <span class="projectsEntryDivider">Cogworks</span>
+                    <span class="projectsEntryStamp">Tinkering...</span>
+                </footer>
+            </article>
+        </template>
+
+        <script src="../js/rainbow.js"></script>
+        <script src="../js/projects.js"></script>
+    </body>
+</html>

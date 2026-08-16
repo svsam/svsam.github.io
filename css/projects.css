@@ -1,4 +1,4 @@
-body.worksPageBody {
+body.projectsPageBody {
     --site-border-color: #7c4a20;
     --space-text-color: #f0c783;
     --space-rainbow-blue: #b87333;
@@ -19,10 +19,10 @@ body.worksPageBody {
     padding: 16px;
 }
 
-body.worksPageBody::before {
+body.projectsPageBody::before {
     background:
         linear-gradient(135deg, rgba(38, 24, 13, 0.2), rgba(8, 5, 3, 0.52)),
-        url("Images/works/mechanical-blueprint-background.png");
+        url("Images/projects/mechanical-blueprint-background.png");
     background-attachment: fixed;
     background-position: center 38%;
     background-repeat: no-repeat;
@@ -31,11 +31,11 @@ body.worksPageBody::before {
     opacity: 0.58;
 }
 
-body.worksPageBody::after {
+body.projectsPageBody::after {
     background:
         radial-gradient(circle at 42% 32%, rgba(255, 226, 166, 0.22), transparent 30%),
         linear-gradient(135deg, rgba(199, 134, 56, 0.28), rgba(26, 18, 11, 0.42)),
-        url("Images/works/animated-cog-assembly.gif");
+        url("Images/projects/animated-cog-assembly.gif");
     background-blend-mode: color, multiply, normal;
     background-position: center;
     background-size: cover;
@@ -57,8 +57,8 @@ body.worksPageBody::after {
     z-index: -1;
 }
 
-.worksPendulum {
-    animation: worksPendulumSwing 5.8s ease-in-out infinite;
+.projectsPendulum {
+    animation: projectsPendulumSwing 5.8s ease-in-out infinite;
     contain: layout paint;
     height: 132vh;
     left: 50%;
@@ -73,7 +73,7 @@ body.worksPageBody::after {
     z-index: -2;
 }
 
-.worksPendulum::before {
+.projectsPendulum::before {
     background:
         linear-gradient(90deg, transparent, rgba(255, 226, 166, 0.54), transparent),
         linear-gradient(180deg, rgba(225, 168, 79, 0.84), rgba(91, 50, 22, 0.92));
@@ -87,7 +87,7 @@ body.worksPageBody::after {
     width: 32px;
 }
 
-.worksPendulum::after {
+.projectsPendulum::after {
     background:
         radial-gradient(circle at 40% 32%, rgba(255, 226, 166, 0.72), transparent 28%),
         radial-gradient(circle, rgba(199, 134, 56, 0.9) 0 38%, rgba(91, 50, 22, 0.94) 39% 68%, rgba(26, 18, 11, 0.88) 69%);
@@ -104,7 +104,7 @@ body.worksPageBody::after {
     width: min(48vw, 520px);
 }
 
-@keyframes worksPendulumSwing {
+@keyframes projectsPendulumSwing {
     0%,
     100% {
         transform: translateX(-50%) rotate(-14deg);
@@ -116,13 +116,13 @@ body.worksPageBody::after {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .worksPendulum {
+    .projectsPendulum {
         animation: none;
         transform: translateX(-50%) rotate(-8deg);
     }
 }
 
-.worksWorkshop {
+.projectsWorkshop {
     color: var(--space-text-color);
     display: flex;
     flex-direction: column;
@@ -131,7 +131,7 @@ body.worksPageBody::after {
     width: min(100%, 1160px);
 }
 
-.worksTopLinks {
+.projectsTopLinks {
     align-items: center;
     display: flex;
     flex-wrap: wrap;
@@ -140,18 +140,18 @@ body.worksPageBody::after {
     width: 100%;
 }
 
-.worksHomeLink {
+.projectsHomeLink {
     margin: 0;
 }
 
-.worksNavCluster {
+.projectsNavCluster {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     justify-content: flex-end;
 }
 
-.worksNavCluster .outwardLink {
+.projectsNavCluster .outwardLink {
     background: rgba(26, 18, 11, 0.72);
     border: 2px solid var(--site-border-color);
     box-shadow: inset 0 0 0 1px rgba(255, 226, 166, 0.08);
@@ -160,7 +160,7 @@ body.worksPageBody::after {
     min-width: 96px;
 }
 
-.worksWorkshopHero {
+.projectsWorkshopHero {
     background:
         linear-gradient(135deg, rgba(42, 28, 17, 0.94), rgba(13, 9, 6, 0.9)),
         repeating-linear-gradient(90deg, rgba(255, 226, 166, 0.04) 0 1px, transparent 1px 18px);
@@ -180,8 +180,8 @@ body.worksPageBody::after {
     text-align: left;
 }
 
-.worksWorkshopHero::before,
-.worksWorkshopHero::after {
+.projectsWorkshopHero::before,
+.projectsWorkshopHero::after {
     border: 2px solid rgba(225, 168, 79, 0.55);
     content: "";
     height: 42px;
@@ -189,28 +189,28 @@ body.worksPageBody::after {
     width: 42px;
 }
 
-.worksWorkshopHero::before {
+.projectsWorkshopHero::before {
     border-right: 0;
     border-bottom: 0;
     left: 12px;
     top: 12px;
 }
 
-.worksWorkshopHero::after {
+.projectsWorkshopHero::after {
     border-left: 0;
     border-top: 0;
     bottom: 12px;
     right: 12px;
 }
 
-.worksHeroCopy {
+.projectsHeroCopy {
     align-self: center;
     max-width: 560px;
     position: relative;
     z-index: 1;
 }
 
-.worksKicker {
+.projectsKicker {
     color: var(--space-rainbow-cyan);
     display: block;
     font-size: 0.86rem;
@@ -219,7 +219,7 @@ body.worksPageBody::after {
     text-transform: uppercase;
 }
 
-.worksWorkshopHero h1 {
+.projectsWorkshopHero h1 {
     color: var(--space-rainbow-star);
     font-size: 3rem;
     font-weight: normal;
@@ -227,12 +227,12 @@ body.worksPageBody::after {
     text-decoration: underline;
 }
 
-.worksWorkshopHero p {
+.projectsWorkshopHero p {
     line-height: 1.55;
     margin: 0;
 }
 
-.worksMachine {
+.projectsMachine {
     align-items: center;
     background:
         radial-gradient(circle at 50% 50%, rgba(255, 226, 166, 0.12), transparent 8rem),
@@ -246,8 +246,8 @@ body.worksPageBody::after {
     position: relative;
 }
 
-.worksGauge,
-.worksCog {
+.projectsGauge,
+.projectsCog {
     aspect-ratio: 1;
     background:
         radial-gradient(circle at 50% 46%, rgba(255, 226, 166, 0.2), transparent 48%),
@@ -263,15 +263,15 @@ body.worksPageBody::after {
     z-index: 2;
 }
 
-.worksGauge {
+.projectsGauge {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     width: 150px;
 }
 
-.worksGauge::before,
-.worksCog::before {
+.projectsGauge::before,
+.projectsCog::before {
     background:
         radial-gradient(circle at 42% 32%, rgba(255, 226, 166, 0.32), transparent 30%),
         linear-gradient(135deg, rgba(199, 134, 56, 0.28), rgba(26, 18, 11, 0.4));
@@ -284,8 +284,8 @@ body.worksPageBody::after {
     z-index: 2;
 }
 
-.worksGauge::after,
-.worksCog::after {
+.projectsGauge::after,
+.projectsCog::after {
     border: 1px solid rgba(255, 226, 166, 0.42);
     border-radius: inherit;
     box-shadow:
@@ -298,8 +298,8 @@ body.worksPageBody::after {
     z-index: 3;
 }
 
-.worksGauge img,
-.worksCog img {
+.projectsGauge img,
+.projectsCog img {
     border-radius: 50%;
     display: block;
     height: 100%;
@@ -308,16 +308,16 @@ body.worksPageBody::after {
     width: 100%;
 }
 
-.worksGauge img::selection,
-.worksCog img::selection {
+.projectsGauge img::selection,
+.projectsCog img::selection {
     background: transparent;
 }
 
-.worksGauge img {
+.projectsGauge img {
     transform: scaleX(-1);
 }
 
-.worksCog {
+.projectsCog {
     box-shadow:
         inset 0 0 0 7px rgba(26, 18, 11, 0.84),
         0 0 18px rgba(199, 134, 56, 0.26);
@@ -327,26 +327,26 @@ body.worksPageBody::after {
     z-index: 1;
 }
 
-.worksCog--large {
+.projectsCog--large {
     left: calc(50% + 40px);
     top: calc(50% + 22px);
     width: 88px;
 }
 
-.worksCog--small {
+.projectsCog--small {
     left: calc(50% - 105px);
     opacity: 0.7;
     top: calc(50% - 86px);
     width: 58px;
 }
 
-.worksStatusRail {
+.projectsStatusRail {
     display: grid;
     gap: 12px;
     grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.worksStatusDial {
+.projectsStatusDial {
     background:
         linear-gradient(135deg, rgba(31, 20, 12, 0.9), rgba(13, 9, 6, 0.86)),
         repeating-linear-gradient(0deg, rgba(255, 226, 166, 0.04) 0 1px, transparent 1px 10px);
@@ -359,20 +359,20 @@ body.worksPageBody::after {
     padding: 14px;
 }
 
-.worksStatusDial span {
+.projectsStatusDial span {
     color: #78b7a4;
     font-size: 0.84rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
 }
 
-.worksStatusDial strong {
+.projectsStatusDial strong {
     color: var(--space-rainbow-star);
     font-size: 1.15rem;
     font-weight: normal;
 }
 
-.worksBlueprintShelf {
+.projectsBlueprintShelf {
     background: rgba(16, 10, 6, 0.74);
     border: 2px solid var(--site-border-color);
     box-shadow:
@@ -385,7 +385,7 @@ body.worksPageBody::after {
     width: 100%;
 }
 
-.worksShelfHeader {
+.projectsShelfHeader {
     align-items: end;
     border-bottom: 2px solid rgba(124, 74, 32, 0.78);
     display: grid;
@@ -395,7 +395,7 @@ body.worksPageBody::after {
     text-align: left;
 }
 
-.worksShelfHeader h2 {
+.projectsShelfHeader h2 {
     color: var(--space-rainbow-star);
     font-size: 1.45rem;
     font-weight: normal;
@@ -404,20 +404,20 @@ body.worksPageBody::after {
     padding-bottom: 10px;
 }
 
-.worksShelfHeader p {
+.projectsShelfHeader p {
     color: var(--space-text-color);
     line-height: 1.55;
     margin: 0;
 }
 
-.worksEntries {
+.projectsEntries {
     display: grid;
     gap: 14px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     width: 100%;
 }
 
-.worksEntry {
+.projectsEntry {
     background:
         radial-gradient(circle at top right, rgba(120, 183, 164, 0.14), transparent 9rem),
         linear-gradient(135deg, rgba(44, 28, 15, 0.95), rgba(13, 9, 6, 0.9)),
@@ -440,8 +440,8 @@ body.worksPageBody::after {
     contain-intrinsic-size: 300px;
 }
 
-.worksEntry::before,
-.worksEntry::after {
+.projectsEntry::before,
+.projectsEntry::after {
     background: #e1a84f;
     border-radius: 50%;
     box-shadow: 0 0 10px rgba(225, 168, 79, 0.3);
@@ -452,15 +452,15 @@ body.worksPageBody::after {
     width: 8px;
 }
 
-.worksEntry::before {
+.projectsEntry::before {
     left: 10px;
 }
 
-.worksEntry::after {
+.projectsEntry::after {
     right: 10px;
 }
 
-.worksEntryPlate {
+.projectsEntryPlate {
     align-items: center;
     border-bottom: 2px solid rgba(124, 74, 32, 0.78);
     display: flex;
@@ -469,54 +469,54 @@ body.worksPageBody::after {
     padding-bottom: 12px;
 }
 
-.worksEntryNumber {
+.projectsEntryNumber {
     color: #78b7a4;
     font-size: 0.84rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
 }
 
-.worksEntryDate {
+.projectsEntryDate {
     color: var(--space-rainbow-cyan);
     font-size: 0.9rem;
     font-variant-numeric: tabular-nums;
 }
 
-.worksEntryDivider {
-    color: var(--works-brass);
+.projectsEntryDivider {
+    color: var(--projects-brass);
     font-size: 0.78rem;
     letter-spacing: 0.08em;
 }
 
-.worksEntryTitle {
+.projectsEntryTitle {
     font-size: 1.28rem;
     font-weight: normal;
     margin: 16px 0 0;
 }
 
-.worksEntryTitleLink {
+.projectsEntryTitleLink {
     color: var(--space-rainbow-star);
     text-decoration: underline;
 }
 
-.worksEntryTitleLink:hover,
-.worksEntryTitleLink:focus-visible {
+.projectsEntryTitleLink:hover,
+.projectsEntryTitleLink:focus-visible {
     color: var(--space-rainbow-cyan);
     text-shadow: 0 0 8px rgba(225, 168, 79, 0.48);
 }
 
-.worksEntryBody {
+.projectsEntryBody {
     display: grid;
     gap: 12px;
     margin-top: 14px;
 }
 
-.worksEntryBody p {
+.projectsEntryBody p {
     line-height: 1.65;
     margin: 0;
 }
 
-.worksEntryFooter {
+.projectsEntryFooter {
     align-items: center;
     border-top: 2px solid rgba(124, 74, 32, 0.78);
     display: flex;
@@ -526,12 +526,12 @@ body.worksPageBody::after {
     padding-top: 14px;
 }
 
-.worksEntryStamp {
+.projectsEntryStamp {
     color: #78b7a4;
     font-size: 0.84rem;
 }
 
-.worksImage {
+.projectsImage {
     border: 2px solid var(--site-border-color);
     box-shadow: 0 0 20px rgba(199, 134, 56, 0.2);
     display: block;
@@ -542,26 +542,26 @@ body.worksPageBody::after {
 }
 
 @media (max-width: 700px) {
-    .worksWorkshopHero {
+    .projectsWorkshopHero {
         grid-template-columns: 1fr;
     }
 
-    .worksWorkshopHero h1 {
+    .projectsWorkshopHero h1 {
         font-size: 2.25rem;
     }
 
-    .worksStatusRail,
-    .worksShelfHeader,
-    .worksEntries {
+    .projectsStatusRail,
+    .projectsShelfHeader,
+    .projectsEntries {
         grid-template-columns: 1fr;
     }
 
-    .worksNavCluster {
+    .projectsNavCluster {
         justify-content: stretch;
         width: 100%;
     }
 
-    .worksNavCluster .outwardLink {
+    .projectsNavCluster .outwardLink {
         flex: 1 1 130px;
     }
 }
