@@ -4,7 +4,16 @@ const pageRoot = document.documentElement;
 let focusHomepageAfterReveal = false;
 
 const revealHomepage = () => {
+  const introWasActive = pageRoot.classList.contains("devIntroPending");
   pageRoot.classList.remove("devIntroPending", "devIntroExiting");
+
+  if (introWasActive) {
+    try {
+      sessionStorage.setItem("svsamIntroSeen", "true");
+    } catch (error) {
+      // The reveal still works when storage is unavailable.
+    }
+  }
 
   if (blackHoleEntry) {
     blackHoleEntry.classList.remove(
@@ -35,6 +44,10 @@ const revealHomepage = () => {
   }
 };
 
+if (!pageRoot.classList.contains("devIntroPending")) {
+  revealHomepage();
+}
+
 if (blackHoleCanvas && blackHoleEntry) {
   const context = blackHoleCanvas.getContext("2d", { alpha: false });
 
@@ -62,6 +75,8 @@ if (blackHoleCanvas && blackHoleEntry) {
     let isEnteringHomepage = false;
     let isConsumingParticles = false;
     let consumptionStartTime = 0;
+    let isEventHorizonHovered = false;
+    let eventHorizonScale = 1;
 
     context.imageSmoothingEnabled = false;
 
@@ -143,6 +158,15 @@ if (blackHoleCanvas && blackHoleEntry) {
       });
     };
 
+    const updateEventHorizonScale = (elapsedSeconds) => {
+      const targetScale =
+        isEventHorizonHovered || isConsumingParticles ? 1.28 : 1;
+      const scaleStep = Math.min(1, elapsedSeconds * 8);
+
+      eventHorizonScale +=
+        (targetScale - eventHorizonScale) * scaleStep;
+    };
+
     const fillPixelCircle = (radius) => {
       for (let y = -radius; y <= radius; y += 1) {
         const halfWidth = Math.floor(Math.sqrt(radius * radius - y * y));
@@ -193,10 +217,22 @@ if (blackHoleCanvas && blackHoleEntry) {
 
       context.globalAlpha = 1;
       context.fillStyle = "#000000";
-      fillPixelCircle(eventHorizonRadius);
+      const renderedEventHorizonRadius = Math.round(
+        eventHorizonRadius * eventHorizonScale
+      );
+      const renderedPhotonRingRadius = Math.round(
+        photonRingRadius * eventHorizonScale
+      );
 
-      drawDottedRing(eventHorizonRadius + 1, 52, 0, 1);
-      drawDottedRing(photonRingRadius, 34, time * 0.00012, 0.58);
+      fillPixelCircle(renderedEventHorizonRadius);
+
+      drawDottedRing(renderedEventHorizonRadius + 1, 52, 0, 1);
+      drawDottedRing(
+        renderedPhotonRingRadius,
+        34,
+        time * 0.00012,
+        0.58
+      );
       context.globalAlpha = 1;
     };
 
@@ -227,6 +263,7 @@ if (blackHoleCanvas && blackHoleEntry) {
 
       if (elapsed >= frameInterval) {
         updateParticles(Math.min(elapsed, 100) / 1000);
+        updateEventHorizonScale(Math.min(elapsed, 100) / 1000);
         drawScene(time);
         previousFrameTime = time;
 
@@ -270,7 +307,7 @@ if (blackHoleCanvas && blackHoleEntry) {
 
       return (
         Math.hypot(canvasX - centerX, canvasY - centerY) <=
-        photonRingRadius + 6
+        photonRingRadius * eventHorizonScale + 6
       );
     };
 
@@ -285,6 +322,8 @@ if (blackHoleCanvas && blackHoleEntry) {
         particles.forEach((particle) => resetParticle(particle, true));
         stars.forEach(resetStar);
         isConsumingParticles = false;
+        isEventHorizonHovered = false;
+        eventHorizonScale = 1;
         drawScene();
         revealHomepage();
       }, reducedMotion.matches ? 0 : 650);
@@ -296,6 +335,7 @@ if (blackHoleCanvas && blackHoleEntry) {
       }
 
       isEnteringHomepage = true;
+      isEventHorizonHovered = false;
       blackHoleEntry.classList.remove("isEventHorizonHovered");
       blackHoleEntry.classList.add("isConsuming");
       blackHoleEntry.setAttribute("aria-busy", "true");
@@ -314,18 +354,27 @@ if (blackHoleCanvas && blackHoleEntry) {
       const isHoveringEventHorizon =
         isIntroActive() && isEventHorizonHit(event);
 
+      isEventHorizonHovered = isHoveringEventHorizon;
+
       blackHoleEntry.classList.toggle(
         "isEventHorizonHovered",
         isHoveringEventHorizon
       );
 
-      if (isHoveringEventHorizon) {
-        enterHomepage();
+      if (reducedMotion.matches) {
+        eventHorizonScale = isHoveringEventHorizon ? 1.28 : 1;
+        drawScene();
       }
     });
 
     blackHoleEntry.addEventListener("pointerleave", () => {
+      isEventHorizonHovered = false;
       blackHoleEntry.classList.remove("isEventHorizonHovered");
+
+      if (reducedMotion.matches) {
+        eventHorizonScale = 1;
+        drawScene();
+      }
     });
 
     blackHoleEntry.addEventListener("click", (event) => {

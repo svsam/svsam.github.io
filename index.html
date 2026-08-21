@@ -6,7 +6,27 @@
         <meta name="p:domain_verify" content="52413982c63f4d025687d6189e81ce64"/>
         <link rel="stylesheet" href="/css/dev.css">
         <script>
-            document.documentElement.classList.add("devIntroPending");
+            (function () {
+                var hasSeenIntro = false;
+                var isInternalNavigation = false;
+
+                try {
+                    hasSeenIntro = sessionStorage.getItem("svsamIntroSeen") === "true";
+                } catch (error) {
+                    hasSeenIntro = false;
+                }
+
+                try {
+                    isInternalNavigation = Boolean(document.referrer) &&
+                        new URL(document.referrer).origin === window.location.origin;
+                } catch (error) {
+                    isInternalNavigation = false;
+                }
+
+                if (!hasSeenIntro && !isInternalNavigation) {
+                    document.documentElement.classList.add("devIntroPending");
+                }
+            }());
         </script>
 
         <title>/ SvS / dev </title>
@@ -184,7 +204,7 @@
                     id="blackHoleEntry"
                     role="button"
                     tabindex="0"
-                    aria-label="Hover over the black hole event horizon to enter the website"
+                    aria-label="Click the black hole event horizon to enter the website"
                 >
                     <canvas
                         class="blackHoleCanvas"
