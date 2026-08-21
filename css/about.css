@@ -5,7 +5,7 @@
     flex: 1;
     justify-content: center;
     min-width: 0;
-    padding: clamp(2rem, 3.5vh, 2.6rem) clamp(1.25rem, 5vw, 3.9rem);
+    padding: 1rem clamp(1.25rem, 5vw, 3.9rem) 2rem;
     width: 100%;
 }
 
@@ -13,7 +13,7 @@
     animation: aboutProfileFadeIn 800ms ease-out both;
     display: flex;
     flex-direction: column;
-    gap: clamp(2.5rem, 4.6vh, 2.75rem);
+    gap: clamp(3rem, 6.4vh, 3.75rem);
     margin-inline: auto;
     min-width: 0;
     width: min(100%, 37rem);
@@ -64,7 +64,7 @@
 
 @media (max-width: 36rem) {
     .aboutProfile {
-        gap: 2.5rem;
+        gap: 2.75rem;
     }
 }
 
