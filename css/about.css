@@ -1,11 +1,11 @@
 .aboutContent {
-    align-items: center;
+    align-items: flex-start;
     box-sizing: border-box;
     display: flex;
     flex: 1;
     justify-content: center;
     min-width: 0;
-    padding: clamp(1.95rem, 7.8vh, 5.2rem) clamp(1.3rem, 5.2vw, 3.9rem);
+    padding: clamp(2rem, 3.5vh, 2.6rem) clamp(1.25rem, 5vw, 3.9rem);
     width: 100%;
 }
 
@@ -13,31 +13,39 @@
     animation: aboutProfileFadeIn 800ms ease-out both;
     display: flex;
     flex-direction: column;
-    gap: clamp(1.95rem, 4vh, 2.6rem);
+    gap: clamp(2.5rem, 4.6vh, 2.75rem);
     margin-inline: auto;
     min-width: 0;
-    width: min(100%, 54.6rem);
+    width: min(100%, 37rem);
 }
 
 .aboutTextBox {
     align-items: flex-start;
-    background-color: #000000;
-    border: 2.6px solid #FFFFFF;
+    background-color: transparent;
+    border: 0;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: clamp(1.3rem, 3vh, 2.6rem);
-    min-height: min(64vh, 44rem);
+    gap: 1.25rem;
+    min-height: 0;
     min-width: 0;
-    overflow-wrap: anywhere;
-    padding: clamp(1.3rem, 4vw, 2.6rem);
+    overflow-wrap: break-word;
+    padding: 0;
     text-align: left;
     width: 100%;
 }
 
+.aboutTextBox > .title {
+    border-bottom: 1px solid #CCCCCC;
+    line-height: 1.15;
+    padding-bottom: 0.25rem;
+    text-decoration: none;
+}
+
 .aboutDescription {
-    line-height: 1.6;
-    max-width: 42rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    max-width: none;
 }
 
 .aboutDescription p {
@@ -55,12 +63,8 @@
 }
 
 @media (max-width: 36rem) {
-    .aboutContent {
-        align-items: flex-start;
-    }
-
-    .aboutTextBox {
-        min-height: 60vh;
+    .aboutProfile {
+        gap: 2.5rem;
     }
 }
 
