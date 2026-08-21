@@ -120,6 +120,54 @@ body {
     width: 100%;
 }
 
+html.devIntroPending body {
+    background-color: #000000;
+    overflow: hidden;
+}
+
+html.devIntroPending .devContent {
+    padding: 0;
+}
+
+html.devIntroPending .devProfile {
+    animation: none;
+}
+
+html.devIntroPending .devCopy {
+    opacity: 0;
+    visibility: hidden;
+}
+
+html.devIntroPending .devTextBox {
+    border: 0;
+    cursor: default;
+    left: 50%;
+    outline: 0;
+    position: fixed;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition:
+        opacity 650ms ease,
+        transform 650ms ease;
+    width: min(92vw, 153.33vh, 60rem);
+    z-index: 20;
+}
+
+html.devIntroPending .devTextBox.isEventHorizonHovered {
+    cursor: pointer;
+}
+
+html.devIntroPending .devTextBox:focus-visible {
+    outline: 2px dashed #CCCCCC;
+    outline-offset: 8px;
+}
+
+html.devIntroPending.devIntroExiting .devTextBox {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.96);
+}
+
 .devFooter {
     padding: 0;
     text-align: left;
@@ -161,5 +209,9 @@ body {
 @media (prefers-reduced-motion: reduce) {
     .devProfile {
         animation: none;
+    }
+
+    html.devIntroPending .devTextBox {
+        transition: none;
     }
 }

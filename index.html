@@ -5,6 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="p:domain_verify" content="52413982c63f4d025687d6189e81ce64"/>
         <link rel="stylesheet" href="/css/dev.css">
+        <script>
+            document.documentElement.classList.add("devIntroPending");
+        </script>
 
         <title>/ SvS / dev </title>
         <link rel="icon" type="image/x-icon" href="/css/Images/web/site-favicon.jpg">
@@ -178,8 +181,10 @@
 
                 <div
                     class="devTextBox"
-                    role="img"
-                    aria-label="Pixelated simulation of white particles orbiting a black hole with a dotted event horizon"
+                    id="blackHoleEntry"
+                    role="button"
+                    tabindex="0"
+                    aria-label="Enter the website through the black hole event horizon"
                 >
                     <canvas
                         class="blackHoleCanvas"

@@ -1,6 +1,37 @@
 const blackHoleCanvas = document.getElementById("blackHoleCanvas");
+const blackHoleEntry = document.getElementById("blackHoleEntry");
+const pageRoot = document.documentElement;
+let focusHomepageAfterReveal = false;
 
-if (blackHoleCanvas) {
+const revealHomepage = () => {
+  pageRoot.classList.remove("devIntroPending", "devIntroExiting");
+
+  if (blackHoleEntry) {
+    blackHoleEntry.classList.remove("isEventHorizonHovered");
+    blackHoleEntry.setAttribute("role", "img");
+    blackHoleEntry.setAttribute(
+      "aria-label",
+      "Pixelated simulation of white particles orbiting a black hole with a dotted event horizon"
+    );
+    blackHoleEntry.removeAttribute("tabindex");
+  }
+
+  if (focusHomepageAfterReveal) {
+    const homepageTitle = document.getElementById("devTitle");
+
+    if (homepageTitle) {
+      homepageTitle.setAttribute("tabindex", "-1");
+      homepageTitle.focus({ preventScroll: true });
+      homepageTitle.addEventListener(
+        "blur",
+        () => homepageTitle.removeAttribute("tabindex"),
+        { once: true }
+      );
+    }
+  }
+};
+
+if (blackHoleCanvas && blackHoleEntry) {
   const context = blackHoleCanvas.getContext("2d", { alpha: false });
 
   if (context) {
@@ -23,6 +54,7 @@ if (blackHoleCanvas) {
     let animationFrame = 0;
     let previousFrameTime = 0;
     let isOnScreen = true;
+    let isEnteringHomepage = false;
 
     context.imageSmoothingEnabled = false;
 
@@ -175,6 +207,64 @@ if (blackHoleCanvas) {
       startAnimation();
     };
 
+    const isIntroActive = () =>
+      pageRoot.classList.contains("devIntroPending");
+
+    const isEventHorizonHit = (event) => {
+      const bounds = blackHoleCanvas.getBoundingClientRect();
+
+      if (!bounds.width || !bounds.height) {
+        return false;
+      }
+
+      const canvasX =
+        ((event.clientX - bounds.left) / bounds.width) * blackHoleCanvas.width;
+      const canvasY =
+        ((event.clientY - bounds.top) / bounds.height) * blackHoleCanvas.height;
+
+      return (
+        Math.hypot(canvasX - centerX, canvasY - centerY) <=
+        photonRingRadius + 6
+      );
+    };
+
+    const enterHomepage = () => {
+      if (!isIntroActive() || isEnteringHomepage) {
+        return;
+      }
+
+      isEnteringHomepage = true;
+      blackHoleEntry.classList.remove("isEventHorizonHovered");
+      pageRoot.classList.add("devIntroExiting");
+
+      window.setTimeout(revealHomepage, reducedMotion.matches ? 0 : 650);
+    };
+
+    blackHoleEntry.addEventListener("pointermove", (event) => {
+      blackHoleEntry.classList.toggle(
+        "isEventHorizonHovered",
+        isIntroActive() && isEventHorizonHit(event)
+      );
+    });
+
+    blackHoleEntry.addEventListener("pointerleave", () => {
+      blackHoleEntry.classList.remove("isEventHorizonHovered");
+    });
+
+    blackHoleEntry.addEventListener("click", (event) => {
+      if (isEventHorizonHit(event)) {
+        enterHomepage();
+      }
+    });
+
+    blackHoleEntry.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        focusHomepageAfterReveal = true;
+        enterHomepage();
+      }
+    });
+
     if ("IntersectionObserver" in window) {
       const observer = new IntersectionObserver((entries) => {
         isOnScreen = entries[0]?.isIntersecting ?? true;
@@ -194,5 +284,9 @@ if (blackHoleCanvas) {
 
     drawScene();
     startAnimation();
+  } else {
+    revealHomepage();
   }
+} else {
+  revealHomepage();
 }
