@@ -3,81 +3,36 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="p:domain_verify" content="52413982c63f4d025687d6189e81ce64"/>
+        <meta name="p:domain_verify" content="52413982c63f4d025687d6189e81ce64">
+        <link rel="stylesheet" href="/css/dev.css">
         <link rel="stylesheet" href="/css/about.css">
 
-        <title>/ SvS / about </title>
+        <title>/ SvS / about</title>
         <link rel="icon" type="image/x-icon" href="/css/Images/web/site-favicon.jpg">
-
-        <style>
-            body {
-                background-color: #0C0C0C;
-                font-family: JetBrains Mono, monospace;
-                color: #CCCCCC;
-                margin: 0;
-            }
-
-            .box {
-                width: 600px;
-                margin-left: auto;
-                margin-right: auto;
-                text-align: left;
-            }
-
-            .navbar {
-                width: 600px;
-                margin: 0 auto;
-
-                display: flex;
-                gap: 10px;
-            }
-
-            .nav-item {
-                background-color: #3b4a6b;
-                padding: 10px 16px;
-
-                color: white;
-                text-decoration: none;
-
-                border-radius: 6px;
-
-                transition: background-color 0.2s ease;
-            }
-
-            .nav-item:hover {
-                background-color: #52658f;
-            }
-
-            .title-box {
-                margin-top: 60px;
-                border-bottom: 1px solid #CCCCCC;
-                padding-bottom: 10px;
-            }
-
-            .description-box {
-                margin-top: 10px;
-                line-height: 1.6;
-            }
-        </style>
-
     </head>
-        <body>   
-            <nav class="navbar box">
-                <a class="nav-item" href="#">Home</a>
-                <a class="nav-item" href="#">About</a>
-                <a class="nav-item" href="#">Projects</a>
-                <a class="nav-item" href="#">Blog</a>
-            </nav>
 
-            <section class="title-box box">
-                <h1 style="font-size: 2rem;">About</h1>
-            </section>
+    <body>
+        <main class="aboutContent">
+            <article class="aboutProfile" aria-labelledby="aboutTitle">
+                <header class="devHeader">
+                    <nav class="devNav" aria-label="Primary navigation">
+                        <a href="/">Home</a>
+                        <a href="/about/" aria-current="page">About</a>
+                        <a href="/projects/">Projects</a>
+                        <a href="/journal/">Blog</a>
+                    </nav>
+                </header>
 
-            <section class="description-box box">
-                <p>
-                    This is the description underneath the title.
-                    The text is aligned to the left inside the centred box.
-                </p>
-            </section>
+                <section class="aboutTextBox">
+                    <h1 class="title" id="aboutTitle">About</h1>
+
+                    <div class="aboutDescription">
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+                        </p>
+                    </div>
+                </section>
+            </article>
+        </main>
     </body>
 </html>

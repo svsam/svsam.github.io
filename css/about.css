@@ -1,11 +1,71 @@
-body {
-    background-color: #0C0C0C;
-    font-family: JetBrains Mono, monospace;
-    color: #CCCCCC;
+.aboutContent {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+    padding: clamp(1.95rem, 7.8vh, 5.2rem) clamp(1.3rem, 5.2vw, 3.9rem);
+    width: 100%;
+}
+
+.aboutProfile {
+    animation: aboutProfileFadeIn 800ms ease-out both;
     display: flex;
     flex-direction: column;
-    font-size: 16px;
+    gap: clamp(1.95rem, 4vh, 2.6rem);
+    margin-inline: auto;
+    min-width: 0;
+    width: min(100%, 54.6rem);
+}
+
+.aboutTextBox {
+    align-items: flex-start;
+    background-color: #000000;
+    border: 2.6px solid #FFFFFF;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1.3rem, 3vh, 2.6rem);
+    min-height: min(64vh, 44rem);
+    min-width: 0;
+    overflow-wrap: anywhere;
+    padding: clamp(1.3rem, 4vw, 2.6rem);
+    text-align: left;
+    width: 100%;
+}
+
+.aboutDescription {
+    line-height: 1.6;
+    max-width: 42rem;
+}
+
+.aboutDescription p {
     margin: 0;
-    min-height: 100vh;
-    min-height: 100svh;
+}
+
+@keyframes aboutProfileFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 36rem) {
+    .aboutContent {
+        align-items: flex-start;
+    }
+
+    .aboutTextBox {
+        min-height: 60vh;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .aboutProfile {
+        animation: none;
+    }
 }
