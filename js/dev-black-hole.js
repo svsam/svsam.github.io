@@ -7,7 +7,11 @@ const revealHomepage = () => {
   pageRoot.classList.remove("devIntroPending", "devIntroExiting");
 
   if (blackHoleEntry) {
-    blackHoleEntry.classList.remove("isEventHorizonHovered");
+    blackHoleEntry.classList.remove(
+      "isConsuming",
+      "isEventHorizonHovered"
+    );
+    blackHoleEntry.removeAttribute("aria-busy");
     blackHoleEntry.setAttribute("role", "img");
     blackHoleEntry.setAttribute(
       "aria-label",
@@ -46,6 +50,7 @@ if (blackHoleCanvas && blackHoleEntry) {
     const discTilt = 0.32;
     const particleCount = 120;
     const frameInterval = 1000 / 20;
+    const consumptionDuration = 1150;
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     );
@@ -55,6 +60,8 @@ if (blackHoleCanvas && blackHoleEntry) {
     let previousFrameTime = 0;
     let isOnScreen = true;
     let isEnteringHomepage = false;
+    let isConsumingParticles = false;
+    let consumptionStartTime = 0;
 
     context.imageSmoothingEnabled = false;
 
@@ -85,14 +92,46 @@ if (blackHoleCanvas && blackHoleEntry) {
       return particle;
     });
 
-    const stars = Array.from({ length: 34 }, () => ({
-      x: Math.floor(random() * width),
-      y: Math.floor(random() * height),
-      size: random() > 0.9 ? 2 : 1,
-      opacity: 0.18 + random() * 0.34,
-    }));
+    const resetStar = (star) => {
+      star.x = Math.floor(random() * width);
+      star.y = Math.floor(random() * height);
+      star.size = random() > 0.9 ? 2 : 1;
+      star.opacity = 0.18 + random() * 0.34;
+    };
+
+    const stars = Array.from({ length: 34 }, () => {
+      const star = {};
+      resetStar(star);
+      return star;
+    });
 
     const updateParticles = (elapsedSeconds) => {
+      if (isConsumingParticles) {
+        const starPull = 1 - Math.exp(-4.5 * elapsedSeconds);
+
+        stars.forEach((star) => {
+          star.x += (centerX - star.x) * starPull;
+          star.y += (centerY - star.y) * starPull;
+        });
+
+        particles.forEach((particle) => {
+          const radialDistance = particle.radius - eventHorizonRadius;
+          const inwardSpeed = Math.max(20, radialDistance * 4.4);
+
+          particle.angle =
+            (particle.angle +
+              (particle.speed + 90 / Math.max(particle.radius, 8)) *
+                elapsedSeconds) %
+            fullTurn;
+          particle.radius = Math.max(
+            0,
+            particle.radius - inwardSpeed * elapsedSeconds
+          );
+        });
+
+        return;
+      }
+
       particles.forEach((particle) => {
         particle.angle =
           (particle.angle + particle.speed * elapsedSeconds) % fullTurn;
@@ -190,6 +229,13 @@ if (blackHoleCanvas && blackHoleEntry) {
         updateParticles(Math.min(elapsed, 100) / 1000);
         drawScene(time);
         previousFrameTime = time;
+
+        if (
+          isConsumingParticles &&
+          time - consumptionStartTime >= consumptionDuration
+        ) {
+          startHomepageFade();
+        }
       }
 
       animationFrame = requestAnimationFrame(renderFrame);
@@ -228,6 +274,22 @@ if (blackHoleCanvas && blackHoleEntry) {
       );
     };
 
+    const startHomepageFade = () => {
+      if (!isIntroActive() || pageRoot.classList.contains("devIntroExiting")) {
+        return;
+      }
+
+      pageRoot.classList.add("devIntroExiting");
+
+      window.setTimeout(() => {
+        particles.forEach((particle) => resetParticle(particle, true));
+        stars.forEach(resetStar);
+        isConsumingParticles = false;
+        drawScene();
+        revealHomepage();
+      }, reducedMotion.matches ? 0 : 650);
+    };
+
     const enterHomepage = () => {
       if (!isIntroActive() || isEnteringHomepage) {
         return;
@@ -235,16 +297,31 @@ if (blackHoleCanvas && blackHoleEntry) {
 
       isEnteringHomepage = true;
       blackHoleEntry.classList.remove("isEventHorizonHovered");
-      pageRoot.classList.add("devIntroExiting");
+      blackHoleEntry.classList.add("isConsuming");
+      blackHoleEntry.setAttribute("aria-busy", "true");
 
-      window.setTimeout(revealHomepage, reducedMotion.matches ? 0 : 650);
+      if (reducedMotion.matches) {
+        startHomepageFade();
+        return;
+      }
+
+      isConsumingParticles = true;
+      consumptionStartTime = performance.now();
+      startAnimation();
     };
 
     blackHoleEntry.addEventListener("pointermove", (event) => {
+      const isHoveringEventHorizon =
+        isIntroActive() && isEventHorizonHit(event);
+
       blackHoleEntry.classList.toggle(
         "isEventHorizonHovered",
-        isIntroActive() && isEventHorizonHit(event)
+        isHoveringEventHorizon
       );
+
+      if (isHoveringEventHorizon) {
+        enterHomepage();
+      }
     });
 
     blackHoleEntry.addEventListener("pointerleave", () => {

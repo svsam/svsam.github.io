@@ -157,6 +157,10 @@ html.devIntroPending .devTextBox.isEventHorizonHovered {
     cursor: pointer;
 }
 
+html.devIntroPending .devTextBox.isConsuming {
+    cursor: default;
+}
+
 html.devIntroPending .devTextBox:focus-visible {
     outline: 2px dashed #CCCCCC;
     outline-offset: 8px;
