@@ -21,12 +21,16 @@
 
 .projectsTextBox {
     align-items: flex-start;
+    background-color: transparent;
+    border: 0;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
+    min-height: 0;
     min-width: 0;
     overflow-wrap: break-word;
+    padding: 0;
     text-align: left;
     width: 100%;
 }
@@ -51,29 +55,17 @@
 }
 
 .projectsEntries {
-    display: grid;
-    gap: 0.75rem;
-    grid-template-columns: minmax(0, 1fr);
+    display: flex;
+    flex-direction: column;
     margin-inline: auto;
     text-align: left;
     width: 100%;
 }
 
 .projectsEntry {
-    background-color: #111111;
-    border: 1px solid #3D3D3D;
-    border-radius: 4px;
+    border-bottom: 1px solid #3D3D3D;
     box-sizing: border-box;
-    overflow: hidden;
-    transition:
-        background-color 160ms ease,
-        border-color 160ms ease;
     width: 100%;
-}
-
-.projectsEntry[open] {
-    background-color: #141414;
-    border-color: #666666;
 }
 
 .projectsEntrySummary {
@@ -84,11 +76,8 @@
     grid-template-columns: minmax(0, 1fr) auto 1.25rem;
     list-style: none;
     min-height: 3.5rem;
-    padding: 0.8rem 1rem;
+    padding: 0.8rem 0;
     text-align: left;
-    transition:
-        background-color 160ms ease,
-        color 160ms ease;
 }
 
 .projectsEntrySummary::-webkit-details-marker {
@@ -109,17 +98,16 @@
 }
 
 .projectsEntrySummary:hover {
-    background-color: #222222;
+    color: #FFFFFF;
 }
 
 .projectsEntrySummary:focus-visible {
-    background-color: #262626;
     outline: 2px solid #FFFFFF;
-    outline-offset: -2px;
+    outline-offset: 3px;
 }
 
 .projectsEntryTitle {
-    color: #DDDDDD;
+    color: inherit;
     font-size: 1rem;
     font-weight: 700;
     grid-column: 1;
@@ -139,11 +127,10 @@
 }
 
 .projectsEntryBody {
-    border-top: 1px solid #3D3D3D;
     color: #CCCCCC;
-    font-size: 0.925rem;
-    line-height: 1.6;
-    padding: 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    padding: 0 0 1rem;
     text-align: left;
 }
 
@@ -175,13 +162,11 @@
 }
 
 .projectsEntryAction a:focus-visible {
-    border-radius: 2px;
     outline: 2px solid #FFFFFF;
     outline-offset: 3px;
 }
 
 .projectsImage {
-    border: 1px solid #4A4A4A;
     box-sizing: border-box;
     display: block;
     height: auto;
@@ -228,10 +213,5 @@
 @media (prefers-reduced-motion: reduce) {
     .projectsProfile {
         animation: none;
-    }
-
-    .projectsEntry,
-    .projectsEntrySummary {
-        transition: none;
     }
 }
