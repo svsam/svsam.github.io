@@ -16,7 +16,7 @@
     gap: clamp(3rem, 6.4vh, 3.75rem);
     margin-inline: auto;
     min-width: 0;
-    width: min(100%, 48rem);
+    width: min(100%, 37rem);
 }
 
 .projectsTextBox {
@@ -42,6 +42,8 @@
     display: grid;
     gap: 0.75rem;
     line-height: 1.5;
+    text-align: left;
+    width: 100%;
 }
 
 .projectsDescription p {
@@ -49,9 +51,11 @@
 }
 
 .projectsEntries {
-    display: flex;
-    flex-direction: column;
+    display: grid;
     gap: 0.75rem;
+    grid-template-columns: minmax(0, 1fr);
+    margin-inline: auto;
+    text-align: left;
     width: 100%;
 }
 
@@ -81,6 +85,7 @@
     list-style: none;
     min-height: 3.5rem;
     padding: 0.8rem 1rem;
+    text-align: left;
     transition:
         background-color 160ms ease,
         color 160ms ease;
@@ -139,6 +144,7 @@
     font-size: 0.925rem;
     line-height: 1.6;
     padding: 1rem;
+    text-align: left;
 }
 
 .projectsEntryBody > * {
