@@ -1,0 +1,145 @@
+.blogPostContent {
+    align-items: flex-start;
+    box-sizing: border-box;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+    padding: 1rem clamp(1.25rem, 5vw, 3.9rem) 2rem;
+    width: 100%;
+}
+
+.blogPostProfile {
+    animation: blogPostProfileFadeIn 800ms ease-out both;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(3rem, 6.4vh, 3.75rem);
+    margin-inline: auto;
+    min-width: 0;
+    width: min(100%, 37rem);
+}
+
+.blogPostTextBox {
+    align-items: flex-start;
+    background-color: transparent;
+    border: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    min-height: 0;
+    min-width: 0;
+    overflow-wrap: break-word;
+    padding: 0;
+    text-align: left;
+    width: 100%;
+}
+
+.blogPostHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+}
+
+.blogPostHeader > .title {
+    border-bottom: 1px solid #CCCCCC;
+    line-height: 1.15;
+    padding-bottom: 0.25rem;
+    text-decoration: none;
+}
+
+.blogPostDate {
+    color: #999999;
+    font-size: 1rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.5;
+}
+
+.blogPostBody {
+    font-size: 1rem;
+    line-height: 1.5;
+    max-width: none;
+    width: 100%;
+}
+
+.blogPostBody > * {
+    margin-block: 0;
+}
+
+.blogPostBody > * + * {
+    margin-top: 1rem;
+}
+
+.blogPostBody section + section {
+    margin-top: 2.5rem;
+}
+
+.blogPostBody section > * {
+    margin-block: 0;
+}
+
+.blogPostBody section > * + * {
+    margin-top: 1rem;
+}
+
+.blogPostBody h2,
+.blogPostBody h3 {
+    color: #FFFFFF;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.blogPostBody a {
+    overflow-wrap: anywhere;
+}
+
+.blogPostBody ol,
+.blogPostBody ul {
+    padding-left: 1.5rem;
+}
+
+.blogPostBody li + li {
+    margin-top: 0.75rem;
+}
+
+.blogPostBody figure {
+    margin-inline: 0;
+}
+
+.blogPostBody img {
+    box-sizing: border-box;
+    display: block;
+    height: auto;
+    max-width: 100%;
+    width: 100%;
+}
+
+.blogPostBody figcaption {
+    color: #999999;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-top: 0.5rem;
+}
+
+@keyframes blogPostProfileFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 36rem) {
+    .blogPostProfile {
+        gap: 2.75rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .blogPostProfile {
+        animation: none;
+    }
+}
