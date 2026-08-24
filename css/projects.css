@@ -90,7 +90,7 @@
 }
 
 .projectsEntrySummary::after {
-    color: #CCCCCC;
+    color: var(--accent-color);
     content: "+";
     font-size: 1rem;
     grid-column: 3;
@@ -157,7 +157,7 @@
 
 .projectsEntryAction a,
 .projectsEntryAction a:visited {
-    color: #CCCCCC;
+    color: var(--accent-color);
     text-decoration: underline;
     text-underline-offset: 0.2em;
 }

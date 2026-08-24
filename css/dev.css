@@ -1,4 +1,6 @@
 body {
+    --accent-color: #26BC89;
+
     background-color: #0C0C0C;
     font-family: JetBrains Mono, monospace;
     color: #CCCCCC;
@@ -8,6 +10,11 @@ body {
     margin: 0;
     min-height: 100vh;
     min-height: 100svh;
+}
+
+a,
+a:visited {
+    color: var(--accent-color);
 }
 
 .devHeader {
@@ -30,7 +37,7 @@ body {
     border: 1px solid transparent;
     border-radius: 4px;
     box-sizing: border-box;
-    color: #CCCCCC;
+    color: var(--accent-color);
     display: inline-flex;
     font-size: 1rem;
     justify-content: center;
@@ -45,7 +52,7 @@ body {
 }
 
 .devNav a[aria-current="page"] {
-    color: #FFFFFF;
+    color: var(--accent-color);
 }
 
 .devNav a:hover {
@@ -190,6 +197,10 @@ html.devIntroPending.devIntroExiting .devTextBox {
 .devDescription {
     margin: 0;
     text-align: left;
+}
+
+.promptSymbol {
+    color: var(--accent-color);
 }
 
 @keyframes devProfileFadeIn {
