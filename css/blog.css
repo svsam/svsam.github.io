@@ -1,0 +1,133 @@
+.blogContent {
+    align-items: flex-start;
+    box-sizing: border-box;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+    padding: 1rem clamp(1.25rem, 5vw, 3.9rem) 2rem;
+    width: 100%;
+}
+
+.blogProfile {
+    animation: blogProfileFadeIn 800ms ease-out both;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(3rem, 6.4vh, 3.75rem);
+    margin-inline: auto;
+    min-width: 0;
+    width: min(100%, 37rem);
+}
+
+.blogTextBox {
+    align-items: flex-start;
+    background-color: transparent;
+    border: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    min-height: 0;
+    min-width: 0;
+    overflow-wrap: break-word;
+    padding: 0;
+    text-align: left;
+    width: 100%;
+}
+
+.blogTextBox > .title {
+    border-bottom: 1px solid #CCCCCC;
+    line-height: 1.15;
+    padding-bottom: 0.25rem;
+    text-decoration: none;
+}
+
+.blogDescription {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0;
+    max-width: none;
+}
+
+.blogEntries {
+    border-top: 1px solid #3D3D3D;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.blogEntry {
+    border-bottom: 1px solid #3D3D3D;
+    padding: 1rem 0;
+}
+
+.blogEntryHeader {
+    display: grid;
+    gap: 0.25rem;
+}
+
+.blogEntryHeader h2 {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.blogEntryHeader time {
+    color: #999999;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.blogEntryBody {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-top: 1rem;
+}
+
+.blogEntryBody > * {
+    margin-block: 0;
+}
+
+.blogEntryBody > * + * {
+    margin-top: 1rem;
+}
+
+.blogFigure {
+    margin-inline: 0;
+}
+
+.blogFigure img {
+    display: block;
+    height: auto;
+    max-width: 100%;
+    width: 100%;
+}
+
+.blogFigure figcaption {
+    color: #999999;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-top: 0.5rem;
+}
+
+@keyframes blogProfileFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 36rem) {
+    .blogProfile {
+        gap: 2.75rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .blogProfile {
+        animation: none;
+    }
+}
