@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Building a pure-Python, NICER-inspired X-ray experiment around MAXI J1820+070 and testing whether natural selection can fit spectra.">
+        <meta name="p:domain_verify" content="52413982c63f4d025687d6189e81ce64">
+        <link rel="stylesheet" href="/css/dev.css">
+        <link rel="stylesheet" href="/css/blog-post.css">
+
+        <title>/ SvS / EvoXRB: Genetic Algorithms, Fake Telescopes, and a Very Real Black Hole</title>
+        <link rel="icon" type="image/x-icon" href="/css/Images/web/site-favicon.jpg">
+    </head>
+
+    <body>
+        <main class="blogPostContent">
+            <article class="blogPostProfile blogPostProfile--wide" aria-labelledby="postTitle">
+                <header class="devHeader">
+                    <nav class="devNav" aria-label="Primary navigation">
+                        <a href="/">Home</a>
+                        <a href="/about/">About</a>
+                        <a href="/projects/">Projects</a>
+                        <a href="/blog/" aria-current="page">Blog</a>
+                    </nav>
+                </header>
+
+                <section class="blogPostTextBox">
+                    <header class="blogPostHeader">
+                        <p class="blogPostKicker">Computational astrophysics / Project blog</p>
+                        <h1 class="title" id="postTitle">EvoXRB: Genetic Algorithms, Fake Telescopes, and a Very Real Black Hole</h1>
+                        <p class="blogPostDek">Building a pure-Python, NICER-inspired X-ray experiment around MAXI J1820+070, then finding out whether natural selection is actually any good at fitting spectra.</p>
+                        <time class="blogPostDate" datetime="2026-08-26">August 2026</time>
+                        <div class="blogPostActions" aria-label="Project links">
+                            <a href="https://github.com/svsam/EvoXRB">Project repository</a>
+                            <a href="/blog/evoxrb-genetic-algorithms-x-ray-astronomy/evoxrb-blog.pdf">View original PDF</a>
+                        </div>
+                    </header>
+
+                    <div class="blogPostBody">
+                        <aside class="blogPostCallout" aria-label="Scope note">
+                            <strong>Scope</strong>
+                            <p>The current implementation is a declared synthetic / NICER-inspired case study. It is designed to validate response folding, evolutionary optimisation, posterior inference and timing workflows before applying the same ideas to real telescope products.</p>
+                        </aside>
+
+                        <nav class="blogPostToc" aria-labelledby="contentsTitle">
+                            <h2 id="contentsTitle">Contents</h2>
+                            <a class="blogPostTocIntro" href="#introduction">Introduction</a>
+                            <ol>
+                                <li><a href="#genetic-algorithm">So what actually is a genetic algorithm?</a></li>
+                                <li><a href="#instrument-response">The annoying bit: a telescope does not measure the theoretical spectrum</a></li>
+                                <li><a href="#building-black-hole">Building the black hole, approximately</a></li>
+                                <li><a href="#fake-outburst">Making a fake outburst</a></li>
+                                <li><a href="#fake-observations">Turning photons into fake observations</a></li>
+                                <li><a href="#c-stat">Why I stopped using χ² as the main answer</a></li>
+                                <li><a href="#control">The genetic algorithm needs an opponent</a></li>
+                                <li><a href="#smoke-test">And then the smoke test humbled the genetic algorithm</a></li>
+                                <li><a href="#recovery">Can the model recover parameters when I know the truth?</a></li>
+                                <li><a href="#wrong-model">The experiment where the optimiser is allowed to be perfectly wrong</a></li>
+                                <li><a href="#uncertainty">A best-fitting number is not an uncertainty</a></li>
+                                <li><a href="#timing">Spectra are only half of what makes this source interesting</a></li>
+                                <li><a href="#timing-cases">Three timing cases: detect one, reject one, find nothing in one</a></li>
+                                <li><a href="#outburst">Following the synthetic outburst</a></li>
+                                <li><a href="#repository">What the current repository actually contains</a></li>
+                                <li><a href="#reproducibility">Reproducibility, because random numbers are not an excuse</a></li>
+                                <li><a href="#did-it-work">So, did the genetic algorithm work?</a></li>
+                                <li><a href="#real-astronomy">The eventual route back to real astronomy</a></li>
+                                <li><a href="#lessons">What I actually learned from building this</a></li>
+                                <li><a href="#references">References and further reading</a></li>
+                            </ol>
+                        </nav>
+
+                        <section aria-labelledby="introduction">
+                            <h2 id="introduction">Introduction</h2>
+                            <p>There are many ways to learn a genetic algorithm. You can optimise a mathematical function, evolve a string of zeroes into ones, make little virtual creatures walk badly across a screen for six hours, or do one of the other examples that have been repeated since computers became powerful enough to imitate biology without needing any of the inconvenient biological parts.</p>
+                            <p>I wanted something slightly more difficult.</p>
+                            <p>The original idea for EvoXRB came from asking what would happen if I took the basic philosophy of natural selection and dropped it into X-ray astronomy. Instead of an organism having genes controlling its height, colour or likelihood of being eaten by something larger than itself, one individual would have genes controlling the physical parameters of an accreting black-hole model. The ones that reproduced an observed X-ray spectrum well would survive. The ones that produced complete nonsense would be politely removed from the gene pool.</p>
+                            <p>That was the basic idea.</p>
+                            <p>The project then became significantly more complicated because telescopes, statistics and black holes all refused to behave like a four-variable optimisation exercise.</p>
+                            <p>As expected.</p>
+                            <p>The object I based the experiment around is MAXI J1820+070, a real black-hole X-ray binary that underwent an extremely bright outburst in 2018. NICER, alongside instruments including Swift, NuSTAR and Insight-HXMT, followed substantial portions of its evolution. Published work shows changes in its X-ray spectrum, hardness, variability and quasi-periodic oscillations as the system moved through different accretion states.</p>
+                            <p>That makes it a very nice object for the sort of project I wanted to make.</p>
+                            <p>There is, however, one important distinction to get out of the way before anything else.</p>
+                            <aside class="blogPostCallout blogPostCallout--warning">
+                                <p><strong>The current EvoXRB repository does not analyse real NICER observations of MAXI J1820+070.</strong></p>
+                                <p>The current implementation is a synthetic / NICER-inspired case study. The telescope response, background, spectra, accretion-disc component, power-law component and timing signals are educational approximations generated entirely in Python.</p>
+                                <p>MAXI J1820+070 provides the astrophysical context and approximate evolutionary structure. The values produced by EvoXRB are not measurements of the real system.</p>
+                            </aside>
+                            <p>This was a change from my original plan.</p>
+                            <p>Initially I wanted the project to download NICER observations through HEASARC, reduce them through NICERDAS, fit them through XSPEC, then let the genetic algorithm replace or supplement the normal XSPEC optimiser. That is still the obvious long-term direction for the project, but it also means depending immediately on HEASoft, XSPEC, calibration databases, mission data, backgrounds, FITS products and a reasonably cooperative Linux environment.</p>
+                            <p>Instead, the current repository builds the whole first experiment in native Python.</p>
+                            <p>And weirdly enough, this makes the current version more useful as an experiment.</p>
+                            <p>Before I can ask whether a genetic algorithm can recover the parameters of a real black hole, I should probably prove that it can recover parameters from a fake universe where I actually know what God typed into the config file.</p>
+                        </section>
+
+                        <section aria-labelledby="genetic-algorithm">
+                            <h2 id="genetic-algorithm">1. So what actually is a genetic algorithm?</h2>
+                            <p>The biological world has genotype and phenotype.</p>
+                            <p>The genotype is the underlying information. DNA is not the organism itself, but it encodes many of the instructions that eventually help produce it. The phenotype is what comes out of that interaction: height, colour, shape and whatever other traits nature has decided are worth arguing about.</p>
+                            <p>A genetic algorithm steals this idea and removes almost everything that makes biology interesting.</p>
+                            <p>For EvoXRB, the genotype can be represented as four numbers:</p>
+                            <div class="blogPostEquation" role="math" aria-label="g equals g one, g two, g three, g four">g = [g<sub>1</sub>, g<sub>2</sub>, g<sub>3</sub>, g<sub>4</sub>]</div>
+                            <p>where every gene lies between 0 and 1.</p>
+                            <p>Those numbers are decoded into physical model parameters:</p>
+                            <div class="blogPostEquation" role="math" aria-label="theta equals T in, N disk, gamma, K">θ = [T<sub>in</sub>, N<sub>disk</sub>, Γ, K]</div>
+                            <p>Here:</p>
+                            <ul>
+                                <li><var>T<sub>in</sub></var> controls the characteristic temperature of the inner disk-like component.</li>
+                                <li><var>N<sub>disk</sub></var> controls its normalization.</li>
+                                <li><var>Γ</var> is the photon index of the high-energy continuum.</li>
+                                <li><var>K</var> controls that continuum’s normalization.</li>
+                            </ul>
+                            <p>The normalizations cover enormous ranges, so EvoXRB represents them logarithmically. Adding 0.1 to something like <var>N<sub>disk</sub> = 2</var> and adding 0.1 to <var>N<sub>disk</sub> = 20,000</var> are clearly not comparable mutations unless you have declared war on numerical conditioning.</p>
+                            <p>So the baseline chromosome is effectively</p>
+                            <div class="blogPostEquation" role="math" aria-label="g equals T in, log base ten N disk, gamma, log base ten K">g = [T<sub>in</sub>, log<sub>10</sub> N<sub>disk</sub>, Γ, log<sub>10</sub> K]</div>
+                            <p>Each chromosome therefore describes one possible X-ray source.</p>
+                            <p>Generate a population of these chromosomes, calculate how well every source reproduces the data, preferentially reproduce the better ones, introduce mutations and repeat.</p>
+                            <p>That is natural selection after being put through several layers of NumPy.</p>
+                            <p>The full EvoXRB configuration uses a population of 192 individuals, tournament selection with groups of three, a 0.9 crossover probability, simulated-binary crossover, bounded polynomial mutation, 3% elitism and the possibility of injecting 5% random immigrants when the population becomes stagnant and loses diversity.</p>
+                            <figure>
+                                <img src="/blog/evoxrb-genetic-algorithms-x-ray-astronomy/assets/ga-convergence.png" alt="Two charts showing the best and median C-statistic falling through the genetic algorithm run and the population diversity narrowing over generations" width="1428" height="1108" loading="lazy" decoding="async">
+                                <figcaption>Figure 1: The best and median C-statistic through the GA run, together with the changing spread of the population. The point is not only to see whether the champion improves, but whether the entire population is actually settling.</figcaption>
+                            </figure>
+                            <p>Mutation also changes character throughout the run. It begins comparatively exploratory and gradually becomes more conservative as the search progresses.</p>
+                            <p>This is quite important.</p>
+                            <p>If mutations stay enormous forever, the population spends its entire existence enthusiastically jumping out of useful solutions. If they become tiny too early, the algorithm can settle into a bad region and collectively decide that mediocrity is evolutionarily optimal.</p>
+                            <p>Human institutions have reproduced the second problem with remarkable efficiency.</p>
+                            <p>The GA therefore monitors both improvement in the best statistic and the spread of the population. Convergence is only accepted once the population has survived a minimum number of generations, the best score has stopped improving sufficiently, and the genes themselves have collapsed into a sufficiently narrow region.</p>
+                            <p>EvoXRB saves more than the winning individual because the losing population is scientifically useful too.</p>
+                            <p>If the best score stops moving but half the population is sitting in one region while the other half is sitting somewhere completely different, that is rather important information. It could indicate multiple minima, degeneracy, insufficient convergence or a bug waiting in the darkness.</p>
+                            <p>So the population itself is tracked through time.</p>
+                            <figure>
+                                <img src="/blog/evoxrb-genetic-algorithms-x-ray-astronomy/assets/gene-evolution.png" alt="Four panels tracking normalized temperature, disk normalization, photon index, and power-law normalization genes across generations" width="1427" height="854" loading="lazy" decoding="async">
+                                <figcaption>Figure 2: Evolution of the normalized genes. The shaded regions contain the central 80% of the population and the dotted trajectories follow the best-performing genes.</figcaption>
+                            </figure>
+                            <p>This is one of the reasons I find genetic algorithms more interesting than simply calling an optimiser and receiving four numbers back.</p>
+                            <p>You can watch the search happen.</p>
+                        </section>
+
+                        <section aria-labelledby="instrument-response">
+                            <h2 id="instrument-response">2. The annoying bit: a telescope does not measure the theoretical spectrum</h2>
+                            <p>Suppose the black-hole system emits a photon spectrum <var>S(E)</var>.</p>
+                            <p>It would be extremely convenient if the telescope simply returned <var>S(E)</var>.</p>
+                            <p>It does not.</p>
+                            <p>An X-ray detector records counts in detector channels. Between the astrophysical source and the array sitting on the International Space Station there are optics, energy-dependent collecting areas, finite energy resolution, background events and the general tendency of experimental equipment to make a theoretical physicist regret leaving the whiteboard.</p>
+                            <p>The expected detector counts are much closer to</p>
+                            <div class="blogPostEquation" role="math" aria-label="mu i equals exposure time times the integral of R i of E, A of E, S of E given theta, d E, plus B i">μ<sub>i</sub> = t<sub>exp</sub> ∫ R<sub>i</sub>(E) A(E) S(E | θ) dE + B<sub>i</sub>.</div>
+                            <p>Here:</p>
+                            <ul>
+                                <li><var>S(E | θ)</var> is the physical photon model.</li>
+                                <li><var>A(E)</var> is the telescope’s effective area.</li>
+                                <li><var>R<sub>i</sub>(E)</var> gives the probability that a photon of true energy <var>E</var> is recorded in detector channel <var>i</var>.</li>
+                                <li><var>B<sub>i</sub></var> is the background.</li>
+                                <li><var>t<sub>exp</sub></var> is the exposure.</li>
+                            </ul>
+                            <p>So even in a synthetic project I cannot simply generate a pretty theoretical curve, add some Gaussian noise and declare myself an observational astronomer.</p>
+                            <p>The model has to pass through an instrument first.</p>
+                            <p>The real NICER analysis ecosystem represents these effects using products such as ARF and RMF files. An ARF describes the energy-dependent effective collecting area. An RMF describes redistribution: a photon does not necessarily appear in exactly the detector-energy channel corresponding to its true energy.</p>
+                            <p>The synthetic version of EvoXRB creates equivalents of both ideas directly in Python.</p>
+                            <p>It uses 600 true-energy bins between 0.1 and 12 keV and 236 detector channels between 0.2 and 12 keV. The fitting region is restricted to 0.5–10 keV.</p>
+                            <p>The effective-area curve is generated from fixed NICER-inspired anchor points and interpolated smoothly between them. It climbs from almost nothing at low energy to a broad maximum around the soft X-ray band and then decreases towards higher energies.</p>
+                            <p>The redistribution matrix is Gaussian. Its approximate energy resolution is set using</p>
+                            <div class="blogPostEquation" role="math" aria-label="F W H M of E equals 0.085 times the square root of E kilo electron volts">FWHM(E) = 0.085 √E keV.</div>
+                            <p>Every true-energy column of the matrix is normalized so that the redistribution probabilities sum to one.</p>
+                            <figure>
+                                <img src="/blog/evoxrb-genetic-algorithms-x-ray-astronomy/assets/synthetic-instrument-response.png" alt="Left, synthetic effective area and background curves across energy; right, a heat map of the Gaussian redistribution matrix from true to detector energy" width="1836" height="750" loading="lazy" decoding="async">
+                                <figcaption>Figure 3: Left: the educational effective area and background. Right: the Gaussian redistribution matrix converting true photon energy into detector energy. This is deliberately NICER-inspired, not an extracted NICER calibration product.</figcaption>
+                            </figure>
+                            <p>This figure is probably the point where EvoXRB stops being a generic optimisation project.</p>
+                            <p>The GA never sees a smooth theoretical function and asks how close it is to another smooth theoretical function.</p>
+                            <p>It changes the astrophysical parameters, produces a photon spectrum, sends that spectrum through the response matrix, adds the expected background and only then asks whether the detector counts make sense.</p>
+                            <p>That response-folding step is the little piece of observational astronomy sitting underneath everything else.</p>
+                        </section>
+
+                        <section aria-labelledby="building-black-hole">
+                            <h2 id="building-black-hole">3. Building the black hole, approximately</h2>
+                            <p>The original project plan used the familiar XSPEC expression</p>
+                            <pre><code>TBabs*(diskbb+powerlaw)</code></pre>
+                            <p>That is a useful baseline model for learning because it separates the spectrum into three understandable pieces:</p>
+                            <ol>
+                                <li>absorption between us and the source,</li>
+                                <li>thermal emission associated with the accretion disk,</li>
+                                <li>a harder continuum associated with energetic processes around the compact object.</li>
+                            </ol>
+                            <p>The current EvoXRB code deliberately does not implement TBabs, diskbb or any calibrated Comptonization model exactly.</p>
+                            <p>Instead it uses transparent educational approximations.</p>
+                            <p>The absorption is</p>
+                            <div class="blogPostEquation" role="math" aria-label="A of E equals e to the power minus three N H E to the power minus three">A(E) = exp(−3N<sub>H</sub>E<sup>−3</sup>),</div>
+                            <p>the disk-like component is</p>
+                            <div class="blogPostEquation" role="math" aria-label="D of E equals ten to the minus four times N disk times E to the minus two thirds times e to the minus E over T in">D(E) = 10<sup>−4</sup>N<sub>disk</sub>E<sup>−2/3</sup> exp(−E/T<sub>in</sub>),</div>
+                            <p>and the power law is</p>
+                            <div class="blogPostEquation" role="math" aria-label="P of E equals K E to the minus gamma">P(E) = KE<sup>−Γ</sup>.</div>
+                            <p>The primary photon model is therefore</p>
+                            <div class="blogPostEquation" role="math" aria-label="S of E equals A of E times the quantity D of E plus P of E">S(E) = A(E)[D(E) + P(E)].</div>
+                            <p>A second model replaces the pure power law with a cutoff surrogate,</p>
+                            <div class="blogPostEquation" role="math" aria-label="P cut of E equals K E to the minus gamma times e to the minus E over twenty kilo electron volts">P<sub>cut</sub>(E) = KE<sup>−Γ</sup> exp(−E/20 keV).</div>
+                            <p>That second model exists for a very useful reason which becomes important later.</p>
+                            <p>It allows me to deliberately generate data with one model and fit it using the wrong one.</p>
+                            <p>Because an optimiser being extremely confident does not mean the model it is optimising is physically correct.</p>
+                            <p>This turns out to be one of the more important results in the whole project.</p>
+                        </section>
+
+                        <section aria-labelledby="fake-outburst">
+                            <h2 id="fake-outburst">4. Making a fake outburst</h2>
+                            <p>A single synthetic spectrum would prove that the code can fit one synthetic spectrum.</p>
+                            <p>Interesting, but not exactly an outburst.</p>
+                            <p>So EvoXRB defines 12 synthetic epochs running from a hard rise, through hard and intermediate phases, into a soft state and then back towards the hard state.</p>
+                            <p>The reference dates and state names are based on the published evolution of MAXI J1820+070, particularly the spectral and timing behaviour described by Li et al., Stiele &amp; Kong and other observational studies.</p>
+                            <p>The actual parameter values are injected by the configuration file.</p>
+                            <p>They are not fitted measurements from those papers.</p>
+                            <div class="blogPostTableWrap" tabindex="0" role="region" aria-label="Synthetic outburst parameters">
+                                <table>
+                                    <thead>
+                                        <tr><th>Epoch</th><th>Phase</th><th>T<sub>in</sub> (keV)</th><th>N<sub>disk</sub></th><th>Γ</th><th>K</th><th>Injected QPO</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>E01</td><td>hard rise</td><td>0.20</td><td>15000</td><td>1.55</td><td>0.35</td><td>0.05 Hz</td></tr>
+                                        <tr><td>E02</td><td>hard plateau</td><td>0.24</td><td>14000</td><td>1.60</td><td>0.45</td><td>0.10 Hz</td></tr>
+                                        <tr><td>E03</td><td>hard plateau</td><td>0.28</td><td>13000</td><td>1.65</td><td>0.50</td><td>0.20 Hz</td></tr>
+                                        <tr><td>E04</td><td>hard plateau</td><td>0.32</td><td>12000</td><td>1.70</td><td>0.48</td><td>0.40 Hz</td></tr>
+                                        <tr><td>E05</td><td>hard decline</td><td>0.38</td><td>11000</td><td>1.68</td><td>0.40</td><td>0.80 Hz</td></tr>
+                                        <tr><td>E06</td><td>hard decline</td><td>0.45</td><td>10000</td><td>1.75</td><td>0.34</td><td>1.50 Hz</td></tr>
+                                        <tr><td>E07</td><td>intermediate</td><td>0.55</td><td>9000</td><td>1.95</td><td>0.32</td><td>3.00 Hz</td></tr>
+                                        <tr><td>E08</td><td>intermediate</td><td>0.65</td><td>8000</td><td>2.15</td><td>0.27</td><td>5.00 Hz</td></tr>
+                                        <tr><td>E09</td><td>intermediate</td><td>0.75</td><td>7000</td><td>2.35</td><td>0.20</td><td>8.00 Hz</td></tr>
+                                        <tr><td>E10</td><td>soft</td><td>0.70</td><td>7500</td><td>2.40</td><td>0.06</td><td>none</td></tr>
+                                        <tr><td>E11</td><td>decay intermediate</td><td>0.45</td><td>9000</td><td>2.00</td><td>0.12</td><td>0.50 Hz</td></tr>
+                                        <tr><td>E12</td><td>return hard</td><td>0.30</td><td>11000</td><td>1.70</td><td>0.20</td><td>0.20 Hz</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p>The general behaviour is deliberate.</p>
+                            <p>The disk becomes hotter towards the intermediate and soft phases. The high-energy continuum softens as Γ increases. The continuum normalization collapses into the soft state. The injected variability decreases, and the type-C-like QPO moves towards higher frequencies before disappearing in the synthetic soft epoch.</p>
+                            <p>It is a caricature of an X-ray binary outburst rather than a reconstruction of one.</p>
+                            <p>That is completely acceptable here because the point of the first experiment is to know the answer.</p>
+                            <p>If I inject</p>
+                            <div class="blogPostEquation" role="math" aria-label="T in equals 0.65 kilo electron volts, N disk equals 8000, gamma equals 2.15, K equals 0.27">T<sub>in</sub> = 0.65 keV, &nbsp; N<sub>disk</sub> = 8000, &nbsp; Γ = 2.15, &nbsp; K = 0.27</div>
+                            <p>into E08, then I can ask whether the fitting machinery recovers them.</p>
+                            <p>There is no philosophical debate about what the true parameters were.</p>
+                            <p>They are in the YAML file.</p>
+                        </section>
+
+                        <section aria-labelledby="fake-observations">
+                            <h2 id="fake-observations">5. Turning photons into fake observations</h2>
+                            <p>For every epoch, EvoXRB evaluates the photon model across the true-energy grid and folds it through the synthetic response.</p>
+                            <p>The resulting expected detector spectrum is</p>
+                            <div class="blogPostEquation" role="math" aria-label="mu equals exposure time times R of A elementwise multiplied by S and delta E, plus exposure time B">μ = t<sub>exp</sub> R[A ⊙ S ⊙ ΔE] + t<sub>exp</sub>B.</div>
+                            <p>Then, rather than fitting those exact expectations, the program draws the observed counts from a Poisson distribution:</p>
+                            <div class="blogPostEquation" role="math" aria-label="d i is distributed as Poisson mu i">d<sub>i</sub> ∼ Poisson(μ<sub>i</sub>).</div>
+                            <p>This matters.</p>
+                            <p>Photons arrive as discrete events. If an energy channel is expected to contain 17.4 photons, the detector is not going to hand over 17.4 photons because one photon forgot to finish entering the telescope.</p>
+                            <p>The observed spectrum is a noisy realization of the underlying expectation.</p>
+                            <p>This also means that least-squares statistics are not automatically the best choice.</p>
+                            <p>Which brings us to C-stat.</p>
+                            <figure>
+                                <img src="/blog/evoxrb-genetic-algorithms-x-ray-astronomy/assets/folded-spectrum.png" alt="Observed Poisson count spectrum overlaid on the folded model, with a lower standardized-residual panel and the fit band highlighted" width="1422" height="1155" loading="lazy" decoding="async">
+                                <figcaption>Figure 4: A Poisson realization of one synthetic folded spectrum compared with the response-folded expectation. The lower panel shows standardized residuals, while channels outside the 0.5–10 keV fitting band are shaded.</figcaption>
+                            </figure>
+                        </section>
+
+                        <section aria-labelledby="c-stat">
+                            <h2 id="c-stat">6. Why I stopped using χ² as the main answer</h2>
+                            <p>My early design for EvoXRB started with</p>
+                            <div class="blogPostEquation" role="math" aria-label="chi squared equals the sum over i of d i minus m i squared divided by sigma i squared">χ² = Σ<sub>i</sub> (d<sub>i</sub> − m<sub>i</sub>)² / σ<sub>i</sub>².</div>
+                            <p>It is familiar, easy to understand and for sufficiently high counts it can be useful.</p>
+                            <p>But X-ray spectra are fundamentally photon-counting data.</p>
+                            <p>The better baseline is therefore the Poisson likelihood and its associated Cash statistic.</p>
+                            <p>EvoXRB uses the Poisson deviance form</p>
+                            <div class="blogPostEquation" role="math" aria-label="C equals two times the sum over i of m i minus d i plus d i times the natural log of d i over m i">C = 2 Σ<sub>i</sub> [m<sub>i</sub> − d<sub>i</sub> + d<sub>i</sub> ln(d<sub>i</sub> / m<sub>i</sub>)],</div>
+                            <p>with the <var>d<sub>i</sub> = 0</var> limit handled analytically.</p>
+                            <p>Lower C is better.</p>
+                            <p>So the genetic algorithm’s entire existence can be condensed into something almost insultingly simple:</p>
+                            <div class="blogPostEquation" role="math" aria-label="theta best equals arg min over theta of C of theta">θ<sub>best</sub> = arg min<sub>θ</sub> C(θ).</div>
+                            <p>Everything else, selection, crossover, mutation, immigrants and 300 generations of simulated Darwinism, exists to find that minimum without being trapped by the landscape on the way there.</p>
+                            <p>Cash originally developed this likelihood-based approach specifically with photon-counting problems in astronomy in mind, so using it here is not merely because C-stat looks sufficiently astrophysical in a plot title.</p>
+                        </section>
+
+                        <section aria-labelledby="control">
+                            <h2 id="control">7. The genetic algorithm needs an opponent</h2>
+                            <p>There would be little point building an elaborate optimisation system and then announcing it works because it found a number.</p>
+                            <p>It needs a control.</p>
+                            <p>EvoXRB therefore compares the genetic algorithm against deterministic bounded optimisation using SciPy.</p>
+                            <p>The control does not use one starting position either. It creates a Latin-hypercube set of starting points across the normalized parameter space and runs L-BFGS-B from each one.</p>
+                            <p>The full profile uses 20 SciPy starts.</p>
+                            <p>This gives three distinct things to compare:</p>
+                            <div class="blogPostFlow" aria-label="Raw genetic algorithm compared with multi-start SciPy and genetic algorithm followed by SciPy local polish">
+                                <span>raw GA</span><span>multi-start SciPy</span><span>GA → SciPy local polish</span>
+                            </div>
+                            <p>That last one is particularly interesting.</p>
+                            <p>The GA acts as the explorer. It tries to locate a promising basin globally.</p>
+                            <p>SciPy then acts as the person who arrives afterwards with a ruler and complains that everybody else has been imprecise.</p>
+                            <p>If this hybrid consistently reaches good solutions using fewer or more robust starting assumptions, then the GA has potentially earned its computational cost.</p>
+                            <p>If multi-start SciPy reaches the same place faster every time, then that is also an answer.</p>
+                            <p>I did not want to design the experiment so that the genetic algorithm was guaranteed to win. That would be a very strange form of scientific inquiry.</p>
+                        </section>
+
+                        <section aria-labelledby="smoke-test">
+                            <h2 id="smoke-test">8. And then the smoke test humbled the genetic algorithm</h2>
+                            <p>The results currently committed to the repository come from the smoke profile.</p>
+                            <p>This is important.</p>
+                            <p>The smoke profile is not the full scientific campaign. It exists so that the entire pipeline can run quickly during development and continuous integration.</p>
+                            <p>Instead of 192 individuals and 300 generations, the smoke GA uses:</p>
+                            <ul>
+                                <li>32 individuals,</li>
+                                <li>at most 24 generations,</li>
+                                <li>one random seed,</li>
+                                <li>four SciPy starting points,</li>
+                                <li>heavily shortened posterior sampling,</li>
+                                <li>two recovery realizations at the low-count exposure.</li>
+                            </ul>
+                            <p>The entire checked-in case study ran in about 2.8 seconds.</p>
+                            <p>It generated all 12 synthetic epochs, 21 optimisation rows, 60 recovery rows, a posterior result and three timing analyses, then passed the repository’s artifact-validation checks.</p>
+                            <p>That is useful for integration testing.</p>
+                            <p>It is not the dataset from which I intend to make grand declarations about the superiority of evolutionary computation.</p>
+                            <p>And the raw results make that extremely obvious.</p>
+                            <p>For the three representative epochs fitted with the primary power-law model:</p>
+                            <div class="blogPostTableWrap" tabindex="0" role="region" aria-label="Smoke profile optimizer comparison">
+                                <table>
+                                    <thead><tr><th>Epoch</th><th>Raw GA ΔC</th><th>GA + SciPy ΔC</th><th>Multi-start SciPy</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>E01</td><td>490.61</td><td>467.05</td><td>0</td></tr>
+                                        <tr><td>E08</td><td>3944.3</td><td>≈0</td><td>0</td></tr>
+                                        <tr><td>E10</td><td>724.88</td><td>≈0</td><td>0</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <figure>
+                                <img src="/blog/evoxrb-genetic-algorithms-x-ray-astronomy/assets/optimizer-comparison.png" alt="Charts comparing optimizer delta C accuracy and runtime for raw genetic algorithm, polished genetic algorithm, and multi-start SciPy across epochs E01, E08, and E10" width="1674" height="733" loading="lazy" decoding="async">
+                                <figcaption>Figure 5: Optimiser accuracy expressed through ΔC from the best matching solution, alongside runtime. The currently committed values come from the deliberately reduced smoke profile.</figcaption>
+                            </figure>
+                            <p>So no, the raw smoke-profile genetic algorithm did not emerge from the digital wilderness carrying the perfect answer in its mouth.</p>
+                            <p>For E08 and E10, the GA placed the local optimiser in a basin from which SciPy recovered essentially the same minimum as the multi-start control.</p>
+                            <p>For E01, even the polished GA solution remained substantially worse.</p>
+                            <p>E01 is the awkward child in this experiment, which is useful because it prevents me from writing a paragraph about how flawlessly everything worked and then pretending science happened.</p>
+                            <p>The important result is therefore not:</p>
+                            <blockquote>“Genetic algorithms beat normal optimisers.”</blockquote>
+                            <p>The current result is:</p>
+                            <blockquote>“The complete optimisation pipeline works, the hybrid approach can recover the control solution in some smoke-test cases, and the raw reduced-budget GA is not reliable enough to stand on its own.”</blockquote>
+                            <p>That is a much more useful answer.</p>
+                            <p>The full configuration exists specifically to test whether increasing the population to 192, running five independent seeds and allowing up to 300 generations changes this picture.</p>
+                            <p>There is also an opt-in high-signal acceptance test using a 100 ks synthetic spectrum. The test requires at least four of five GA seeds, after local polishing, to finish within</p>
+                            <div class="blogPostEquation" role="math" aria-label="delta C less than or equal to one">ΔC ≤ 1</div>
+                            <p>of the 20-start SciPy control. The best solution must additionally recover <var>T<sub>in</sub></var> and <var>Γ</var> to within 5%, and <var>N<sub>disk</sub></var> and <var>K</var> to within 10%.</p>
+                            <p>That is the standard the full GA is supposed to satisfy.</p>
+                            <p>The smoke run is merely the little creature poked with a stick before the actual experiment is allowed outside.</p>
+                        </section>
+
+                        <section aria-labelledby="recovery">
+                            <h2 id="recovery">9. Can the model recover parameters when I know the truth?</h2>
+                            <p>The recovery campaign is arguably more important than fitting the twelve illustrative epochs.</p>
+                            <p>The experiment generates spectra from known parameters, changes the exposure and repeats the optimisation across independent Poisson realizations.</p>
+                            <p>This lets me calculate proper recovery metrics such as</p>
+                            <div class="blogPostEquation" role="math" aria-label="bias equals the expectation of theta hat minus theta true">bias = ⟨θ̂ − θ<sub>true</sub>⟩</div>
+                            <p>and</p>
+                            <div class="blogPostEquation" role="math" aria-label="R M S E equals the square root of the expectation of theta hat minus theta true squared">RMSE = √⟨(θ̂ − θ<sub>true</sub>)²⟩.</div>
+                            <p>If increasing the number of photons causes the recovered values to tighten around the injected truth, that is exactly what I would hope to see.</p>
+                            <p>Again, the smoke run gives an interesting warning.</p>
+                            <p>For the 512-second correct-model recovery experiment, the raw GA rows have a failure rate of 1 in the reduced campaign. The GA+SciPy and multi-start SciPy rows have a failure rate of 0.</p>
+                            <figure>
+                                <img src="/blog/evoxrb-genetic-algorithms-x-ray-astronomy/assets/parameter-recovery.png" alt="Eight diagnostic panels comparing injected and recovered values, bias, and RMSE for the four model parameters" width="2193" height="729" loading="lazy" decoding="async">
+                                <figcaption>Figure 6: Injected versus recovered parameters alongside bias and RMSE diagnostics. These plots are meant to answer whether the fitting machinery can recover a universe whose parameters are already known.</figcaption>
+                            </figure>
+                            <p>At high signal in the smoke profile, the same pattern appears: the raw GA remains far from the best statistic, while both locally polished and multi-start solutions recover parameters extremely closely.</p>
+                            <p>For example, one high-signal injected spectrum used</p>
+                            <div class="blogPostEquation" role="math" aria-label="T in equals 0.700, N disk equals 8000, gamma equals 2.100, K equals 0.250">T<sub>in</sub> = 0.700, &nbsp; N<sub>disk</sub> = 8000, &nbsp; Γ = 2.100, &nbsp; K = 0.250.</div>
+                            <p>After polishing the GA solution, the errors were approximately</p>
+                            <div class="blogPostEquation blogPostEquation--stacked" role="math" aria-label="delta T in equals minus 0.00160, delta N disk equals plus 95.35, delta gamma equals minus 0.00115, delta K equals minus 0.00097">
+                                <span>ΔT<sub>in</sub> = −0.00160</span>
+                                <span>ΔN<sub>disk</sub> = +95.35</span>
+                                <span>ΔΓ = −0.00115</span>
+                                <span>ΔK = −0.00097</span>
+                            </div>
+                            <p>That is good recovery.</p>
+                            <p>It is also recovery produced by the hybrid, not the raw smoke GA.</p>
+                            <p>The distinction matters.</p>
+                        </section>
+
+                        <section aria-labelledby="wrong-model">
+                            <h2 id="wrong-model">10. The experiment where the optimiser is allowed to be perfectly wrong</h2>
+                            <p>This is my favourite test in the repository.</p>
+                            <p>EvoXRB can generate a spectrum using the cutoff continuum</p>
+                            <div class="blogPostEquation" role="math" aria-label="K E to the minus gamma e to the minus E over twenty">KE<sup>−Γ</sup>e<sup>−E/20</sup></div>
+                            <p>and then deliberately fit it using the ordinary power law</p>
+                            <div class="blogPostEquation" role="math" aria-label="K E to the minus gamma">KE<sup>−Γ</sup>.</div>
+                            <p>The optimiser is doing nothing wrong.</p>
+                            <p>It is being asked:</p>
+                            <blockquote>“Within this model, what parameters produce the best possible fit?”</blockquote>
+                            <p>It answers that question.</p>
+                            <p>The problem is that the model is wrong.</p>
+                            <p>In the 512-second smoke recovery results, the locally polished wrong-model fits still settle into the same optimum as the multi-start SciPy control, but the physical parameters remain biased. The approximate mean biases include</p>
+                            <div class="blogPostEquation blogPostEquation--stacked" role="math" aria-label="delta gamma approximately plus 0.135, delta T in approximately plus 0.058 kilo electron volts, delta N disk approximately minus 734">
+                                <span>ΔΓ ≈ +0.135</span>
+                                <span>ΔT<sub>in</sub> ≈ +0.058 keV</span>
+                                <span>ΔN<sub>disk</sub> ≈ −734</span>
+                            </div>
+                            <p>The optimiser can therefore become more successful numerically while remaining wrong physically.</p>
+                            <p>This is an important lesson because optimisation plots are extremely seductive.</p>
+                            <p>A smooth convergence curve feels authoritative.</p>
+                            <p>A tiny gradient feels authoritative.</p>
+                            <p>A six-decimal-place parameter feels extremely authoritative.</p>
+                            <p>None of those things prove that the underlying physical model describes nature.</p>
+                            <p>A genetic algorithm can optimise the wrong physics with extraordinary enthusiasm.</p>
+                            <p>It has no existential crisis halfway through generation 214 where it suddenly asks whether the model is conceptually justified.</p>
+                            <p>That is still our job.</p>
+                        </section>
+
+                        <section aria-labelledby="uncertainty">
+                            <h2 id="uncertainty">11. A best-fitting number is not an uncertainty</h2>
+                            <p>Suppose the optimisation stage finds <var>θ̂</var>.</p>
+                            <p>That is a point.</p>
+                            <p>It does not tell me automatically how uncertain each parameter is, whether two parameters are strongly correlated, whether the posterior is asymmetric, whether another solution is almost equally plausible, or whether the optimum is resting against one of my artificial search bounds.</p>
+                            <p>So EvoXRB separates optimisation from inference.</p>
+                            <p>The GA searches globally.</p>
+                            <p>The posterior sampler then asks what range of parameter combinations remains statistically plausible:</p>
+                            <div class="blogPostEquation" role="math" aria-label="p of theta given D is proportional to L of D given theta times pi of theta">p(θ | D) ∝ L(D | θ)π(θ).</div>
+                            <p>The main sampler is emcee, an affine-invariant ensemble MCMC implementation used widely in astrophysics.</p>
+                            <p>The GA solution provides the initial region, but several diffuse walkers are deliberately spread farther away so that the ensemble does not blindly assume the GA has already revealed the one true basin.</p>
+                            <p>The code checks chain length, autocorrelation stability, acceptance fraction and how much posterior mass is accumulating near the boundaries.</p>
+                            <p>If the ensemble fails to converge, if too much probability mass sits against the prior edges, or if independent GA runs reveal competitive separated modes, the pipeline can fall back to dynesty nested sampling.</p>
+                            <p>That division of labour is intentional:</p>
+                            <div class="blogPostFlow" aria-label="Genetic algorithm finds a promising region, then MCMC or nested sampling determines posterior structure">
+                                <span>GA → promising region</span><span>MCMC / nested sampling → posterior structure</span>
+                            </div>
+                            <p>The GA population itself is not treated as a posterior.</p>
+                            <p>Natural selection is many things.</p>
+                            <p>Bayesian inference is not one of them.</p>
+                            <p>For E08 the injected values are</p>
+                            <div class="blogPostEquation" role="math" aria-label="T in equals 0.65, N disk equals 8000, gamma equals 2.15, K equals 0.27">T<sub>in</sub> = 0.65, &nbsp; N<sub>disk</sub> = 8000, &nbsp; Γ = 2.15, &nbsp; K = 0.27.</div>
+                            <p>The committed smoke-profile posterior gives:</p>
+                            <div class="blogPostTableWrap" tabindex="0" role="region" aria-label="E08 posterior summary">
+                                <table>
+                                    <thead><tr><th>Parameter</th><th>Posterior median</th><th>16th percentile</th><th>84th percentile</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>T<sub>in</sub></td><td>0.6519</td><td>0.6460</td><td>0.6618</td></tr>
+                                        <tr><td>N<sub>disk</sub></td><td>8035.8</td><td>7668.6</td><td>8376.9</td></tr>
+                                        <tr><td>Γ</td><td>2.1444</td><td>2.1272</td><td>2.1575</td></tr>
+                                        <tr><td>K</td><td>0.2681</td><td>0.2595</td><td>0.2731</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p>The injected truth sits where I would want it to sit.</p>
+                            <p>This still does not make the synthetic model a measurement of MAXI J1820+070.</p>
+                            <p>It demonstrates that the inference stage behaves sensibly when the model that generated the universe is also the model used to fit it.</p>
+                            <p>A luxury rarely provided by the actual universe.</p>
+                            <figure>
+                                <img src="/blog/evoxrb-genetic-algorithms-x-ray-astronomy/assets/posterior-corner.png" alt="Corner plot of posterior distributions and covariances among temperature, disk normalization, photon index, and power-law normalization" width="1499" height="1524" loading="lazy" decoding="async">
+                                <figcaption>Figure 7: Posterior structure for the selected E08 synthetic spectrum. Diagonal panels show marginal distributions while the off-diagonal panels expose covariance between parameters.</figcaption>
+                            </figure>
+                        </section>
+
+                        <section aria-labelledby="timing">
+                            <h2 id="timing">12. Spectra are only half of what makes this source interesting</h2>
+                            <p>MAXI J1820+070 is particularly useful because its real outburst was not only spectrally interesting.</p>
+                            <p>Its timing changed dramatically.</p>
+                            <p>Black-hole X-ray binaries show broadband variability and quasi-periodic oscillations, usually shortened to QPOs because physicists eventually get tired of saying the full names of things they study thousands of times.</p>
+                            <p>A QPO appears as a broad peak in the power spectrum of a light curve.</p>
+                            <p>A useful description is a Lorentzian centred on frequency <var>ν<sub>0</sub></var>, with width FWHM and quality factor</p>
+                            <div class="blogPostEquation" role="math" aria-label="Q equals nu zero divided by F W H M">Q = ν<sub>0</sub> / FWHM.</div>
+                            <p>Higher Q corresponds to a comparatively narrow, coherent feature.</p>
+                            <p>The current EvoXRB timing module again stays completely synthetic.</p>
+                            <p>It uses a Timmer-Koenig-style Fourier method to create stochastic broadband variability. A Lorentzian QPO can then be added in Fourier space. The resulting Gaussian variability is mapped into a positive count rate before Poisson photons are drawn.</p>
+                            <p>The default full timing experiment uses:</p>
+                            <ul>
+                                <li>1/512-second sampling,</li>
+                                <li>512-second segments,</li>
+                                <li>four segments,</li>
+                                <li>soft and hard energy-inspired bands,</li>
+                                <li>averaged periodograms,</li>
+                                <li>Lorentzian fitting,</li>
+                                <li>200 bootstrap realizations.</li>
+                            </ul>
+                            <p>The soft band is based on 0.5–2 keV and the hard band on 2–10 keV.</p>
+                            <p>A QPO is accepted as type-C-like only when</p>
+                            <div class="blogPostEquation" role="math" aria-label="Q greater than or equal to two">Q ≥ 2</div>
+                            <p>and the fitted QPO amplitude reaches at least a three-sigma-like amplitude/error threshold.</p>
+                            <p>I use “type-C-like” rather than simply “type-C QPO” because this is not a real observational classification.</p>
+                            <p>The code knows what I injected into it.</p>
+                            <p>It is performing a detection exercise, not discovering a new timing feature in an astronomical source.</p>
+                        </section>
+
+                        <section aria-labelledby="timing-cases">
+                            <h2 id="timing-cases">13. Three timing cases: detect one, reject one, find nothing in one</h2>
+                            <p>The smoke pipeline currently evaluates three representative timing epochs.</p>
+                            <p>E01 contains an injected QPO at <strong>0.05 Hz</strong>.</p>
+                            <p>The fitted feature lands around 0.0224 Hz with a formal amplitude significance of roughly 3.12, but its quality factor is only <var>Q ≈ 0.61</var>.</p>
+                            <p>It therefore fails the <var>Q ≥ 2</var> requirement and is not accepted.</p>
+                            <p>E08 contains an injected QPO at <strong>5.00 Hz</strong>.</p>
+                            <p>The pipeline recovers</p>
+                            <div class="blogPostEquation" role="math" aria-label="nu zero equals 5.0277 plus or minus 0.0061 hertz">ν<sub>0</sub> = 5.0277 ± 0.0061 Hz,</div>
+                            <p>with <var>Q ≈ 8.27</var> and an amplitude significance of about 23.6.</p>
+                            <p>That one is accepted as type-C-like.</p>
+                            <p>E10 is the soft-state example.</p>
+                            <p>No QPO is injected.</p>
+                            <p>No QPO is accepted.</p>
+                            <p>There is something deeply satisfying about a detection algorithm occasionally saying “there is nothing here” rather than being so eager to justify its existence that it invents something.</p>
+                        </section>
+
+                        <section aria-labelledby="outburst">
+                            <h2 id="outburst">14. Following the synthetic outburst</h2>
+                            <p>The twelve synthetic spectral epochs can be summarized using a hardness-intensity diagram.</p>
+                            <p>Define</p>
+                            <div class="blogPostEquation blogPostEquation--stacked" role="math" aria-label="H equals 2 to 10 kilo electron volt count rate, S equals 0.5 to 2 kilo electron volt count rate, hardness equals H over S">
+                                <span>H = 2–10 keV count rate,</span>
+                                <span>S = 0.5–2 keV count rate,</span>
+                                <span>hardness = H / S.</span>
+                            </div>
+                            <p>Intensity is the combined count rate.</p>
+                            <p>The hard synthetic epochs begin with larger hardness values, the track softens towards E09/E10, then hardens again during the return phase.</p>
+                            <figure>
+                                <img src="/blog/evoxrb-genetic-algorithms-x-ray-astronomy/assets/hardness-intensity.png" alt="Hardness-intensity diagram tracing the twelve synthetic epochs through hard, intermediate, soft, decay, and return phases" width="1058" height="885" loading="lazy" decoding="async">
+                                <figcaption>Figure 8: Synthetic hardness-intensity evolution through the twelve configured epochs. The arrows indicate the direction of the artificial outburst sequence.</figcaption>
+                            </figure>
+                            <p>The real MAXI J1820+070 has a much richer hardness-intensity evolution than this educational track. Li et al. report a q-like HID with unusual hard-state behaviour, while other multi-mission work discusses changing disk, Compton and reflection components throughout the 2018 outburst.</p>
+                            <p>EvoXRB is not attempting to reproduce every one of those structures yet.</p>
+                            <p>The purpose of this diagram is to create an astrophysically recognizable evolutionary sequence on top of which the computational tools can be tested.</p>
+                            <p>Once the spectrum and timing information are placed together, the project can start asking the question I originally found interesting:</p>
+                            <blockquote>Can the computationally inferred spectral parameters be connected to changes in the variability?</blockquote>
+                            <figure>
+                                <img src="/blog/evoxrb-genetic-algorithms-x-ray-astronomy/assets/spectral-timing-evolution.png" alt="Multi-panel timeline showing temperature, disk normalization, photon index, continuum normalization, and injected and recovered QPO frequency across the twelve epochs" width="1763" height="1526" loading="lazy" decoding="async">
+                                <figcaption>Figure 9: The configured spectral evolution alongside injected and recovered QPO behaviour. The reference dates exist to provide physical context only.</figcaption>
+                            </figure>
+                            <p>One relationship worth eventually studying is</p>
+                            <div class="blogPostEquation" role="math" aria-label="nu Q P O versus gamma">ν<sub>QPO</sub> versus Γ.</div>
+                            <p>Published analyses of the real source have reported a positive connection between type-C QPO frequency and photon index, linking the changing timing behaviour to the Comptonizing region.</p>
+                            <p>The repository therefore includes a figure designed for the same type of comparison.</p>
+                            <figure>
+                                <img src="/blog/evoxrb-genetic-algorithms-x-ray-astronomy/assets/qpo-photon-index.png" alt="Photon index versus accepted type-C-like QPO frequency with a single accepted E08 point" width="1071" height="850" loading="lazy" decoding="async">
+                                <figcaption>Figure 10: Accepted synthetic type-C-like QPO frequency against photon index. In the current smoke artifacts only one timing epoch satisfies the acceptance rule, so this figure is a pipeline demonstration rather than a correlation measurement.</figcaption>
+                            </figure>
+                            <p>That last sentence matters enormously.</p>
+                            <p>A scatter plot containing one accepted QPO point is not evidence for a correlation.</p>
+                            <p>It is evidence that the plotting function runs.</p>
+                            <p>The full campaign needs far more accepted epochs before this plot becomes scientifically interesting.</p>
+                        </section>
+
+                        <section aria-labelledby="repository">
+                            <h2 id="repository">15. What the current repository actually contains</h2>
+                            <p>At this point EvoXRB has become less of a single genetic-algorithm script and more of a small analysis package.</p>
+                            <p>The source is split into modules for:</p>
+                            <ul class="blogPostColumns">
+                                <li>configuration,</li>
+                                <li>parameter transformations,</li>
+                                <li>spectral models,</li>
+                                <li>the synthetic instrument,</li>
+                                <li>spectrum simulation,</li>
+                                <li>Poisson statistics,</li>
+                                <li>genetic optimisation,</li>
+                                <li>deterministic optimisation,</li>
+                                <li>posterior inference,</li>
+                                <li>timing,</li>
+                                <li>plotting,</li>
+                                <li>validation,</li>
+                                <li>reporting,</li>
+                                <li>campaign orchestration.</li>
+                            </ul>
+                            <p>The package can be installed directly:</p>
+                            <pre><code>python -m pip install -e ".[test]"</code></pre>
+                            <p>The entire smoke case study can then be reproduced with</p>
+                            <pre><code>python -m evoxrb run-case-study --profile smoke</code></pre>
+                            <p>while the full campaign is</p>
+                            <pre><code>python -m evoxrb run-case-study --profile full --resume</code></pre>
+                            <p>Individual stages can also be executed separately:</p>
+                            <pre><code>python -m evoxrb simulate --profile smoke
+python -m evoxrb fit --method scipy --profile smoke
+python -m evoxrb fit --method ga --profile smoke --resume
+python -m evoxrb infer --profile smoke --resume
+python -m evoxrb timing --profile smoke --resume
+python -m evoxrb report --profile smoke</code></pre>
+                            <p>That separation has become one of the parts of the project I value most.</p>
+                            <p>A genetic algorithm should not know how an X-ray detector works.</p>
+                            <p>The detector should not know how MCMC works.</p>
+                            <p>The MCMC sampler should not be responsible for drawing the hardness-intensity diagram.</p>
+                            <p>Each layer has a relatively simple responsibility and the campaign code stitches them together.</p>
+                            <p>This is far easier to test than one enormous script containing 2,000 lines of numerical resentment.</p>
+                        </section>
+
+                        <section aria-labelledby="reproducibility">
+                            <h2 id="reproducibility">16. Reproducibility, because random numbers are not an excuse</h2>
+                            <p>A genetic algorithm is stochastic.</p>
+                            <p>Poisson observations are stochastic.</p>
+                            <p>MCMC is stochastic.</p>
+                            <p>Synthetic light curves are stochastic.</p>
+                            <p>If every result changed unpredictably every time I ran the program, debugging the project would become an archaeological expedition.</p>
+                            <p>So EvoXRB starts from a fixed master seed:</p>
+                            <pre><code>1820070</code></pre>
+                            <p>and derives child seeds for the separate simulation and optimisation stages.</p>
+                            <p>The configuration is also hashed. The currently committed smoke result corresponds to</p>
+                            <pre><code>d17357d31d720259</code></pre>
+                            <p>so generated results can be associated with the configuration that created them.</p>
+                            <p>The case-study output stores provenance including:</p>
+                            <ul>
+                                <li>profile,</li>
+                                <li>seed,</li>
+                                <li>configuration hash,</li>
+                                <li>package versions,</li>
+                                <li>generated tables,</li>
+                                <li>generated figures,</li>
+                                <li>completion status.</li>
+                            </ul>
+                            <p>The repository’s Windows GitHub Actions workflow runs the test suite automatically. The ordinary CI job runs the fast validation suite, while the computationally expensive full acceptance campaign is deliberately opt-in and can upload its result tables, figures and reports as workflow artifacts.</p>
+                            <p>This is not the glamorous astrophysics part.</p>
+                            <p>It is also what stops me from staring at a good result six months later and wondering which of twelve slightly different scripts produced it.</p>
+                        </section>
+
+                        <section aria-labelledby="did-it-work">
+                            <h2 id="did-it-work">17. So, did the genetic algorithm work?</h2>
+                            <p>This is annoyingly dependent on what “worked” means.</p>
+                            <p>Did I implement a real-valued genetic algorithm with tournament selection, simulated-binary crossover, polynomial mutation, elitism, diversity monitoring, immigrant injection, convergence rules and checkpointing?</p>
+                            <p><strong>Yes.</strong></p>
+                            <p>Can it be connected to a response-folded Poisson X-ray fitting problem?</p>
+                            <p><strong>Yes.</strong></p>
+                            <p>Does the whole pipeline simulate an artificial X-ray binary outburst, optimise spectra, perform recovery experiments, run posterior inference, simulate timing behaviour and produce reproducible outputs?</p>
+                            <p><strong>Yes.</strong></p>
+                            <p>Does the currently committed raw smoke-profile GA reliably outperform multi-start SciPy?</p>
+                            <p><strong>Absolutely not.</strong></p>
+                            <p>In fact, several of the smoke results make SciPy look rather smug.</p>
+                            <p>Does the GA + local optimisation strategy show promise?</p>
+                            <p><strong>Yes.</strong> In E08 and E10 it reaches essentially the same minima as the multi-start control, and its high-signal recovery after polishing is extremely good.</p>
+                            <p>But E01 also demonstrates that a bad GA basin can remain bad after local polishing.</p>
+                            <p>So the current repository has not earned the conclusion:</p>
+                            <blockquote>“Genetic algorithms are better for X-ray spectral fitting.”</blockquote>
+                            <p>What it has earned is the much more interesting question:</p>
+                            <blockquote><strong>Under what likelihood structures, parameter dimensions and degeneracies does global evolutionary search become useful enough to justify its cost?</strong></blockquote>
+                            <p>A simple four-parameter model may simply not need it.</p>
+                            <p>Once the model grows into</p>
+                            <div class="blogPostEquation" role="math" aria-label="absorption times disk plus Comptonization plus reflection and so on">absorption × (disk + Comptonization + reflection + …),</div>
+                            <p>with calibration uncertainty, background uncertainty, cross-instrument constants and strongly correlated physical parameters, the optimisation landscape becomes substantially nastier.</p>
+                            <p>That is where the GA should be tested properly.</p>
+                            <p>Not because evolution is fashionable.</p>
+                            <p>Because complicated multimodal search spaces are the problem it is supposed to solve.</p>
+                        </section>
+
+                        <section aria-labelledby="real-astronomy">
+                            <h2 id="real-astronomy">18. The eventual route back to real astronomy</h2>
+                            <p>The funny thing is that the current synthetic project has brought me back to the original real-data design in a better position.</p>
+                            <p>The future path is now quite obvious.</p>
+                            <p>The synthetic <code>SpectrumModel</code> would be replaced by real XSPEC models.</p>
+                            <p>The educational effective-area and redistribution arrays would be replaced by real ARF and RMF products.</p>
+                            <p>Synthetic spectra would be replaced by reduced NICER observations.</p>
+                            <p>The objective would still have almost the same conceptual form:</p>
+                            <pre><code>statistic = objective(parameters)</code></pre>
+                            <p>but the implementation underneath would ask XSPEC to evaluate something such as</p>
+                            <pre><code>TBabs*(diskbb+powerlaw)</code></pre>
+                            <p>or eventually</p>
+                            <pre><code>TBabs*(diskbb+nthcomp)</code></pre>
+                            <p>and more physical reflection models.</p>
+                            <p>The real workflow would look approximately like:</p>
+                            <div class="blogPostPipeline" aria-label="Future real-data analysis workflow">
+                                <span>HEASARC</span>
+                                <span>NICER observation</span>
+                                <span>nicerl2</span>
+                                <span>clean event data</span>
+                                <span>nicerl3-spect / nicerl3-lc</span>
+                                <span>PHA + ARF + RMF + background</span>
+                                <span>XSPEC / PyXspec</span>
+                                <span>GA + conventional optimiser comparison</span>
+                                <span>posterior inference</span>
+                                <span>spectral + timing interpretation</span>
+                            </div>
+                            <p>The old mock design was therefore not wasted.</p>
+                            <p>It became the specification for what this project can grow into.</p>
+                            <p>The synthetic repository is effectively the controlled laboratory experiment before I let the algorithm near a real telescope archive.</p>
+                            <p>There are several obvious next stages.</p>
+                            <ol>
+                                <li>Run the complete five-seed, 192-member, 300-generation acceptance campaign and preserve those results rather than relying on smoke artifacts.</li>
+                                <li>Expand the synthetic model into more difficult parameter spaces and test whether the GA starts providing measurable robustness over multi-start local methods.</li>
+                                <li>Strengthen the timing campaign so the <var>ν<sub>QPO</sub> − Γ</var> plot contains an actual sample rather than one heroic E08 point doing all the work.</li>
+                                <li>Integrate a real HEASoft/XSPEC backend and run the exact same conceptual optimisation experiment on selected NICER spectra.</li>
+                                <li>Once the NICER pipeline is stable, combine it with NuSTAR or another instrument to increase the energy range and make more physical Comptonization and reflection models worthwhile.</li>
+                            </ol>
+                            <p>At that stage the original question becomes real:</p>
+                            <blockquote><strong>Can an evolutionary global search recover a robust description of an accreting black hole from actual X-ray observations, and when does it do something established optimisers cannot already do more cheaply?</strong></blockquote>
+                            <p>I do not know the answer yet.</p>
+                            <p>That is precisely why the project is worth continuing.</p>
+                        </section>
+
+                        <section aria-labelledby="lessons">
+                            <h2 id="lessons">19. What I actually learned from building this</h2>
+                            <p>I originally started with genetic algorithms because they looked interesting.</p>
+                            <p>The project ended up forcing me to learn far more than the algorithm.</p>
+                            <p>I had to think about what an X-ray telescope physically records rather than treating a spectrum as a convenient <var>x, y</var> dataset.</p>
+                            <p>I had to understand why a detector response has to sit between a photon model and observed counts.</p>
+                            <p>I had to move from χ² towards Poisson statistics.</p>
+                            <p>I had to separate global optimisation from posterior inference.</p>
+                            <p>I had to think about parameter degeneracy, model misspecification and why a numerically excellent optimum can still describe the wrong physics.</p>
+                            <p>I had to deal with reproducibility, random seeds, checkpointing, configuration hashes and automated tests.</p>
+                            <p>I also learned that a genetic algorithm becoming stuck is not necessarily a disappointing result.</p>
+                            <p>Sometimes the algorithm failing is the result.</p>
+                            <p>If a 32-member smoke population cannot reliably locate the same minima as four SciPy starts, then the answer is not to hide the comparison. It tells me what experiment needs to come next.</p>
+                            <p>And if the full 192-member, five-seed campaign still cannot justify itself against a conventional optimiser, then that is also worth reporting.</p>
+                            <p>There is little value in building an optimisation method whose conclusion was decided before the first generation existed.</p>
+                            <p>For now, EvoXRB sits somewhere between computational astrophysics, observational methodology and an overly elaborate attempt to teach digital organisms about X-rays.</p>
+                            <p>Which is more or less exactly where I wanted it.</p>
+                        </section>
+
+                        <section aria-labelledby="references">
+                            <h2 id="references">20. References and further reading</h2>
+                            <ol class="blogPostReferences">
+                                <li>Li, Y., Yan, Z., Gao, C. &amp; Yu, W. <cite>X-ray spectral and timing evolution during the 2018 outburst of MAXI J1820+070</cite> (2024). <a href="https://arxiv.org/abs/2407.08421">arXiv:2407.08421</a>.</li>
+                                <li>Stiele, H. &amp; Kong, A. K. H. <cite>A timing study of MAXI J1820+070 based on Swift/XRT and NICER monitoring in 2018/19</cite> (2019). <a href="https://arxiv.org/abs/1912.07625">arXiv:1912.07625</a>.</li>
+                                <li>Prabhakar, G., Mandal, S., Athulya, M. P. &amp; Nandi, A. <cite>Accretion Scenario of MAXI J1820+070 during 2018 Outbursts with Multi-mission Observations</cite> (2022). <a href="https://arxiv.org/abs/2204.13363">arXiv:2204.13363</a>.</li>
+                                <li>Atri, P. et al. <cite>A radio parallax to the black hole X-ray binary MAXI J1820+070</cite> (2020). <a href="https://arxiv.org/abs/1912.04525">arXiv:1912.04525</a>.</li>
+                                <li>NASA HEASARC. <cite>NICER analysis documentation and software threads</cite>. <a href="https://heasarc.gsfc.nasa.gov/docs/nicer/">HEASARC NICER documentation</a>.</li>
+                                <li>NASA HEASARC. <cite>XSPEC User’s Guide</cite>. <a href="https://heasarc.gsfc.nasa.gov/docs/software/xspec/manual/XspecManual.html">XSPEC manual</a>.</li>
+                                <li>NASA HEASARC. <cite>NICER nicerl2 standard processing pipeline</cite>. <a href="https://heasarc.gsfc.nasa.gov/docs/nicer/analysis_threads/nicerl2/">nicerl2 analysis thread</a>.</li>
+                                <li>NASA HEASARC. <cite>NICER nicerl3-spect spectral-product pipeline</cite>. <a href="https://heasarc.gsfc.nasa.gov/docs/nicer/analysis_threads/nicerl3-spect/">nicerl3-spect analysis thread</a>.</li>
+                                <li>Cash, W. <cite>Parameter estimation in astronomy through application of the likelihood ratio</cite>, Astrophysical Journal 228, 939 (1979). <a href="https://ntrs.nasa.gov/citations/19790043693">NASA NTRS record</a>.</li>
+                                <li>Deb, K. &amp; Agrawal, R. B. <cite>Simulated Binary Crossover for Continuous Search Space</cite>, Complex Systems 9, 115–148 (1995). <a href="https://www.cse.unr.edu/~sushil/class/gas/papers/SimulatedBinaryCrossover.pdf">Paper PDF</a>.</li>
+                                <li>Foreman-Mackey, D., Hogg, D. W., Lang, D. &amp; Goodman, J. <cite>emcee: The MCMC Hammer</cite>, PASP 125, 306 (2013). <a href="https://arxiv.org/abs/1202.3665">arXiv:1202.3665</a>.</li>
+                                <li>Timmer, J. &amp; König, M. <cite>On generating power law noise</cite>, Astronomy &amp; Astrophysics 300, 707 (1995). <a href="https://ui.adsabs.harvard.edu/abs/1995A%26A...300..707T/abstract">NASA ADS abstract</a>.</li>
+                                <li><cite>DEAP documentation</cite>. Evolutionary computation operators and tools. <a href="https://deap.readthedocs.io/en/master/api/tools.html">DEAP tools API</a>.</li>
+                                <li><cite>emcee documentation</cite>. Ensemble MCMC sampling in Python. <a href="https://emcee.readthedocs.io/">emcee docs</a>.</li>
+                                <li><cite>dynesty documentation</cite>. Dynamic and static nested sampling. <a href="https://dynesty.readthedocs.io/">dynesty docs</a>.</li>
+                            </ol>
+                        </section>
+
+                        <footer class="blogPostFooter">
+                            <a href="/blog/">← Back to all posts</a>
+                            <span>EvoXRB v0.1.0</span>
+                        </footer>
+                    </div>
+                </section>
+            </article>
+        </main>
+    </body>
+</html>

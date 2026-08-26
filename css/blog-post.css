@@ -19,6 +19,10 @@
     width: min(100%, 37rem);
 }
 
+.blogPostProfile--wide {
+    width: min(100%, 56rem);
+}
+
 .blogPostTextBox {
     align-items: flex-start;
     background-color: transparent;
@@ -56,6 +60,29 @@
     line-height: 1.5;
 }
 
+.blogPostKicker {
+    color: var(--accent-color);
+    font-size: 0.875rem;
+    letter-spacing: 0.08em;
+    line-height: 1.5;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.blogPostDek {
+    color: #CCCCCC;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    margin: 0;
+    max-width: 48rem;
+}
+
+.blogPostActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.5rem;
+}
+
 .blogPostBody {
     font-size: 1rem;
     line-height: 1.5;
@@ -90,6 +117,38 @@
     line-height: 1.5;
 }
 
+.blogPostBody h2 {
+    border-bottom: 1px solid #333333;
+    padding-bottom: 0.5rem;
+}
+
+.blogPostBody code,
+.blogPostBody pre {
+    font-family: inherit;
+}
+
+.blogPostBody :not(pre) > code {
+    color: #FFFFFF;
+}
+
+.blogPostBody pre {
+    background: #151515;
+    border: 1px solid #333333;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    line-height: 1.6;
+    overflow-x: auto;
+    padding: 1rem;
+    white-space: pre;
+}
+
+.blogPostBody blockquote {
+    border-left: 3px solid var(--accent-color);
+    color: #FFFFFF;
+    margin-inline: 0;
+    padding: 0.25rem 0 0.25rem 1rem;
+}
+
 .blogPostBody a {
     overflow-wrap: anywhere;
 }
@@ -108,6 +167,8 @@
 }
 
 .blogPostBody img {
+    background: #FFFFFF;
+    border: 1px solid #333333;
     box-sizing: border-box;
     display: block;
     height: auto;
@@ -120,6 +181,158 @@
     font-size: 1rem;
     line-height: 1.5;
     margin-top: 0.5rem;
+}
+
+.blogPostCallout {
+    background: #111A17;
+    border: 1px solid #245C49;
+    box-sizing: border-box;
+    padding: 1rem;
+}
+
+.blogPostCallout > * {
+    margin-block: 0;
+}
+
+.blogPostCallout > * + * {
+    margin-top: 0.75rem;
+}
+
+.blogPostCallout--warning {
+    background: #19170F;
+    border-color: #635A2A;
+}
+
+.blogPostToc {
+    background: #111111;
+    border: 1px solid #333333;
+    box-sizing: border-box;
+    padding: 1rem;
+}
+
+.blogPostToc ol {
+    columns: 2 18rem;
+    margin-bottom: 0;
+}
+
+.blogPostTocIntro {
+    display: inline-block;
+    margin-top: 0.5rem;
+}
+
+.blogPostToc li {
+    break-inside: avoid;
+    margin-top: 0.5rem;
+}
+
+.blogPostEquation {
+    background: #111111;
+    border-left: 2px solid #444444;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    font-size: 1.05rem;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    padding: 0.85rem 1rem;
+    text-align: center;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.blogPostEquation--stacked {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.blogPostFlow {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.blogPostFlow span,
+.blogPostPipeline span {
+    background: #111111;
+    border: 1px solid #333333;
+    color: #FFFFFF;
+    padding: 0.75rem;
+    text-align: center;
+}
+
+.blogPostTableWrap {
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    width: 100%;
+}
+
+.blogPostTableWrap:focus-visible {
+    outline: 2px solid #FFFFFF;
+    outline-offset: 3px;
+}
+
+.blogPostBody table {
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    min-width: 44rem;
+    width: 100%;
+}
+
+.blogPostBody th,
+.blogPostBody td {
+    border: 1px solid #333333;
+    padding: 0.6rem;
+    text-align: left;
+    vertical-align: top;
+}
+
+.blogPostBody th {
+    background: #171717;
+    color: #FFFFFF;
+}
+
+.blogPostBody tbody tr:nth-child(even) {
+    background: #111111;
+}
+
+.blogPostColumns {
+    columns: 2 16rem;
+}
+
+.blogPostColumns li {
+    break-inside: avoid;
+}
+
+.blogPostPipeline {
+    display: grid;
+    gap: 0.5rem;
+    margin-inline: auto;
+    max-width: 34rem;
+}
+
+.blogPostPipeline span:not(:last-child)::after {
+    color: var(--accent-color);
+    content: "↓";
+    display: block;
+    height: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.blogPostReferences {
+    font-size: 0.925rem;
+}
+
+.blogPostFooter {
+    align-items: center;
+    border-top: 1px solid #333333;
+    color: #777777;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+    margin-top: 3rem;
+    padding-top: 1rem;
 }
 
 @keyframes blogPostProfileFadeIn {
@@ -135,6 +348,20 @@
 @media (max-width: 36rem) {
     .blogPostProfile {
         gap: 2.75rem;
+    }
+
+    .blogPostFlow {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .blogPostToc ol,
+    .blogPostColumns {
+        columns: 1;
+    }
+
+    .blogPostEquation {
+        font-size: 0.925rem;
+        text-align: left;
     }
 }
 
