@@ -4,33 +4,10 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="p:domain_verify" content="52413982c63f4d025687d6189e81ce64"/>
-        <link rel="stylesheet" href="/css/dev.css">
-        <script>
-            (function () {
-                var hasSeenIntro = false;
-                var isInternalNavigation = false;
-
-                try {
-                    hasSeenIntro = sessionStorage.getItem("svsamIntroSeen") === "true";
-                } catch (error) {
-                    hasSeenIntro = false;
-                }
-
-                try {
-                    isInternalNavigation = Boolean(document.referrer) &&
-                        new URL(document.referrer).origin === window.location.origin;
-                } catch (error) {
-                    isInternalNavigation = false;
-                }
-
-                if (!hasSeenIntro && !isInternalNavigation) {
-                    document.documentElement.classList.add("devIntroPending");
-                }
-            }());
-        </script>
+        <link rel="stylesheet" href="css/dev.css">
 
         <title>/ SvS / dev </title>
-        <link rel="icon" type="image/x-icon" href="/css/Images/web/site-favicon.jpg">
+        <link rel="icon" type="image/x-icon" href="../css/Images/web/site-favicon.jpg">
     </head>
     
     <body>
@@ -40,9 +17,9 @@
                     <header class="devHeader">
                         <nav class="devNav" aria-label="Primary navigation">
                             <a href="./" aria-current="page">Home</a>
-                            <a href="/about/">About</a>
-                            <a href="/projects/">Projects</a>
-                            <a href="/blog/">Blog</a>
+                            <a href="./about/">About</a>
+                            <a href="./projects/">Projects</a>
+                            <a href="./blog/">Blog</a>
                         </nav>
                     </header>
 
@@ -92,7 +69,7 @@
             </section>
         </main>
 
-        <script src="/js/uk-clock.js"></script>
-        <script src="/js/dev-black-hole.js"></script>
+        <script src="./js/uk-clock.js"></script>
+        <script src="./js/dev-black-hole.js"></script>
     </body>
 </html>
