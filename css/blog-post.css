@@ -155,7 +155,15 @@
 }
 
 .blogPostBody figure {
+    max-width: 100%;
+    min-width: 0;
     margin-inline: 0;
+}
+
+.blogPostBody figure img {
+    display: block;
+    height: auto;
+    max-width: 100%;
 }
 
 .blogPostBody figcaption {
@@ -245,7 +253,7 @@
 .blogPostTableWrap {
     max-width: 100%;
     min-width: 0;
-    overflow-x: auto;
+    overflow-x: hidden;
     width: 100%;
 }
 
@@ -257,13 +265,14 @@
 .blogPostBody table {
     border-collapse: collapse;
     font-size: 0.875rem;
-    min-width: 44rem;
+    table-layout: fixed;
     width: 100%;
 }
 
 .blogPostBody th,
 .blogPostBody td {
     border: 1px solid #333333;
+    overflow-wrap: anywhere;
     padding: 0.6rem;
     text-align: left;
     vertical-align: top;

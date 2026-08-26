@@ -29,7 +29,7 @@
                         <h1 class="title" id="postTitle">EvoXRB: Genetic Algorithms, and a Very Real Black Hole</h1>
                         <time class="blogPostDate" datetime="2026-08-26">August 2026</time>
 
-                        <p class="blogPostDek">Building a pure-Python, NICER-inspired X-ray experiment around MAXI J1820+070, then finding out whether natural selection is actually any good at fitting spectra.</p>
+                        <p class="blogPostDek">Building a Python, NICER-inspired X-ray experiment around MAXI J1820+070, then finding out whether natural selection is actually any good at fitting spectra.</p>
                         
                         <div class="blogPostActions" aria-label="Project links">
                             <a href="https://github.com/svsam/EvoXRB">Project repository</a>
@@ -39,7 +39,7 @@
                     <div class="blogPostBody">
                         <aside class="blogPostCallout" aria-label="Scope note">
                             <strong>Scope</strong>
-                            <p>The current implementation is a declared synthetic / NICER-inspired case study. It is designed to validate response folding, evolutionary optimisation, posterior inference and timing workflows before applying the same ideas to real telescope products.</p>
+                            <p>The current implementation is a declared synthetic / NICER-inspired case study. It is designed to validate response folding, evolutionary optimisation, posterior inference and timing workflows before applying the same ideas to real telescope products. This is to be changed though.</p>
                         </aside>
 
 
@@ -86,7 +86,7 @@
                             <p>That is natural selection after being put through several layers of NumPy.</p>
                             <p>The full EvoXRB configuration uses a population of 192 individuals, tournament selection with groups of three, a 0.9 crossover probability, simulated-binary crossover, bounded polynomial mutation, 3% elitism and the possibility of injecting 5% random immigrants when the population becomes stagnant and loses diversity.</p>
                             <figure>
-                                <img src="/blog/evoxrb-genetic-algorithms-x-ray-astronomy/assets/ga-convergence.png" alt="Two charts showing the best and median C-statistic falling through the genetic algorithm run and the population diversity narrowing over generations" width="1428" height="1108" loading="lazy" decoding="async">
+                                <img src="assets/ga-convergence.png" alt="Two charts showing the best and median C-statistic falling through the genetic algorithm run and the population diversity narrowing over generations" width="1428" height="1108" loading="lazy" decoding="async">
                                 <figcaption>Figure 1: The best and median C-statistic through the GA run, together with the changing spread of the population. The point is not only to see whether the champion improves, but whether the entire population is actually settling.</figcaption>
                             </figure>
                             <p>Mutation also changes character throughout the run. It begins comparatively exploratory and gradually becomes more conservative as the search progresses.</p>
@@ -98,7 +98,7 @@
                             <p>If the best score stops moving but half the population is sitting in one region while the other half is sitting somewhere completely different, that is rather important information. It could indicate multiple minima, degeneracy, insufficient convergence or a bug waiting in the darkness.</p>
                             <p>So the population itself is tracked through time.</p>
                             <figure>
-                                <img src="/blog/evoxrb-genetic-algorithms-x-ray-astronomy/assets/gene-evolution.png" alt="Four panels tracking normalized temperature, disk normalization, photon index, and power-law normalization genes across generations" width="1427" height="854" loading="lazy" decoding="async">
+                                <img src="assets/gene-evolution.png" alt="Four panels tracking normalized temperature, disk normalization, photon index, and power-law normalization genes across generations" width="1427" height="854" loading="lazy" decoding="async">
                                 <figcaption>Figure 2: Evolution of the normalized genes. The shaded regions contain the central 80% of the population and the dotted trajectories follow the best-performing genes.</figcaption>
                             </figure>
                             <p>This is one of the reasons I find genetic algorithms more interesting than simply calling an optimiser and receiving four numbers back.</p>
@@ -106,7 +106,7 @@
                         </section>
 
                         <section aria-labelledby="instrument-response">
-                            <h2 id="instrument-response">2. The annoying bit: a telescope does not measure the theoretical spectrum</h2>
+                            <h2 id="instrument-response">2. A telescope does not measure the theoretical spectrum</h2>
                             <p>Suppose the black-hole system emits a photon spectrum <var>S(E)</var>.</p>
                             <p>It would be extremely convenient if the telescope simply returned <var>S(E)</var>.</p>
                             <p>It does not.</p>
@@ -501,49 +501,8 @@
                             <p>The full campaign needs far more accepted epochs before this plot becomes scientifically interesting.</p>
                         </section>
 
-                        <section aria-labelledby="repository">
-                            <h2 id="repository">15. What the current repository actually contains</h2>
-                            <p>At this point EvoXRB has become less of a single genetic-algorithm script and more of a small analysis package.</p>
-                            <p>The source is split into modules for:</p>
-                            <ul class="blogPostColumns">
-                                <li>configuration,</li>
-                                <li>parameter transformations,</li>
-                                <li>spectral models,</li>
-                                <li>the synthetic instrument,</li>
-                                <li>spectrum simulation,</li>
-                                <li>Poisson statistics,</li>
-                                <li>genetic optimisation,</li>
-                                <li>deterministic optimisation,</li>
-                                <li>posterior inference,</li>
-                                <li>timing,</li>
-                                <li>plotting,</li>
-                                <li>validation,</li>
-                                <li>reporting,</li>
-                                <li>campaign orchestration.</li>
-                            </ul>
-                            <p>The package can be installed directly:</p>
-                            <pre><code>python -m pip install -e ".[test]"</code></pre>
-                            <p>The entire smoke case study can then be reproduced with</p>
-                            <pre><code>python -m evoxrb run-case-study --profile smoke</code></pre>
-                            <p>while the full campaign is</p>
-                            <pre><code>python -m evoxrb run-case-study --profile full --resume</code></pre>
-                            <p>Individual stages can also be executed separately:</p>
-                            <pre><code>python -m evoxrb simulate --profile smoke
-python -m evoxrb fit --method scipy --profile smoke
-python -m evoxrb fit --method ga --profile smoke --resume
-python -m evoxrb infer --profile smoke --resume
-python -m evoxrb timing --profile smoke --resume
-python -m evoxrb report --profile smoke</code></pre>
-                            <p>That separation has become one of the parts of the project I value most.</p>
-                            <p>A genetic algorithm should not know how an X-ray detector works.</p>
-                            <p>The detector should not know how MCMC works.</p>
-                            <p>The MCMC sampler should not be responsible for drawing the hardness-intensity diagram.</p>
-                            <p>Each layer has a relatively simple responsibility and the campaign code stitches them together.</p>
-                            <p>This is far easier to test than one enormous script containing 2,000 lines of numerical resentment.</p>
-                        </section>
-
                         <section aria-labelledby="reproducibility">
-                            <h2 id="reproducibility">16. Reproducibility, because random numbers are not an excuse</h2>
+                            <h2 id="reproducibility">15. Reproducibility, because random numbers are not an excuse</h2>
                             <p>A genetic algorithm is stochastic.</p>
                             <p>Poisson observations are stochastic.</p>
                             <p>MCMC is stochastic.</p>
@@ -571,7 +530,7 @@ python -m evoxrb report --profile smoke</code></pre>
                         </section>
 
                         <section aria-labelledby="did-it-work">
-                            <h2 id="did-it-work">17. So, did the genetic algorithm work?</h2>
+                            <h2 id="did-it-work">16. So, did the genetic algorithm work?</h2>
                             <p>This is annoyingly dependent on what “worked” means.</p>
                             <p>Did I implement a real-valued genetic algorithm with tournament selection, simulated-binary crossover, polynomial mutation, elitism, diversity monitoring, immigrant injection, convergence rules and checkpointing?</p>
                             <p><strong>Yes.</strong></p>
@@ -599,7 +558,7 @@ python -m evoxrb report --profile smoke</code></pre>
                         </section>
 
                         <section aria-labelledby="real-astronomy">
-                            <h2 id="real-astronomy">18. The eventual route back to real astronomy</h2>
+                            <h2 id="real-astronomy">17. The eventual route back to real astronomy</h2>
                             <p>The funny thing is that the current synthetic project has brought me back to the original real-data design in a better position.</p>
                             <p>The future path is now quite obvious.</p>
                             <p>The synthetic <code>SpectrumModel</code> would be replaced by real XSPEC models.</p>
@@ -643,7 +602,7 @@ python -m evoxrb report --profile smoke</code></pre>
                         </section>
 
                         <section aria-labelledby="lessons">
-                            <h2 id="lessons">19. What I actually learned from building this</h2>
+                            <h2 id="lessons">18. What I actually learned from building this</h2>
                             <p>I originally started with genetic algorithms because they looked interesting.</p>
                             <p>The project ended up forcing me to learn far more than the algorithm.</p>
                             <p>I had to think about what an X-ray telescope physically records rather than treating a spectrum as a convenient <var>x, y</var> dataset.</p>
@@ -662,7 +621,7 @@ python -m evoxrb report --profile smoke</code></pre>
                         </section>
 
                         <section aria-labelledby="references">
-                            <h2 id="references">20. References and further reading</h2>
+                            <h2 id="references">19. References and further reading</h2>
                             <ol class="blogPostReferences">
                                 <li>Li, Y., Yan, Z., Gao, C. &amp; Yu, W. <cite>X-ray spectral and timing evolution during the 2018 outburst of MAXI J1820+070</cite> (2024). <a href="https://arxiv.org/abs/2407.08421">arXiv:2407.08421</a>.</li>
                                 <li>Stiele, H. &amp; Kong, A. K. H. <cite>A timing study of MAXI J1820+070 based on Swift/XRT and NICER monitoring in 2018/19</cite> (2019). <a href="https://arxiv.org/abs/1912.07625">arXiv:1912.07625</a>.</li>
