@@ -3,7 +3,6 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Building a pure-Python, NICER-inspired X-ray experiment around MAXI J1820+070 and testing whether natural selection can fit spectra.">
         <meta name="p:domain_verify" content="52413982c63f4d025687d6189e81ce64">
         <link rel="stylesheet" href="/css/dev.css">
         <link rel="stylesheet" href="/css/blog-post.css">
@@ -14,7 +13,7 @@
 
     <body>
         <main class="blogPostContent">
-            <article class="blogPostProfile blogPostProfile--wide" aria-labelledby="postTitle">
+            <article class="blogPostProfile blogPostProfile" aria-labelledby="postTitle">
                 <header class="devHeader">
                     <nav class="devNav" aria-label="Primary navigation">
                         <a href="/">Home</a>
@@ -27,12 +26,13 @@
                 <section class="blogPostTextBox">
                     <header class="blogPostHeader">
                         <p class="blogPostKicker">Computational astrophysics / Project blog</p>
-                        <h1 class="title" id="postTitle">EvoXRB: Genetic Algorithms, Fake Telescopes, and a Very Real Black Hole</h1>
-                        <p class="blogPostDek">Building a pure-Python, NICER-inspired X-ray experiment around MAXI J1820+070, then finding out whether natural selection is actually any good at fitting spectra.</p>
+                        <h1 class="title" id="postTitle">EvoXRB: Genetic Algorithms, and a Very Real Black Hole</h1>
                         <time class="blogPostDate" datetime="2026-08-26">August 2026</time>
+
+                        <p class="blogPostDek">Building a pure-Python, NICER-inspired X-ray experiment around MAXI J1820+070, then finding out whether natural selection is actually any good at fitting spectra.</p>
+                        
                         <div class="blogPostActions" aria-label="Project links">
                             <a href="https://github.com/svsam/EvoXRB">Project repository</a>
-                            <a href="/blog/evoxrb-genetic-algorithms-x-ray-astronomy/evoxrb-blog.pdf">View original PDF</a>
                         </div>
                     </header>
 
@@ -42,32 +42,6 @@
                             <p>The current implementation is a declared synthetic / NICER-inspired case study. It is designed to validate response folding, evolutionary optimisation, posterior inference and timing workflows before applying the same ideas to real telescope products.</p>
                         </aside>
 
-                        <nav class="blogPostToc" aria-labelledby="contentsTitle">
-                            <h2 id="contentsTitle">Contents</h2>
-                            <a class="blogPostTocIntro" href="#introduction">Introduction</a>
-                            <ol>
-                                <li><a href="#genetic-algorithm">So what actually is a genetic algorithm?</a></li>
-                                <li><a href="#instrument-response">The annoying bit: a telescope does not measure the theoretical spectrum</a></li>
-                                <li><a href="#building-black-hole">Building the black hole, approximately</a></li>
-                                <li><a href="#fake-outburst">Making a fake outburst</a></li>
-                                <li><a href="#fake-observations">Turning photons into fake observations</a></li>
-                                <li><a href="#c-stat">Why I stopped using χ² as the main answer</a></li>
-                                <li><a href="#control">The genetic algorithm needs an opponent</a></li>
-                                <li><a href="#smoke-test">And then the smoke test humbled the genetic algorithm</a></li>
-                                <li><a href="#recovery">Can the model recover parameters when I know the truth?</a></li>
-                                <li><a href="#wrong-model">The experiment where the optimiser is allowed to be perfectly wrong</a></li>
-                                <li><a href="#uncertainty">A best-fitting number is not an uncertainty</a></li>
-                                <li><a href="#timing">Spectra are only half of what makes this source interesting</a></li>
-                                <li><a href="#timing-cases">Three timing cases: detect one, reject one, find nothing in one</a></li>
-                                <li><a href="#outburst">Following the synthetic outburst</a></li>
-                                <li><a href="#repository">What the current repository actually contains</a></li>
-                                <li><a href="#reproducibility">Reproducibility, because random numbers are not an excuse</a></li>
-                                <li><a href="#did-it-work">So, did the genetic algorithm work?</a></li>
-                                <li><a href="#real-astronomy">The eventual route back to real astronomy</a></li>
-                                <li><a href="#lessons">What I actually learned from building this</a></li>
-                                <li><a href="#references">References and further reading</a></li>
-                            </ol>
-                        </nav>
 
                         <section aria-labelledby="introduction">
                             <h2 id="introduction">Introduction</h2>
@@ -85,11 +59,6 @@
                                 <p>The current implementation is a synthetic / NICER-inspired case study. The telescope response, background, spectra, accretion-disc component, power-law component and timing signals are educational approximations generated entirely in Python.</p>
                                 <p>MAXI J1820+070 provides the astrophysical context and approximate evolutionary structure. The values produced by EvoXRB are not measurements of the real system.</p>
                             </aside>
-                            <p>This was a change from my original plan.</p>
-                            <p>Initially I wanted the project to download NICER observations through HEASARC, reduce them through NICERDAS, fit them through XSPEC, then let the genetic algorithm replace or supplement the normal XSPEC optimiser. That is still the obvious long-term direction for the project, but it also means depending immediately on HEASoft, XSPEC, calibration databases, mission data, backgrounds, FITS products and a reasonably cooperative Linux environment.</p>
-                            <p>Instead, the current repository builds the whole first experiment in native Python.</p>
-                            <p>And weirdly enough, this makes the current version more useful as an experiment.</p>
-                            <p>Before I can ask whether a genetic algorithm can recover the parameters of a real black hole, I should probably prove that it can recover parameters from a fake universe where I actually know what God typed into the config file.</p>
                         </section>
 
                         <section aria-labelledby="genetic-algorithm">

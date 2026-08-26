@@ -19,9 +19,6 @@
     width: min(100%, 37rem);
 }
 
-.blogPostProfile--wide {
-    width: min(100%, 56rem);
-}
 
 .blogPostTextBox {
     align-items: flex-start;
@@ -117,11 +114,6 @@
     line-height: 1.5;
 }
 
-.blogPostBody h2 {
-    border-bottom: 1px solid #333333;
-    padding-bottom: 0.5rem;
-}
-
 .blogPostBody code,
 .blogPostBody pre {
     font-family: inherit;
@@ -164,16 +156,6 @@
 
 .blogPostBody figure {
     margin-inline: 0;
-}
-
-.blogPostBody img {
-    background: #FFFFFF;
-    border: 1px solid #333333;
-    box-sizing: border-box;
-    display: block;
-    height: auto;
-    max-width: 100%;
-    width: 100%;
 }
 
 .blogPostBody figcaption {
