@@ -9,6 +9,22 @@
     width: 100%;
 }
 
+.skipLink {
+    background: #FFFFFF;
+    color: #000000;
+    left: 1rem;
+    padding: 0.65rem 0.9rem;
+    position: fixed;
+    top: 0;
+    transform: translateY(-150%);
+    z-index: 10;
+}
+
+.skipLink:focus {
+    color: #000000;
+    transform: translateY(0.75rem);
+}
+
 .blogPostProfile {
     animation: blogPostProfileFadeIn 800ms ease-out both;
     display: flex;
@@ -310,6 +326,73 @@
     margin-top: 0.75rem;
 }
 
+.evoxrbMediaWide {
+    left: 50%;
+    margin-block: 1.4rem;
+    position: relative;
+    transform: translateX(-50%);
+    width: min(74rem, calc(100vw - 2rem));
+}
+
+.evoxrbReplayPreview {
+    background: #111111;
+    border: 1px solid #333333;
+    box-sizing: border-box;
+    padding: 0.75rem;
+}
+
+.evoxrbReplayLink {
+    display: block;
+    text-decoration: none;
+}
+
+.evoxrbReplayLink img {
+    border: 1px solid #333333;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.evoxrbReplayCta {
+    align-items: center;
+    display: flex;
+    font-weight: 700;
+    gap: 1rem;
+    justify-content: space-between;
+    padding: 0.85rem 0.25rem 0.15rem;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+}
+
+.resultCards {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.resultCard {
+    background: #111111;
+    border: 1px solid #333333;
+    box-sizing: border-box;
+    padding: 0.8rem;
+}
+
+.resultCard strong,
+.resultCard span {
+    display: block;
+}
+
+.resultCard strong {
+    color: #FFFFFF;
+    font-size: 1.15rem;
+    margin-top: 0.35rem;
+}
+
+.resultCard span {
+    color: #999999;
+    font-size: 0.78rem;
+}
+
 .blogPostReferences {
     font-size: 0.925rem;
 }
@@ -333,6 +416,12 @@
 
     to {
         opacity: 1;
+    }
+}
+
+@media (max-width: 48rem) {
+    .resultCards {
+        grid-template-columns: minmax(0, 1fr);
     }
 }
 
