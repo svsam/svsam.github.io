@@ -73,3 +73,8 @@
         animation: none;
     }
 }
+
+strong {
+    font-weight: 1000;
+    color: #26BC89;
+}
