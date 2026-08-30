@@ -56,6 +56,54 @@
     margin: 0;
 }
 
+.projectsControls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.projectsControls button {
+    align-items: center;
+    background-color: transparent;
+    border: 1px solid var(--accent-color);
+    border-radius: 4px;
+    color: var(--accent-color);
+    cursor: pointer;
+    display: inline-flex;
+    font: inherit;
+    justify-content: center;
+    min-height: 2rem;
+    padding: 0.5rem 0.7rem;
+    transition:
+        background-color 160ms ease,
+        border-color 160ms ease,
+        color 160ms ease;
+}
+
+.projectsControls button:hover:not(:disabled) {
+    background-color: #262626;
+    color: #FFFFFF;
+}
+
+.projectsControls button:active:not(:disabled) {
+    background-color: #333333;
+}
+
+.projectsControls button:focus-visible {
+    background-color: #262626;
+    border-color: #CCCCCC;
+    color: #FFFFFF;
+    outline: 2px solid #FFFFFF;
+    outline-offset: 2px;
+}
+
+.projectsControls button:disabled {
+    border-color: #3D3D3D;
+    color: #666666;
+    cursor: not-allowed;
+}
+
 .projectsEntries {
     display: flex;
     flex-direction: column;

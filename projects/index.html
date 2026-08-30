@@ -6,6 +6,7 @@
         <meta name="p:domain_verify" content="52413982c63f4d025687d6189e81ce64">
         <link rel="stylesheet" href="../css/dev.css">
         <link rel="stylesheet" href="../css/projects.css">
+        <script src="../js/projects.js" defer></script>
 
         <title>/ SvS / projects</title>
         <link rel="icon" type="image/x-icon" href="../css/Images/web/site-favicon.jpg">
@@ -31,16 +32,21 @@
                         <p>Look on projects, ye mighty, and despair.</p>
                     </div>
 
-                    <div class="projectsEntries" aria-label="Project list">
+                    <div class="projectsControls" role="group" aria-label="Project display controls">
+                        <button type="button" data-projects-action="expand" aria-controls="projectsEntries">Expand all</button>
+                        <button type="button" data-projects-action="collapse" aria-controls="projectsEntries">Collapse all</button>
+                    </div>
+
+                    <div class="projectsEntries" id="projectsEntries" aria-label="Project list">
                         <details class="projectsEntry">
                             <summary class="projectsEntrySummary">
                                 <span class="projectsEntryTitle">Webstronomy (C#) - Long Term Project</span>
-                                <span class="projectsEntryDate">Still in Development</span>
+                                <span class="projectsEntryDate">Pre-Alpha</span>
                             </summary>
                             <div class="projectsEntryBody">
                                 <p>Currently in development, a part of my learning process to make a video game using Godot!</p>
                                 <p class="projectsEntryAction">
-                                    <a href="https://github.com/svsam" target="_blank" rel="noopener noreferrer">View my GitHub profile</a>
+                                    <a href="https://github.com/svsam" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
                                 </p>
                             </div>
                         </details>
@@ -48,13 +54,21 @@
                         <details class="projectsEntry">
                             <summary class="projectsEntrySummary">
                                 <span class="projectsEntryTitle">Spears — Terraria Content Mod (C#)</span>
-                                <time class="projectsEntryDate" datetime="2026-08">Still in Development</time>
+                                <time class="projectsEntryDate" datetime="2026-08">Current version 0.1.0</time>
                             </summary>
                             <div class="projectsEntryBody">
-                                <p>An unofficial Terraria content mod for tModLoader that adds a ten-weapon progression of thrown, Daybreak-style spears. Each spear can lodge in an enemy, deal fixed damage over time, and detonate when it expires.</p>
-                                <p>Later weapons add themed bursts, debuffs, and secondary projectiles. The mod supports single-player, host-and-play, and dedicated multiplayer servers.</p>
+                                <p>A Terraria content mod for that adds ten new weapons based on the popular and greatest weapon, the daybreak. Some spears can lodge in an enemy, deal fixed damage over time, and detonate when it expires, they are all unique in their abilities!</p>
+                                <img
+                                    class="projectsImage"
+                                    style="height: 300px; width: auto;"
+                                    src="../css/Images/works/Post Moon Lord Spear.png"
+                                    alt="Post Moon Lord Spear"
+                                    loading="lazy"
+                                    decoding="async"
+                                >
                                 <p class="projectsEntryAction">
-                                    <a href="https://github.com/svsam/Spears" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+                                    <a href="https://github.com/svsam/Spears" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+                                    <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3790629483" target="_blank" rel="noopener noreferrer">Steam Workshop Page</a>
                                 </p>
                             </div>
                         </details>
@@ -62,13 +76,13 @@
                         <details class="projectsEntry">
                             <summary class="projectsEntrySummary">
                                 <span class="projectsEntryTitle">Macro Recorder (Python)</span>
-                                <time class="projectsEntryDate" datetime="2026-07">August 2026</time>
+                                <time class="projectsEntryDate" datetime="2026-07">July/August 2026</time>
                             </summary>
                             <div class="projectsEntryBody">
-                                <p>A small local desktop macro recorder inspired by TinyTask. It records mouse movement, clicks, scrolling, and keyboard press-and-release timing only while recording is visibly enabled, then replays the sequence a chosen number of times or until it is stopped.</p>
+                                <p>A small local desktop macro recorder inspired by TinyTask, but it includes the feature to pause and resume the recording. It records mouse movement, clicks, scrolling, and keyboard press-and-release timing only while recording is enabled, then replays the sequence a chosen number of times or until it is paused or stopped.</p>
                                 <p>Recordings stay on the user's computer and can be saved to or loaded from human-readable JSON. The application does not auto-start, hide itself, transmit data, or record while idle.</p>
                                 <p class="projectsEntryAction">
-                                    <a href="https://github.com/svsam/KeyLogger" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+                                    <a href="https://github.com/svsam/KeyLogger" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
                                 </p>
                             </div>
                         </details>
@@ -91,28 +105,7 @@
                                 <p class="projectsEntryAction">
                                     <a href="../ASCII/">Try the web version</a>
                                     ·
-                                    <a href="https://github.com/svsam/ASCIIArtGenerator" target="_blank" rel="noopener noreferrer">View on GitHub</a>
-                                </p>
-                            </div>
-                        </details>
-
-                        <details class="projectsEntry">
-                            <summary class="projectsEntrySummary">
-                                <span class="projectsEntryTitle">Journal Room Voxel and Shader Engine (JS)</span>
-                                <time class="projectsEntryDate" datetime="2026-06">June 2026</time>
-                            </summary>
-                            <div class="projectsEntryBody">
-                                <p>A custom interactive 3D environment built for the Journal page using Three.js. The room is assembled from voxel-style geometry and rendered with shader-driven materials, dynamic lighting, soft shadows, fog, glowing runes, and drifting particles.</p>
-                                <p>The scene includes an animated model solar system across the ceiling, bookshelves surrounding an enchantment table, procedural pixel textures, and raycast interactions that allow visitors to open the journal and guestbook from inside the room.</p>
-                                <img
-                                    class="projectsImage"
-                                    src="../css/Images/works/journal-room-voxel-engine-screenshot.png"
-                                    alt="The interactive voxel Journal Room with bookshelves, an enchantment table, glowing runes, and a model solar system across the ceiling"
-                                    loading="lazy"
-                                    decoding="async"
-                                >
-                                <p class="projectsEntryAction">
-                                    <a href="../journal/">Visit the Journal</a>
+                                    <a href="https://github.com/svsam/ASCIIArtGenerator" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
                                 </p>
                             </div>
                         </details>
@@ -133,7 +126,28 @@
                                 <p>The mod checks the general item type, not the exact copy in your inventory. For example, donating one Aspect of the End means every Aspect of the End you hover over will be shown as donated. Reforges, enchantments, stars, recombobulation, rarity upgrades, and item UUIDs do not change the result.</p>
                                 <p>Items that cannot be donated to the Museum do not receive a Museum tooltip line.</p>
                                 <p class="projectsEntryAction">
-                                    <a href="https://github.com/svsam/MuseumDonationTooltip" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+                                    <a href="https://github.com/svsam/MuseumDonationTooltip" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+                                </p>
+                            </div>
+                        </details>
+
+                        <details class="projectsEntry">
+                            <summary class="projectsEntrySummary">
+                                <span class="projectsEntryTitle">Journal Room Voxel and Shader Engine (JS)</span>
+                                <time class="projectsEntryDate" datetime="2026-06">May 2026</time>
+                            </summary>
+                            <div class="projectsEntryBody">
+                                <p>A custom interactive 3D environment built for the Journal page using Three.js. The room is assembled from voxel-style geometry and rendered with shader-driven materials, dynamic lighting, soft shadows, fog, glowing runes, and drifting particles.</p>
+                                <p>The scene includes an animated model solar system across the ceiling, bookshelves surrounding an enchantment table, procedural pixel textures, and raycast interactions that allow visitors to open the journal and guestbook from inside the room.</p>
+                                <img
+                                    class="projectsImage"
+                                    src="../css/Images/works/journal-room-voxel-engine-screenshot.png"
+                                    alt="The interactive voxel Journal Room with bookshelves, an enchantment table, glowing runes, and a model solar system across the ceiling"
+                                    loading="lazy"
+                                    decoding="async"
+                                >
+                                <p class="projectsEntryAction">
+                                    <a href="../journal/">Visit the Journal</a>
                                 </p>
                             </div>
                         </details>
@@ -154,7 +168,7 @@
                                     decoding="async"
                                 >
                                 <p class="projectsEntryAction">
-                                    <a href="https://github.com/svsam/H-R-Diagram" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+                                    <a href="https://github.com/svsam/H-R-Diagram" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
                                 </p>
                             </div>
                         </details>
@@ -167,8 +181,22 @@
                             <div class="projectsEntryBody">
                                 <p>An algorithm using NASA exoplanet archive data and how exoplanets orbit their host stars and a predicted variness in orbital positions. This isn't an accurate depiction of their orbits, if you were to apply the same logical rules onto earth they would be different to the real eccentricity of the Earth, this is due to the various factors and events that made the Earth the planet it is today, most notably before it was the 'Earth' it was a protoplanet that had a collision with another protoplanet which is theorised to have created the moon, this event would have changed the eccentricity of the Earth and thus the algorithm would not be able to predict the eccentricity of the Earth accurately.</p>
                                 <p>The temperatures of the planets are calculated using the Stefan-Boltzmann law, which describes the power radiated from a black body in terms of its temperature. The formula is: P = σ × A × T<sup>4</sup>, where P is the total power radiated, σ is the Stefan-Boltzmann constant, A is the surface area of the black body, and T is the absolute temperature of the black body. In this project, I use this formula to calculate the equilibrium temperature of exoplanets based on their distance from their host star and the luminosity of the star.</p>
+                                <img
+                                    class="projectsImage"
+                                    src="../css/Images/works/orbit_speed_vs_orbit_period.png"
+                                    alt="Orbit speed vs. orbit period"
+                                    loading="lazy"
+                                    decoding="async"
+                                >
+                                <img
+                                    class="projectsImage"
+                                    src="../css/Images/works/planet_distance_vs_star_mass.png"
+                                    alt="Planet distance vs. star mass"
+                                    loading="lazy"
+                                    decoding="async"
+                                >
                                 <p class="projectsEntryAction">
-                                    <a href="https://github.com/svsam/Exoplanet-orbital-temperatures-and-modelling-eccentricity-using-training-data" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+                                    <a href="https://github.com/svsam/Exoplanet-orbital-temperatures-and-modelling-eccentricity-using-training-data" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
                                 </p>
                             </div>
                         </details>
@@ -181,8 +209,15 @@
                             <div class="projectsEntryBody">
                                 <p>An educational Python and Tkinter simulation of Earth's changing orbit and long-term glacial cycle. It visualises eccentricity, orbital distance, speed, equilibrium temperature, and idealised axial-tilt heating across a 100,000-year run.</p>
                                 <p>The model uses Kepler's equation and the vis-viva equation, classifies glacial and interglacial phases, and exports its generated time series to CSV and XLSX. It is intended as a visual approximation rather than a research-grade palaeoclimate model.</p>
+                                <img
+                                    class="projectsImage"
+                                    src="../css/Images/works/asdasdasd.gif"
+                                    alt="Earth orbit simulation"
+                                    loading="lazy"
+                                    decoding="async"
+                                >
                                 <p class="projectsEntryAction">
-                                    <a href="https://github.com/svsam/Ice-age-orbit" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+                                    <a href="https://github.com/svsam/Ice-age-orbit" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
                                 </p>
                             </div>
                         </details>
@@ -203,7 +238,7 @@
                                     decoding="async"
                                 >
                                 <p class="projectsEntryAction">
-                                    <a href="https://github.com/svsam/Black-Hole-simulations" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+                                    <a href="https://github.com/svsam/Black-Hole-simulations" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
                                 </p>
                             </div>
                         </details>
@@ -211,19 +246,21 @@
                         <details class="projectsEntry">
                             <summary class="projectsEntrySummary">
                                 <span class="projectsEntryTitle">Minesweeper Algorithm (Python)</span>
-                                <time class="projectsEntryDate" datetime="2025-04">April 2025</time>
+                                <time class="projectsEntryDate" datetime="2025-04">2025 (Last updated: July 2026)</time>
                             </summary>
                             <div class="projectsEntryBody">
-                                <p>First AI project, it uses an iterative technique on each unrevealed cell and calculates the probability of there being a mine on that cell based on the number of mines left and the number of unrevealed cells, it then selects the cell with the lowest probability of being a mine and reveals it, this process is repeated until all cells are revealed or a mine is hit. There are cases where it is impossible to mathmateically determine which cell is a mine and which cell is not, in these cases the algorithm will select a random cell from the remaining unrevealed cells and reveal it, this is not an optimal solution but it is a scenario that needs to be considered. More complicated techniques have been taught to the AI, such as common patterns to quickly identify mines and safe cells. Using heuristics and probability to solve the minesweeper game.</p>
+                                <p>Created in 2025 for my A level computer science coursework.</p>
+                                <p>First algorithmic project, it uses an iterative technique on each unrevealed cell and calculates the probability of there being a mine on that cell based on the number of mines left and the number of unrevealed cells, it then selects the cell with the lowest probability of being a mine and reveals it, this process is repeated until all cells are revealed or a mine is hit.</p>
+                                <p>There are cases where it is impossible to mathmateically determine which cell is a mine and which cell is not, in these cases the algorithm will select a random cell from the remaining unrevealed cells and reveal it, this is not an optimal solution but it is a scenario that needs to be considered. More complicated techniques have been taught to the AI, such as common patterns to quickly identify mines and safe cells. Using heuristics and probability to solve the minesweeper game.</p>
                                 <img
                                     class="projectsImage"
-                                    src="../css/Images/works/minesweeper-solver-screenshot.png"
+                                    src="../css/Images/works/Minesweeperai.png"
                                     alt="Minesweeper solver visualising calculated mine probabilities"
                                     loading="lazy"
                                     decoding="async"
                                 >
                                 <p class="projectsEntryAction">
-                                    <a href="https://github.com/svsam/Minesweeper-Calculator" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+                                    <a href="https://github.com/svsam/Minesweeper-Calculator" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
                                 </p>
                             </div>
                         </details>
