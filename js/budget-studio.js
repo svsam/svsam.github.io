@@ -1,187 +1,53 @@
 (() => {
     "use strict";
 
-    const STORAGE_KEY = "sams-budget-studio-v2";
-    const LEGACY_STORAGE_KEY = "sams-budget-studio-v1";
-    const VALID_FREQUENCIES = new Set(["once", "weekly", "biweekly", "monthly", "allocation"]);
+    const STORAGE_KEY = "svs-funding-notepad-2026-27-v1";
+    const PLAN_START = "2026-09-21";
+    const PLAN_END = "2027-09-20";
+    const DAY_MS = 86_400_000;
 
     const money = new Intl.NumberFormat("en-GB", {
         style: "currency",
         currency: "GBP",
     });
 
-    const monthLabel = new Intl.DateTimeFormat("en-GB", {
-        month: "short",
-        year: "2-digit",
+    const fullDate = new Intl.DateTimeFormat("en-GB", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
         timeZone: "UTC",
     });
 
-    const STANDARD_CATEGORIES = [
-        { id: "education", label: "Education & funding", kind: "income" },
-        { id: "subscriptions", label: "Subscriptions", kind: "expense" },
-        { id: "bills", label: "Bills", kind: "expense" },
-        { id: "food", label: "Food", kind: "expense" },
-        { id: "entertainment", label: "Entertainment", kind: "expense" },
-        { id: "pets", label: "Pets", kind: "expense" },
-        { id: "travel", label: "Travel", kind: "expense" },
-        { id: "debt", label: "Debt", kind: "expense" },
+    const shortDate = new Intl.DateTimeFormat("en-GB", {
+        day: "numeric",
+        month: "short",
+        timeZone: "UTC",
+    });
+
+    const weekday = new Intl.DateTimeFormat("en-GB", {
+        weekday: "short",
+        timeZone: "UTC",
+    });
+
+    const monthLabel = new Intl.DateTimeFormat("en-GB", {
+        month: "short",
+        timeZone: "UTC",
+    });
+
+    const SPEND_CATEGORIES = [
+        { id: "subscriptions", label: "Subscriptions", code: "SUB", description: "ChatGPT, Spotify, Monzo + bills" },
+        { id: "food", label: "Food", code: "FOOD", description: "Groceries + university meals" },
+        { id: "entertainment", label: "Entertainment", code: "LIFE", description: "Clothing, books + trip" },
+        { id: "pets", label: "Pets", code: "PETS", description: "Food, litter + health" },
+        { id: "travel", label: "Travel", code: "MOVE", description: "University, buses + partner" },
+        { id: "debt", label: "Opening debt", code: "DEBT", description: "One-off repayment" },
     ];
 
-    const frequencyLabels = {
-        once: "One-off",
-        weekly: "Every week",
-        biweekly: "Every 2 weeks",
-        monthly: "Every month",
-        allocation: "Period total",
-    };
-
-    const DEFAULT_BUDGET = {
-        ownerName: "",
-        startDate: "2026-09-21",
-        endDate: "2027-09-20",
-        categories: STANDARD_CATEGORIES.filter((category) => ["education", "subscriptions", "bills", "food", "travel"].includes(category.id)),
-        items: [
-            { id: "sample-finance", name: "Student Finance instalment", kind: "income", category: "education", amount: 3008.94, frequency: "once", start: "2026-09-21", savingsRate: 20 },
-            { id: "sample-bursary", name: "Bursary payment", kind: "income", category: "education", amount: 800, frequency: "once", start: "2027-01-11" },
-            { id: "sample-subscription", name: "Music subscription", kind: "expense", category: "subscriptions", amount: 5, frequency: "monthly", start: "2026-10-09", end: "2027-09-09" },
-            { id: "sample-bill", name: "Monthly bill", kind: "expense", category: "bills", amount: 32.99, frequency: "monthly", start: "2026-09-28", end: "2027-08-28" },
-            { id: "sample-food", name: "Campus & library food", kind: "expense", category: "food", amount: 1080, frequency: "allocation", start: "2026-09-28", end: "2027-06-30" },
-            { id: "sample-travel", name: "Student Travelcard", kind: "expense", category: "travel", amount: 172.5, frequency: "once", start: "2026-09-28" },
-        ],
-    };
-
-    let categories = [];
-    let budget = readSavedBudget();
-    categories = budget.categories;
-    let selectedCategory = categories[0].id;
-
-    const elements = {
-        owner: document.getElementById("budget-owner"),
-        start: document.getElementById("budget-start"),
-        end: document.getElementById("budget-end"),
-        categoryNav: document.getElementById("category-nav"),
-        sectionKicker: document.getElementById("section-kicker"),
-        sectionTitle: document.getElementById("section-title"),
-        items: document.getElementById("budget-items"),
-        liquid: document.getElementById("result-liquid"),
-        income: document.getElementById("result-income"),
-        spending: document.getElementById("result-spending"),
-        savings: document.getElementById("result-savings"),
-        chart: document.getElementById("cash-flow-chart"),
-        status: document.getElementById("budget-status"),
-        spendingBars: document.getElementById("spending-bars"),
-        dialog: document.getElementById("add-item-dialog"),
-        addForm: document.getElementById("add-item-form"),
-        addTitle: document.getElementById("add-item-title"),
-        newName: document.getElementById("new-item-name"),
-        newAmount: document.getElementById("new-item-amount"),
-        newFrequency: document.getElementById("new-item-frequency"),
-        newStart: document.getElementById("new-item-start"),
-        newEnd: document.getElementById("new-item-end"),
-        newEndField: document.getElementById("new-item-end-field"),
-        newStartLabel: document.getElementById("new-item-start-label"),
-        addSectionButton: document.getElementById("open-add-section"),
-        removeSection: document.getElementById("remove-section"),
-        sectionDialog: document.getElementById("add-section-dialog"),
-        sectionForm: document.getElementById("add-section-form"),
-        sectionName: document.getElementById("new-section-name"),
-        sectionKind: document.getElementById("new-section-kind"),
-        printReport: document.getElementById("print-report"),
-    };
-
-    function cloneDefaultBudget() {
-        return JSON.parse(JSON.stringify(DEFAULT_BUDGET));
-    }
-
-    function readSavedBudget() {
-        try {
-            const stored = window.localStorage.getItem(STORAGE_KEY);
-            if (stored) return sanitiseBudget(JSON.parse(stored));
-            const legacy = window.localStorage.getItem(LEGACY_STORAGE_KEY);
-            if (!legacy) return cloneDefaultBudget();
-            const migrated = sanitiseBudget(JSON.parse(legacy));
-            window.localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
-            return migrated;
-        } catch {
-            return cloneDefaultBudget();
-        }
-    }
-
-    function sanitiseBudget(value) {
-        if (!value || typeof value !== "object" || !Array.isArray(value.items)) {
-            throw new Error("Invalid budget");
-        }
-
-        const startDate = validDate(value.startDate) ? value.startDate : DEFAULT_BUDGET.startDate;
-        const endDate = validDate(value.endDate) ? value.endDate : DEFAULT_BUDGET.endDate;
-        const savedCategories = sanitiseCategories(value.categories);
-        const items = value.items.filter((item) => !item?.scenario).map((item, index) => {
-            if (!item || typeof item !== "object") throw new Error("Invalid item");
-            const meta = savedCategories.find((category) => category.id === item.category)
-                || savedCategories.find((category) => category.kind === item.kind)
-                || savedCategories[0];
-            return {
-                id: typeof item.id === "string" && item.id ? item.id : `restored-${index}-${Date.now()}`,
-                name: typeof item.name === "string" ? item.name.slice(0, 160) : "Untitled item",
-                kind: meta.kind,
-                category: meta.id,
-                amount: Math.max(0, finiteNumber(item.amount)),
-                frequency: VALID_FREQUENCIES.has(item.frequency) ? item.frequency : "once",
-                start: validDate(item.start) ? item.start : startDate,
-                ...(validDate(item.end) ? { end: item.end } : {}),
-                ...(Number.isFinite(Number(item.savingsRate))
-                    ? { savingsRate: clamp(Number(item.savingsRate), 0, 100) }
-                    : {}),
-                ...(typeof item.note === "string" ? { note: item.note.slice(0, 240) } : {}),
-            };
-        });
-
-        return {
-            ownerName: typeof value.ownerName === "string" ? value.ownerName.slice(0, 100) : DEFAULT_BUDGET.ownerName,
-            startDate,
-            endDate,
-            categories: savedCategories,
-            items,
-        };
-    }
-
-    function sanitiseCategories(value) {
-        const source = Array.isArray(value) && value.length ? value : STANDARD_CATEGORIES;
-        const seen = new Set();
-        const clean = source.slice(0, 30).flatMap((category, index) => {
-            if (!category || typeof category !== "object") return [];
-            const label = typeof category.label === "string" ? category.label.trim().slice(0, 60) : "";
-            const kind = category.kind === "income" ? "income" : category.kind === "expense" ? "expense" : "";
-            const rawId = typeof category.id === "string" ? category.id.trim().toLowerCase() : "";
-            const id = /^[a-z0-9][a-z0-9-]{0,79}$/.test(rawId) ? rawId : `section-${index + 1}`;
-            if (!label || !kind || seen.has(id)) return [];
-            seen.add(id);
-            return [{ id, label, kind }];
-        });
-        return clean.length ? clean : JSON.parse(JSON.stringify(STANDARD_CATEGORIES));
-    }
-
-    function saveBudget() {
-        try {
-            budget.categories = categories;
-            window.localStorage.setItem(STORAGE_KEY, JSON.stringify(budget));
-        } catch {
-            // The planner still works when storage is unavailable.
-        }
-    }
-
-    function finiteNumber(value) {
-        const parsed = Number(value);
-        return Number.isFinite(parsed) ? parsed : 0;
-    }
-
-    function clamp(value, min, max) {
-        return Math.min(max, Math.max(min, value));
-    }
-
-    function validDate(value) {
-        return typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(Date.parse(`${value}T00:00:00Z`));
-    }
+    const CATEGORY_LOOKUP = Object.fromEntries([
+        ...SPEND_CATEGORIES,
+        { id: "funding", label: "Funding", code: "IN" },
+        { id: "savings", label: "Protected savings", code: "SAVE" },
+    ].map((category) => [category.id, category]));
 
     function dateFromIso(value) {
         return new Date(`${value}T00:00:00.000Z`);
@@ -191,154 +57,31 @@
         return value.toISOString().slice(0, 10);
     }
 
-    function addDays(value, days) {
+    function addDays(value, amount) {
         const date = dateFromIso(value);
-        date.setUTCDate(date.getUTCDate() + days);
+        date.setUTCDate(date.getUTCDate() + amount);
         return isoFromDate(date);
     }
 
-    function monthlyDates(start, end) {
-        if (!validDate(start) || !validDate(end) || start > end) return [];
-        const dates = [];
-        const anchor = dateFromIso(start);
-        const anchorDay = anchor.getUTCDate();
-        let year = anchor.getUTCFullYear();
-        let month = anchor.getUTCMonth();
-
-        while (dates.length < 1200) {
-            const lastDay = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
-            const current = new Date(Date.UTC(year, month, Math.min(anchorDay, lastDay)));
-            const iso = isoFromDate(current);
-            if (iso > end) break;
-            dates.push(iso);
-            month += 1;
-            if (month > 11) {
-                month = 0;
-                year += 1;
-            }
-        }
-        return dates;
+    function daysBetween(start, end) {
+        return Math.round((dateFromIso(end) - dateFromIso(start)) / DAY_MS);
     }
 
-    function allocationDates(start, end) {
-        if (!validDate(start) || !validDate(end) || start > end) return [];
-        const dates = [];
-        const cursor = dateFromIso(start);
-        const final = dateFromIso(end);
-        cursor.setUTCDate(1);
-        final.setUTCDate(1);
-
-        while (cursor <= final && dates.length < 1200) {
-            const first = isoFromDate(cursor);
-            dates.push(first < start ? start : first);
-            cursor.setUTCMonth(cursor.getUTCMonth() + 1);
-        }
-        return dates;
+    function validPlanDate(value) {
+        return typeof value === "string"
+            && /^\d{4}-\d{2}-\d{2}$/.test(value)
+            && !Number.isNaN(dateFromIso(value).getTime())
+            && value >= PLAN_START
+            && value <= PLAN_END;
     }
 
-    function occurrenceDates(item) {
-        const rangeEnd = item.end && item.end < budget.endDate ? item.end : budget.endDate;
-        let dates = [];
-
-        if (!validDate(item.start) || !validDate(rangeEnd)) return dates;
-        if (item.frequency === "once") {
-            dates = [item.start];
-        } else if (item.frequency === "monthly") {
-            dates = monthlyDates(item.start, rangeEnd);
-        } else if (item.frequency === "allocation") {
-            dates = allocationDates(item.start, rangeEnd);
-        } else {
-            const step = item.frequency === "weekly" ? 7 : 14;
-            for (let current = item.start; current <= rangeEnd && dates.length < 2400; current = addDays(current, step)) {
-                dates.push(current);
-            }
-        }
-
-        return dates.filter((date) => date >= budget.startDate && date <= budget.endDate && date <= rangeEnd);
+    function roundMoney(value) {
+        return Math.round((Number(value) + Number.EPSILON) * 100) / 100;
     }
 
-    function expandTransactions() {
-        return budget.items
-            .flatMap((item) => {
-                const dates = occurrenceDates(item);
-                const amount = item.frequency === "allocation" && dates.length ? item.amount / dates.length : item.amount;
-                return dates.map((date) => ({ item, date, amount }));
-            })
-            .sort((left, right) => left.date.localeCompare(right.date));
-    }
-
-    function monthKeys(start, end) {
-        if (!validDate(start) || !validDate(end) || start > end) return [];
-        const result = [];
-        const cursor = dateFromIso(start);
-        const final = dateFromIso(end);
-        cursor.setUTCDate(1);
-        final.setUTCDate(1);
-        while (cursor <= final && result.length < 1200) {
-            result.push(isoFromDate(cursor).slice(0, 7));
-            cursor.setUTCMonth(cursor.getUTCMonth() + 1);
-        }
-        return result;
-    }
-
-    function itemTotal(item) {
-        const count = occurrenceDates(item).length;
-        return item.frequency === "allocation" ? (count ? item.amount : 0) : item.amount * count;
-    }
-
-    function sliderMax(item) {
-        const amount = Math.max(0, finiteNumber(item.amount));
-
-        if (item.kind === "income" && item.frequency === "once") {
-            const sensibleMaximum = Math.max(1000, Math.ceil((amount * 1.1) / 10) * 10);
-            return Math.min(3500, sensibleMaximum);
-        }
-
-        const multiplier = item.kind === "income" ? 1.5 : 2;
-        return Math.max(50, Math.ceil((amount * multiplier) / 10) * 10);
-    }
-
-    function categoryMeta(id) {
-        return categories.find((category) => category.id === id) || categories[0];
-    }
-
-    function calculateBudget() {
-        const transactions = expandTransactions();
-        const income = transactions.filter(({ item }) => item.kind === "income").reduce((sum, { amount }) => sum + amount, 0);
-        const spending = transactions.filter(({ item }) => item.kind === "expense").reduce((sum, { amount }) => sum + amount, 0);
-        const savings = transactions
-            .filter(({ item }) => item.kind === "income" && item.savingsRate)
-            .reduce((sum, { item, amount }) => sum + amount * ((item.savingsRate || 0) / 100), 0);
-        const liquid = income - spending - savings;
-        let balance = 0;
-        const cashFlow = monthKeys(budget.startDate, budget.endDate).map((key) => {
-            const current = transactions.filter(({ date }) => date.startsWith(key));
-            const monthIncome = current.filter(({ item }) => item.kind === "income").reduce((sum, { amount }) => sum + amount, 0);
-            const monthSpending = current.filter(({ item }) => item.kind === "expense").reduce((sum, { amount }) => sum + amount, 0);
-            const monthSavings = current
-                .filter(({ item }) => item.kind === "income" && item.savingsRate)
-                .reduce((sum, { item, amount }) => sum + amount * ((item.savingsRate || 0) / 100), 0);
-            balance += monthIncome - monthSpending - monthSavings;
-            return { month: monthLabel.format(dateFromIso(`${key}-01`)), balance: Number(balance.toFixed(2)) };
-        });
-        const categoryTotals = Object.fromEntries(
-            categories.map((category) => [
-                category.id,
-                budget.items
-                    .filter((item) => item.category === category.id)
-                    .reduce((sum, item) => sum + itemTotal(item), 0),
-            ]),
-        );
-
-        return {
-            income,
-            spending,
-            savings,
-            liquid,
-            cashFlow,
-            lowestBalance: cashFlow.length ? Math.min(...cashFlow.map((entry) => entry.balance)) : 0,
-            categoryTotals,
-        };
+    function finiteAmount(value) {
+        const parsed = Number(value);
+        return Number.isFinite(parsed) ? roundMoney(parsed) : 0;
     }
 
     function escapeHtml(value) {
@@ -350,517 +93,929 @@
             .replaceAll("'", "&#039;");
     }
 
-    function render() {
-        if (!categories.some((category) => category.id === selectedCategory)) {
-            selectedCategory = categories[0].id;
+    function rangeEvery(start, end, dayStep) {
+        const result = [];
+        for (let current = start; current <= end; current = addDays(current, dayStep)) result.push(current);
+        return result;
+    }
+
+    function monthDates(year, startMonth, count, day) {
+        return Array.from({ length: count }, (_, index) => {
+            const value = new Date(Date.UTC(year, startMonth + index, day));
+            return isoFromDate(value);
+        });
+    }
+
+    function buildSchedule() {
+        const events = [];
+        let eventNumber = 0;
+        const add = (date, name, category, amount, type = "expense", note = "", major = false) => {
+            eventNumber += 1;
+            events.push({
+                id: `${date}-${category}-${String(eventNumber).padStart(3, "0")}`,
+                date,
+                name,
+                category,
+                amount: roundMoney(amount),
+                type,
+                note,
+                major,
+            });
+        };
+        const addMany = (dates, name, category, amount, type = "expense", note = "") => {
+            dates.forEach((date) => add(date, name, category, amount, type, note));
+        };
+
+        add("2026-09-21", "Maintenance Loan 1", "funding", 3008.94, "income", "Official loan instalment", true);
+        add("2027-01-11", "Maintenance Loan 2", "funding", 3008.94, "income", "Official loan instalment", true);
+        add("2027-04-19", "Maintenance Loan 3", "funding", 3100.12, "income", "Official loan instalment", true);
+        add("2026-11-09", "King's Living Bursary 1", "funding", 800, "income", "Bursary payment", true);
+        add("2027-02-15", "King's Living Bursary 2", "funding", 800, "income", "Bursary payment", true);
+        addMany(rangeEvery("2026-09-21", "2027-09-06", 14), "Allowance", "funding", 20, "income", "Fortnightly allowance");
+
+        add("2027-01-11", "Savings transfer from Loan 2", "savings", 902.68, "saving", "30% protected savings transfer");
+        add("2027-04-19", "Savings transfer from Loan 3", "savings", 930.04, "saving", "30% protected savings transfer");
+
+        addMany(monthDates(2026, 8, 12, 28), "ChatGPT Pro 5x", "subscriptions", 88.90);
+        addMany(monthDates(2026, 8, 12, 28), "Bill B", "subscriptions", 32.99);
+        addMany(monthDates(2026, 8, 12, 28), "Bill C", "subscriptions", 36.94);
+        addMany(monthDates(2026, 9, 12, 1), "Spotify", "subscriptions", 5.99);
+        add("2026-10-02", "Monzo Perks", "subscriptions", 7);
+        addMany(monthDates(2026, 10, 11, 2), "Monzo Perks", "subscriptions", 9);
+        addMany(monthDates(2026, 9, 12, 6), "Bill A", "subscriptions", 9.49);
+        addMany([
+            "2026-09-29", "2026-10-29", "2026-11-29", "2026-12-29", "2027-01-29", "2027-02-28",
+            "2027-03-29", "2027-04-29", "2027-05-29", "2027-06-29", "2027-07-29", "2027-08-29",
+        ], "Bill D", "subscriptions", 0.99);
+
+        add("2026-09-21", "Term 1 groceries", "food", 200);
+        add("2027-01-11", "Term 2 groceries", "food", 200);
+        add("2027-04-12", "Term 3 groceries (pre-funded)", "food", 200);
+        addMany([
+            "2026-09-28", "2026-10-05", "2026-10-12", "2026-10-19", "2026-10-26", "2026-11-09",
+            "2026-11-16", "2026-11-23", "2026-11-30", "2026-12-07", "2026-12-14",
+        ], "University/library food (5 visits)", "food", 40, "expense", "5 visits at £8");
+        add("2027-01-04", "University/library food (3 visits)", "food", 24, "expense", "3 visits at £8");
+        addMany(["2027-01-11", "2027-01-18"], "University/library food (6 visits)", "food", 48, "expense", "6 visits at £8");
+        addMany([
+            "2027-01-25", "2027-02-01", "2027-02-08", "2027-02-15", "2027-02-22", "2027-03-08",
+            "2027-03-15", "2027-03-22",
+        ], "University/library food (5 visits)", "food", 40, "expense", "5 visits at £8");
+        addMany(["2027-04-19", "2027-04-26", "2027-05-03"], "University/library food (5 visits)", "food", 40, "expense", "5 visits at £8");
+        addMany(["2027-05-10", "2027-05-17", "2027-05-24", "2027-05-31"], "University/library food (6 visits)", "food", 48, "expense", "6 visits at £8");
+        addMany(["2027-06-07", "2027-06-14", "2027-06-21", "2027-06-28"], "University/library food (3 visits)", "food", 24, "expense", "3 visits at £8");
+
+        add("2026-09-21", "Books", "entertainment", 100);
+        addMany(monthDates(2026, 9, 12, 1), "Clothing reserve", "entertainment", 40);
+        add("2026-11-02", "First-term reading-week trip", "entertainment", 300);
+
+        addMany(rangeEvery("2026-09-21", "2027-09-20", 14), "Kitten food", "pets", 25);
+        addMany(rangeEvery("2026-09-21", "2027-09-20", 14), "Kitten litter", "pets", 15);
+        add("2026-09-21", "Cat health payment", "pets", 75);
+
+        [
+            ["2026-09-28", "Zones 1-4 Monthly Student Travelcard", 172.50, "University Underground and buses"],
+            ["2026-10-28", "University PAYG bundle (3 days)", 38.40, "Tube and two buses per day"],
+            ["2026-11-09", "Zones 1-4 Monthly Student Travelcard", 172.50, "University Underground and buses"],
+            ["2026-12-09", "University PAYG bundle (3 days)", 38.40, "Tube and two buses per day"],
+            ["2026-12-14", "Zones 1-5 7-Day Student Travelcard", 53.40, "University, buses and partner visit"],
+            ["2027-01-08", "University PAYG assessment bundle (3 days)", 38.40, "Tube and two buses per day"],
+            ["2027-01-11", "Zones 1-5 Monthly Student Travelcard", 205.10, "University, buses and partner visits"],
+            ["2027-02-11", "University PAYG bundle (2 days)", 25.60, "Tube and two buses per day"],
+            ["2027-02-15", "Zones 1-4 7-Day Student Travelcard", 44.90, "Includes London buses"],
+            ["2027-02-22", "Zones 1-5 7-Day Student Travelcard", 53.40, "Includes partner visit"],
+            ["2027-03-08", "Zones 1-5 7-Day Student Travelcard", 53.40, "Includes partner visit"],
+            ["2027-03-15", "Zones 1-4 7-Day Student Travelcard", 44.90, "Includes London buses"],
+            ["2027-03-22", "Zones 1-5 7-Day Student Travelcard", 53.40, "Includes partner visit"],
+            ["2027-04-19", "Zones 1-5 7-Day Student Travelcard", 53.40, "Includes partner visit"],
+            ["2027-04-26", "Zones 1-4 7-Day Student Travelcard", 44.90, "Includes London buses"],
+            ["2027-05-03", "Zones 1-5 7-Day Student Travelcard", 53.40, "Includes partner visit"],
+            ["2027-05-10", "Zones 1-4 Monthly Student Travelcard", 172.50, "University Underground and buses"],
+            ["2027-06-14", "University PAYG library bundle (3 days)", 38.40, "Tube and two buses per day"],
+            ["2027-06-21", "University PAYG library bundle (3 days)", 38.40, "Tube and two buses per day"],
+            ["2027-06-28", "University PAYG library bundle (3 days)", 38.40, "Tube and two buses per day"],
+        ].forEach(([date, name, amount, note]) => add(date, name, "travel", amount, "expense", note));
+
+        addMany([
+            "2026-09-21", "2026-10-05", "2026-10-19", "2026-11-02", "2026-11-16", "2026-11-30",
+            "2026-12-28", "2027-04-05", "2027-05-17", "2027-05-31", "2027-06-14", "2027-06-28",
+            "2027-07-12", "2027-07-26", "2027-08-09", "2027-08-23", "2027-09-06", "2027-09-20",
+        ], "Partner travel PAYG", "travel", 15.30, "expense", "Zones 1-5 conservative daily cap");
+        addMany([
+            "2026-12-14", "2027-01-11", "2027-01-25", "2027-02-08", "2027-02-22", "2027-03-08",
+            "2027-03-22", "2027-04-19", "2027-05-03",
+        ], "Partner visit covered by Travelcard", "travel", 0, "covered", "No incremental fare");
+
+        add("2026-09-21", "Opening debt repayment", "debt", 530);
+
+        const typeOrder = { income: 0, saving: 1, expense: 2, covered: 3 };
+        return events.sort((left, right) => left.date.localeCompare(right.date) || typeOrder[left.type] - typeOrder[right.type]);
+    }
+
+    const SCHEDULE = buildSchedule();
+    const WEEK_STARTS = rangeEvery(PLAN_START, PLAN_END, 7);
+
+    function weekStartForDate(value) {
+        if (!validPlanDate(value)) return value < PLAN_START ? PLAN_START : WEEK_STARTS.at(-1);
+        const index = Math.floor(daysBetween(PLAN_START, value) / 7);
+        return WEEK_STARTS[Math.max(0, Math.min(WEEK_STARTS.length - 1, index))];
+    }
+
+    function initialWeek() {
+        return weekStartForDate(isoFromDate(new Date()));
+    }
+
+    function defaultState() {
+        return {
+            version: 1,
+            rollover: true,
+            lastWeek: initialWeek(),
+            allocations: {},
+            purchases: [],
+            tasks: [],
+            completed: {},
+            notes: {},
+        };
+    }
+
+    function sanitiseState(value) {
+        const clean = defaultState();
+        if (!value || typeof value !== "object") return clean;
+        clean.rollover = true;
+        clean.lastWeek = validPlanDate(value.lastWeek) ? weekStartForDate(value.lastWeek) : clean.lastWeek;
+
+        if (value.allocations && typeof value.allocations === "object") {
+            WEEK_STARTS.forEach((week) => {
+                const source = value.allocations[week];
+                if (!source || typeof source !== "object") return;
+                SPEND_CATEGORIES.forEach(({ id }) => {
+                    const amount = Number(source[id]);
+                    if (!Number.isFinite(amount) || amount < 0 || amount > 1_000_000) return;
+                    clean.allocations[week] ||= {};
+                    clean.allocations[week][id] = roundMoney(amount);
+                });
+            });
         }
-        const currentCategory = categoryMeta(selectedCategory);
-        elements.owner.value = budget.ownerName;
-        elements.start.value = budget.startDate;
-        elements.end.value = budget.endDate;
-        elements.addSectionButton.disabled = categories.length >= 30;
-        elements.removeSection.disabled = categories.length <= 1;
-        elements.sectionKicker.textContent = currentCategory.kind === "income" ? "Money in" : "Money out";
-        elements.sectionTitle.textContent = currentCategory.label;
-        renderItems();
-        renderCalculatedPanels();
-    }
 
-    function renderCategoryNav(results) {
-        elements.categoryNav.innerHTML = categories
-            .map((category) => `
-                <button class="categoryButton" type="button" data-category="${category.id}" aria-current="${category.id === selectedCategory}">
-                    <span class="categoryCopy"><strong>${escapeHtml(category.label)}</strong></span>
-                    <span class="categoryTotal">${money.format(results.categoryTotals[category.id])}</span>
-                </button>
-            `)
-            .join("");
-    }
-
-    function renderItems() {
-        const visibleItems = budget.items.filter((item) => item.category === selectedCategory);
-
-        if (!visibleItems.length) {
-            elements.items.innerHTML = `
-                <div class="emptyState">
-                    <strong>Nothing in this section yet</strong>
-                    <p>Add a payment, allowance or budget line to start modelling it.</p>
-                    <button class="budgetButton" type="button" data-action="open-add">+ Add the first item</button>
-                </div>
-            `;
-            return;
+        if (Array.isArray(value.purchases)) {
+            clean.purchases = value.purchases.slice(0, 5000).flatMap((purchase, index) => {
+                if (!purchase || !validPlanDate(purchase.date) || !SPEND_CATEGORIES.some(({ id }) => id === purchase.category)) return [];
+                const amount = finiteAmount(purchase.amount);
+                if (amount <= 0 || amount > 1_000_000) return [];
+                return [{
+                    id: typeof purchase.id === "string" && purchase.id ? purchase.id.slice(0, 100) : `restored-purchase-${index}`,
+                    date: purchase.date,
+                    category: purchase.category,
+                    name: typeof purchase.name === "string" && purchase.name.trim() ? purchase.name.trim().slice(0, 160) : "Purchase",
+                    amount,
+                    note: typeof purchase.note === "string" ? purchase.note.slice(0, 240) : "",
+                }];
+            });
         }
 
-        elements.items.innerHTML = visibleItems.map(renderItem).join("");
-    }
-
-    function renderItem(item) {
-        const total = itemTotal(item);
-        const maximum = sliderMax(item);
-        const step = item.amount < 100 ? 0.5 : item.amount < 500 ? 1 : 10;
-        const scheduleEnd = item.frequency === "once"
-            ? ""
-            : `<label class="scheduleField"><span>Ends</span><input type="date" data-field="end" value="${escapeHtml(item.end || budget.endDate)}"></label>`;
-        const savings = item.kind !== "income"
-            ? ""
-            : item.savingsRate === undefined
-                ? `
-                <div class="savingsPanel savingsSetup">
-                    <button class="budgetButton budgetButtonSecondary savingsAddButton" type="button" data-action="add-savings">+ Allocate to savings</button>
-                </div>
-            `
-                : `
-                <div class="savingsPanel">
-                    <div class="savingsHeader">
-                        <strong>Protected savings</strong>
-                        <span class="savingsValue" data-savings-value>${item.savingsRate}% · ${money.format(total * (item.savingsRate / 100))}</span>
-                    </div>
-                    <input type="range" data-field="savingsRate" min="0" max="50" step="1" value="${item.savingsRate}" aria-label="${escapeHtml(item.name)} savings rate">
-                </div>
-            `;
-        return `
-            <article class="budgetItem" data-item-id="${escapeHtml(item.id)}">
-                <header class="itemHeader">
-                    <div>
-                        <input class="itemNameInput" data-field="name" value="${escapeHtml(item.name)}" aria-label="Item name">
-                    </div>
-                    <button class="iconButton" type="button" data-action="remove" aria-label="Remove ${escapeHtml(item.name)}">×</button>
-                </header>
-                <div class="itemAmountGrid">
-                    <label class="amountField">
-                        <span>${item.frequency === "allocation" ? "Period total" : "Each payment"}</span>
-                        <span class="currencyInput"><span aria-hidden="true">£</span><input type="number" data-field="amount" min="0" step="0.01" value="${item.amount}"></span>
-                    </label>
-                    <div class="sliderField">
-                        <input type="range" data-field="amountRange" min="0" max="${maximum}" step="${step}" value="${Math.min(item.amount, maximum)}" aria-label="${escapeHtml(item.name)} amount">
-                        <div class="rangeLegend"><span>£0</span><span>${money.format(maximum)}</span></div>
-                    </div>
-                    <div class="itemTotal"><span>In period</span><strong data-item-total>${money.format(total)}</strong></div>
-                </div>
-                <div class="itemSchedule">
-                    <label class="scheduleField">
-                        <span>Frequency</span>
-                        <select data-field="frequency">
-                            ${Object.entries(frequencyLabels).map(([value, label]) => `<option value="${value}" ${item.frequency === value ? "selected" : ""}>${label}</option>`).join("")}
-                        </select>
-                    </label>
-                    <label class="scheduleField"><span>${item.frequency === "once" ? "Payment date" : "Starts"}</span><input type="date" data-field="start" value="${escapeHtml(item.start)}"></label>
-                    ${scheduleEnd}
-                </div>
-                ${savings}
-            </article>
-        `;
-    }
-
-    function renderCalculatedPanels() {
-        const results = calculateBudget();
-        renderCategoryNav(results);
-        elements.liquid.textContent = money.format(results.liquid);
-        elements.income.textContent = money.format(results.income);
-        elements.spending.textContent = money.format(results.spending);
-        elements.savings.textContent = money.format(results.savings);
-        renderChart(results.cashFlow);
-        renderStatus(results.lowestBalance);
-        renderSpendingBars(results.categoryTotals);
-    }
-
-    function renderChart(cashFlow) {
-        if (!cashFlow.length) {
-            elements.chart.innerHTML = `<text x="240" y="105" text-anchor="middle">Choose a valid budget period</text>`;
-            return;
+        if (Array.isArray(value.tasks)) {
+            clean.tasks = value.tasks.slice(0, 5000).flatMap((task, index) => {
+                if (!task || !validPlanDate(task.date) || typeof task.text !== "string" || !task.text.trim()) return [];
+                return [{
+                    id: typeof task.id === "string" && task.id ? task.id.slice(0, 100) : `restored-task-${index}`,
+                    date: task.date,
+                    text: task.text.trim().slice(0, 140),
+                }];
+            });
         }
 
-        const width = 480;
-        const height = 210;
-        const left = 55;
-        const right = 12;
-        const top = 16;
-        const bottom = 36;
-        const plotWidth = width - left - right;
-        const plotHeight = height - top - bottom;
-        const values = cashFlow.map((entry) => entry.balance);
-        let minimum = Math.min(0, ...values);
-        let maximum = Math.max(0, ...values);
-        if (minimum === maximum) {
-            minimum -= 1;
-            maximum += 1;
+        if (value.completed && typeof value.completed === "object") {
+            Object.entries(value.completed).slice(0, 10000).forEach(([key, done]) => {
+                if (done === true && typeof key === "string" && key.length <= 220) clean.completed[key] = true;
+            });
         }
-        const padding = (maximum - minimum) * 0.08;
-        minimum -= padding;
-        maximum += padding;
-        const xAt = (index) => left + (cashFlow.length === 1 ? plotWidth / 2 : (index / (cashFlow.length - 1)) * plotWidth);
-        const yAt = (value) => top + ((maximum - value) / (maximum - minimum)) * plotHeight;
-        const points = cashFlow.map((entry, index) => `${xAt(index).toFixed(2)},${yAt(entry.balance).toFixed(2)}`).join(" ");
-        const area = `${left},${top + plotHeight} ${points} ${left + plotWidth},${top + plotHeight}`;
-        const zeroY = yAt(0);
-        const tickIndexes = [...new Set([0, Math.floor((cashFlow.length - 1) / 3), Math.floor(((cashFlow.length - 1) * 2) / 3), cashFlow.length - 1])];
-        const gridValues = [minimum, (minimum + maximum) / 2, maximum];
 
-        elements.chart.innerHTML = `
-            ${gridValues.map((value) => {
-                const y = yAt(value);
-                return `<line class="chartGrid" x1="${left}" x2="${left + plotWidth}" y1="${y}" y2="${y}"></line><text x="${left - 7}" y="${y + 3}" text-anchor="end">${formatCompactMoney(value)}</text>`;
-            }).join("")}
-            <line class="chartZero" x1="${left}" x2="${left + plotWidth}" y1="${zeroY}" y2="${zeroY}"></line>
-            <polygon class="chartArea" points="${area}"></polygon>
-            <polyline class="chartLine" points="${points}"></polyline>
-            ${cashFlow.map((entry, index) => `<circle class="chartPoint" cx="${xAt(index)}" cy="${yAt(entry.balance)}" r="3"><title>${escapeHtml(entry.month)}: ${money.format(entry.balance)}</title></circle>`).join("")}
-            ${tickIndexes.map((index) => `<text x="${xAt(index)}" y="${height - 10}" text-anchor="middle">${escapeHtml(cashFlow[index].month)}</text>`).join("")}
-        `;
+        if (value.notes && typeof value.notes === "object") {
+            WEEK_STARTS.forEach((week) => {
+                if (typeof value.notes[week] === "string") clean.notes[week] = value.notes[week].slice(0, 3000);
+            });
+        }
+        return clean;
     }
 
-    function formatCompactMoney(value) {
-        const absolute = Math.abs(value);
-        if (absolute >= 1000) return `${value < 0 ? "−" : ""}£${Math.round(absolute / 1000)}k`;
-        return `${value < 0 ? "−" : ""}£${Math.round(absolute)}`;
+    function loadState() {
+        try {
+            const stored = window.localStorage.getItem(STORAGE_KEY);
+            return stored ? sanitiseState(JSON.parse(stored)) : defaultState();
+        } catch {
+            return defaultState();
+        }
     }
 
-    function renderStatus(lowestBalance) {
-        const warning = lowestBalance < 0;
-        elements.status.className = `budgetStatus${warning ? " statusWarning" : ""}`;
-        elements.status.innerHTML = `
-            <div class="budgetStatusHeader">
-                <span class="statusIndicator" aria-hidden="true"></span>
-                <strong>${warning ? "Withdrawal may be needed" : "No withdrawal needed"}</strong>
-            </div>
-            <p>Lowest projected month-end balance: ${money.format(lowestBalance)}. ${warning ? "The projection falls below zero; reduce a saving transfer or move a payment date." : "The plan remains above zero throughout the projection."}</p>
-        `;
+    let state = loadState();
+    let selectedWeek = state.lastWeek;
+    let toastTimer;
+
+    const elements = {
+        previousWeek: document.getElementById("previous-week"),
+        nextWeek: document.getElementById("next-week"),
+        weekNumber: document.getElementById("week-number"),
+        weekHeading: document.getElementById("week-heading"),
+        weekContext: document.getElementById("week-context"),
+        jumpDate: document.getElementById("jump-date"),
+        progressLabel: document.getElementById("year-progress-label"),
+        progressBar: document.getElementById("year-progress-bar"),
+        metricAvailable: document.getElementById("metric-available"),
+        metricAvailableNote: document.getElementById("metric-available-note"),
+        metricAllocation: document.getElementById("metric-allocation"),
+        metricSpent: document.getElementById("metric-spent"),
+        metricSpentNote: document.getElementById("metric-spent-note"),
+        metricClose: document.getElementById("metric-close"),
+        chart: document.getElementById("cash-flow-chart"),
+        calendar: document.getElementById("week-calendar"),
+        dueCount: document.getElementById("week-due-count"),
+        allocations: document.getElementById("allocation-grid"),
+        allocationDialog: document.getElementById("allocation-dialog"),
+        ledger: document.getElementById("ledger-list"),
+        ledgerProgress: document.getElementById("ledger-progress"),
+        checklist: document.getElementById("checklist"),
+        checkProgressBar: document.getElementById("check-progress-bar"),
+        checkProgressLabel: document.getElementById("check-progress-label"),
+        quickTaskForm: document.getElementById("quick-task-form"),
+        quickTask: document.getElementById("quick-task"),
+        quickTaskDate: document.getElementById("quick-task-date"),
+        outlookLiquid: document.getElementById("outlook-liquid"),
+        annualIncome: document.getElementById("annual-income"),
+        annualSavings: document.getElementById("annual-savings"),
+        annualSpending: document.getElementById("annual-spending"),
+        annualBars: document.getElementById("annual-bars"),
+        nextFundingHeading: document.getElementById("next-funding-heading"),
+        nextFundingAmount: document.getElementById("next-funding-amount"),
+        nextFundingDate: document.getElementById("next-funding-date"),
+        purchaseDialog: document.getElementById("purchase-dialog"),
+        purchaseForm: document.getElementById("purchase-form"),
+        purchaseName: document.getElementById("purchase-name"),
+        purchaseAmount: document.getElementById("purchase-amount"),
+        purchaseCategory: document.getElementById("purchase-category"),
+        purchaseDate: document.getElementById("purchase-date"),
+        purchaseNote: document.getElementById("purchase-note"),
+        restoreFile: document.getElementById("restore-file"),
+        printReport: document.getElementById("print-report"),
+        toast: document.getElementById("toast"),
+    };
+
+    function saveState() {
+        state.lastWeek = selectedWeek;
+        try {
+            window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch {
+            showToast("This browser could not save the latest change");
+        }
     }
 
-    function renderSpendingBars(categoryTotals) {
-        const spendingCategories = categories.filter((category) => category.kind === "expense");
-        const largest = Math.max(1, ...spendingCategories.map((category) => categoryTotals[category.id]));
-        elements.spendingBars.innerHTML = spendingCategories.map((category) => {
-            const value = categoryTotals[category.id];
+    function showToast(message) {
+        elements.toast.textContent = message;
+        elements.toast.classList.add("isVisible");
+        window.clearTimeout(toastTimer);
+        toastTimer = window.setTimeout(() => elements.toast.classList.remove("isVisible"), 2400);
+    }
+
+    function categoryLabel(id) {
+        return CATEGORY_LOOKUP[id]?.label || "Other";
+    }
+
+    function eventsForWeek(week) {
+        const end = addDays(week, 6) < PLAN_END ? addDays(week, 6) : PLAN_END;
+        return SCHEDULE.filter((event) => event.date >= week && event.date <= end);
+    }
+
+    function purchasesForWeek(week) {
+        const end = addDays(week, 6) < PLAN_END ? addDays(week, 6) : PLAN_END;
+        return state.purchases.filter((purchase) => purchase.date >= week && purchase.date <= end);
+    }
+
+    function customTasksForWeek(week) {
+        const end = addDays(week, 6) < PLAN_END ? addDays(week, 6) : PLAN_END;
+        return state.tasks.filter((task) => task.date >= week && task.date <= end);
+    }
+
+    function completionKey(kind, id) {
+        return `${kind}:${id}`;
+    }
+
+    function isComplete(kind, id) {
+        return state.completed[completionKey(kind, id)] === true;
+    }
+
+    function setComplete(kind, id, done) {
+        const key = completionKey(kind, id);
+        if (done) state.completed[key] = true;
+        else delete state.completed[key];
+    }
+
+    function pdfAllocation(week, category) {
+        return roundMoney(eventsForWeek(week)
+            .filter((event) => event.type === "expense" && event.category === category)
+            .reduce((sum, event) => sum + event.amount, 0));
+    }
+
+    function hasAllocationOverride(week, category) {
+        return Number.isFinite(Number(state.allocations[week]?.[category]));
+    }
+
+    function baseAllocation(week, category) {
+        return hasAllocationOverride(week, category)
+            ? roundMoney(Number(state.allocations[week][category]))
+            : pdfAllocation(week, category);
+    }
+
+    function actualSpend(week, category) {
+        const plannedPaid = eventsForWeek(week)
+            .filter((event) => event.type === "expense" && event.category === category && isComplete("event", event.id))
+            .reduce((sum, event) => sum + event.amount, 0);
+        const purchases = purchasesForWeek(week)
+            .filter((purchase) => purchase.category === category)
+            .reduce((sum, purchase) => sum + purchase.amount, 0);
+        return roundMoney(plannedPaid + purchases);
+    }
+
+    function carryInto(category, weekIndex) {
+        if (weekIndex <= 0) return 0;
+        let carry = 0;
+        for (let index = 0; index < weekIndex; index += 1) {
+            const week = WEEK_STARTS[index];
+            carry += baseAllocation(week, category) - actualSpend(week, category);
+        }
+        return roundMoney(carry);
+    }
+
+    function statsForWeek(week) {
+        const index = WEEK_STARTS.indexOf(week);
+        const categories = SPEND_CATEGORIES.map((category) => {
+            const allocation = baseAllocation(week, category.id);
+            const carry = carryInto(category.id, index);
+            const spent = actualSpend(week, category.id);
+            return {
+                ...category,
+                pdf: pdfAllocation(week, category.id),
+                allocation,
+                carry,
+                spent,
+                balance: roundMoney(allocation + carry - spent),
+                adjusted: hasAllocationOverride(week, category.id),
+            };
+        });
+        return {
+            categories,
+            allocation: roundMoney(categories.reduce((sum, category) => sum + category.allocation, 0)),
+            spent: roundMoney(categories.reduce((sum, category) => sum + category.spent, 0)),
+            available: roundMoney(categories.reduce((sum, category) => sum + category.balance, 0)),
+        };
+    }
+
+    function annualFigures() {
+        const income = roundMoney(SCHEDULE.filter((event) => event.type === "income").reduce((sum, event) => sum + event.amount, 0));
+        const savings = roundMoney(SCHEDULE.filter((event) => event.type === "saving").reduce((sum, event) => sum + event.amount, 0));
+        const categories = SPEND_CATEGORIES.map((category) => {
+            const pdf = roundMoney(SCHEDULE.filter((event) => event.type === "expense" && event.category === category.id).reduce((sum, event) => sum + event.amount, 0));
+            const working = roundMoney(WEEK_STARTS.reduce((sum, week) => sum + Math.max(baseAllocation(week, category.id), actualSpend(week, category.id)), 0));
+            const actual = roundMoney(WEEK_STARTS.reduce((sum, week) => sum + actualSpend(week, category.id), 0));
+            return { ...category, pdf, working, actual };
+        });
+        const spending = roundMoney(categories.reduce((sum, category) => sum + category.working, 0));
+        return { income, savings, spending, liquid: roundMoney(income - savings - spending), categories };
+    }
+
+    function projectedCloseAfter(weekIndex) {
+        const end = WEEK_STARTS[weekIndex] === WEEK_STARTS.at(-1) ? PLAN_END : addDays(WEEK_STARTS[weekIndex], 6);
+        const income = SCHEDULE.filter((event) => event.type === "income" && event.date <= end).reduce((sum, event) => sum + event.amount, 0);
+        const savings = SCHEDULE.filter((event) => event.type === "saving" && event.date <= end).reduce((sum, event) => sum + event.amount, 0);
+        let spending = 0;
+        SPEND_CATEGORIES.forEach(({ id }) => {
+            for (let index = 0; index <= weekIndex; index += 1) {
+                spending += Math.max(baseAllocation(WEEK_STARTS[index], id), actualSpend(WEEK_STARTS[index], id));
+            }
+        });
+        return roundMoney(income - savings - spending);
+    }
+
+    function checklistItems(week) {
+        const confirmations = [{
+            id: "reading-week-1-trip-confirmation",
+            kind: "confirmation",
+            date: "2026-11-02",
+            text: "Confirm the Reading Week 1 trip date and payment",
+            detail: "£300 reserved · provisionally placed on 2 Nov 2026",
+        }];
+        const custom = customTasksForWeek(week).map((task) => ({ ...task, kind: "task", detail: shortDate.format(dateFromIso(task.date)) }));
+        return [...confirmations, ...custom];
+    }
+
+    function weekContext(week) {
+        if (week === "2026-09-21") return "Opening week before teaching";
+        if (week >= "2026-09-28" && week <= "2026-10-26") return "Semester 1 teaching · five university visits planned";
+        if (week === "2026-11-02") return "First-term reading week and trip reserve";
+        if (week >= "2026-11-09" && week <= "2026-12-14") return "Semester 1 teaching and revision";
+        if (week >= "2026-12-21" && week <= "2026-12-28") return "Christmas break";
+        if (week === "2027-01-04" || week === "2027-01-11" || week === "2027-01-18") return "January assessment period";
+        if (week >= "2027-01-25" && week <= "2027-02-22") return "Semester 2 teaching · five university visits planned";
+        if (week === "2027-03-01") return "Semester 2 reading week";
+        if (week >= "2027-03-08" && week <= "2027-03-22") return "Semester 2 teaching · five university visits planned";
+        if (week >= "2027-03-29" && week <= "2027-04-12") return "Easter break and pre-funding";
+        if (week >= "2027-04-19" && week <= "2027-05-03") return "Teaching and revision";
+        if (week >= "2027-05-10" && week <= "2027-05-31") return "Main assessment period · six visits planned";
+        if (week >= "2027-06-07" && week <= "2027-06-28") return "Summer library use · three visits planned";
+        return "Summer fixed-cost period · university food and travel stopped";
+    }
+
+    function formatWeekRange(week) {
+        const start = dateFromIso(week);
+        const endIso = addDays(week, 6) < PLAN_END ? addDays(week, 6) : PLAN_END;
+        const end = dateFromIso(endIso);
+        if (week === endIso) return fullDate.format(start);
+        const sameMonth = start.getUTCMonth() === end.getUTCMonth() && start.getUTCFullYear() === end.getUTCFullYear();
+        if (sameMonth) return `${start.getUTCDate()}-${fullDate.format(end)}`;
+        const sameYear = start.getUTCFullYear() === end.getUTCFullYear();
+        if (sameYear) return `${shortDate.format(start)}-${fullDate.format(end)}`;
+        return `${fullDate.format(start)}-${fullDate.format(end)}`;
+    }
+
+    function formatSigned(value) {
+        if (value === 0) return money.format(0);
+        return `${value > 0 ? "+" : "-"}${money.format(Math.abs(value))}`;
+    }
+
+    function renderCalendar() {
+        const customTasks = customTasksForWeek(selectedWeek);
+        const purchases = purchasesForWeek(selectedWeek);
+        const today = isoFromDate(new Date());
+        let entryCount = 0;
+        elements.calendar.innerHTML = Array.from({ length: 7 }, (_, dayIndex) => {
+            const date = addDays(selectedWeek, dayIndex);
+            const outside = date > PLAN_END;
+            const entries = [
+                ...SCHEDULE.filter((event) => event.date === date).map((event) => ({
+                    text: event.name,
+                    meta: event.type === "covered" ? "Covered" : money.format(event.amount),
+                    income: event.type === "income",
+                    done: isComplete("event", event.id),
+                })),
+                ...purchases.filter((purchase) => purchase.date === date).map((purchase) => ({ text: purchase.name, meta: `${money.format(purchase.amount)} · logged`, done: true })),
+                ...customTasks.filter((task) => task.date === date).map((task) => ({ text: task.text, meta: "Reminder", task: true, done: isComplete("task", task.id) })),
+            ];
+            entryCount += entries.length;
             return `
-                <button class="spendRow" type="button" data-category="${category.id}">
-                    <span class="spendRowHeader"><span>${escapeHtml(category.label)}</span><span>${money.format(value)}</span></span>
-                    <span class="spendTrack"><span class="spendFill" style="width:${(value / largest) * 100}%"></span></span>
-                </button>
+                <article class="calendarDay${date === today ? " isToday" : ""}${outside ? " isOutside" : ""}">
+                    <div class="calendarDayHeader">
+                        <span class="calendarDayName">${weekday.format(dateFromIso(date))}</span>
+                        <span class="calendarDayNumber">${dateFromIso(date).getUTCDate()}</span>
+                        <span class="calendarDayCount">${entries.length ? `${entries.length} ${entries.length === 1 ? "item" : "items"}` : "clear"}</span>
+                    </div>
+                    <div class="calendarEntries">
+                        ${entries.length ? entries.map((entry) => `<span class="calendarEntry${entry.income ? " isIncome" : ""}${entry.task ? " isTask" : ""}${entry.done ? " isDone" : ""}"><strong>${escapeHtml(entry.text)}</strong><small>${escapeHtml(entry.meta)}</small></span>`).join("") : `<span class="calendarEmpty">Nothing scheduled</span>`}
+                    </div>
+                </article>
+            `;
+        }).join("");
+        elements.dueCount.textContent = `${entryCount} ${entryCount === 1 ? "thing" : "things"} due`;
+    }
+
+    function renderAllocations(weekStats) {
+        elements.allocations.innerHTML = weekStats.categories.map((category) => `
+            <article class="allocationCard${category.balance < 0 ? " isOver" : ""}">
+                <div class="allocationTop">
+                    <div class="categoryName">
+                        <span class="categoryCode">${category.code}</span>
+                        <span><strong>${escapeHtml(category.label)}</strong><small>${category.adjusted ? `PDF baseline ${money.format(category.pdf)}` : escapeHtml(category.description)}</small></span>
+                    </div>
+                    <div class="allocationInput">
+                        <label for="allocation-${category.id}">This week</label>
+                        <span class="currencyField"><span aria-hidden="true">£</span><input id="allocation-${category.id}" data-allocation-category="${category.id}" type="number" min="0" max="1000000" step="0.01" value="${category.allocation.toFixed(2)}" aria-label="${escapeHtml(category.label)} allocation"></span>
+                    </div>
+                </div>
+                <div class="allocationStats">
+                    <div><span>Carry-in</span><strong>${formatSigned(category.carry)}</strong></div>
+                    <div><span>Paid / logged</span><strong>${money.format(category.spent)}</strong></div>
+                    <div><span>Balance</span><strong class="${category.balance < 0 ? "negative" : "positive"}">${formatSigned(category.balance)}</strong></div>
+                </div>
+            </article>
+        `).join("");
+    }
+
+    function renderLedger() {
+        const events = eventsForWeek(selectedWeek);
+        const purchases = purchasesForWeek(selectedWeek).sort((left, right) => left.date.localeCompare(right.date));
+        const paidPlanned = events.filter((event) => isComplete("event", event.id)).length;
+        elements.ledgerProgress.textContent = `${paidPlanned} / ${events.length} planned complete`;
+
+        const eventRows = events.map((event) => {
+            const done = isComplete("event", event.id);
+            const isIncome = event.type === "income";
+            const label = event.type === "saving" ? "Savings" : event.type === "covered" ? "Covered" : categoryLabel(event.category);
+            return `
+                <article class="ledgerRow${done ? " isDone" : ""}">
+                    <label class="ledgerCheck"><input data-event-check="${event.id}" type="checkbox" ${done ? "checked" : ""} aria-label="Mark ${escapeHtml(event.name)} complete"></label>
+                    <time class="ledgerDate" datetime="${event.date}">${shortDate.format(dateFromIso(event.date))}</time>
+                    <div class="ledgerCopy"><strong class="ledgerName">${escapeHtml(event.name)}</strong>${event.note ? `<small class="ledgerNote">${escapeHtml(event.note)}</small>` : ""}</div>
+                    <span class="categoryPill${isIncome ? " isIncome" : ""}">${escapeHtml(label)}</span>
+                    <strong class="ledgerAmount${isIncome ? " isIncome" : ""}">${event.type === "covered" ? "£0.00" : `${isIncome ? "+" : event.type === "saving" ? "-" : ""}${money.format(event.amount)}`}</strong>
+                </article>
+            `;
+        }).join("");
+
+        const purchaseRows = purchases.map((purchase) => `
+            <article class="ledgerRow isDone">
+                <span class="ledgerCheck" aria-hidden="true">•</span>
+                <time class="ledgerDate" datetime="${purchase.date}">${shortDate.format(dateFromIso(purchase.date))}</time>
+                <div class="ledgerCopy"><strong class="ledgerName">${escapeHtml(purchase.name)}</strong><small class="ledgerNote">${escapeHtml(purchase.note || "Manually logged purchase")}</small></div>
+                <span class="categoryPill">${escapeHtml(categoryLabel(purchase.category))}</span>
+                <strong class="ledgerAmount">${money.format(purchase.amount)}</strong>
+                <button class="deleteButton" data-delete-purchase="${escapeHtml(purchase.id)}" type="button" aria-label="Delete ${escapeHtml(purchase.name)}">&times;</button>
+            </article>
+        `).join("");
+
+        elements.ledger.innerHTML = eventRows + purchaseRows || `<div class="emptyMessage">A quiet week. Record a purchase or add a task whenever something changes.</div>`;
+    }
+
+    function renderChecklist() {
+        const items = checklistItems(selectedWeek);
+        const complete = items.filter((item) => isComplete(item.kind, item.id)).length;
+        const percent = items.length ? (complete / items.length) * 100 : 0;
+        elements.checkProgressBar.style.width = `${percent}%`;
+        elements.checkProgressLabel.textContent = `${complete} of ${items.length} complete`;
+        elements.checklist.innerHTML = items.map((item) => {
+            const done = isComplete(item.kind, item.id);
+            return `
+                <label class="checkRow${done ? " isDone" : ""}">
+                    <input data-check-kind="${item.kind}" data-check-id="${escapeHtml(item.id)}" type="checkbox" ${done ? "checked" : ""}>
+                    <span><strong>${escapeHtml(item.text)}</strong><small>${escapeHtml(item.detail)}</small></span>
+                    ${item.kind === "task" ? `<button class="checkRemove" data-delete-task="${escapeHtml(item.id)}" type="button" aria-label="Delete task">&times;</button>` : ""}
+                </label>
             `;
         }).join("");
     }
 
-    function updateItem(id, field, rawValue) {
-        const item = budget.items.find((entry) => entry.id === id);
-        if (!item) return;
-        if (field === "amount") item.amount = Math.max(0, finiteNumber(rawValue));
-        else if (field === "savingsRate") item.savingsRate = clamp(finiteNumber(rawValue), 0, 100);
-        else if (field === "frequency" && VALID_FREQUENCIES.has(rawValue)) item.frequency = rawValue;
-        else if ((field === "start" || field === "end") && validDate(rawValue)) item[field] = rawValue;
-        else if (field === "name") item.name = String(rawValue).slice(0, 160);
-        saveBudget();
+    function renderAnnualOutlook(figures) {
+        elements.outlookLiquid.textContent = money.format(figures.liquid);
+        elements.outlookLiquid.classList.toggle("isNegative", figures.liquid < 0);
+        elements.annualIncome.textContent = money.format(figures.income);
+        elements.annualSavings.textContent = money.format(figures.savings);
+        elements.annualSpending.textContent = money.format(figures.spending);
+        elements.annualBars.innerHTML = figures.categories.map((category) => {
+            const percent = category.working > 0 ? (category.actual / category.working) * 100 : category.actual > 0 ? 100 : 0;
+            return `
+                <div class="annualBar${category.actual > category.working ? " isOver" : ""}">
+                    <div class="annualBarHeader"><span>${escapeHtml(category.label)}</span><span>${money.format(category.actual)} / ${money.format(category.working)}</span></div>
+                    <div class="annualBarTrack"><span class="annualBarFill" style="width:${Math.min(100, percent)}%"></span></div>
+                </div>
+            `;
+        }).join("");
     }
 
-    function refreshLiveItem(card, item) {
-        const total = itemTotal(item);
-        const totalElement = card.querySelector("[data-item-total]");
-        const savingsElement = card.querySelector("[data-savings-value]");
-        const amountRange = card.querySelector('[data-field="amountRange"]');
-        if (totalElement) totalElement.textContent = money.format(total);
-        if (savingsElement) savingsElement.textContent = `${item.savingsRate}% · ${money.format(total * (item.savingsRate / 100))}`;
-        if (amountRange) {
-            const rangeMaximum = finiteNumber(amountRange.max);
-            amountRange.value = String(Math.min(item.amount, rangeMaximum));
+    function renderNextFunding() {
+        const next = SCHEDULE.find((event) => event.type === "income" && event.major && event.date >= selectedWeek);
+        if (!next) {
+            elements.nextFundingHeading.textContent = "All major funding received";
+            elements.nextFundingAmount.textContent = "Year complete";
+            elements.nextFundingDate.textContent = "No later loan or bursary is scheduled";
+            return;
         }
+        elements.nextFundingHeading.textContent = next.name;
+        elements.nextFundingAmount.textContent = money.format(next.amount);
+        elements.nextFundingDate.textContent = fullDate.format(dateFromIso(next.date));
     }
 
-    function uniqueCategoryId(label) {
-        const base = label
-            .normalize("NFKD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, "-")
-            .replace(/^-+|-+$/g, "")
-            .slice(0, 50) || "section";
-        let id = base;
-        let suffix = 2;
-        while (categories.some((category) => category.id === id)) {
-            id = `${base}-${suffix}`;
-            suffix += 1;
-        }
-        return id;
+    function compactMoney(value) {
+        const absolute = Math.abs(value);
+        const figure = absolute >= 1000 ? `£${(absolute / 1000).toFixed(absolute >= 10_000 ? 0 : 1)}k` : `£${Math.round(absolute)}`;
+        return value < 0 ? `-${figure}` : figure;
     }
 
-    function openAddSectionDialog() {
-        if (categories.length >= 30) return;
-        elements.sectionForm.reset();
-        elements.sectionKind.value = "expense";
-        elements.sectionDialog.showModal();
-        window.setTimeout(() => elements.sectionName.focus(), 0);
+    function renderCashFlowChart() {
+        const values = WEEK_STARTS.map((week, index) => ({ week, balance: projectedCloseAfter(index) }));
+        const width = 720;
+        const height = 230;
+        const left = 52;
+        const right = 12;
+        const top = 14;
+        const bottom = 34;
+        const plotWidth = width - left - right;
+        const plotHeight = height - top - bottom;
+        let minimum = Math.min(0, ...values.map((entry) => entry.balance));
+        let maximum = Math.max(0, ...values.map((entry) => entry.balance));
+        const padding = Math.max(100, (maximum - minimum) * 0.08);
+        minimum -= padding;
+        maximum += padding;
+        const xAt = (index) => left + (index / (values.length - 1)) * plotWidth;
+        const yAt = (value) => top + ((maximum - value) / (maximum - minimum)) * plotHeight;
+        const points = values.map((entry, index) => `${xAt(index).toFixed(2)},${yAt(entry.balance).toFixed(2)}`).join(" ");
+        const area = `${left},${top + plotHeight} ${points} ${left + plotWidth},${top + plotHeight}`;
+        const gridValues = [minimum, (minimum + maximum) / 2, maximum];
+        const tickIndexes = [0, 16, 30, 42, values.length - 1];
+        const selectedIndex = WEEK_STARTS.indexOf(selectedWeek);
+        const selected = values[selectedIndex];
+
+        elements.chart.innerHTML = `
+            ${gridValues.map((value) => {
+                const y = yAt(value);
+                return `<line class="chartGrid" x1="${left}" x2="${left + plotWidth}" y1="${y}" y2="${y}"></line><text x="${left - 8}" y="${y + 4}" text-anchor="end">${compactMoney(value)}</text>`;
+            }).join("")}
+            <line class="chartZero" x1="${left}" x2="${left + plotWidth}" y1="${yAt(0)}" y2="${yAt(0)}"></line>
+            <polygon class="chartArea" points="${area}"></polygon>
+            <polyline class="chartLine" points="${points}"></polyline>
+            <line class="chartSelectedLine" x1="${xAt(selectedIndex)}" x2="${xAt(selectedIndex)}" y1="${top}" y2="${top + plotHeight}"></line>
+            <circle class="chartPoint chartSelected" cx="${xAt(selectedIndex)}" cy="${yAt(selected.balance)}" r="5"><title>${escapeHtml(formatWeekRange(selected.week))}: ${money.format(selected.balance)}</title></circle>
+            ${tickIndexes.map((index) => `<text x="${xAt(index)}" y="${height - 9}" text-anchor="middle">${monthLabel.format(dateFromIso(values[index].week))}</text>`).join("")}
+        `;
     }
 
-    function addSection() {
-        const label = elements.sectionName.value.trim().slice(0, 60);
-        const kind = elements.sectionKind.value === "income" ? "income" : "expense";
-        if (!label || categories.length >= 30) return;
-        const category = { id: uniqueCategoryId(label), label, kind };
-        categories.push(category);
-        budget.categories = categories;
-        selectedCategory = category.id;
-        saveBudget();
-        elements.sectionDialog.close();
+    function renderFinancialSummary() {
+        const weekIndex = WEEK_STARTS.indexOf(selectedWeek);
+        const weekStats = statsForWeek(selectedWeek);
+        const figures = annualFigures();
+        const projectedClose = projectedCloseAfter(weekIndex);
+        const completedSpendEntries = eventsForWeek(selectedWeek).filter((event) => event.type === "expense" && isComplete("event", event.id)).length + purchasesForWeek(selectedWeek).length;
+
+        elements.metricAvailable.textContent = money.format(weekStats.available);
+        elements.metricAvailable.closest(".metricCard").classList.toggle("isNegative", weekStats.available < 0);
+        elements.metricAvailableNote.textContent = "Includes every earlier balance";
+        elements.metricAllocation.textContent = money.format(weekStats.allocation);
+        elements.metricSpent.textContent = money.format(weekStats.spent);
+        elements.metricSpentNote.textContent = `${completedSpendEntries} ${completedSpendEntries === 1 ? "entry" : "entries"} paid or logged`;
+        elements.metricClose.textContent = money.format(projectedClose);
+        elements.metricClose.closest(".metricCard").classList.toggle("isNegative", projectedClose < 0);
+        renderAnnualOutlook(figures);
+        renderCashFlowChart();
+        return { weekStats, figures };
+    }
+
+    function render() {
+        const weekIndex = WEEK_STARTS.indexOf(selectedWeek);
+
+        elements.weekNumber.textContent = `Week ${String(weekIndex + 1).padStart(2, "0")} / ${WEEK_STARTS.length}`;
+        elements.weekHeading.textContent = formatWeekRange(selectedWeek);
+        elements.weekContext.textContent = weekContext(selectedWeek);
+        elements.jumpDate.value = selectedWeek;
+        elements.previousWeek.disabled = weekIndex === 0;
+        elements.nextWeek.disabled = weekIndex === WEEK_STARTS.length - 1;
+        const progress = (weekIndex / (WEEK_STARTS.length - 1)) * 100;
+        elements.progressLabel.textContent = `${Math.round(progress)}% through plan`;
+        elements.progressBar.style.width = `${progress}%`;
+
+        const { weekStats } = renderFinancialSummary();
+
+        renderCalendar();
+        renderAllocations(weekStats);
+        renderLedger();
+        renderChecklist();
+        renderNextFunding();
+        elements.quickTaskDate.value = selectedWeek;
+    }
+
+    function moveWeek(direction) {
+        const current = WEEK_STARTS.indexOf(selectedWeek);
+        const next = Math.max(0, Math.min(WEEK_STARTS.length - 1, current + direction));
+        if (next === current) return;
+        selectedWeek = WEEK_STARTS[next];
+        saveState();
         render();
+        document.getElementById("week-workspace").scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
-    function removeSelectedSection() {
-        if (categories.length <= 1) return;
-        const category = categoryMeta(selectedCategory);
-        const itemCount = budget.items.filter((item) => item.category === category.id).length;
-        const itemWarning = itemCount
-            ? ` This also removes ${itemCount} ${itemCount === 1 ? "item" : "items"} inside it.`
-            : "";
-        if (!window.confirm(`Remove “${category.label}”?${itemWarning}`)) return;
-        categories = categories.filter((entry) => entry.id !== category.id);
-        budget.categories = categories;
-        budget.items = budget.items.filter((item) => item.category !== category.id);
-        selectedCategory = categories[0].id;
-        saveBudget();
-        render();
+    function uniqueId(prefix) {
+        if (window.crypto?.randomUUID) return `${prefix}-${window.crypto.randomUUID()}`;
+        return `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
     }
 
-    function openAddDialog() {
-        const currentCategory = categoryMeta(selectedCategory);
-        elements.addForm.reset();
-        elements.addTitle.textContent = `Add to ${currentCategory.label}`;
-        elements.newAmount.value = "0";
-        elements.newFrequency.value = "monthly";
-        elements.newStart.value = budget.startDate;
-        elements.newEnd.value = budget.endDate;
-        updateNewItemDateFields();
-        elements.dialog.showModal();
-        window.setTimeout(() => elements.newName.focus(), 0);
+    function openPurchaseDialog() {
+        elements.purchaseForm.reset();
+        elements.purchaseDate.value = selectedWeek;
+        elements.purchaseCategory.value = "food";
+        elements.purchaseDialog.showModal();
+        window.setTimeout(() => elements.purchaseName.focus(), 0);
     }
 
-    function updateNewItemDateFields() {
-        const once = elements.newFrequency.value === "once";
-        elements.newStartLabel.textContent = once ? "Payment date" : "Starts";
-        elements.newEndField.hidden = once;
-    }
-
-    function addItem() {
-        const currentCategory = categoryMeta(selectedCategory);
-        const name = elements.newName.value.trim();
-        const amount = Math.max(0, finiteNumber(elements.newAmount.value));
-        if (!name || !validDate(elements.newStart.value)) return;
-        budget.items.push({
-            id: `item-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+    function addPurchase() {
+        const name = elements.purchaseName.value.trim();
+        const amount = finiteAmount(elements.purchaseAmount.value);
+        const category = elements.purchaseCategory.value;
+        const date = elements.purchaseDate.value;
+        if (!name || amount <= 0 || !validPlanDate(date) || !SPEND_CATEGORIES.some((entry) => entry.id === category)) return;
+        state.purchases.push({
+            id: uniqueId("purchase"),
             name: name.slice(0, 160),
             amount,
-            kind: currentCategory.kind,
-            category: currentCategory.id,
-            frequency: elements.newFrequency.value,
-            start: elements.newStart.value,
-            ...(elements.newFrequency.value === "once" || !validDate(elements.newEnd.value) ? {} : { end: elements.newEnd.value }),
+            category,
+            date,
+            note: elements.purchaseNote.value.trim().slice(0, 240),
         });
-        saveBudget();
-        elements.dialog.close();
+        selectedWeek = weekStartForDate(date);
+        saveState();
+        elements.purchaseDialog.close();
         render();
+        showToast("Purchase added and totals updated");
     }
 
     function exportPlan() {
-        const blob = new Blob([JSON.stringify(budget, null, 2)], { type: "application/json" });
+        const payload = {
+            app: "Budget Studio 26-27",
+            plan: "KCL University Budget 2026-27",
+            exportedAt: new Date().toISOString(),
+            state,
+        };
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = "budget-plan.json";
+        link.download = `budget-studio-26-27-backup-${isoFromDate(new Date())}.json`;
         link.click();
         window.setTimeout(() => URL.revokeObjectURL(url), 0);
+        showToast("Backup downloaded");
     }
 
-    function ownerPlanTitle(name) {
-        const cleanName = String(name || "").trim();
-        if (!cleanName) return "Budget Plan";
-        return `${cleanName}${/s$/i.test(cleanName) ? "’" : "’s"} Budget Plan`;
-    }
-
-    function ownerInitials(name) {
-        const initials = String(name || "")
-            .trim()
-            .split(/\s+/)
-            .filter(Boolean)
-            .slice(0, 2)
-            .map((part) => part[0])
-            .join("")
-            .toUpperCase();
-        return initials || "BP";
+    async function restorePlan(file) {
+        try {
+            const parsed = JSON.parse(await file.text());
+            const source = parsed?.state || parsed;
+            if (!source || typeof source !== "object") throw new Error("Invalid backup");
+            state = sanitiseState(source);
+            selectedWeek = state.lastWeek;
+            saveState();
+            render();
+            showToast("Backup restored");
+        } catch {
+            showToast("That file is not a valid Budget Studio backup");
+        } finally {
+            elements.restoreFile.value = "";
+        }
     }
 
     function buildPrintReport() {
-        const results = calculateBudget();
-        const incomeRows = budget.items.filter((item) => item.kind === "income");
-        const spendingCategories = categories.filter((category) => category.kind === "expense");
+        const stats = statsForWeek(selectedWeek);
+        const figures = annualFigures();
+        const activity = [
+            ...eventsForWeek(selectedWeek).map((event) => ({
+                date: event.date,
+                name: event.name,
+                section: event.type === "saving" ? "Savings" : event.type === "covered" ? "Covered" : categoryLabel(event.category),
+                amount: event.type === "covered" ? 0 : event.amount,
+                status: isComplete("event", event.id) ? "Complete" : "Planned",
+            })),
+            ...purchasesForWeek(selectedWeek).map((purchase) => ({ ...purchase, section: categoryLabel(purchase.category), status: "Logged" })),
+        ].sort((left, right) => left.date.localeCompare(right.date));
+        const checks = checklistItems(selectedWeek);
         elements.printReport.innerHTML = `
             <header class="printReportHeader">
-                <div>
-                    <p class="printReportKicker">Personal finance plan</p>
-                    <h1>${escapeHtml(ownerPlanTitle(budget.ownerName))}</h1>
-                    <p class="printReportSubtitle">Budget · ${escapeHtml(budget.startDate)} to ${escapeHtml(budget.endDate)}</p>
-                </div>
-                <div class="printReportMark">${escapeHtml(ownerInitials(budget.ownerName))}</div>
+                <div><p class="printReportKicker">Budget Studio / 2026-27</p><h1>${escapeHtml(formatWeekRange(selectedWeek))}</h1></div>
+                <p class="printReportWeek">Week ${WEEK_STARTS.indexOf(selectedWeek) + 1} of ${WEEK_STARTS.length}<br>${escapeHtml(weekContext(selectedWeek))}</p>
             </header>
-            <section class="printReportSummary">
-                <div><span>Gross income</span><strong>${money.format(results.income)}</strong></div>
-                <div><span>Planned spending</span><strong>${money.format(results.spending)}</strong></div>
-                <div><span>Protected savings</span><strong>${money.format(results.savings)}</strong></div>
-                <div><span>End liquid cash</span><strong>${money.format(results.liquid)}</strong></div>
+            <section class="printSummary">
+                <div><span>Available</span><strong>${money.format(stats.available)}</strong></div>
+                <div><span>Allocation</span><strong>${money.format(stats.allocation)}</strong></div>
+                <div><span>Paid / logged</span><strong>${money.format(stats.spent)}</strong></div>
+                <div><span>Annual outlook</span><strong>${money.format(figures.liquid)}</strong></div>
             </section>
-            <section class="printReportSection">
-                <h2>Income and savings</h2>
-                ${reportTable(incomeRows, true)}
-            </section>
-            ${spendingCategories.map((category) => {
-                const items = budget.items.filter((item) => item.category === category.id);
-                if (!items.length) return "";
-                return `<section class="printReportSection"><div class="printReportSectionHeader"><h2>${escapeHtml(category.label)}</h2><strong>${money.format(results.categoryTotals[category.id])}</strong></div>${reportTable(items, false)}</section>`;
-            }).join("")}
-            <footer class="printReportFooter"><span>Budget Studio</span><span>Generated ${new Date().toLocaleDateString("en-GB")}</span></footer>
+            <section class="printSection"><h2>Weekly limits</h2><table><thead><tr><th>Section</th><th class="numeric">Allocation</th><th class="numeric">Carry-in</th><th class="numeric">Paid / logged</th><th class="numeric">Balance</th></tr></thead><tbody>${stats.categories.map((category) => `<tr><td>${escapeHtml(category.label)}</td><td class="numeric">${money.format(category.allocation)}</td><td class="numeric">${formatSigned(category.carry)}</td><td class="numeric">${money.format(category.spent)}</td><td class="numeric">${formatSigned(category.balance)}</td></tr>`).join("")}</tbody></table></section>
+            <section class="printSection"><h2>Activity</h2>${activity.length ? `<table><thead><tr><th>Date</th><th>Item</th><th>Section</th><th>Status</th><th class="numeric">Amount</th></tr></thead><tbody>${activity.map((item) => `<tr><td>${shortDate.format(dateFromIso(item.date))}</td><td>${escapeHtml(item.name)}</td><td>${escapeHtml(item.section)}</td><td>${escapeHtml(item.status)}</td><td class="numeric">${money.format(item.amount)}</td></tr>`).join("")}</tbody></table>` : "<p>No activity this week.</p>"}</section>
+            <section class="printSection"><h2>Checklist</h2><ul class="printChecklist">${checks.map((item) => `<li>${isComplete(item.kind, item.id) ? "☑" : "☐"} ${escapeHtml(item.text)}</li>`).join("")}</ul></section>
+            <footer class="printFooter"><span>Based on KCL University Budget 2026-27</span><span>Generated ${fullDate.format(new Date())}</span></footer>
         `;
     }
 
-    function reportTable(items, incomeTable) {
-        return `
-            <table>
-                <thead><tr><th>${incomeTable ? "Income source" : "Item"}</th><th>Schedule</th><th>Date / start</th><th class="numeric">Period total</th>${incomeTable ? '<th class="numeric">Savings</th>' : ""}</tr></thead>
-                <tbody>${items.map((item) => `
-                    <tr>
-                        <td>${escapeHtml(item.name)}</td>
-                        <td>${frequencyLabels[item.frequency]}</td>
-                        <td>${escapeHtml(item.start)}${item.end ? ` to ${escapeHtml(item.end)}` : ""}</td>
-                        <td class="numeric">${money.format(itemTotal(item))}</td>
-                        ${incomeTable ? `<td class="numeric">${item.savingsRate === undefined ? "–" : `${item.savingsRate}%`}</td>` : ""}
-                    </tr>
-                `).join("")}</tbody>
-            </table>
-        `;
-    }
+    elements.purchaseCategory.innerHTML = SPEND_CATEGORIES.map((category) => `<option value="${category.id}">${escapeHtml(category.label)}</option>`).join("");
 
-    elements.owner.addEventListener("input", () => {
-        budget.ownerName = elements.owner.value.slice(0, 100);
-        saveBudget();
-    });
-
-    elements.start.addEventListener("change", () => {
-        if (validDate(elements.start.value)) {
-            budget.startDate = elements.start.value;
-            saveBudget();
-            render();
-        }
-    });
-
-    elements.end.addEventListener("change", () => {
-        if (validDate(elements.end.value)) {
-            budget.endDate = elements.end.value;
-            saveBudget();
-            render();
-        }
-    });
-
-    elements.categoryNav.addEventListener("click", (event) => {
-        const button = event.target.closest("[data-category]");
-        if (!button) return;
-        selectedCategory = button.dataset.category;
+    elements.previousWeek.addEventListener("click", () => moveWeek(-1));
+    elements.nextWeek.addEventListener("click", () => moveWeek(1));
+    elements.jumpDate.addEventListener("change", () => {
+        if (!validPlanDate(elements.jumpDate.value)) return;
+        selectedWeek = weekStartForDate(elements.jumpDate.value);
+        saveState();
         render();
     });
 
-    elements.spendingBars.addEventListener("click", (event) => {
-        const button = event.target.closest("[data-category]");
-        if (!button) return;
-        selectedCategory = button.dataset.category;
-        render();
-        document.getElementById("budget-workspace").scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-
-    elements.items.addEventListener("click", (event) => {
-        const action = event.target.closest("[data-action]");
-        if (!action) return;
-        if (action.dataset.action === "open-add") {
-            openAddDialog();
-            return;
-        }
-        if (action.dataset.action === "add-savings") {
-            const card = action.closest("[data-item-id]");
-            const item = budget.items.find((entry) => entry.id === card?.dataset.itemId);
-            if (!item || item.kind !== "income") return;
-            item.savingsRate = 10;
-            saveBudget();
-            render();
-            return;
-        }
-        if (action.dataset.action === "remove") {
-            const card = action.closest("[data-item-id]");
-            budget.items = budget.items.filter((item) => item.id !== card.dataset.itemId);
-            saveBudget();
-            render();
-        }
-    });
-
-    elements.items.addEventListener("input", (event) => {
-        const field = event.target.dataset.field;
-        const card = event.target.closest("[data-item-id]");
-        if (!field || !card) return;
-        const item = budget.items.find((entry) => entry.id === card.dataset.itemId);
-        if (!item) return;
-
-        if (field === "name") {
-            updateItem(item.id, "name", event.target.value);
-            return;
-        }
-        if (field === "amount" || field === "amountRange") {
-            updateItem(item.id, "amount", event.target.value);
-            const counterpart = card.querySelector(field === "amount" ? '[data-field="amountRange"]' : '[data-field="amount"]');
-            if (counterpart) counterpart.value = item.amount;
-        } else if (field === "savingsRate") {
-            updateItem(item.id, "savingsRate", event.target.value);
+    function updateAllocation(category, rawValue) {
+        const amount = Math.max(0, finiteAmount(rawValue));
+        state.allocations[selectedWeek] ||= {};
+        const pdf = pdfAllocation(selectedWeek, category);
+        if (amount === pdf) {
+            delete state.allocations[selectedWeek][category];
+            if (!Object.keys(state.allocations[selectedWeek]).length) delete state.allocations[selectedWeek];
         } else {
-            return;
+            state.allocations[selectedWeek][category] = amount;
         }
-        refreshLiveItem(card, item);
-        renderCalculatedPanels();
+    }
+
+    elements.allocations.addEventListener("input", (event) => {
+        const category = event.target.dataset.allocationCategory;
+        if (!category || !SPEND_CATEGORIES.some((entry) => entry.id === category)) return;
+        updateAllocation(category, event.target.value);
+        saveState();
+        renderFinancialSummary();
     });
 
-    elements.items.addEventListener("change", (event) => {
-        const field = event.target.dataset.field;
-        const card = event.target.closest("[data-item-id]");
-        if (!field || !card || ["name", "amount", "amountRange", "savingsRate"].includes(field)) return;
-        updateItem(card.dataset.itemId, field, event.target.value);
+    elements.allocations.addEventListener("change", (event) => {
+        const category = event.target.dataset.allocationCategory;
+        if (!category || !SPEND_CATEGORIES.some((entry) => entry.id === category)) return;
+        updateAllocation(category, event.target.value);
+        saveState();
+        render();
+        showToast("Allocation updated");
+    });
+
+    elements.ledger.addEventListener("change", (event) => {
+        const id = event.target.dataset.eventCheck;
+        if (!id) return;
+        setComplete("event", id, event.target.checked);
+        saveState();
         render();
     });
 
-    document.getElementById("open-add-item").addEventListener("click", openAddDialog);
-    document.getElementById("cancel-add-item").addEventListener("click", () => elements.dialog.close());
-    elements.newFrequency.addEventListener("change", updateNewItemDateFields);
-    elements.addForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-        addItem();
+    elements.ledger.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-delete-purchase]");
+        if (!button) return;
+        const purchase = state.purchases.find((entry) => entry.id === button.dataset.deletePurchase);
+        if (!purchase || !window.confirm(`Delete “${purchase.name}”?`)) return;
+        state.purchases = state.purchases.filter((entry) => entry.id !== purchase.id);
+        saveState();
+        render();
+        showToast("Purchase removed");
     });
 
-    elements.addSectionButton.addEventListener("click", openAddSectionDialog);
-    elements.removeSection.addEventListener("click", removeSelectedSection);
-    document.getElementById("cancel-add-section").addEventListener("click", () => elements.sectionDialog.close());
-    elements.sectionForm.addEventListener("submit", (event) => {
+    elements.checklist.addEventListener("change", (event) => {
+        const kind = event.target.dataset.checkKind;
+        const id = event.target.dataset.checkId;
+        if (!kind || !id) return;
+        setComplete(kind, id, event.target.checked);
+        saveState();
+        render();
+    });
+
+    elements.checklist.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-delete-task]");
+        if (!button) return;
         event.preventDefault();
-        addSection();
+        const id = button.dataset.deleteTask;
+        state.tasks = state.tasks.filter((task) => task.id !== id);
+        delete state.completed[completionKey("task", id)];
+        saveState();
+        render();
+    });
+
+    elements.quickTaskForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const text = elements.quickTask.value.trim();
+        const date = validPlanDate(elements.quickTaskDate.value) ? elements.quickTaskDate.value : selectedWeek;
+        if (!text) return;
+        state.tasks.push({ id: uniqueId("task"), date, text: text.slice(0, 140) });
+        elements.quickTask.value = "";
+        selectedWeek = weekStartForDate(date);
+        saveState();
+        render();
+    });
+
+    document.getElementById("open-allocations").addEventListener("click", () => {
+        document.getElementById("allocation-dialog-title").textContent = `Weekly limits · ${formatWeekRange(selectedWeek)}`;
+        elements.allocationDialog.showModal();
+    });
+    document.getElementById("close-allocations").addEventListener("click", () => elements.allocationDialog.close());
+
+    document.getElementById("open-purchase").addEventListener("click", openPurchaseDialog);
+    document.getElementById("close-purchase").addEventListener("click", () => elements.purchaseDialog.close());
+    document.getElementById("cancel-purchase").addEventListener("click", () => elements.purchaseDialog.close());
+    elements.purchaseForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        addPurchase();
     });
 
     document.getElementById("export-plan").addEventListener("click", exportPlan);
-    document.getElementById("reset-plan").addEventListener("click", () => {
-        if (!window.confirm("Reset every change and restore the clean starter template?")) return;
-        budget = cloneDefaultBudget();
-        categories = budget.categories;
-        selectedCategory = categories[0].id;
-        saveBudget();
-        render();
+    document.getElementById("restore-plan").addEventListener("click", () => elements.restoreFile.click());
+    elements.restoreFile.addEventListener("change", () => {
+        if (elements.restoreFile.files?.[0]) restorePlan(elements.restoreFile.files[0]);
     });
+
     document.getElementById("print-plan").addEventListener("click", () => {
         buildPrintReport();
         window.print();
     });
     window.addEventListener("beforeprint", buildPrintReport);
-    window.addEventListener("pagehide", saveBudget);
-    document.addEventListener("visibilitychange", () => {
-        if (document.visibilityState === "hidden") saveBudget();
+
+    document.getElementById("reset-data").addEventListener("click", () => {
+        if (!window.confirm("Restore the original PDF plan? This removes all weekly limit adjustments, purchases, reminders and ticks saved in this browser.")) return;
+        state = defaultState();
+        selectedWeek = PLAN_START;
+        saveState();
+        render();
+        showToast("Original PDF plan restored");
     });
+
+    window.addEventListener("pagehide", () => saveState());
+    document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "hidden") saveState();
+    });
+
+    const sourceTotals = {
+        income: roundMoney(SCHEDULE.filter((event) => event.type === "income").reduce((sum, event) => sum + event.amount, 0)),
+        savings: roundMoney(SCHEDULE.filter((event) => event.type === "saving").reduce((sum, event) => sum + event.amount, 0)),
+        spending: roundMoney(SCHEDULE.filter((event) => event.type === "expense").reduce((sum, event) => sum + event.amount, 0)),
+    };
+    console.assert(sourceTotals.income === 11238, "Funding schedule total is out of balance", sourceTotals);
+    console.assert(sourceTotals.savings === 1832.72, "Savings schedule total is out of balance", sourceTotals);
+    console.assert(sourceTotals.spending === 8371.70, "Spending schedule total is out of balance", sourceTotals);
 
     render();
 })();

@@ -1,9 +1,18 @@
 :root {
-    --budget-background: #0C0C0C;
-    --budget-accent: #26BC89;
-    --budget-text: #CCCCCC;
-    --budget-bright: #FFFFFF;
-    --budget-warning: #FF6B6B;
+    --background: #0c0c0c;
+    --surface: #111311;
+    --surface-raised: #171a17;
+    --text: #cccccc;
+    --bright: #ffffff;
+    --muted: #878d88;
+    --faint: #626763;
+    --accent: #26bc89;
+    --accent-soft: rgba(38, 188, 137, 0.1);
+    --warning: #ff8c79;
+    --line: #2d312e;
+    --line-soft: rgba(204, 204, 204, 0.12);
+    --radius: 8px;
+    --content: 78rem;
 }
 
 * {
@@ -11,27 +20,33 @@
 }
 
 html {
-    background: var(--budget-background);
+    background: var(--background);
     color-scheme: dark;
+    scroll-behavior: smooth;
 }
 
 .budgetStudioBody {
-    background: var(--budget-background);
-    color: var(--budget-text);
-    font-family: JetBrains Mono, "Cascadia Mono", Consolas, monospace;
+    background: var(--background);
+    color: var(--text);
+    font-family: "JetBrains Mono", "SFMono-Regular", "Cascadia Mono", Consolas, monospace;
     margin: 0;
     min-width: 320px;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding-bottom: env(safe-area-inset-bottom);
 }
 
 button,
 input,
-select {
+select,
+textarea {
     font: inherit;
 }
 
 button,
 input,
 select,
+textarea,
 a {
     -webkit-tap-highlight-color: transparent;
 }
@@ -39,18 +54,27 @@ a {
 button:focus-visible,
 input:focus-visible,
 select:focus-visible,
+textarea:focus-visible,
 a:focus-visible {
-    outline: 2px solid var(--budget-bright);
+    outline: 2px solid var(--bright);
     outline-offset: 2px;
 }
 
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.35;
+}
+
 .skipLink {
-    background: var(--budget-accent);
-    color: var(--budget-background);
-    left: 0.75rem;
-    padding: 0.65rem 0.8rem;
+    background: var(--accent);
+    border-radius: 4px;
+    color: var(--background);
+    font-size: 0.75rem;
+    font-weight: 800;
+    left: max(1rem, env(safe-area-inset-left));
+    padding: 0.7rem 0.85rem;
     position: fixed;
-    top: 0.75rem;
+    top: max(1rem, env(safe-area-inset-top));
     transform: translateY(-180%);
     z-index: 100;
 }
@@ -64,789 +88,1485 @@ a:focus-visible {
     min-height: 100svh;
 }
 
-.budgetHeader {
+.appHeader {
     background: rgba(12, 12, 12, 0.94);
-    border-bottom: 1px solid rgba(204, 204, 204, 0.18);
+    border-bottom: 1px solid var(--line);
     position: sticky;
     top: 0;
     z-index: 40;
 }
 
-.budgetHeaderInner {
+.appHeaderInner {
     align-items: center;
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    display: flex;
+    gap: 1.5rem;
+    justify-content: space-between;
     margin: 0 auto;
-    max-width: 1600px;
-    padding: 0.8rem clamp(1rem, 3vw, 1.75rem);
+    max-width: var(--content);
+    padding: calc(0.8rem + env(safe-area-inset-top)) max(1.25rem, env(safe-area-inset-right)) 0.8rem max(1.25rem, env(safe-area-inset-left));
 }
 
-.budgetWorksLink {
-    color: var(--budget-accent);
-    font-size: 0.75rem;
-    justify-self: start;
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
-}
-
-.budgetWorksLink:visited {
-    color: var(--budget-accent);
-}
-
-.budgetWorksLink:hover {
-    color: var(--budget-bright);
-}
-
-.budgetBrand {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    min-width: 0;
-    text-align: center;
-}
-
-.budgetBrandTitle {
+.studioTitle {
+    font-size: 0.9rem;
     margin: 0;
+    white-space: nowrap;
 }
 
-.budgetBrandTitle {
-    color: var(--budget-bright);
-    font-size: 1rem;
-    font-weight: 700;
+.studioTitle a,
+.studioTitle a:visited {
+    color: var(--bright);
+    text-decoration: none;
 }
 
-.budgetHeaderActions {
-    display: flex;
-    gap: 0.5rem;
-    justify-self: end;
+.studioTitle span {
+    color: var(--accent);
+    font-size: 0.68rem;
+    font-weight: 600;
 }
 
-.budgetButton {
+.siteNav {
     align-items: center;
-    background: var(--budget-accent);
-    border: 1px solid var(--budget-accent);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.15rem;
+    justify-content: flex-end;
+}
+
+.siteNav a,
+.siteNav a:visited {
+    align-items: center;
+    border: 1px solid transparent;
     border-radius: 4px;
-    color: var(--budget-background);
-    cursor: pointer;
+    color: var(--accent);
     display: inline-flex;
-    font-size: 0.78rem;
-    font-weight: 700;
+    font-size: 0.7rem;
     justify-content: center;
     min-height: 2.5rem;
-    padding: 0.55rem 0.8rem;
-    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+    padding: 0.45rem 0.55rem;
+    text-decoration: none;
 }
 
-.budgetButton:hover:not(:disabled) {
-    background: var(--budget-bright);
-    border-color: var(--budget-bright);
+.siteNav a:hover,
+.siteNav a[aria-current="page"] {
+    background: #262626;
+    color: var(--bright);
 }
 
-.budgetButton:disabled {
-    cursor: not-allowed;
-    opacity: 0.45;
-}
-
-.budgetButtonSecondary {
-    background: transparent;
-    border-color: rgba(204, 204, 204, 0.34);
-    color: var(--budget-text);
-}
-
-.budgetButtonSecondary:hover:not(:disabled) {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: var(--budget-text);
-    color: var(--budget-bright);
-}
-
-.budgetLayout {
-    display: grid;
-    gap: 1.25rem;
-    grid-template-columns: minmax(0, 40rem) 350px;
-    justify-content: center;
-    margin: 0 auto;
-    max-width: 68rem;
-    padding: 1.25rem clamp(1rem, 3vw, 1.75rem) 2rem;
-}
-
-.budgetMainColumn {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    min-width: 0;
+.overview,
+.weekBar,
+.metricGrid,
+.workspaceGrid {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: var(--content);
     width: 100%;
 }
 
-.budgetResults {
-    align-self: start;
-    display: flex;
-    flex-direction: column;
+.overview {
+    padding: clamp(2rem, 5vw, 3.5rem) 1.25rem 1.5rem;
+}
+
+.overviewGrid {
+    display: grid;
     gap: 1rem;
-    position: sticky;
-    top: 5.1rem;
+    grid-template-columns: minmax(15rem, 0.65fr) minmax(0, 1.7fr);
 }
 
-.budgetPanel,
-.budgetItem,
-.budgetStatus {
-    background: rgba(255, 255, 255, 0.025);
-    border: 1px solid rgba(204, 204, 204, 0.18);
-    border-radius: 4px;
-}
-
-.budgetPanel {
+.panel {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    min-width: 0;
     padding: 1.15rem;
 }
 
-.budgetPanel h2,
-.budgetDialog h2 {
-    color: var(--budget-bright);
-    font-size: 0.9rem;
-    margin: 0;
-}
-
-.budgetPeriodHeader {
-    align-items: center;
-    display: flex;
-    gap: 1rem;
-    justify-content: space-between;
-    margin-bottom: 0.9rem;
-}
-
-.budgetPeriodHeader h2 {
-    margin-top: 0.25rem;
-}
-
-.budgetDateGrid {
-    display: grid;
-    gap: 0.75rem;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.budgetDateGrid label,
-.budgetDateGrid input {
-    min-width: 0;
-}
-
-.budgetOwnerField {
-    grid-column: 1 / -1;
-}
-
-.budgetDateGrid input {
-    height: 2.65rem;
-}
-
-label > span:first-child,
-.scheduleField > span:first-child,
-.amountField > span:first-child,
-.dialogFields label > span:first-child {
-    color: var(--budget-text);
-    display: block;
-    font-size: 0.68rem;
-    margin-bottom: 0.35rem;
-}
-
-input,
-select {
-    background: var(--budget-background);
-    border: 1px solid rgba(204, 204, 204, 0.32);
-    border-radius: 4px;
-    color: var(--budget-bright);
-    min-height: 2.35rem;
-    padding: 0.45rem 0.55rem;
-    width: 100%;
-}
-
-input:hover,
-select:hover {
-    border-color: var(--budget-text);
-}
-
-input:focus,
-select:focus {
-    border-color: var(--budget-accent);
-}
-
-input[type="checkbox"] {
-    accent-color: var(--budget-accent);
-    min-height: auto;
-    width: 1rem;
-}
-
-input[type="range"] {
-    accent-color: var(--budget-accent);
-    border: 0;
-    cursor: pointer;
-    min-height: 1rem;
-    padding: 0;
-}
-
-.budgetEyebrow {
-    color: var(--budget-accent);
-    font-size: 0.68rem;
-    font-weight: 700;
+.eyebrow {
+    color: var(--accent);
+    font-size: 0.62rem;
+    font-weight: 800;
     letter-spacing: 0.12em;
     margin: 0;
     text-transform: uppercase;
 }
 
-.budgetCategoryHeader {
-    align-items: center;
-    display: flex;
-    gap: 1rem;
-    justify-content: space-between;
-    margin: 0 0.55rem 0.55rem;
-}
-
-.budgetCategoryHeader .budgetEyebrow {
-    color: var(--budget-text);
-}
-
-.budgetSectionButton {
-    min-height: 2.1rem;
-    padding-block: 0.35rem;
-}
-
-#category-nav {
-    display: grid;
-    gap: 0.5rem;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.categoryButton {
-    align-items: center;
-    background: transparent;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    color: var(--budget-text);
-    cursor: pointer;
-    display: grid;
-    gap: 0.75rem;
-    grid-template-columns: minmax(0, 1fr) auto;
-    min-height: 4rem;
-    padding: 0.65rem 0.75rem;
-    text-align: left;
-    width: 100%;
-}
-
-.categoryButton:hover {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--budget-bright);
-}
-
-.categoryButton[aria-current="true"] {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(204, 204, 204, 0.26);
-    color: var(--budget-bright);
-}
-
-.categoryCopy {
-    min-width: 0;
-}
-
-.categoryCopy strong {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
-}
-
-.categoryCopy strong {
-    font-size: 0.75rem;
-}
-
-.categoryTotal {
-    color: var(--budget-text);
-    font-size: 0.68rem;
-}
-
-.categoryTotal {
-    font-variant-numeric: tabular-nums;
-}
-
-.budgetWorkspace {
-    min-width: 0;
-}
-
-.workspaceHeading {
-    align-items: end;
-    display: flex;
-    gap: 1rem;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-}
-
-.workspaceHeading h1 {
-    color: var(--budget-bright);
-    font-size: clamp(1.4rem, 3vw, 2rem);
-    line-height: 1.15;
-    margin: 0.3rem 0 0;
-}
-
-.workspaceActions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    justify-content: flex-end;
-}
-
-.budgetItems {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.budgetItem {
-    padding: 1.15rem;
-}
-
-.itemHeader {
+.panelHeading {
     align-items: start;
-    display: grid;
-    gap: 0.75rem;
-    grid-template-columns: minmax(0, 1fr) auto;
-}
-
-.itemNameInput {
-    border-color: transparent;
-    color: var(--budget-bright);
-    font-size: 0.9rem;
-    font-weight: 700;
-    min-height: 2rem;
-    padding: 0.2rem 0;
-}
-
-.itemNameInput:focus {
-    padding-inline: 0.45rem;
-}
-
-.iconButton {
-    background: transparent;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    color: var(--budget-text);
-    cursor: pointer;
-    min-height: 2rem;
-    min-width: 2rem;
-    padding: 0.25rem;
-}
-
-.iconButton:hover {
-    border-color: var(--budget-text);
-    color: var(--budget-bright);
-}
-
-.itemAmountGrid {
-    align-items: center;
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: 145px minmax(0, 1fr) 120px;
-    margin-top: 1rem;
-}
-
-.currencyInput {
-    display: block;
-    position: relative;
-}
-
-.currencyInput > span {
-    color: var(--budget-text);
-    left: 0.65rem;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.currencyInput input {
-    font-variant-numeric: tabular-nums;
-    padding-left: 1.55rem;
-}
-
-.sliderField {
-    min-width: 0;
-}
-
-.rangeLegend {
     display: flex;
-    font-size: 0.6rem;
+    gap: 1rem;
     justify-content: space-between;
-    margin-top: 0.2rem;
 }
 
-.itemTotal {
-    background: rgba(255, 255, 255, 0.06);
-    padding: 0.65rem;
+.panelHeading h2,
+.nextFundingPanel h2,
+.dataPanel h2,
+.notepadDialog h2 {
+    color: var(--bright);
+    font-size: 0.98rem;
+    line-height: 1.3;
+    margin: 0.22rem 0 0;
+}
+
+.panelMeta {
+    color: var(--faint);
+    font-size: 0.54rem;
+    line-height: 1.45;
+    max-width: 15rem;
     text-align: right;
 }
 
-.itemTotal span,
-.itemTotal strong {
-    display: block;
-}
-
-.itemTotal span {
-    font-size: 0.58rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-}
-
-.itemTotal strong {
-    color: var(--budget-bright);
-    font-size: 0.75rem;
-    font-variant-numeric: tabular-nums;
-    margin-top: 0.25rem;
-}
-
-.itemSchedule {
-    background: rgba(255, 255, 255, 0.025);
-    border: 1px solid rgba(204, 204, 204, 0.13);
-    display: grid;
-    gap: 0.75rem;
-    grid-template-columns: 145px 1fr 1fr;
-    margin-top: 1rem;
-    padding: 0.75rem;
-}
-
-.savingsPanel {
-    border-top: 1px solid rgba(204, 204, 204, 0.15);
-    margin-top: 1rem;
-    padding-top: 0.85rem;
-}
-
-.savingsHeader {
-    align-items: center;
+.nextFundingPanel {
+    background: linear-gradient(145deg, rgba(38, 188, 137, 0.12), var(--surface));
+    border-color: rgba(38, 188, 137, 0.38);
     display: flex;
-    gap: 1rem;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 15rem;
 }
 
-.savingsHeader strong {
-    color: var(--budget-bright);
+.nextFundingPanel > strong {
+    color: var(--bright);
     display: block;
-    font-size: 0.72rem;
-}
-
-.savingsValue {
-    color: var(--budget-accent);
-    font-size: 0.72rem;
+    font-size: clamp(2rem, 4.5vw, 3rem);
     font-variant-numeric: tabular-nums;
-    white-space: nowrap;
+    letter-spacing: -0.06em;
+    margin-top: 1.25rem;
 }
 
-.savingsPanel input[type="range"] {
-    margin-top: 0.7rem;
+.nextFundingPanel > p:last-child {
+    color: var(--muted);
+    font-size: 0.67rem;
+    margin: 0.35rem 0 0;
 }
 
-.savingsSetup {
-    display: flex;
-    justify-content: flex-start;
-}
-
-.savingsAddButton {
-    min-height: 2.35rem;
-}
-
-.emptyState {
-    border: 1px dashed rgba(204, 204, 204, 0.35);
-    padding: 2.5rem 1rem;
-    text-align: center;
-}
-
-.emptyState strong {
-    color: var(--budget-bright);
-    display: block;
-    font-size: 0.85rem;
-}
-
-.emptyState p {
-    font-size: 0.7rem;
-    line-height: 1.5;
-    margin: 0.45rem auto 1rem;
-    max-width: 34rem;
-}
-
-.resultSummary {
-    background: linear-gradient(145deg, rgba(38, 188, 137, 0.09), rgba(255, 255, 255, 0.025));
-    border-color: rgba(38, 188, 137, 0.35);
-}
-
-.resultValue {
-    color: var(--budget-bright);
-    font-size: 2.1rem;
-    font-variant-numeric: tabular-nums;
-    font-weight: 700;
-    letter-spacing: -0.04em;
-    margin: 0.55rem 0 0;
-}
-
-.resultCaption,
-.cashFlowPanel > p {
-    font-size: 0.72rem;
-    line-height: 1.45;
-    margin: 0.25rem 0 0;
-}
-
-.resultBreakdown {
-    display: grid;
-    gap: 0.5rem;
-    grid-template-columns: repeat(3, 1fr);
-    margin: 1rem 0 0;
-}
-
-.resultBreakdown div {
-    background: rgba(255, 255, 255, 0.055);
-    min-width: 0;
-    padding: 0.65rem;
-}
-
-.resultBreakdown dt {
-    font-size: 0.62rem;
-}
-
-.resultBreakdown dd {
-    color: var(--budget-bright);
-    font-size: 0.72rem;
-    font-variant-numeric: tabular-nums;
-    margin: 0.25rem 0 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.cashFlowPanel {
+    min-height: 15rem;
 }
 
 .cashFlowPanel svg {
     display: block;
-    height: auto;
-    margin-top: 0.9rem;
+    height: 11rem;
+    margin-top: 0.8rem;
     overflow: visible;
     width: 100%;
 }
 
 .cashFlowPanel .chartGrid {
-    stroke: rgba(204, 204, 204, 0.13);
+    stroke: var(--line-soft);
     stroke-width: 1;
 }
 
 .cashFlowPanel .chartZero {
-    stroke: var(--budget-bright);
-    stroke-dasharray: 4 4;
-    stroke-opacity: 0.5;
+    stroke: var(--muted);
+    stroke-dasharray: 5 5;
+    stroke-opacity: 0.65;
 }
 
 .cashFlowPanel .chartArea {
-    fill: var(--budget-accent);
-    fill-opacity: 0.12;
+    fill: var(--accent);
+    fill-opacity: 0.08;
 }
 
 .cashFlowPanel .chartLine {
     fill: none;
-    stroke: var(--budget-accent);
+    stroke: var(--accent);
     stroke-linecap: round;
     stroke-linejoin: round;
     stroke-width: 3;
 }
 
 .cashFlowPanel .chartPoint {
-    fill: var(--budget-background);
-    stroke: var(--budget-accent);
+    fill: var(--surface);
+    stroke: var(--accent);
     stroke-width: 2;
 }
 
+.cashFlowPanel .chartSelected {
+    fill: var(--accent);
+    stroke: var(--bright);
+    stroke-width: 2;
+}
+
+.cashFlowPanel .chartSelectedLine {
+    stroke: var(--bright);
+    stroke-dasharray: 3 5;
+    stroke-opacity: 0.4;
+}
+
 .cashFlowPanel text {
-    fill: var(--budget-text);
+    fill: var(--muted);
     font-family: inherit;
     font-size: 11px;
 }
 
-.budgetStatus {
-    padding: 0.9rem 1rem;
+.yearPulse {
+    margin-top: 1.4rem;
 }
 
-.budgetStatusHeader {
+.yearPulseTop,
+.yearPulseDates {
     align-items: center;
     display: flex;
-    gap: 0.55rem;
-}
-
-.statusIndicator {
-    background: var(--budget-accent);
-    display: block;
-    flex: 0 0 auto;
-    height: 0.7rem;
-    width: 0.7rem;
-}
-
-.budgetStatus.statusWarning .statusIndicator {
-    background: var(--budget-warning);
-}
-
-.budgetStatus strong {
-    color: var(--budget-bright);
-    font-size: 0.78rem;
-}
-
-.budgetStatus p {
-    font-size: 0.66rem;
-    line-height: 1.55;
-    margin: 0.35rem 0 0;
-}
-
-.spendPanel h2 {
-    margin-bottom: 0.9rem;
-}
-
-#spending-bars {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.spendRow {
-    background: transparent;
-    border: 0;
-    color: var(--budget-text);
-    cursor: pointer;
-    padding: 0;
-    text-align: left;
-    width: 100%;
-}
-
-.spendRowHeader {
-    display: flex;
-    font-size: 0.65rem;
-    gap: 0.75rem;
     justify-content: space-between;
 }
 
-.spendRowHeader span:last-child {
-    font-variant-numeric: tabular-nums;
+.yearPulseTop {
+    color: var(--muted);
+    font-size: 0.66rem;
 }
 
-.spendTrack {
-    background: rgba(204, 204, 204, 0.12);
-    display: block;
-    height: 0.35rem;
-    margin-top: 0.35rem;
+.yearPulseTop strong {
+    color: var(--bright);
+}
+
+.progressTrack {
+    background: var(--line);
+    height: 2px;
+    margin: 0.65rem 0 0.45rem;
     overflow: hidden;
 }
 
-.spendFill {
-    background: var(--budget-accent);
+.progressTrack span {
+    background: var(--accent);
     display: block;
     height: 100%;
     transition: width 180ms ease;
+    width: 0;
 }
 
-.budgetDialog {
-    background: var(--budget-background);
-    border: 1px solid var(--budget-text);
+.yearPulseDates {
+    color: var(--faint);
+    font-size: 0.55rem;
+}
+
+.weekBar {
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+    border-top: 1px solid var(--line);
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    padding: 0.9rem 1.25rem;
+}
+
+.weekArrow {
+    align-items: center;
+    background: transparent;
+    border: 1px solid var(--line);
     border-radius: 4px;
-    color: var(--budget-text);
-    max-height: calc(100vh - 2rem);
-    max-width: 34rem;
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    font-size: 1rem;
+    height: 2.75rem;
+    justify-content: center;
+    width: 2.75rem;
+}
+
+.weekArrow:hover:not(:disabled) {
+    background: #262626;
+    border-color: var(--muted);
+    color: var(--bright);
+}
+
+.weekIdentity h2 {
+    color: var(--bright);
+    font-size: clamp(1.1rem, 2.5vw, 1.45rem);
+    letter-spacing: -0.035em;
+    margin: 0.22rem 0 0;
+}
+
+.weekIdentity > p:last-child {
+    color: var(--muted);
+    font-size: 0.6rem;
+    line-height: 1.45;
+    margin: 0.3rem 0 0;
+}
+
+.weekControls {
+    align-items: center;
+    display: flex;
+    gap: 0.65rem;
+}
+
+.dateJump > span,
+.dialogFields label > span:first-child,
+.allocationInput label {
+    color: var(--muted);
+    display: block;
+    font-size: 0.55rem;
+    margin-bottom: 0.3rem;
+}
+
+input,
+select,
+textarea {
+    background: var(--background);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    color: var(--bright);
+    min-height: 2.65rem;
+    padding: 0.55rem 0.65rem;
+    width: 100%;
+}
+
+input:hover,
+select:hover,
+textarea:hover,
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--accent);
+}
+
+input[type="checkbox"] {
+    accent-color: var(--accent);
+    height: 1.1rem;
+    min-height: auto;
+    width: 1.1rem;
+}
+
+.dateJump input {
+    font-size: 0.68rem;
+    min-height: 2.2rem;
+    width: 10.5rem;
+}
+
+.metricGrid {
+    display: grid;
+    gap: 1px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    padding: 1.25rem;
+}
+
+.metricCard {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    min-width: 0;
+    padding: 1.1rem;
+}
+
+.metricCard:first-child {
+    border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.metricCard:last-child {
+    border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.metricPrimary {
+    background: var(--accent-soft);
+    border-color: rgba(38, 188, 137, 0.4);
+}
+
+.metricLabel,
+.metricCard strong,
+.metricCard small {
+    display: block;
+}
+
+.metricLabel {
+    color: var(--muted);
+    font-size: 0.58rem;
+}
+
+.metricCard strong {
+    color: var(--bright);
+    font-size: clamp(1.35rem, 3vw, 1.85rem);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.045em;
+    margin-top: 0.45rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.metricCard small {
+    color: var(--faint);
+    font-size: 0.53rem;
+    line-height: 1.4;
+    margin-top: 0.3rem;
+}
+
+.metricCard.isNegative strong {
+    color: var(--warning);
+}
+
+.workspaceGrid {
+    display: grid;
+    gap: 1.1rem;
+    grid-template-columns: minmax(0, 1fr) 21.5rem;
+    padding: 0 1.25rem 4rem;
+}
+
+.workspaceMain,
+.workspaceSide {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    min-width: 0;
+}
+
+.workspaceSide {
+    align-self: start;
+    position: sticky;
+    top: 5rem;
+}
+
+.checkProgress {
+    background: var(--line);
+    height: 2px;
+    margin-top: 1rem;
+    overflow: hidden;
+}
+
+.checkProgress span {
+    background: var(--accent);
+    display: block;
+    height: 100%;
+    transition: width 180ms ease;
+    width: 0;
+}
+
+.checkProgressLabel {
+    color: var(--faint);
+    font-size: 0.52rem;
+    margin: 0.4rem 0 0.6rem;
+}
+
+.checklist {
+    display: grid;
+    gap: 0.55rem;
+}
+
+.checkRow {
+    align-items: start;
+    background: rgba(255, 255, 255, 0.018);
+    border: 1px solid var(--line-soft);
+    border-radius: 5px;
+    cursor: pointer;
+    display: grid;
+    gap: 0.7rem;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    min-height: 3.3rem;
+    padding: 0.7rem;
+}
+
+.checkRow input {
+    margin: 0.12rem 0 0;
+}
+
+.checkRow strong,
+.checkRow small {
+    display: block;
+}
+
+.checkRow strong {
+    color: var(--bright);
+    font-size: 0.66rem;
+    line-height: 1.45;
+}
+
+.checkRow small {
+    color: var(--muted);
+    font-size: 0.53rem;
+    line-height: 1.45;
+    margin-top: 0.15rem;
+}
+
+.checkRow.isDone {
+    opacity: 0.55;
+}
+
+.checkRow.isDone strong {
+    text-decoration: line-through;
+}
+
+.checkRemove,
+.deleteButton,
+.dialogClose {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    color: var(--faint);
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    min-height: 2.75rem;
+    min-width: 2.75rem;
+    padding: 0;
+}
+
+.checkRemove:hover,
+.deleteButton:hover,
+.dialogClose:hover {
+    color: var(--warning);
+}
+
+.quickTask {
+    border-top: 1px solid var(--line);
+    margin-top: 0.9rem;
+    padding-top: 0.8rem;
+}
+
+.quickTask > label {
+    color: var(--muted);
+    display: block;
+    font-size: 0.58rem;
+    margin-bottom: 0.4rem;
+}
+
+.quickTask > div {
+    display: grid;
+    gap: 0.45rem;
+    grid-template-columns: minmax(0, 1fr) 9.4rem auto;
+}
+
+.quickTask input {
+    font-size: 0.68rem;
+}
+
+.button {
+    align-items: center;
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    color: var(--background);
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 0.66rem;
+    font-weight: 800;
+    justify-content: center;
+    min-height: 2.75rem;
+    padding: 0.58rem 0.75rem;
+}
+
+.button:hover:not(:disabled) {
+    background: var(--bright);
+    border-color: var(--bright);
+}
+
+.buttonGhost {
+    background: transparent;
+    border-color: var(--line);
+    color: var(--text);
+}
+
+.buttonGhost:hover:not(:disabled) {
+    background: #262626;
+    border-color: var(--muted);
+    color: var(--bright);
+}
+
+.weekCalendar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    margin-top: 1rem;
+}
+
+.calendarDay {
+    align-items: stretch;
+    background: rgba(255, 255, 255, 0.015);
+    border: 1px solid var(--line-soft);
+    border-radius: 5px;
+    display: grid;
+    gap: 0.8rem;
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+    min-height: 4rem;
+    padding: 0.65rem;
+}
+
+.calendarDay.isToday {
+    border-color: var(--accent);
+}
+
+.calendarDay.isOutside {
+    opacity: 0.28;
+}
+
+.calendarDayHeader {
+    align-content: start;
+    border-right: 1px solid var(--line);
+    display: grid;
+    gap: 0.15rem;
+    padding-right: 0.7rem;
+}
+
+.calendarDayName {
+    color: var(--muted);
+    font-size: 0.54rem;
+    text-transform: uppercase;
+}
+
+.calendarDayNumber {
+    color: var(--bright);
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.calendarDayCount {
+    color: var(--faint);
+    font-size: 0.48rem;
+}
+
+.calendarDay.isToday .calendarDayNumber {
+    color: var(--accent);
+}
+
+.calendarEntries {
+    align-content: start;
+    display: grid;
+    gap: 0.35rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.calendarEntry {
+    align-items: center;
+    background: rgba(255, 255, 255, 0.025);
+    border-left: 2px solid var(--text);
+    border-radius: 2px;
+    color: var(--text);
+    display: grid;
+    gap: 0.2rem;
+    grid-template-columns: minmax(0, 1fr) auto;
+    min-width: 0;
+    padding: 0.42rem 0.5rem;
+}
+
+.calendarEntry strong {
+    font-size: 0.55rem;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.calendarEntry small {
+    color: var(--muted);
+    font-size: 0.5rem;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.calendarEntry.isIncome {
+    border-color: var(--accent);
+}
+
+.calendarEntry.isTask {
+    border-color: #d6c767;
+}
+
+.calendarEntry.isDone {
+    opacity: 0.45;
+}
+
+.calendarEntry.isDone strong {
+    text-decoration: line-through;
+}
+
+.calendarEmpty {
+    align-self: center;
+    color: var(--faint);
+    font-size: 0.55rem;
+}
+
+.ledgerHeading {
+    align-items: center;
+}
+
+.ledgerActions,
+.dataActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    justify-content: flex-end;
+}
+
+.ledgerLegend {
+    border-bottom: 1px solid var(--line);
+    color: var(--faint);
+    display: flex;
+    font-size: 0.53rem;
+    gap: 1rem;
+    justify-content: space-between;
+    margin-top: 1rem;
+    padding-bottom: 0.65rem;
+}
+
+.ledgerList {
+    display: flex;
+    flex-direction: column;
+}
+
+.ledgerRow {
+    align-items: center;
+    border-bottom: 1px solid var(--line-soft);
+    display: grid;
+    gap: 0.7rem;
+    grid-template-columns: 2rem 4.4rem minmax(0, 1fr) auto 6.5rem 2.75rem;
+    min-height: 4.3rem;
+    padding: 0.6rem 0;
+}
+
+.ledgerRow:last-child {
+    border-bottom: 0;
+}
+
+.ledgerRow.isDone .ledgerName {
+    color: var(--muted);
+    text-decoration: line-through;
+}
+
+.ledgerCheck {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    min-height: 2.75rem;
+}
+
+.ledgerCheck input {
+    margin: 0;
+}
+
+.ledgerDate {
+    color: var(--muted);
+    font-size: 0.58rem;
+}
+
+.ledgerCopy {
+    min-width: 0;
+}
+
+.ledgerName,
+.ledgerNote {
+    display: block;
+}
+
+.ledgerName {
+    color: var(--bright);
+    font-size: 0.65rem;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.ledgerNote {
+    color: var(--faint);
+    font-size: 0.52rem;
+    line-height: 1.45;
+    margin-top: 0.15rem;
+}
+
+.categoryPill {
+    background: rgba(204, 204, 204, 0.06);
+    border-radius: 999px;
+    color: var(--text);
+    font-size: 0.5rem;
+    padding: 0.28rem 0.42rem;
+    white-space: nowrap;
+}
+
+.categoryPill.isIncome {
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
+.ledgerAmount {
+    color: var(--bright);
+    font-size: 0.65rem;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.ledgerAmount.isIncome {
+    color: var(--accent);
+}
+
+.emptyMessage {
+    border: 1px dashed var(--line);
+    color: var(--muted);
+    font-size: 0.62rem;
+    line-height: 1.55;
+    margin-top: 0.9rem;
+    padding: 1rem;
+    text-align: center;
+}
+
+.sectionIntro {
+    color: var(--muted);
+    font-size: 0.58rem;
+    line-height: 1.55;
+    margin: 0.4rem 0 0;
+}
+
+.outlookValue {
+    color: var(--accent);
+    font-size: 1.2rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.04em;
+}
+
+.outlookValue.isNegative {
+    color: var(--warning);
+}
+
+.annualTotals {
+    border-bottom: 1px solid var(--line);
+    border-top: 1px solid var(--line);
+    margin: 0.9rem 0;
+    padding: 0.35rem 0;
+}
+
+.annualTotals div {
+    align-items: center;
+    display: flex;
+    font-size: 0.55rem;
+    justify-content: space-between;
+    padding: 0.34rem 0;
+}
+
+.annualTotals dt {
+    color: var(--muted);
+}
+
+.annualTotals dd {
+    color: var(--bright);
+    font-variant-numeric: tabular-nums;
+    margin: 0;
+}
+
+.annualBars {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.annualBarHeader {
+    align-items: center;
+    display: flex;
+    font-size: 0.5rem;
+    gap: 0.5rem;
+    justify-content: space-between;
+}
+
+.annualBarHeader span:first-child {
+    color: var(--muted);
+}
+
+.annualBarHeader span:last-child {
+    color: var(--bright);
+    font-variant-numeric: tabular-nums;
+}
+
+.annualBarTrack {
+    background: var(--line);
+    height: 2px;
+    margin-top: 0.27rem;
+    overflow: hidden;
+}
+
+.annualBarFill {
+    background: var(--accent);
+    display: block;
+    height: 100%;
+}
+
+.annualBar.isOver .annualBarFill {
+    background: var(--warning);
+}
+
+.dataPanel p:not(.eyebrow) {
+    color: var(--muted);
+    font-size: 0.56rem;
+    line-height: 1.55;
+    margin: 0.7rem 0;
+}
+
+.dataActions {
+    justify-content: flex-start;
+}
+
+.textButton {
+    background: transparent;
+    border: 0;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.54rem;
+    margin-top: 0.8rem;
+    min-height: 2.75rem;
+    padding: 0;
+    text-decoration: underline;
+    text-underline-offset: 0.22em;
+}
+
+.textButton:hover {
+    color: var(--bright);
+}
+
+.dangerText {
+    color: var(--warning);
+}
+
+.notepadDialog {
+    background: var(--surface);
+    border: 1px solid var(--muted);
+    border-radius: var(--radius);
+    color: var(--text);
+    max-height: calc(100dvh - 2rem);
+    max-width: 38rem;
     padding: 0;
     width: calc(100% - 2rem);
 }
 
-.budgetDialog::backdrop {
-    background: rgba(12, 12, 12, 0.82);
+.notepadDialog::backdrop {
+    background: rgba(0, 0, 0, 0.8);
 }
 
-.budgetDialog form > header {
-    border-bottom: 1px solid rgba(204, 204, 204, 0.16);
+.notepadDialog form > header {
+    align-items: start;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
     padding: 1rem;
 }
 
 .dialogFields {
     display: grid;
-    gap: 0.85rem;
+    gap: 0.8rem;
     grid-template-columns: 1fr 1fr;
     padding: 1rem;
 }
 
-.dialogFieldWide {
+.fieldWide {
     grid-column: 1 / -1;
 }
 
-.budgetDialog form > footer {
-    border-top: 1px solid rgba(204, 204, 204, 0.16);
+.currencyField {
+    display: block;
+    position: relative;
+}
+
+.currencyField > span {
+    color: var(--muted);
+    font-size: 0.7rem;
+    left: 0.65rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.currencyField input {
+    font-variant-numeric: tabular-nums;
+    padding-left: 1.45rem;
+}
+
+.notepadDialog form > footer {
+    border-top: 1px solid var(--line);
     display: flex;
     gap: 0.5rem;
     justify-content: flex-end;
     padding: 1rem;
 }
 
+.dialogIntro {
+    color: var(--muted);
+    font-size: 0.58rem;
+    line-height: 1.55;
+    margin: 0;
+    padding: 1rem 1rem 0;
+}
+
+.allocationDialog {
+    max-width: 48rem;
+}
+
+.allocationDialog form {
+    max-height: calc(100dvh - 2rem);
+    overflow: auto;
+}
+
+.allocationGrid {
+    display: grid;
+    gap: 0.6rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 1rem;
+}
+
+.allocationCard {
+    background: rgba(255, 255, 255, 0.018);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 0.8rem;
+}
+
+.allocationCard.isOver {
+    border-color: var(--warning);
+}
+
+.allocationTop {
+    align-items: start;
+    display: grid;
+    gap: 0.7rem;
+    grid-template-columns: minmax(0, 1fr) 7.5rem;
+}
+
+.categoryName {
+    align-items: center;
+    display: flex;
+    gap: 0.55rem;
+    min-width: 0;
+}
+
+.categoryCode {
+    align-items: center;
+    background: var(--accent-soft);
+    border-radius: 3px;
+    color: var(--accent);
+    display: flex;
+    flex: 0 0 auto;
+    font-size: 0.46rem;
+    font-weight: 900;
+    height: 1.9rem;
+    justify-content: center;
+    width: 2rem;
+}
+
+.categoryName strong,
+.categoryName small,
+.allocationStats span,
+.allocationStats strong {
+    display: block;
+}
+
+.categoryName strong {
+    color: var(--bright);
+    font-size: 0.62rem;
+}
+
+.categoryName small {
+    color: var(--faint);
+    font-size: 0.48rem;
+    margin-top: 0.15rem;
+}
+
+.allocationInput input {
+    font-size: 0.7rem;
+    min-height: 2.25rem;
+}
+
+.allocationStats {
+    border-top: 1px solid var(--line-soft);
+    display: grid;
+    gap: 0.4rem;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 0.65rem;
+    padding-top: 0.6rem;
+}
+
+.allocationStats span {
+    color: var(--faint);
+    font-size: 0.46rem;
+}
+
+.allocationStats strong {
+    color: var(--bright);
+    font-size: 0.56rem;
+    font-variant-numeric: tabular-nums;
+    margin-top: 0.15rem;
+}
+
+.allocationStats div:last-child {
+    text-align: right;
+}
+
+.allocationStats .negative {
+    color: var(--warning);
+}
+
+.allocationStats .positive {
+    color: var(--accent);
+}
+
+.toast {
+    background: var(--bright);
+    border-radius: 4px;
+    bottom: calc(1rem + env(safe-area-inset-bottom));
+    color: var(--background);
+    font-size: 0.64rem;
+    left: 50%;
+    opacity: 0;
+    padding: 0.75rem 0.9rem;
+    pointer-events: none;
+    position: fixed;
+    transform: translate(-50%, 1rem);
+    transition: opacity 160ms ease, transform 160ms ease;
+    z-index: 90;
+}
+
+.toast.isVisible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
 .printOnly {
     display: none;
 }
 
-@media (max-width: 68rem) {
-    .budgetLayout {
-        grid-template-columns: minmax(0, 40rem);
-        max-width: calc(40rem + 3.5rem);
+@media (max-width: 64rem) {
+    .workspaceGrid {
+        grid-template-columns: minmax(0, 1fr);
     }
 
-    .budgetResults {
+    .workspaceSide {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.65fr);
         position: static;
-        width: 100%;
     }
 }
 
-@media (max-width: 760px) {
-    .budgetHeaderInner {
-        grid-template-columns: minmax(0, 1fr);
-        justify-items: center;
+@media (max-width: 48rem) {
+    .appHeaderInner {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.45rem;
     }
 
-    .budgetWorksLink {
-        grid-row: 2;
-        justify-self: center;
-    }
-
-    .budgetBrand {
-        grid-row: 1;
-    }
-
-    .budgetHeaderActions {
-        grid-row: 3;
-        justify-self: stretch;
+    .siteNav {
+        justify-content: flex-start;
         width: 100%;
     }
 
-    .budgetHeaderActions .budgetButton {
-        flex: 1;
+    .siteNav a {
+        min-height: 2.25rem;
+        padding-inline: 0.45rem;
     }
 
-    .workspaceHeading {
+    .overviewGrid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .nextFundingPanel {
+        min-height: 10.5rem;
+    }
+
+    .cashFlowPanel {
+        min-height: auto;
+    }
+
+    .metricGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .metricCard:first-child {
+        border-radius: var(--radius) 0 0 0;
+    }
+
+    .metricCard:nth-child(2) {
+        border-radius: 0 var(--radius) 0 0;
+    }
+
+    .metricCard:nth-child(3) {
+        border-radius: 0 0 0 var(--radius);
+    }
+
+    .metricCard:last-child {
+        border-radius: 0 0 var(--radius) 0;
+    }
+
+    .workspaceSide {
+        display: flex;
+    }
+
+    .calendarEntries {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .ledgerHeading {
         align-items: stretch;
         flex-direction: column;
     }
 
-    .workspaceActions {
+    .ledgerActions {
         justify-content: flex-start;
     }
 
-    .itemAmountGrid,
-    .itemSchedule {
-        grid-template-columns: minmax(0, 1fr);
+    .ledgerLegend span:first-child {
+        display: none;
     }
 
-    .itemTotal {
-        text-align: left;
+    .ledgerLegend {
+        justify-content: flex-end;
+    }
+
+    .ledgerRow {
+        align-items: center;
+        gap: 0.2rem 0.6rem;
+        grid-template-columns: 2rem minmax(0, 1fr) auto 2.75rem;
+        padding: 0.75rem 0;
+    }
+
+    .ledgerCheck {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+    }
+
+    .ledgerDate {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .ledgerCopy {
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    .categoryPill {
+        display: none;
+    }
+
+    .ledgerAmount {
+        grid-column: 3;
+        grid-row: 1 / span 2;
+    }
+
+    .deleteButton {
+        grid-column: 4;
+        grid-row: 1 / span 2;
     }
 }
 
-@media (max-width: 460px) {
-    .budgetCategoryNav #category-nav,
-    .budgetDateGrid,
-    .dialogFields {
+@media (max-width: 38rem) {
+    .appHeader {
+        position: static;
+    }
+
+    .appHeaderInner,
+    .overview,
+    .weekBar,
+    .metricGrid,
+    .workspaceGrid {
+        padding-left: max(0.85rem, env(safe-area-inset-left));
+        padding-right: max(0.85rem, env(safe-area-inset-right));
+    }
+
+    .studioTitle {
+        font-size: 0.85rem;
+    }
+
+    .overview {
+        padding-top: 1.25rem;
+    }
+
+    .cashFlowPanel .panelMeta {
+        display: none;
+    }
+
+    .cashFlowPanel svg {
+        height: 9rem;
+    }
+
+    .weekBar {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+    }
+
+    .weekControls {
+        display: contents;
+    }
+
+    .dateJump {
+        display: block;
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+
+    .dateJump input {
+        font-size: 16px;
+        min-height: 44px;
+        width: 100%;
+    }
+
+    .weekControls .weekArrow {
+        grid-column: 3;
+        grid-row: 1;
+    }
+
+    .weekArrow,
+    .button,
+    .siteNav a,
+    .textButton,
+    .checkRemove,
+    .deleteButton,
+    .dialogClose {
+        min-height: 44px;
+    }
+
+    .skipLink,
+    .studioTitle a,
+    input,
+    select,
+    textarea {
+        min-height: 44px;
+    }
+
+    .studioTitle a {
+        align-items: center;
+        display: inline-flex;
+    }
+
+    .siteNav a {
+        min-width: 44px;
+    }
+
+    .weekArrow,
+    .deleteButton,
+    .dialogClose {
+        min-width: 44px;
+    }
+
+    .weekIdentity > p:last-child {
+        display: none;
+    }
+
+    .metricGrid {
+        padding-top: 0.85rem;
+        padding-bottom: 0.85rem;
+    }
+
+    .metricCard {
+        padding: 0.85rem;
+    }
+
+    .metricCard strong {
+        font-size: 1.25rem;
+    }
+
+    .panel {
+        padding: 0.9rem;
+    }
+
+    .panelHeading {
+        gap: 0.65rem;
+    }
+
+    .panelMeta {
+        max-width: 9rem;
+    }
+
+    .quickTask > div {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .quickTask input[type="date"] {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+
+    input,
+    select,
+    textarea,
+    .quickTask input,
+    .allocationInput input {
+        font-size: 16px;
+    }
+
+    .calendarDay {
+        gap: 0.65rem;
+        grid-template-columns: 3.6rem minmax(0, 1fr);
+        padding: 0.6rem;
+    }
+
+    .calendarDayHeader {
+        padding-right: 0.55rem;
+    }
+
+    .calendarEntry {
         grid-template-columns: minmax(0, 1fr);
     }
 
-    .dialogFieldWide {
+    .calendarEntry small {
+        white-space: normal;
+    }
+
+    .ledgerActions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .ledgerActions .button {
+        padding-inline: 0.55rem;
+    }
+
+    .ledgerAmount {
+        font-size: 0.6rem;
+    }
+
+    .dialogFields,
+    .allocationGrid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .fieldWide {
         grid-column: auto;
     }
 
-    .resultBreakdown {
+    .notepadDialog {
+        border-bottom: 0;
+        border-radius: var(--radius) var(--radius) 0 0;
+        bottom: 0;
+        margin: auto 0 0;
+        max-height: calc(100dvh - env(safe-area-inset-top) - 1rem);
+        max-width: none;
+        width: 100%;
+    }
+
+    .notepadDialog form > footer {
+        padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+    }
+
+    .allocationDialog form {
+        max-height: calc(100dvh - env(safe-area-inset-top) - 1rem);
+    }
+}
+
+@media (max-width: 23rem) {
+    .siteNav {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .siteNav a {
+        font-size: 0.62rem;
+        padding-inline: 0.25rem;
+    }
+
+    .weekBar {
+        gap: 0.55rem;
+    }
+
+    .weekIdentity h2 {
+        font-size: 1rem;
+    }
+
+    .metricCard strong {
+        font-size: 1.08rem;
+    }
+
+    .ledgerActions {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .ledgerRow {
+        grid-template-columns: 2rem minmax(0, 1fr) auto;
+    }
+
+    .ledgerAmount {
+        grid-column: 3;
+    }
+
+    .deleteButton {
+        grid-column: 3;
+        grid-row: 3;
+    }
+
+    .allocationTop {
         grid-template-columns: minmax(0, 1fr);
     }
 }
@@ -868,13 +1588,14 @@ input[type="range"] {
 
     html,
     .budgetStudioBody {
-        background: var(--budget-bright) !important;
-        color: var(--budget-background) !important;
+        background: #fff !important;
+        color: #111 !important;
     }
 
     .screenOnly,
     .skipLink,
-    .budgetDialog {
+    .notepadDialog,
+    .toast {
         display: none !important;
     }
 
@@ -883,123 +1604,97 @@ input[type="range"] {
     }
 
     .printReport {
-        color: var(--budget-background);
+        color: #111;
         font-family: Arial, sans-serif;
         font-size: 9pt;
     }
 
-    .printReportHeader,
-    .printReportSectionHeader,
-    .printReportFooter {
-        align-items: center;
+    .printReportHeader {
+        align-items: end;
+        border-bottom: 3px solid #26bc89;
         display: flex;
-        gap: 1rem;
         justify-content: space-between;
+        padding-bottom: 10mm;
     }
 
-    .printReportHeader {
-        border-bottom: 2px solid var(--budget-accent);
-        padding-bottom: 1rem;
+    .printReportHeader p,
+    .printReportHeader h1 {
+        margin: 0;
     }
 
     .printReportHeader h1 {
-        font-size: 24pt;
-        margin: 0.2rem 0 0;
+        font-size: 25pt;
+        margin-top: 2mm;
     }
 
     .printReportKicker {
-        color: var(--budget-accent);
-        font-size: 8pt;
+        color: #16825c;
+        font-size: 7pt;
         font-weight: 700;
         letter-spacing: 0.12em;
-        margin: 0;
         text-transform: uppercase;
     }
 
-    .printReportSubtitle {
-        color: var(--budget-background);
-        margin: 0.35rem 0 0;
+    .printReportWeek {
+        color: #555;
+        font-size: 9pt;
+        text-align: right;
     }
 
-    .printReportMark {
-        align-items: center;
-        background: var(--budget-accent);
-        color: var(--budget-background);
-        display: flex;
-        font-size: 13pt;
-        font-weight: 800;
-        height: 42px;
-        justify-content: center;
-        width: 42px;
-    }
-
-    .printReportSummary {
+    .printSummary {
         display: grid;
-        gap: 0.6rem;
+        gap: 3mm;
         grid-template-columns: repeat(4, 1fr);
-        margin: 1rem 0;
+        margin-top: 7mm;
     }
 
-    .printReportSummary div {
-        border: 1px solid var(--budget-text);
-        padding: 0.65rem;
+    .printSummary div {
+        border: 1px solid #bbb;
+        padding: 3mm;
     }
 
-    .printReportSummary span,
-    .printReportSummary strong {
+    .printSummary span,
+    .printSummary strong {
         display: block;
     }
 
-    .printReportSummary span {
-        font-size: 7.5pt;
+    .printSummary span {
+        color: #555;
+        font-size: 7pt;
     }
 
-    .printReportSummary strong {
-        font-size: 11pt;
-        margin-top: 0.25rem;
-    }
-
-    .printReportSection {
-        break-inside: avoid;
-        margin-top: 1rem;
-    }
-
-    .printReportSection h2 {
-        color: var(--budget-background);
+    .printSummary strong {
         font-size: 12pt;
-        margin: 0 0 0.4rem;
+        margin-top: 1mm;
     }
 
-    .printReportSectionHeader h2 {
-        margin: 0;
+    .printSection {
+        break-inside: avoid;
+        margin-top: 7mm;
     }
 
-    .printReportSectionHeader strong {
-        color: var(--budget-accent);
-    }
-
-    .printReportSection p,
-    .printReportSection li {
-        line-height: 1.45;
+    .printSection h2 {
+        border-bottom: 1px solid #222;
+        font-size: 12pt;
+        margin: 0 0 2mm;
+        padding-bottom: 1.5mm;
     }
 
     .printReport table {
         border-collapse: collapse;
-        font-size: 7.5pt;
-        margin-top: 0.4rem;
+        font-size: 8pt;
         width: 100%;
     }
 
     .printReport th,
     .printReport td {
-        border-bottom: 1px solid var(--budget-text);
-        padding: 0.35rem 0.4rem;
+        border-bottom: 1px solid #ddd;
+        padding: 2mm;
         text-align: left;
-        vertical-align: top;
     }
 
     .printReport th {
-        background: rgba(204, 204, 204, 0.28);
+        background: #eef8f4;
         font-size: 7pt;
         text-transform: uppercase;
     }
@@ -1009,10 +1704,23 @@ input[type="range"] {
         white-space: nowrap;
     }
 
-    .printReportFooter {
-        border-top: 1px solid var(--budget-text);
-        font-size: 7.5pt;
-        margin-top: 1.25rem;
-        padding-top: 0.6rem;
+    .printChecklist {
+        margin: 0;
+        padding-left: 5mm;
+    }
+
+    .printChecklist li {
+        line-height: 1.5;
+        margin-bottom: 1mm;
+    }
+
+    .printFooter {
+        border-top: 1px solid #aaa;
+        color: #555;
+        display: flex;
+        font-size: 7pt;
+        justify-content: space-between;
+        margin-top: 8mm;
+        padding-top: 2mm;
     }
 }

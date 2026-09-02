@@ -2,187 +2,194 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#0C0C0C">
-    <meta
-      name="description"
-      content="A configurable budgeting planner with live projections, local backups, and printable reports."
-    >
-    <title>/ SvS / Budget Studio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#0c0c0c">
+    <meta name="description" content="Budget Studio 2026-27: a private weekly university budget and payment tracker.">
+    <title>/ SvS / Budget Studio 26-27</title>
     <link rel="icon" type="image/x-icon" href="../css/Images/web/site-favicon.jpg">
     <link rel="stylesheet" href="../css/budget-studio.css">
     <script src="../js/budget-studio.js" defer></script>
   </head>
   <body class="budgetStudioBody">
-    <a class="skipLink" href="#budget-workspace">Skip to the budget editor</a>
+    <a class="skipLink" href="#week-workspace">Skip to this week</a>
 
     <main class="budgetApp screenOnly" id="budget-app">
-      <header class="budgetHeader">
-        <div class="budgetHeaderInner">
-          <a class="budgetWorksLink" href="../projects/">&larr; My other works</a>
-          <div class="budgetBrand">
-            <div>
-              <p class="budgetBrandTitle">SvS's Budget Studio</p>
-            </div>
-          </div>
-          <div class="budgetHeaderActions">
-            <button class="budgetButton budgetButtonSecondary" id="export-plan" type="button">Back up</button>
-            <button class="budgetButton" id="print-plan" type="button">Build PDF</button>
-          </div>
+      <header class="appHeader">
+        <div class="appHeaderInner">
+          <h1 class="studioTitle"><a href="./">Budget Studio <span>26-27</span></a></h1>
+          <nav class="siteNav" aria-label="Primary navigation">
+            <a href="../">Home</a>
+            <a href="../about/">About</a>
+            <a href="../projects/" aria-current="page">Projects</a>
+            <a href="../blog/">Blog</a>
+          </nav>
         </div>
       </header>
 
-      <div class="budgetLayout">
-        <div class="budgetMainColumn">
-          <section class="budgetPanel budgetPeriodPanel" aria-labelledby="period-heading">
-            <header class="budgetPeriodHeader">
-              <div>
-                <p class="budgetEyebrow">Projection range</p>
-                <h2 id="period-heading">Budget period</h2>
-              </div>
-              <button class="budgetButton budgetButtonSecondary" id="reset-plan" type="button">Reset plan</button>
-            </header>
-            <div class="budgetDateGrid">
-              <label class="budgetOwnerField">
-                <span>Your name</span>
-                <input id="budget-owner" type="text" maxlength="100" autocomplete="name" placeholder="Enter your name">
-              </label>
-              <label>
-                <span>Starts</span>
-                <input id="budget-start" type="date">
-              </label>
-              <label>
-                <span>Ends</span>
-                <input id="budget-end" type="date">
-              </label>
-            </div>
+      <section class="overview" aria-label="Budget year overview">
+        <div class="overviewGrid">
+          <section class="panel nextFundingPanel" aria-labelledby="next-funding-heading">
+            <p class="eyebrow">Next funding point</p>
+            <h2 id="next-funding-heading">Maintenance Loan 1</h2>
+            <strong id="next-funding-amount">&pound;3,008.94</strong>
+            <p id="next-funding-date">21 September 2026</p>
           </section>
 
-          <nav class="budgetCategoryNav" aria-label="Budget sections">
-            <div class="budgetCategoryHeader">
-              <p class="budgetEyebrow">Plan sections</p>
-              <button class="budgetButton budgetButtonSecondary budgetSectionButton" id="open-add-section" type="button">+ Add section</button>
+          <section class="panel cashFlowPanel" aria-labelledby="cash-flow-heading">
+            <div class="panelHeading">
+              <div><p class="eyebrow">Cash flow</p><h2 id="cash-flow-heading">Year runway</h2></div>
+              <span class="panelMeta">Liquid balance after scheduled payments</span>
             </div>
-            <div id="category-nav"></div>
-          </nav>
-
-          <section class="budgetWorkspace" id="budget-workspace" aria-labelledby="section-title">
-            <header class="workspaceHeading">
-              <div>
-                <p class="budgetEyebrow" id="section-kicker">Money in</p>
-                <h1 id="section-title">Education &amp; funding</h1>
-              </div>
-              <div class="workspaceActions">
-                <button class="budgetButton budgetButtonSecondary" id="remove-section" type="button">Remove section</button>
-                <button class="budgetButton" id="open-add-item" type="button">+ Add item</button>
-              </div>
-            </header>
-
-            <div class="budgetItems" id="budget-items" aria-live="polite"></div>
+            <svg id="cash-flow-chart" viewBox="0 0 720 230" role="img" aria-labelledby="cash-flow-chart-title cash-flow-chart-description">
+              <title id="cash-flow-chart-title">Weekly projected liquid balance</title>
+              <desc id="cash-flow-chart-description">A line chart showing projected liquid cash across the 2026-27 university year.</desc>
+            </svg>
           </section>
         </div>
 
-        <aside class="budgetResults" aria-label="Budget results">
-          <section class="budgetPanel resultSummary">
-            <p class="budgetEyebrow">Live result</p>
-            <p class="resultValue" id="result-liquid">&pound;0.00</p>
-            <p class="resultCaption">Projected liquid cash at the end</p>
-            <dl class="resultBreakdown">
-              <div><dt>Income</dt><dd id="result-income">&pound;0.00</dd></div>
-              <div><dt>Spending</dt><dd id="result-spending">&pound;0.00</dd></div>
-              <div><dt>Savings</dt><dd id="result-savings">&pound;0.00</dd></div>
+        <div class="yearPulse" aria-label="Annual budget progress">
+          <div class="yearPulseTop"><span>University year</span><strong id="year-progress-label">0% through plan</strong></div>
+          <div class="progressTrack"><span id="year-progress-bar"></span></div>
+          <div class="yearPulseDates"><span>21 Sep 2026</span><span>20 Sep 2027</span></div>
+        </div>
+      </section>
+
+      <section class="weekBar" id="week-workspace" aria-labelledby="week-heading">
+        <button class="weekArrow" id="previous-week" type="button" aria-label="Previous week">&larr;</button>
+        <div class="weekIdentity">
+          <p class="eyebrow" id="week-number">Week 01 / 53</p>
+          <h2 id="week-heading">21-27 September 2026</h2>
+          <p id="week-context">Opening week before teaching</p>
+        </div>
+        <div class="weekControls">
+          <label class="dateJump"><span>Jump to date</span><input id="jump-date" type="date" min="2026-09-21" max="2027-09-20"></label>
+          <button class="weekArrow" id="next-week" type="button" aria-label="Next week">&rarr;</button>
+        </div>
+      </section>
+
+      <section class="metricGrid" aria-label="This week's money summary">
+        <article class="metricCard metricPrimary">
+          <span class="metricLabel">Still available</span>
+          <strong id="metric-available">&pound;0.00</strong>
+          <small id="metric-available-note">Includes every earlier balance</small>
+        </article>
+        <article class="metricCard">
+          <span class="metricLabel">Weekly budget</span>
+          <strong id="metric-allocation">&pound;0.00</strong>
+          <small>Scheduled for this week</small>
+        </article>
+        <article class="metricCard">
+          <span class="metricLabel">Paid / logged</span>
+          <strong id="metric-spent">&pound;0.00</strong>
+          <small id="metric-spent-note">0 entries completed</small>
+        </article>
+        <article class="metricCard">
+          <span class="metricLabel">Projected close</span>
+          <strong id="metric-close">&pound;0.00</strong>
+          <small>Liquid cash after this week</small>
+        </article>
+      </section>
+
+      <div class="workspaceGrid">
+        <div class="workspaceMain">
+          <section class="panel checklistPanel" aria-labelledby="checklist-heading">
+            <div class="panelHeading">
+              <div><p class="eyebrow">Action needed</p><h2 id="checklist-heading">Confirmations</h2></div>
+              <span class="panelMeta">Important or unconfirmed payments only</span>
+            </div>
+            <div class="checkProgress"><span id="check-progress-bar"></span></div>
+            <p class="checkProgressLabel" id="check-progress-label">0 of 0 complete</p>
+            <div class="checklist" id="checklist"></div>
+            <form class="quickTask" id="quick-task-form">
+              <label for="quick-task">Add a reminder</label>
+              <div><input id="quick-task" type="text" maxlength="140" placeholder="Payment or date to confirm" required><input id="quick-task-date" type="date" min="2026-09-21" max="2027-09-20" aria-label="Reminder date" required><button class="button" type="submit">Add</button></div>
+            </form>
+          </section>
+
+          <section class="panel calendarPanel" aria-labelledby="calendar-heading">
+            <div class="panelHeading">
+              <div><p class="eyebrow">Calendar</p><h2 id="calendar-heading">The week at a glance</h2></div>
+              <span class="panelMeta" id="week-due-count">0 things due</span>
+            </div>
+            <div class="weekCalendar" id="week-calendar"></div>
+          </section>
+
+          <section class="panel ledgerPanel" aria-labelledby="ledger-heading">
+            <div class="panelHeading ledgerHeading">
+              <div>
+                <p class="eyebrow">Purchases + payments</p>
+                <h2 id="ledger-heading">Tick each payment as it moves</h2>
+              </div>
+              <div class="ledgerActions">
+                <button class="button buttonGhost" id="open-allocations" type="button">Adjust weekly limits</button>
+                <button class="button" id="open-purchase" type="button">+ Record purchase</button>
+              </div>
+            </div>
+            <div class="ledgerLegend"><span>The PDF schedule stays as the baseline; tick an item once paid.</span><span id="ledger-progress">0 / 0 planned complete</span></div>
+            <div class="ledgerList" id="ledger-list"></div>
+          </section>
+        </div>
+
+        <aside class="workspaceSide">
+          <section class="panel outlookPanel" aria-labelledby="outlook-heading">
+            <div class="panelHeading">
+              <div><p class="eyebrow">Whole year</p><h2 id="outlook-heading">Annual outlook</h2></div>
+              <strong class="outlookValue" id="outlook-liquid">&pound;1,033.58</strong>
+            </div>
+            <p class="sectionIntro">Projected liquid cash after adjusted limits and any overspend.</p>
+            <dl class="annualTotals">
+              <div><dt>Funding</dt><dd id="annual-income">&pound;11,238.00</dd></div>
+              <div><dt>Protected savings</dt><dd id="annual-savings">&pound;1,832.72</dd></div>
+              <div><dt>Working spend plan</dt><dd id="annual-spending">&pound;8,371.70</dd></div>
             </dl>
+            <div class="annualBars" id="annual-bars"></div>
           </section>
 
-          <section class="budgetPanel cashFlowPanel" aria-labelledby="cash-flow-heading">
-            <h2 id="cash-flow-heading">Cash-flow runway</h2>
-            <p>Month-end liquid balance after savings</p>
-            <svg
-              id="cash-flow-chart"
-              viewBox="0 0 480 210"
-              role="img"
-              aria-labelledby="cash-flow-chart-title cash-flow-chart-description"
-            >
-              <title id="cash-flow-chart-title">Projected monthly cash-flow balance</title>
-              <desc id="cash-flow-chart-description">A line chart showing the projected liquid balance for each month.</desc>
-            </svg>
-          </section>
-
-          <section class="budgetStatus" id="budget-status" aria-live="polite"></section>
-
-          <section class="budgetPanel spendPanel" aria-labelledby="spend-heading">
-            <h2 id="spend-heading">Where the money goes</h2>
-            <div id="spending-bars"></div>
+          <section class="panel dataPanel" aria-labelledby="data-heading">
+            <div><p class="eyebrow">This browser</p><h2 id="data-heading">Data + copies</h2></div>
+            <p>Your ticks, purchases and reminders stay on this device. Back up before clearing browser data or moving devices.</p>
+            <div class="dataActions">
+              <button class="button buttonGhost" id="restore-plan" type="button">Restore</button>
+              <button class="button buttonGhost" id="export-plan" type="button">Back up</button>
+              <button class="button buttonGhost" id="print-plan" type="button">Print week</button>
+              <input id="restore-file" type="file" accept="application/json,.json" hidden>
+            </div>
+            <button class="textButton dangerText" id="reset-data" type="button">Restore the PDF plan</button>
           </section>
         </aside>
       </div>
     </main>
 
-    <dialog class="budgetDialog" id="add-item-dialog" aria-labelledby="add-item-title">
-      <form id="add-item-form" method="dialog">
+    <dialog class="notepadDialog" id="purchase-dialog" aria-labelledby="purchase-dialog-title">
+      <form id="purchase-form" method="dialog">
         <header>
-          <h2 id="add-item-title">Add budget item</h2>
+          <div><p class="eyebrow">Actual spending</p><h2 id="purchase-dialog-title">Record a purchase</h2></div>
+          <button class="dialogClose" id="close-purchase" type="button" aria-label="Close">&times;</button>
         </header>
         <div class="dialogFields">
-          <label class="dialogFieldWide">
-            <span>Name</span>
-            <input id="new-item-name" name="name" type="text" autocomplete="off" required>
-          </label>
-          <label>
-            <span>Amount</span>
-            <span class="currencyInput"><span aria-hidden="true">&pound;</span><input id="new-item-amount" name="amount" type="number" min="0" step="0.01" required></span>
-          </label>
-          <label>
-            <span>Frequency</span>
-            <select id="new-item-frequency" name="frequency">
-              <option value="once">One-off</option>
-              <option value="weekly">Every week</option>
-              <option value="biweekly">Every 2 weeks</option>
-              <option value="monthly" selected>Every month</option>
-              <option value="allocation">Period total</option>
-            </select>
-          </label>
-          <label>
-            <span id="new-item-start-label">Starts</span>
-            <input id="new-item-start" name="start" type="date" required>
-          </label>
-          <label id="new-item-end-field">
-            <span>Ends</span>
-            <input id="new-item-end" name="end" type="date">
-          </label>
+          <label class="fieldWide"><span>What did you buy?</span><input id="purchase-name" type="text" maxlength="160" autocomplete="off" required></label>
+          <label><span>Amount</span><span class="currencyField"><span aria-hidden="true">&pound;</span><input id="purchase-amount" type="number" min="0.01" step="0.01" inputmode="decimal" required></span></label>
+          <label><span>Section</span><select id="purchase-category" required></select></label>
+          <label><span>Date</span><input id="purchase-date" type="date" min="2026-09-21" max="2027-09-20" required></label>
+          <label class="fieldWide"><span>Note (optional)</span><input id="purchase-note" type="text" maxlength="240" placeholder="Receipt, shop, reason for change..."></label>
         </div>
-        <footer>
-          <button class="budgetButton budgetButtonSecondary" value="cancel" type="button" id="cancel-add-item">Cancel</button>
-          <button class="budgetButton" value="default" type="submit">Add item</button>
-        </footer>
+        <footer><button class="button buttonGhost" id="cancel-purchase" type="button">Cancel</button><button class="button" type="submit">Save purchase</button></footer>
       </form>
     </dialog>
 
-    <dialog class="budgetDialog" id="add-section-dialog" aria-labelledby="add-section-title">
-      <form id="add-section-form" method="dialog">
+    <dialog class="notepadDialog allocationDialog" id="allocation-dialog" aria-labelledby="allocation-dialog-title">
+      <form method="dialog">
         <header>
-          <h2 id="add-section-title">Add planning section</h2>
+          <div><p class="eyebrow">Optional adjustment</p><h2 id="allocation-dialog-title">Weekly limits</h2></div>
+          <button class="dialogClose" id="close-allocations" type="button" aria-label="Close">&times;</button>
         </header>
-        <div class="dialogFields">
-          <label class="dialogFieldWide">
-            <span>Section name</span>
-            <input id="new-section-name" name="section-name" type="text" maxlength="60" autocomplete="off" required>
-          </label>
-          <label class="dialogFieldWide">
-            <span>Section type</span>
-            <select id="new-section-kind" name="section-kind">
-              <option value="expense" selected>Money out</option>
-              <option value="income">Money in</option>
-            </select>
-          </label>
-        </div>
-        <footer>
-          <button class="budgetButton budgetButtonSecondary" value="cancel" type="button" id="cancel-add-section">Cancel</button>
-          <button class="budgetButton" value="default" type="submit">Add section</button>
-        </footer>
+        <p class="dialogIntro">Carry-forward is always on. Change a limit only when this week needs to differ from the PDF schedule.</p>
+        <div class="allocationGrid" id="allocation-grid"></div>
+        <footer><button class="button" value="default" type="submit">Done</button></footer>
       </form>
     </dialog>
 
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <article class="printReport printOnly" id="print-report"></article>
   </body>
 </html>
