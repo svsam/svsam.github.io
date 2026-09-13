@@ -214,6 +214,10 @@
 
     const SCHEDULE = buildSchedule();
     const WEEK_STARTS = rangeEvery(PLAN_START, PLAN_END, 7);
+    // PDF allocations are fixed; mutable totals are reused within one render or print.
+    const pdfAllocationCache = new Map();
+    const allocationCache = new Map();
+    const spendingCache = new Map();
 
     function weekStartForDate(value) {
         if (!validPlanDate(value)) return value < PLAN_START ? PLAN_START : WEEK_STARTS.at(-1);
@@ -409,9 +413,13 @@
     }
 
     function pdfAllocation(week, category) {
-        return roundMoney(eventsForWeek(week)
-            .filter((event) => event.type === "expense" && event.category === category)
-            .reduce((sum, event) => sum + event.amount, 0));
+        const key = `${week}:${category}`;
+        if (!pdfAllocationCache.has(key)) {
+            pdfAllocationCache.set(key, roundMoney(eventsForWeek(week)
+                .filter((event) => event.type === "expense" && event.category === category)
+                .reduce((sum, event) => sum + event.amount, 0)));
+        }
+        return pdfAllocationCache.get(key);
     }
 
     function hasAllocationOverride(week, category) {
@@ -419,19 +427,27 @@
     }
 
     function baseAllocation(week, category) {
-        return hasAllocationOverride(week, category)
-            ? roundMoney(Number(state.allocations[week][category]))
-            : pdfAllocation(week, category);
+        const key = `${week}:${category}`;
+        if (!allocationCache.has(key)) {
+            allocationCache.set(key, hasAllocationOverride(week, category)
+                ? roundMoney(Number(state.allocations[week][category]))
+                : pdfAllocation(week, category));
+        }
+        return allocationCache.get(key);
     }
 
     function actualSpend(week, category) {
+        const key = `${week}:${category}`;
+        if (spendingCache.has(key)) return spendingCache.get(key);
         const plannedPaid = eventsForWeek(week)
             .filter((event) => event.type === "expense" && event.category === category && isComplete("event", event.id))
             .reduce((sum, event) => sum + event.amount, 0);
         const purchases = purchasesForWeek(week)
             .filter((purchase) => purchase.category === category)
             .reduce((sum, purchase) => sum + purchase.amount, 0);
-        return roundMoney(plannedPaid + purchases);
+        const spent = roundMoney(plannedPaid + purchases);
+        spendingCache.set(key, spent);
+        return spent;
     }
 
     function carryInto(category, weekIndex) {
@@ -472,10 +488,9 @@
         const income = roundMoney(SCHEDULE.filter((event) => event.type === "income").reduce((sum, event) => sum + event.amount, 0));
         const savings = roundMoney(SCHEDULE.filter((event) => event.type === "saving").reduce((sum, event) => sum + event.amount, 0));
         const categories = SPEND_CATEGORIES.map((category) => {
-            const pdf = roundMoney(SCHEDULE.filter((event) => event.type === "expense" && event.category === category.id).reduce((sum, event) => sum + event.amount, 0));
             const working = roundMoney(WEEK_STARTS.reduce((sum, week) => sum + Math.max(baseAllocation(week, category.id), actualSpend(week, category.id)), 0));
             const actual = roundMoney(WEEK_STARTS.reduce((sum, week) => sum + actualSpend(week, category.id), 0));
-            return { ...category, pdf, working, actual };
+            return { ...category, working, actual };
         });
         const spending = roundMoney(categories.reduce((sum, category) => sum + category.working, 0));
         return { income, savings, spending, liquid: roundMoney(income - savings - spending), categories };
@@ -725,6 +740,8 @@
     }
 
     function renderFinancialSummary() {
+        allocationCache.clear();
+        spendingCache.clear();
         const weekIndex = WEEK_STARTS.indexOf(selectedWeek);
         const weekStats = statsForWeek(selectedWeek);
         const figures = annualFigures();
@@ -846,6 +863,8 @@
     }
 
     function buildPrintReport() {
+        allocationCache.clear();
+        spendingCache.clear();
         const stats = statsForWeek(selectedWeek);
         const figures = annualFigures();
         const activity = [

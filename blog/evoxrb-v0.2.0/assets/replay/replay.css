@@ -87,8 +87,7 @@ h1 {
   margin: 0.45rem 0;
 }
 
-.replay__header > p:last-child,
-.replay__scope {
+.replay__header > p:last-child {
   color: var(--muted);
   font-size: 0.8rem;
   line-height: 1.5;
@@ -177,12 +176,6 @@ input:focus-visible {
   gap: 0.35rem;
 }
 
-.replay__scope {
-  margin: 0.8rem auto 0;
-  max-width: 64rem;
-  text-align: center;
-}
-
 @media (max-width: 38rem) {
   .replay__header > p:last-child {
     text-align: left;
@@ -190,14 +183,6 @@ input:focus-visible {
 
   .controls__buttons button {
     flex: 1 1 7rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
   }
 }
 

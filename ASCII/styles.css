@@ -4,10 +4,8 @@
   font-synthesis: none;
   --background: #181818;
   --panel: #202020;
-  --panel-raised: #282828;
   --viewport: #0e0e0e;
   --border: #383838;
-  --border-strong: #505050;
   --muted: #999;
   --text: #e4e4e4;
   --cyan: #4dd0e1;
@@ -622,10 +620,6 @@ input[type="color"] {
 
   .toolbar-actions {
     width: 100%;
-  }
-
-  .local-badge {
-    margin-left: auto;
   }
 
   .panel {

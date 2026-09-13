@@ -23,10 +23,6 @@ body.voxelJournalBody::before {
     display: none;
 }
 
-body.voxelJournalBody.bookIsOpen {
-    overflow: hidden;
-}
-
 button,
 a {
     -webkit-tap-highlight-color: transparent;
@@ -238,7 +234,8 @@ kbd,
     position: absolute;
 }
 
-.bookStage {
+.bookStage,
+.guestbookStage {
     left: 50%;
     max-width: 1080px;
     perspective: 1600px;
@@ -252,16 +249,6 @@ kbd,
     inset: 0;
     position: fixed;
     z-index: 55;
-}
-
-.guestbookStage {
-    left: 50%;
-    max-width: 1080px;
-    perspective: 1600px;
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: min(88vw, 1080px);
 }
 
 .book {
@@ -755,11 +742,7 @@ kbd,
         bottom: 24px;
     }
 
-    .bookStage {
-        height: 88vh;
-        width: 92vw;
-    }
-
+    .bookStage,
     .guestbookStage {
         height: 88vh;
         width: 92vw;

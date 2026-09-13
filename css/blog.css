@@ -176,14 +176,6 @@
     text-align: left;
 }
 
-.blogEmptyState {
-    border-left: 2px solid var(--accent-color);
-    color: #999999;
-    line-height: 1.6;
-    margin: 0;
-    padding: 0.125rem 0 0.125rem 1rem;
-}
-
 .musicAlbumGrid {
     display: grid;
     gap: 0.75rem;
@@ -276,11 +268,6 @@
 .musicAlbumTitle:focus-visible {
     outline: 2px solid #FFFFFF;
     outline-offset: 3px;
-}
-
-.musicAlbumArtist {
-    color: #CCCCCC;
-    font-size: 0.875rem;
 }
 
 .musicAlbumGenre,

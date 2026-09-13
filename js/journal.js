@@ -201,12 +201,13 @@ const createElement = (tag, className, text) => {
   return element;
 };
 
+const dateFormatter = new Intl.DateTimeFormat("en-GB", {
+  day: "2-digit",
+  month: "short",
+  year: "numeric",
+});
 const formatDate = (dateString) =>
-  new Intl.DateTimeFormat("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  }).format(new Date(`${dateString}T12:00:00`));
+  dateFormatter.format(new Date(`${dateString}T12:00:00`));
 
 const clearPages = () => {
   leftPage.replaceChildren();
@@ -340,7 +341,6 @@ const openBook = () => {
   lastFocusedElement = document.activeElement;
   renderIndex();
   bookReader.hidden = false;
-  document.body.classList.add("bookIsOpen");
   requestAnimationFrame(() => {
     bookReader.classList.add("isOpening");
     bookReader.querySelector(".closeBook").focus();
@@ -350,18 +350,13 @@ const openBook = () => {
 const closeBook = () => {
   bookReader.hidden = true;
   bookReader.classList.remove("isOpening");
-  if (guestbookReader.hidden) document.body.classList.remove("bookIsOpen");
   lastFocusedElement?.focus?.();
 };
 
 const formatGuestbookDate = (dateString) => {
   const date = new Date(dateString);
   if (Number.isNaN(date.getTime())) return "";
-  return new Intl.DateTimeFormat("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  }).format(date);
+  return dateFormatter.format(date);
 };
 
 const renderGuestbookMessages = (messages) => {
@@ -429,7 +424,6 @@ const openGuestbook = () => {
   if (!guestbookReader.hidden) return;
   lastFocusedElement = document.activeElement;
   guestbookReader.hidden = false;
-  document.body.classList.add("bookIsOpen");
   guestbookStatus.textContent = "";
   fetchGuestbookMessages();
   requestAnimationFrame(() => {
@@ -441,7 +435,6 @@ const openGuestbook = () => {
 const closeGuestbook = () => {
   guestbookReader.hidden = true;
   guestbookReader.classList.remove("isOpening");
-  if (bookReader.hidden) document.body.classList.remove("bookIsOpen");
   lastFocusedElement?.focus?.();
 };
 
@@ -888,6 +881,7 @@ const createPillar = (x, z, height) => {
   animatedRunes.push({ object: lamp, baseY: height + 0.35, offset: x + z });
 };
 
+const shelfBatches = new Map();
 const createBookshelf = (x, z, rotationY = 0, options = {}) => {
   const shelf = new THREE.Group();
   shelf.position.set(x, 0, z);
@@ -955,7 +949,14 @@ const createBookshelf = (x, z, rotationY = 0, options = {}) => {
     }
   }
 
-  scene.add(shelf);
+  shelf.updateMatrixWorld(true);
+  for (const mesh of [...shelf.children]) {
+    if (mesh.userData.interactive) continue;
+    if (!shelfBatches.has(mesh.material)) shelfBatches.set(mesh.material, []);
+    shelfBatches.get(mesh.material).push(mesh.matrixWorld.clone());
+    shelf.remove(mesh);
+  }
+  if (shelf.children.length) scene.add(shelf);
 };
 
 const createCeilingSolarSystem = () => {
@@ -1182,7 +1183,6 @@ const createFloatingRunes = () => {
       object: sprite,
       baseY: sprite.position.y,
       offset: index * 0.73,
-      orbit: angle,
     });
   });
 };
@@ -1205,7 +1205,6 @@ const createDust = () => {
     depthWrite: false,
   });
   const points = new THREE.Points(geometry, material);
-  points.userData.isDust = true;
   scene.add(points);
   return points;
 };
@@ -1225,6 +1224,14 @@ createBookshelf(0, -10.65, 0, { guestbook: true });
   createBookshelf(-10.65, z, Math.PI / 2);
   createBookshelf(10.65, z, -Math.PI / 2);
 });
+for (const [material, matrices] of shelfBatches) {
+  const shelf = new THREE.InstancedMesh(boxGeometry, material, matrices.length);
+  matrices.forEach((matrix, index) => shelf.setMatrixAt(index, matrix));
+  shelf.castShadow = true;
+  shelf.receiveShadow = true;
+  scene.add(shelf);
+}
+shelfBatches.clear();
 createTable();
 createFloatingRunes();
 const dust = createDust();
@@ -1274,7 +1281,7 @@ const updateBookInteraction = () => {
 };
 
 const animate = () => {
-  requestAnimationFrame(animate);
+  if (!reduceMotion) requestAnimationFrame(animate);
   const delta = Math.min(clock.getDelta(), 0.05);
   const elapsed = clock.elapsedTime;
 
@@ -1297,15 +1304,24 @@ const animate = () => {
     });
   }
 
+  if (reduceMotion) {
+    scene.updateMatrixWorld(true);
+    camera.updateMatrixWorld();
+  }
   updateBookInteraction();
   renderer.render(scene, camera);
 };
+
+if (reduceMotion) {
+  renderer.domElement.addEventListener("webglcontextrestored", animate);
+}
 
 window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+  if (reduceMotion) animate();
 });
 
 animate();

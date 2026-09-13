@@ -317,21 +317,8 @@ function sendPendingConversion() {
     settingsVersion: settings.settingsVersion,
   };
   setStatus("Converting image…");
-  worker.postMessage({
-    type: "convert",
-    requestId,
-    imageId: settings.imageId,
-    columns: settings.columns,
-    ramp: settings.ramp,
-    brightness: settings.brightness,
-    contrast: settings.contrast,
-    gamma: settings.gamma,
-    saturation: settings.saturation,
-    redGain: settings.redGain,
-    greenGain: settings.greenGain,
-    blueGain: settings.blueGain,
-    matte: settings.matte,
-  });
+  const { settingsVersion, ...messageSettings } = settings;
+  worker.postMessage({ type: "convert", requestId, ...messageSettings });
 }
 
 function toneInputs() {

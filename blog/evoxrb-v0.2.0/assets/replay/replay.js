@@ -25,28 +25,18 @@
 
   const maximum = manifest.frames.length - 1;
   slider.max = String(maximum);
-  slider.setAttribute("aria-valuemax", String(maximum));
-
-  function announceHeight() {
-    window.parent.postMessage(
-      { type: "evoxrb-replay-height", height: document.documentElement.scrollHeight },
-      "*",
-    );
-  }
 
   function render(index, shouldAnnounce = true) {
     current = Math.max(0, Math.min(maximum, Number(index)));
     frame.src = manifest.frames[current];
     frame.alt = `${manifest.alt_prefix} ${current}`;
     slider.value = String(current);
-    slider.setAttribute("aria-valuenow", String(current));
     slider.setAttribute("aria-valuetext", `Generation ${current} of ${maximum}`);
     output.value = `${current} / ${maximum}`;
     status.textContent = `Generation ${current} of ${maximum}`;
     if (shouldAnnounce) {
       announcement.textContent = `Generation ${current} of ${maximum}`;
     }
-    announceHeight();
   }
 
   function pause() {
@@ -108,8 +98,6 @@
     render(maximum);
   });
 
-  frame.addEventListener("load", announceHeight);
-  window.addEventListener("resize", announceHeight);
   window.addEventListener("pagehide", pause);
   render(0);
 })();

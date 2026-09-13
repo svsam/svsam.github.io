@@ -6,11 +6,11 @@ dependency.
 
 ## Publish
 
-Copy this entire directory into the target website repository, for example:
+Keep this directory at its current depth in the website repository:
 
 ```text
 blog/
-└── evoxrb-v0-2-0/
+└── evoxrb-v0.2.0/
     ├── index.html
     ├── asset-manifest.json
     ├── assets/
@@ -22,9 +22,8 @@ The article uses the parent site's shared `css/dev.css` and
 `css/Images/web/site-favicon.jpg`. Publish it within the `svsam.com` repository
 so those relative links remain available.
 
-The navigation URLs in `index.html` are absolute public `svsam.com` URLs so the
-bundle works at any directory depth. Change them if this is published under a
-different site.
+The main navigation and shared assets use relative paths. Project and reference
+links also include absolute public URLs. Preserve this layout when publishing.
 
 ## Replay architecture
 
@@ -43,7 +42,8 @@ opened with the `file://` protocol.
 
 ## Rebuild scientific assets
 
-From the EvoXRB repository root:
+From the separate EvoXRB repository root (the scientific generator is not part
+of this website repository):
 
 ```powershell
 python -m evoxrb animate --profile smoke --epoch E08 --reference-csv data/reference/maxi_j1820p070_mjd58302.csv --output results/animations/E08_ga_spectra.html --comparison-output results/animations/E08_ga_comparison.png
@@ -53,6 +53,8 @@ python scripts/build_blog_bundle.py
 The compiler extracts PNG frames from Matplotlib's self-contained replay,
 copies the comparison figure, strips local paths from the public summary, and
 regenerates `asset-manifest.json` with file sizes and SHA-256 hashes.
+When importing rebuilt assets, retain this site's player and shared stylesheet
+integration, then refresh the manifest for the final published files.
 
 ## LaTeX edition
 
@@ -60,7 +62,7 @@ The print source is `article/evoxrb-v0.2.0.tex`. With TeX Live, MiKTeX, or
 another pdfLaTeX distribution installed:
 
 ```powershell
-Set-Location website/evoxrb-v0.2.0/article
+Set-Location blog/evoxrb-v0.2.0/article
 latexmk -pdf evoxrb-v0.2.0.tex
 ```
 

@@ -3,6 +3,28 @@ const blackHoleEntry = document.getElementById("blackHoleEntry");
 const pageRoot = document.documentElement;
 let focusHomepageAfterReveal = false;
 
+(function () {
+  var hasSeenIntro = false;
+  var isInternalNavigation = false;
+
+  try {
+    hasSeenIntro = sessionStorage.getItem("svsamIntroSeen") === "true";
+  } catch (error) {
+    hasSeenIntro = false;
+  }
+
+  try {
+    isInternalNavigation = Boolean(document.referrer) &&
+      new URL(document.referrer).origin === window.location.origin;
+  } catch (error) {
+    isInternalNavigation = false;
+  }
+
+  if (!hasSeenIntro && !isInternalNavigation) {
+    document.documentElement.classList.add("devIntroPending");
+  }
+}());
+
 const revealHomepage = () => {
   const introWasActive = pageRoot.classList.contains("devIntroPending");
   pageRoot.classList.remove("devIntroPending", "devIntroExiting");
@@ -416,26 +438,3 @@ if (blackHoleCanvas && blackHoleEntry) {
 } else {
   revealHomepage();
 }
-
-
-(function () {
-                var hasSeenIntro = false;
-                var isInternalNavigation = false;
-
-                try {
-                    hasSeenIntro = sessionStorage.getItem("svsamIntroSeen") === "true";
-                } catch (error) {
-                    hasSeenIntro = false;
-                }
-
-                try {
-                    isInternalNavigation = Boolean(document.referrer) &&
-                        new URL(document.referrer).origin === window.location.origin;
-                } catch (error) {
-                    isInternalNavigation = false;
-                }
-
-                if (!hasSeenIntro && !isInternalNavigation) {
-                    document.documentElement.classList.add("devIntroPending");
-                }
-            }());

@@ -1,0 +1,37 @@
+# Deployment contains the website, not local tools or the separate guestbook Worker.
+.git/
+.cache/
+.vscode/
+.agents/
+.codex/
+.wrangler/
+node_modules/
+target/
+dist/
+coverage/
+tests/
+guestbook-worker/
+wrangler.jsonc
+/README.md
+.gitignore
+.assetsignore
+.DS_Store
+Thumbs.db
+
+# Match the repository's machine-local and secret-file exclusions.
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+secret.js
+secrets.js
+*-secret.js
+credentials.js
+*-credentials.js
+*.local.js
+private/
+secrets/
+*.key
+*.pem
+*.p12
+*.pfx
