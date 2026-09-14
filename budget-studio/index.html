@@ -1,195 +1,113 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="#0c0c0c">
-    <meta name="description" content="Budget Studio 2026-27: a private weekly university budget and payment tracker.">
-    <title>/ SvS / Budget Studio 26-27</title>
-    <link rel="icon" type="image/x-icon" href="../css/Images/web/site-favicon.jpg">
-    <link rel="stylesheet" href="../css/budget-studio.css">
-    <script src="../js/budget-studio.js" defer></script>
-  </head>
-  <body class="budgetStudioBody">
-    <a class="skipLink" href="#week-workspace">Skip to this week</a>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" content="#0c0c0c">
+        <meta name="robots" content="noindex, nofollow">
+        <meta name="description" content="University Budget Studio: monthly balances, dated payments and category breakdowns for 2026–27.">
+        <title>/ SvS / University Budget Studio</title>
+        <link rel="icon" href="../css/Images/web/site-favicon.jpg">
+        <link rel="stylesheet" href="../css/dev.css">
+        <link rel="stylesheet" href="../css/budget-studio.css">
+        <script type="module" src="../js/budget-studio.js"></script>
+    </head>
+    <body class="budgetStudio">
+        <a class="skipLink" href="#month-heading">Skip to monthly budget</a>
+        <main class="budgetContent" id="top">
+            <header class="devHeader">
+                <nav class="devNav" aria-label="Primary navigation">
+                    <a href="../">Home</a>
+                    <a href="../about/">About</a>
+                    <a href="../projects/">Projects</a>
+                    <a href="../blog/">Blog</a>
+                </nav>
+            </header>
 
-    <main class="budgetApp screenOnly" id="budget-app">
-      <header class="appHeader">
-        <div class="appHeaderInner">
-          <h1 class="studioTitle"><a href="./">Budget Studio <span>26-27</span></a></h1>
-          <nav class="siteNav" aria-label="Primary navigation">
-            <a href="../">Home</a>
-            <a href="../about/">About</a>
-            <a href="../projects/" aria-current="page">Projects</a>
-            <a href="../blog/">Blog</a>
-          </nav>
-        </div>
-      </header>
+            <section class="budgetIntro" aria-labelledby="budget-title">
+                <p class="eyebrow">King’s College London · 2026–27</p>
+                <h1 class="title" id="budget-title">University Budget Studio</h1>
+                <p>21 September 2026 – 20 September 2027</p>
+                <a href="../projects/">&larr; Back to projects</a>
+            </section>
 
-      <section class="overview" aria-label="Budget year overview">
-        <div class="overviewGrid">
-          <section class="panel nextFundingPanel" aria-labelledby="next-funding-heading">
-            <p class="eyebrow">Next funding point</p>
-            <h2 id="next-funding-heading">Maintenance Loan 1</h2>
-            <strong id="next-funding-amount">&pound;3,008.94</strong>
-            <p id="next-funding-date">21 September 2026</p>
-          </section>
+            <noscript><p>Enable JavaScript to explore the monthly payments and budget totals.</p></noscript>
+            <p id="budget-status" role="status">Loading the budget…</p>
+            <div id="budget-report" hidden>
+                <section class="yearSummary" aria-label="Budget totals">
+                    <div class="closingCard">
+                        <span>Projected final liquid balance</span>
+                        <strong id="annual-closing"></strong>
+                        <span id="reconciliation-summary"></span>
+                    </div>
+                    <dl class="yearTotals" id="year-totals"></dl>
+                </section>
+                <div class="planNotes">
+                    <p><strong>Allowance £20 every other Friday.</strong> First included payment: 2 October. The 18 September receipt is outside the plan; opening balance is £0.</p>
+                    <p><strong>Cat food £25 + litter £6.98.</strong> Both repeat every two weeks, on the same dates. Litter is £3.49 per week.</p>
+                </div>
 
-          <section class="panel cashFlowPanel" aria-labelledby="cash-flow-heading">
-            <div class="panelHeading">
-              <div><p class="eyebrow">Cash flow</p><h2 id="cash-flow-heading">Year runway</h2></div>
-              <span class="panelMeta">Liquid balance after scheduled payments</span>
+                <div class="workspaceGrid">
+                    <div class="monthArea">
+                        <section aria-labelledby="month-heading">
+                            <div class="sectionHeading">
+                                <h2 id="month-heading" tabindex="-1">Month by month</h2>
+                                <span id="month-count"></span>
+                            </div>
+                            <div class="monthPicker">
+                                <button id="previous-month" type="button" aria-label="Previous month">&larr;</button>
+                                <select id="budget-month" aria-label="Choose a budget month"></select>
+                                <button id="next-month" type="button" aria-label="Next month">&rarr;</button>
+                            </div>
+                            <p class="visuallyHidden" id="month-announcement" role="status"></p>
+                            <div id="month-panel" class="monthPanel"></div>
+                        </section>
+                        <section class="categoryPanel" aria-labelledby="categories-heading">
+                            <h2 id="categories-heading">Category breakdowns</h2>
+                            <p class="muted">Full budget period · 21 September 2026–20 September 2027</p>
+                            <div id="category-breakdowns"></div>
+                        </section>
+                    </div>
+                    <aside class="supportColumn">
+                        <section class="supportPanel" aria-labelledby="billing-heading">
+                            <h2 id="billing-heading">ChatGPT billing plan</h2>
+                            <dl class="billingSchedule" id="billing-schedule"></dl>
+                            <p class="muted">The £20 Plus amount is a planning assumption. Payments stay on the 28th.</p>
+                            <div class="reminder">
+                                <h3>Upgrade reminder</h3>
+                                <p>28 January 2027 · 10 a.m. UK time</p>
+                                <a href="https://www.google.com/calendar/event?eid=ODkzM243OG5xbHY3aHI1djk4ZWVxZ25rbWsgc3Zzc2VpZmlAbQ" target="_blank" rel="noopener noreferrer">Open calendar reminder &nearr;</a>
+                            </div>
+                            <p class="muted">The second student-loan instalment remains on 11 January 2027.</p>
+                        </section>
+                        <section class="supportPanel" aria-labelledby="audit-heading">
+                            <p class="eyebrow">Arithmetic check</p>
+                            <h2 id="audit-heading">Checking the plan…</h2>
+                            <p id="audit-summary"></p>
+                            <dl class="auditMinimum" id="audit-minimum"></dl>
+                            <p class="muted">Excludes the £0 starting balance before the first loan.</p>
+                            <details>
+                                <summary>Allowance dates and starting balance</summary>
+                                <p>The £20 allowance repeats every 14 days from 18 September 2026. There are 26 receipts inside this budget, from 2 October 2026 to 17 September 2027, totalling £520. October and April each have three receipts.</p>
+                                <p>The plan starts at £0 on 21 September. The 18 September payment is excluded entirely.</p>
+                            </details>
+                            <details>
+                                <summary>Payment and travel assumptions</summary>
+                                <p>Some food and travel entries are weekly allocations. Actual daily balances depend on payment dates. The three library visits in the week starting 7 June are covered by the May Travelcard only if they occur on 7–9 June.</p>
+                                <p>This check covers the supplied plan’s arithmetic at its stated prices and assumptions.</p>
+                            </details>
+                            <button class="textButton" id="download-audit" type="button">Download arithmetic check &darr;</button>
+                        </section>
+                        <section class="supportPanel documentsPanel" aria-labelledby="documents-heading">
+                            <h2 id="documents-heading">Your documents</h2>
+                            <button id="print-budget" type="button">Print / save full budget as PDF</button>
+                            <button id="download-budget" type="button">Download budget data &darr;</button>
+                            <p class="muted">Print includes all 13 months and payment details. The original PDF and LaTeX bundle were not included with this copy.</p>
+                        </section>
+                    </aside>
+                </div>
             </div>
-            <svg id="cash-flow-chart" viewBox="0 0 720 230" role="img" aria-labelledby="cash-flow-chart-title cash-flow-chart-description">
-              <title id="cash-flow-chart-title">Weekly projected liquid balance</title>
-              <desc id="cash-flow-chart-description">A line chart showing projected liquid cash across the 2026-27 university year.</desc>
-            </svg>
-          </section>
-        </div>
-
-        <div class="yearPulse" aria-label="Annual budget progress">
-          <div class="yearPulseTop"><span>University year</span><strong id="year-progress-label">0% through plan</strong></div>
-          <div class="progressTrack"><span id="year-progress-bar"></span></div>
-          <div class="yearPulseDates"><span>21 Sep 2026</span><span>20 Sep 2027</span></div>
-        </div>
-      </section>
-
-      <section class="weekBar" id="week-workspace" aria-labelledby="week-heading">
-        <button class="weekArrow" id="previous-week" type="button" aria-label="Previous week">&larr;</button>
-        <div class="weekIdentity">
-          <p class="eyebrow" id="week-number">Week 01 / 53</p>
-          <h2 id="week-heading">21-27 September 2026</h2>
-          <p id="week-context">Opening week before teaching</p>
-        </div>
-        <div class="weekControls">
-          <label class="dateJump"><span>Jump to date</span><input id="jump-date" type="date" min="2026-09-21" max="2027-09-20"></label>
-          <button class="weekArrow" id="next-week" type="button" aria-label="Next week">&rarr;</button>
-        </div>
-      </section>
-
-      <section class="metricGrid" aria-label="This week's money summary">
-        <article class="metricCard metricPrimary">
-          <span class="metricLabel">Still available</span>
-          <strong id="metric-available">&pound;0.00</strong>
-          <small id="metric-available-note">Includes every earlier balance</small>
-        </article>
-        <article class="metricCard">
-          <span class="metricLabel">Weekly budget</span>
-          <strong id="metric-allocation">&pound;0.00</strong>
-          <small>Scheduled for this week</small>
-        </article>
-        <article class="metricCard">
-          <span class="metricLabel">Paid / logged</span>
-          <strong id="metric-spent">&pound;0.00</strong>
-          <small id="metric-spent-note">0 entries completed</small>
-        </article>
-        <article class="metricCard">
-          <span class="metricLabel">Projected close</span>
-          <strong id="metric-close">&pound;0.00</strong>
-          <small>Liquid cash after this week</small>
-        </article>
-      </section>
-
-      <div class="workspaceGrid">
-        <div class="workspaceMain">
-          <section class="panel checklistPanel" aria-labelledby="checklist-heading">
-            <div class="panelHeading">
-              <div><p class="eyebrow">Action needed</p><h2 id="checklist-heading">Confirmations</h2></div>
-              <span class="panelMeta">Important or unconfirmed payments only</span>
-            </div>
-            <div class="checkProgress"><span id="check-progress-bar"></span></div>
-            <p class="checkProgressLabel" id="check-progress-label">0 of 0 complete</p>
-            <div class="checklist" id="checklist"></div>
-            <form class="quickTask" id="quick-task-form">
-              <label for="quick-task">Add a reminder</label>
-              <div><input id="quick-task" type="text" maxlength="140" placeholder="Payment or date to confirm" required><input id="quick-task-date" type="date" min="2026-09-21" max="2027-09-20" aria-label="Reminder date" required><button class="button" type="submit">Add</button></div>
-            </form>
-          </section>
-
-          <section class="panel calendarPanel" aria-labelledby="calendar-heading">
-            <div class="panelHeading">
-              <div><p class="eyebrow">Calendar</p><h2 id="calendar-heading">The week at a glance</h2></div>
-              <span class="panelMeta" id="week-due-count">0 things due</span>
-            </div>
-            <div class="weekCalendar" id="week-calendar"></div>
-          </section>
-
-          <section class="panel ledgerPanel" aria-labelledby="ledger-heading">
-            <div class="panelHeading ledgerHeading">
-              <div>
-                <p class="eyebrow">Purchases + payments</p>
-                <h2 id="ledger-heading">Tick each payment as it moves</h2>
-              </div>
-              <div class="ledgerActions">
-                <button class="button buttonGhost" id="open-allocations" type="button">Adjust weekly limits</button>
-                <button class="button" id="open-purchase" type="button">+ Record purchase</button>
-              </div>
-            </div>
-            <div class="ledgerLegend"><span>The PDF schedule stays as the baseline; tick an item once paid.</span><span id="ledger-progress">0 / 0 planned complete</span></div>
-            <div class="ledgerList" id="ledger-list"></div>
-          </section>
-        </div>
-
-        <aside class="workspaceSide">
-          <section class="panel outlookPanel" aria-labelledby="outlook-heading">
-            <div class="panelHeading">
-              <div><p class="eyebrow">Whole year</p><h2 id="outlook-heading">Annual outlook</h2></div>
-              <strong class="outlookValue" id="outlook-liquid">&pound;1,033.58</strong>
-            </div>
-            <p class="sectionIntro">Projected liquid cash after adjusted limits and any overspend.</p>
-            <dl class="annualTotals">
-              <div><dt>Funding</dt><dd id="annual-income">&pound;11,238.00</dd></div>
-              <div><dt>Protected savings</dt><dd id="annual-savings">&pound;1,832.72</dd></div>
-              <div><dt>Working spend plan</dt><dd id="annual-spending">&pound;8,371.70</dd></div>
-            </dl>
-            <div class="annualBars" id="annual-bars"></div>
-          </section>
-
-          <section class="panel dataPanel" aria-labelledby="data-heading">
-            <div><p class="eyebrow">This browser</p><h2 id="data-heading">Data + copies</h2></div>
-            <p>Your ticks, purchases and reminders stay on this device. Back up before clearing browser data or moving devices.</p>
-            <div class="dataActions">
-              <button class="button buttonGhost" id="restore-plan" type="button">Restore</button>
-              <button class="button buttonGhost" id="export-plan" type="button">Back up</button>
-              <button class="button buttonGhost" id="print-plan" type="button">Print week</button>
-              <input id="restore-file" type="file" accept="application/json,.json" hidden>
-            </div>
-            <button class="textButton dangerText" id="reset-data" type="button">Restore the PDF plan</button>
-          </section>
-        </aside>
-      </div>
-    </main>
-
-    <dialog class="notepadDialog" id="purchase-dialog" aria-labelledby="purchase-dialog-title">
-      <form id="purchase-form" method="dialog">
-        <header>
-          <div><p class="eyebrow">Actual spending</p><h2 id="purchase-dialog-title">Record a purchase</h2></div>
-          <button class="dialogClose" id="close-purchase" type="button" aria-label="Close">&times;</button>
-        </header>
-        <div class="dialogFields">
-          <label class="fieldWide"><span>What did you buy?</span><input id="purchase-name" type="text" maxlength="160" autocomplete="off" required></label>
-          <label><span>Amount</span><span class="currencyField"><span aria-hidden="true">&pound;</span><input id="purchase-amount" type="number" min="0.01" step="0.01" inputmode="decimal" required></span></label>
-          <label><span>Section</span><select id="purchase-category" required></select></label>
-          <label><span>Date</span><input id="purchase-date" type="date" min="2026-09-21" max="2027-09-20" required></label>
-          <label class="fieldWide"><span>Note (optional)</span><input id="purchase-note" type="text" maxlength="240" placeholder="Receipt, shop, reason for change..."></label>
-        </div>
-        <footer><button class="button buttonGhost" id="cancel-purchase" type="button">Cancel</button><button class="button" type="submit">Save purchase</button></footer>
-      </form>
-    </dialog>
-
-    <dialog class="notepadDialog allocationDialog" id="allocation-dialog" aria-labelledby="allocation-dialog-title">
-      <form method="dialog">
-        <header>
-          <div><p class="eyebrow">Optional adjustment</p><h2 id="allocation-dialog-title">Weekly limits</h2></div>
-          <button class="dialogClose" id="close-allocations" type="button" aria-label="Close">&times;</button>
-        </header>
-        <p class="dialogIntro">Carry-forward is always on. Change a limit only when this week needs to differ from the PDF schedule.</p>
-        <div class="allocationGrid" id="allocation-grid"></div>
-        <footer><button class="button" value="default" type="submit">Done</button></footer>
-      </form>
-    </dialog>
-
-    <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <article class="printReport printOnly" id="print-report"></article>
-  </body>
+            <footer class="budgetFooter"><span>University Budget · 2026–27</span><a href="#top">Back to top &uarr;</a></footer>
+        </main>
+    </body>
 </html>

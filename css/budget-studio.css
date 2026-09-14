@@ -1,1725 +1,535 @@
-:root {
-    --background: #0c0c0c;
-    --surface: #111311;
-    --text: #cccccc;
-    --bright: #ffffff;
-    --muted: #878d88;
-    --faint: #626763;
-    --accent: #26bc89;
-    --accent-soft: rgba(38, 188, 137, 0.1);
-    --warning: #ff8c79;
-    --line: #2d312e;
-    --line-soft: rgba(204, 204, 204, 0.12);
-    --radius: 8px;
-    --content: 78rem;
+html {
+    color-scheme: dark;
+    scroll-padding-top: 1rem;
 }
 
-* {
+.budgetStudio {
+    --muted-color: #999999;
+    --line-color: #3d3d3d;
+    --negative-color: #ff8c79;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.budgetStudio *,
+.budgetStudio *::before,
+.budgetStudio *::after {
     box-sizing: border-box;
 }
 
-html {
-    background: var(--background);
-    color-scheme: dark;
-    scroll-behavior: smooth;
+.budgetContent {
+    margin-inline: auto;
+    padding: 1rem clamp(1.25rem, 5vw, 3.9rem) 2rem;
+    width: min(100%, 72rem);
 }
 
-.budgetStudioBody {
-    background: var(--background);
-    color: var(--text);
-    font-family: "JetBrains Mono", "SFMono-Regular", "Cascadia Mono", Consolas, monospace;
-    margin: 0;
-    min-width: 320px;
-    min-height: 100vh;
-    min-height: 100svh;
-    padding-bottom: env(safe-area-inset-bottom);
+.budgetIntro {
+    margin-top: clamp(3rem, 6.4vh, 3.75rem);
+    margin-bottom: 2rem;
 }
 
-button,
-input,
-select,
-textarea {
-    font: inherit;
-}
-
-button,
-input,
-select,
-textarea,
-a {
-    -webkit-tap-highlight-color: transparent;
-}
-
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible,
-a:focus-visible {
-    outline: 2px solid var(--bright);
-    outline-offset: 2px;
-}
-
-button:disabled {
-    cursor: not-allowed;
-    opacity: 0.35;
-}
-
-.skipLink {
-    background: var(--accent);
-    border-radius: 4px;
-    color: var(--background);
-    font-size: 0.75rem;
-    font-weight: 800;
-    left: max(1rem, env(safe-area-inset-left));
-    padding: 0.7rem 0.85rem;
-    position: fixed;
-    top: max(1rem, env(safe-area-inset-top));
-    transform: translateY(-180%);
-    z-index: 100;
-}
-
-.skipLink:focus {
-    transform: translateY(0);
-}
-
-.budgetApp {
-    min-height: 100vh;
-    min-height: 100svh;
-}
-
-.appHeader {
-    background: rgba(12, 12, 12, 0.94);
-    border-bottom: 1px solid var(--line);
-    position: sticky;
-    top: 0;
-    z-index: 40;
-}
-
-.appHeaderInner {
-    align-items: center;
-    display: flex;
-    gap: 1.5rem;
-    justify-content: space-between;
-    margin: 0 auto;
-    max-width: var(--content);
-    padding: calc(0.8rem + env(safe-area-inset-top)) max(1.25rem, env(safe-area-inset-right)) 0.8rem max(1.25rem, env(safe-area-inset-left));
-}
-
-.studioTitle {
-    font-size: 0.9rem;
-    margin: 0;
-    white-space: nowrap;
-}
-
-.studioTitle a,
-.studioTitle a:visited {
-    color: var(--bright);
+.budgetIntro .title {
+    border-bottom: 1px solid #cccccc;
+    line-height: 1.15;
+    padding-bottom: 0.25rem;
     text-decoration: none;
 }
 
-.studioTitle span {
-    color: var(--accent);
-    font-size: 0.68rem;
-    font-weight: 600;
+.budgetStudio h2,
+.budgetStudio h3,
+.budgetStudio h4 {
+    font-size: 1rem;
+    margin: 0;
 }
 
-.siteNav {
-    align-items: center;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.15rem;
-    justify-content: flex-end;
+.budgetStudio h2 {
+    font-size: 1.25rem;
 }
-
-.siteNav a,
-.siteNav a:visited {
-    align-items: center;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    color: var(--accent);
-    display: inline-flex;
-    font-size: 0.7rem;
-    justify-content: center;
-    min-height: 2.5rem;
-    padding: 0.45rem 0.55rem;
-    text-decoration: none;
+.budgetStudio p {
+    margin: 0.75rem 0;
 }
-
-.siteNav a:hover,
-.siteNav a[aria-current="page"] {
-    background: #262626;
-    color: var(--bright);
+.budgetStudio dl {
+    margin: 0;
 }
-
-.overview,
-.weekBar,
-.metricGrid,
-.workspaceGrid {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: var(--content);
-    width: 100%;
+.budgetStudio dt {
+    color: var(--muted-color);
 }
-
-.overview {
-    padding: clamp(2rem, 5vw, 3.5rem) 1.25rem 1.5rem;
+.budgetStudio dd {
+    margin: 0.25rem 0 0;
 }
-
-.overviewGrid {
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: minmax(15rem, 0.65fr) minmax(0, 1.7fr);
+.budgetStudio strong,
+.budgetStudio dd {
+    font-variant-numeric: tabular-nums;
 }
-
-.panel {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    min-width: 0;
-    padding: 1.15rem;
+.budgetStudio a {
+    text-underline-offset: 0.2em;
+}
+.budgetStudio a:hover {
+    color: #ffffff;
+}
+.budgetStudio .muted,
+.budgetStudio small {
+    color: var(--muted-color);
+    font-size: 0.875rem;
+}
+.budgetStudio .positive {
+    color: var(--accent-color);
+}
+.budgetStudio .negative {
+    color: var(--negative-color);
 }
 
 .eyebrow {
-    color: var(--accent);
-    font-size: 0.62rem;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    margin: 0;
-    text-transform: uppercase;
+    color: var(--accent-color);
+    font-size: 0.875rem;
+    letter-spacing: 0.06em;
 }
 
-.panelHeading {
-    align-items: start;
-    display: flex;
-    gap: 1rem;
-    justify-content: space-between;
+.yearSummary {
+    border-block: 1px solid var(--line-color);
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 2rem;
+    padding-block: 1.5rem;
 }
 
-.panelHeading h2,
-.nextFundingPanel h2,
-.dataPanel h2,
-.notepadDialog h2 {
-    color: var(--bright);
-    font-size: 0.98rem;
-    line-height: 1.3;
-    margin: 0.22rem 0 0;
-}
-
-.panelMeta {
-    color: var(--faint);
-    font-size: 0.54rem;
-    line-height: 1.45;
-    max-width: 15rem;
-    text-align: right;
-}
-
-.nextFundingPanel {
-    background: linear-gradient(145deg, rgba(38, 188, 137, 0.12), var(--surface));
-    border-color: rgba(38, 188, 137, 0.38);
+.closingCard {
+    border-left: 2px solid var(--accent-color);
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: 15rem;
+    padding-left: 1.25rem;
 }
 
-.nextFundingPanel > strong {
-    color: var(--bright);
-    display: block;
-    font-size: clamp(2rem, 4.5vw, 3rem);
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.06em;
-    margin-top: 1.25rem;
+.closingCard > strong {
+    color: var(--accent-color);
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    line-height: 1.3;
+    margin-block: 0.5rem;
+    overflow-wrap: anywhere;
 }
 
-.nextFundingPanel > p:last-child {
-    color: var(--muted);
-    font-size: 0.67rem;
-    margin: 0.35rem 0 0;
+.closingCard > span:last-child {
+    color: var(--muted-color);
+    font-size: 0.875rem;
 }
-
-.cashFlowPanel {
-    min-height: 15rem;
-}
-
-.cashFlowPanel svg {
-    display: block;
-    height: 11rem;
-    margin-top: 0.8rem;
-    overflow: visible;
-    width: 100%;
-}
-
-.cashFlowPanel .chartGrid {
-    stroke: var(--line-soft);
-    stroke-width: 1;
-}
-
-.cashFlowPanel .chartZero {
-    stroke: var(--muted);
-    stroke-dasharray: 5 5;
-    stroke-opacity: 0.65;
-}
-
-.cashFlowPanel .chartArea {
-    fill: var(--accent);
-    fill-opacity: 0.08;
-}
-
-.cashFlowPanel .chartLine {
-    fill: none;
-    stroke: var(--accent);
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 3;
-}
-
-.cashFlowPanel .chartPoint {
-    fill: var(--surface);
-    stroke: var(--accent);
-    stroke-width: 2;
-}
-
-.cashFlowPanel .chartSelected {
-    fill: var(--accent);
-    stroke: var(--bright);
-    stroke-width: 2;
-}
-
-.cashFlowPanel .chartSelectedLine {
-    stroke: var(--bright);
-    stroke-dasharray: 3 5;
-    stroke-opacity: 0.4;
-}
-
-.cashFlowPanel text {
-    fill: var(--muted);
-    font-family: inherit;
-    font-size: 11px;
-}
-
-.yearPulse {
-    margin-top: 1.4rem;
-}
-
-.yearPulseTop,
-.yearPulseDates {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-}
-
-.yearPulseTop {
-    color: var(--muted);
-    font-size: 0.66rem;
-}
-
-.yearPulseTop strong {
-    color: var(--bright);
-}
-
-.progressTrack {
-    background: var(--line);
-    height: 2px;
-    margin: 0.65rem 0 0.45rem;
-    overflow: hidden;
-}
-
-.progressTrack span {
-    background: var(--accent);
-    display: block;
-    height: 100%;
-    transition: width 180ms ease;
-    width: 0;
-}
-
-.yearPulseDates {
-    color: var(--faint);
-    font-size: 0.55rem;
-}
-
-.weekBar {
-    align-items: center;
-    border-bottom: 1px solid var(--line);
-    border-top: 1px solid var(--line);
+.yearTotals,
+.monthMetrics {
     display: grid;
-    gap: 1rem;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    padding: 0.9rem 1.25rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
 }
-
-.weekArrow {
-    align-items: center;
-    background: transparent;
-    border: 1px solid var(--line);
-    border-radius: 4px;
-    color: var(--text);
-    cursor: pointer;
-    display: flex;
-    font-size: 1rem;
-    height: 2.75rem;
-    justify-content: center;
-    width: 2.75rem;
+.yearTotals dd {
+    font-size: 1.25rem;
+    font-weight: 700;
 }
-
-.weekArrow:hover:not(:disabled) {
-    background: #262626;
-    border-color: var(--muted);
-    color: var(--bright);
+.planNotes {
+    margin-block: 1.5rem 2rem;
 }
-
-.weekIdentity h2 {
-    color: var(--bright);
-    font-size: clamp(1.1rem, 2.5vw, 1.45rem);
-    letter-spacing: -0.035em;
-    margin: 0.22rem 0 0;
-}
-
-.weekIdentity > p:last-child {
-    color: var(--muted);
-    font-size: 0.6rem;
-    line-height: 1.45;
-    margin: 0.3rem 0 0;
-}
-
-.weekControls {
-    align-items: center;
-    display: flex;
-    gap: 0.65rem;
-}
-
-.dateJump > span,
-.dialogFields label > span:first-child,
-.allocationInput label {
-    color: var(--muted);
-    display: block;
-    font-size: 0.55rem;
-    margin-bottom: 0.3rem;
-}
-
-input,
-select,
-textarea {
-    background: var(--background);
-    border: 1px solid var(--line);
-    border-radius: 4px;
-    color: var(--bright);
-    min-height: 2.65rem;
-    padding: 0.55rem 0.65rem;
-    width: 100%;
-}
-
-input:hover,
-select:hover,
-textarea:hover,
-input:focus,
-select:focus,
-textarea:focus {
-    border-color: var(--accent);
-}
-
-input[type="checkbox"] {
-    accent-color: var(--accent);
-    height: 1.1rem;
-    min-height: auto;
-    width: 1.1rem;
-}
-
-.dateJump input {
-    font-size: 0.68rem;
-    min-height: 2.2rem;
-    width: 10.5rem;
-}
-
-.metricGrid {
-    display: grid;
-    gap: 1px;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    padding: 1.25rem;
-}
-
-.metricCard {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    min-width: 0;
-    padding: 1.1rem;
-}
-
-.metricCard:first-child {
-    border-radius: var(--radius) 0 0 var(--radius);
-}
-
-.metricCard:last-child {
-    border-radius: 0 var(--radius) var(--radius) 0;
-}
-
-.metricPrimary {
-    background: var(--accent-soft);
-    border-color: rgba(38, 188, 137, 0.4);
-}
-
-.metricLabel,
-.metricCard strong,
-.metricCard small {
-    display: block;
-}
-
-.metricLabel {
-    color: var(--muted);
-    font-size: 0.58rem;
-}
-
-.metricCard strong {
-    color: var(--bright);
-    font-size: clamp(1.35rem, 3vw, 1.85rem);
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.045em;
-    margin-top: 0.45rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.metricCard small {
-    color: var(--faint);
-    font-size: 0.53rem;
-    line-height: 1.4;
-    margin-top: 0.3rem;
-}
-
-.metricCard.isNegative strong {
-    color: var(--warning);
+.planNotes strong {
+    color: var(--accent-color);
 }
 
 .workspaceGrid {
-    display: grid;
-    gap: 1.1rem;
-    grid-template-columns: minmax(0, 1fr) 21.5rem;
-    padding: 0 1.25rem 4rem;
-}
-
-.workspaceMain,
-.workspaceSide {
-    display: flex;
-    flex-direction: column;
-    gap: 1.1rem;
-    min-width: 0;
-}
-
-.workspaceSide {
-    align-self: start;
-    position: sticky;
-    top: 5rem;
-}
-
-.checkProgress {
-    background: var(--line);
-    height: 2px;
-    margin-top: 1rem;
-    overflow: hidden;
-}
-
-.checkProgress span {
-    background: var(--accent);
-    display: block;
-    height: 100%;
-    transition: width 180ms ease;
-    width: 0;
-}
-
-.checkProgressLabel {
-    color: var(--faint);
-    font-size: 0.52rem;
-    margin: 0.4rem 0 0.6rem;
-}
-
-.checklist {
-    display: grid;
-    gap: 0.55rem;
-}
-
-.checkRow {
     align-items: start;
-    background: rgba(255, 255, 255, 0.018);
-    border: 1px solid var(--line-soft);
-    border-radius: 5px;
-    cursor: pointer;
     display: grid;
-    gap: 0.7rem;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    min-height: 3.3rem;
-    padding: 0.7rem;
+    gap: 2.5rem;
+    grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
 }
 
-.checkRow input {
-    margin: 0.12rem 0 0;
-}
-
-.checkRow strong,
-.checkRow small {
-    display: block;
-}
-
-.checkRow strong {
-    color: var(--bright);
-    font-size: 0.66rem;
-    line-height: 1.45;
-}
-
-.checkRow small {
-    color: var(--muted);
-    font-size: 0.53rem;
-    line-height: 1.45;
-    margin-top: 0.15rem;
-}
-
-.checkRow.isDone {
-    opacity: 0.55;
-}
-
-.checkRow.isDone strong {
-    text-decoration: line-through;
-}
-
-.checkRemove,
-.deleteButton,
-.dialogClose {
-    align-items: center;
-    background: transparent;
-    border: 0;
-    color: var(--faint);
-    cursor: pointer;
-    display: inline-flex;
-    justify-content: center;
-    min-height: 2.75rem;
-    min-width: 2.75rem;
-    padding: 0;
-}
-
-.checkRemove:hover,
-.deleteButton:hover,
-.dialogClose:hover {
-    color: var(--warning);
-}
-
-.quickTask {
-    border-top: 1px solid var(--line);
-    margin-top: 0.9rem;
-    padding-top: 0.8rem;
-}
-
-.quickTask > label {
-    color: var(--muted);
-    display: block;
-    font-size: 0.58rem;
-    margin-bottom: 0.4rem;
-}
-
-.quickTask > div {
-    display: grid;
-    gap: 0.45rem;
-    grid-template-columns: minmax(0, 1fr) 9.4rem auto;
-}
-
-.quickTask input {
-    font-size: 0.68rem;
-}
-
-.button {
-    align-items: center;
-    background: var(--accent);
-    border: 1px solid var(--accent);
-    border-radius: 4px;
-    color: var(--background);
-    cursor: pointer;
-    display: inline-flex;
-    font-size: 0.66rem;
-    font-weight: 800;
-    justify-content: center;
-    min-height: 2.75rem;
-    padding: 0.58rem 0.75rem;
-}
-
-.button:hover:not(:disabled) {
-    background: var(--bright);
-    border-color: var(--bright);
-}
-
-.buttonGhost {
-    background: transparent;
-    border-color: var(--line);
-    color: var(--text);
-}
-
-.buttonGhost:hover:not(:disabled) {
-    background: #262626;
-    border-color: var(--muted);
-    color: var(--bright);
-}
-
-.weekCalendar {
-    display: flex;
-    flex-direction: column;
-    gap: 0.55rem;
-    margin-top: 1rem;
-}
-
-.calendarDay {
-    align-items: stretch;
-    background: rgba(255, 255, 255, 0.015);
-    border: 1px solid var(--line-soft);
-    border-radius: 5px;
-    display: grid;
-    gap: 0.8rem;
-    grid-template-columns: 5.5rem minmax(0, 1fr);
-    min-height: 4rem;
-    padding: 0.65rem;
-}
-
-.calendarDay.isToday {
-    border-color: var(--accent);
-}
-
-.calendarDay.isOutside {
-    opacity: 0.28;
-}
-
-.calendarDayHeader {
-    align-content: start;
-    border-right: 1px solid var(--line);
-    display: grid;
-    gap: 0.15rem;
-    padding-right: 0.7rem;
-}
-
-.calendarDayName {
-    color: var(--muted);
-    font-size: 0.54rem;
-    text-transform: uppercase;
-}
-
-.calendarDayNumber {
-    color: var(--bright);
-    font-size: 1.2rem;
-    font-weight: 800;
-}
-
-.calendarDayCount {
-    color: var(--faint);
-    font-size: 0.48rem;
-}
-
-.calendarDay.isToday .calendarDayNumber {
-    color: var(--accent);
-}
-
-.calendarEntries {
-    align-content: start;
-    display: grid;
-    gap: 0.35rem;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.calendarEntry {
-    align-items: center;
-    background: rgba(255, 255, 255, 0.025);
-    border-left: 2px solid var(--text);
-    border-radius: 2px;
-    color: var(--text);
-    display: grid;
-    gap: 0.2rem;
-    grid-template-columns: minmax(0, 1fr) auto;
+.monthArea,
+.supportColumn {
     min-width: 0;
-    padding: 0.42rem 0.5rem;
 }
-
-.calendarEntry strong {
-    font-size: 0.55rem;
-    line-height: 1.4;
-    overflow-wrap: anywhere;
+.supportColumn {
+    display: grid;
+    gap: 2rem;
 }
-
-.calendarEntry small {
-    color: var(--muted);
-    font-size: 0.5rem;
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
+.supportPanel {
+    border-top: 1px solid var(--line-color);
+    padding-top: 1.25rem;
 }
-
-.calendarEntry.isIncome {
-    border-color: var(--accent);
-}
-
-.calendarEntry.isTask {
-    border-color: #d6c767;
-}
-
-.calendarEntry.isDone {
-    opacity: 0.45;
-}
-
-.calendarEntry.isDone strong {
-    text-decoration: line-through;
-}
-
-.calendarEmpty {
-    align-self: center;
-    color: var(--faint);
-    font-size: 0.55rem;
-}
-
-.ledgerHeading {
+.sectionHeading,
+.monthTitle,
+.monthClose {
     align-items: center;
-}
-
-.ledgerActions,
-.dataActions {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.45rem;
-    justify-content: flex-end;
-}
-
-.ledgerLegend {
-    border-bottom: 1px solid var(--line);
-    color: var(--faint);
-    display: flex;
-    font-size: 0.53rem;
     gap: 1rem;
     justify-content: space-between;
-    margin-top: 1rem;
-    padding-bottom: 0.65rem;
 }
-
-.ledgerList {
+.sectionHeading > span,
+.monthTitle p {
+    color: var(--muted-color);
+    font-size: 0.875rem;
+}
+.monthTitle p {
+    margin: 0.25rem 0 0;
+}
+.monthPicker {
     display: flex;
-    flex-direction: column;
+    gap: 0.5rem;
+    margin-block: 1rem 1.5rem;
+}
+.monthPicker select {
+    flex: 1;
+    min-width: 0;
+}
+.monthPicker button {
+    flex: 0 0 2.75rem;
 }
 
-.ledgerRow {
-    align-items: center;
-    border-bottom: 1px solid var(--line-soft);
+.budgetStudio button,
+.budgetStudio select {
+    background-color: transparent;
+    border: 1px solid var(--accent-color);
+    border-radius: 4px;
+    color: var(--accent-color);
+    cursor: pointer;
+    font: inherit;
+    min-height: 2.75rem;
+    padding: 0.5rem 0.7rem;
+}
+
+.budgetStudio select {
+    color: #cccccc;
+}
+.budgetStudio option {
+    background: #0c0c0c;
+    color: #cccccc;
+}
+.budgetStudio button:hover:not(:disabled),
+.budgetStudio select:hover {
+    background: #262626;
+    color: #ffffff;
+}
+.budgetStudio button:active:not(:disabled) {
+    background: #333333;
+}
+.budgetStudio button:disabled {
+    border-color: var(--line-color);
+    color: #666666;
+    cursor: not-allowed;
+}
+.budgetStudio :is(a, button, select, summary):focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 3px;
+}
+
+.monthPanel {
+    border-block: 1px solid var(--line-color);
+    padding-block: 1.25rem;
+}
+.checkBadge {
+    color: var(--accent-color);
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+.budgetStudio .monthMetrics {
+    padding-block: 1.5rem;
+}
+.monthMetrics dd {
+    font-weight: 700;
+}
+.monthClose {
+    border-left: 2px solid var(--accent-color);
+    padding-left: 1rem;
+}
+.monthClose strong {
+    display: block;
+    font-size: 1.5rem;
+}
+.monthClose small {
+    display: block;
+}
+.monthClose > div:last-child {
+    text-align: right;
+}
+.billingMonth {
+    border-block: 1px solid var(--line-color);
+    padding-block: 1rem;
+}
+.billingMonth span {
+    display: block;
+}
+.spendingBreakdown {
+    padding-block: 1rem;
+}
+.spendingBreakdown dl {
     display: grid;
-    gap: 0.7rem;
-    grid-template-columns: 2rem 4.4rem minmax(0, 1fr) auto 6.5rem 2.75rem;
-    min-height: 4.3rem;
-    padding: 0.6rem 0;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+.spendingBreakdown dl > div,
+.categoryItems > div {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1rem;
+}
+.spendingBreakdown dd {
+    margin: 0;
+}
+.spendTrack {
+    appearance: none;
+    background: var(--line-color);
+    border: 0;
+    display: block;
+    width: 100%;
+    height: 3px;
+    margin-top: 0.5rem;
+    accent-color: var(--accent-color);
+}
+.spendTrack::-webkit-progress-bar {
+    background: var(--line-color);
+}
+.spendTrack::-webkit-progress-value {
+    background: var(--accent-color);
+}
+.spendTrack::-moz-progress-bar {
+    background: var(--accent-color);
+}
+.paymentsHeading {
+    margin-top: 1.25rem;
 }
 
-.ledgerRow:last-child {
-    border-bottom: 0;
+.budgetStudio details {
+    border-bottom: 1px solid var(--line-color);
 }
-
-.ledgerRow.isDone .ledgerName {
-    color: var(--muted);
-    text-decoration: line-through;
-}
-
-.ledgerCheck {
+.budgetStudio summary {
     align-items: center;
     cursor: pointer;
     display: flex;
-    justify-content: center;
+    gap: 1rem;
+    list-style: none;
     min-height: 2.75rem;
+    padding-block: 0.75rem;
 }
-
-.ledgerCheck input {
-    margin: 0;
+.budgetStudio summary::-webkit-details-marker {
+    display: none;
 }
-
-.ledgerDate {
-    color: var(--muted);
-    font-size: 0.58rem;
+.budgetStudio summary::after {
+    color: var(--accent-color);
+    content: "+";
+    margin-left: auto;
 }
-
-.ledgerCopy {
+.budgetStudio details[open] > summary::after {
+    content: "−";
+}
+.budgetStudio summary:hover {
+    color: #ffffff;
+}
+.budgetStudio details[open] > summary {
+    color: #ffffff;
+}
+.paymentDate,
+.categoryTitle {
+    flex: 1;
     min-width: 0;
 }
-
-.ledgerName,
-.ledgerNote {
+.paymentDate small,
+.paymentAmount small,
+.categoryItems small {
     display: block;
 }
-
-.ledgerName {
-    color: var(--bright);
-    font-size: 0.65rem;
-    line-height: 1.4;
+.paymentAmount {
+    text-align: right;
+}
+.paymentAmount strong {
+    white-space: nowrap;
+}
+.paymentDetail {
+    padding-bottom: 1rem;
+}
+.paymentDetail > div + div {
+    margin-top: 1rem;
+}
+.paymentDetail dt {
+    color: var(--accent-color);
+    font-weight: 700;
+}
+.paymentDetail dd {
     overflow-wrap: anywhere;
 }
-
-.ledgerNote {
-    color: var(--faint);
-    font-size: 0.52rem;
-    line-height: 1.45;
-    margin-top: 0.15rem;
+.categoryPanel {
+    margin-top: 2rem;
 }
-
-.categoryPill {
-    background: rgba(204, 204, 204, 0.06);
-    border-radius: 999px;
-    color: var(--text);
-    font-size: 0.5rem;
-    padding: 0.28rem 0.42rem;
-    white-space: nowrap;
+.categoryItems {
+    display: grid;
+    gap: 1rem;
+    padding-block: 0.5rem 1rem;
 }
-
-.categoryPill.isIncome {
-    background: var(--accent-soft);
-    color: var(--accent);
+.categoryItems dt {
+    color: inherit;
 }
-
-.ledgerAmount {
-    color: var(--bright);
-    font-size: 0.65rem;
-    font-variant-numeric: tabular-nums;
-    text-align: right;
-    white-space: nowrap;
+.billingSchedule {
+    display: grid;
+    gap: 1rem;
+    padding-block: 1.25rem 0.25rem;
 }
-
-.ledgerAmount.isIncome {
-    color: var(--accent);
+.reminder {
+    border-top: 1px solid var(--line-color);
+    padding-top: 1rem;
+    margin-top: 1.25rem;
 }
-
-.emptyMessage {
-    border: 1px dashed var(--line);
-    color: var(--muted);
-    font-size: 0.62rem;
-    line-height: 1.55;
-    margin-top: 0.9rem;
-    padding: 1rem;
-    text-align: center;
+.budgetStudio .auditMinimum {
+    border-left: 2px solid var(--accent-color);
+    padding-left: 1rem;
+    margin-block: 1.5rem;
 }
-
-.sectionIntro {
-    color: var(--muted);
-    font-size: 0.58rem;
-    line-height: 1.55;
-    margin: 0.4rem 0 0;
+.auditMinimum strong {
+    color: var(--accent-color);
+    font-size: 1.5rem;
 }
-
-.outlookValue {
-    color: var(--accent);
-    font-size: 1.2rem;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.04em;
-}
-
-.outlookValue.isNegative {
-    color: var(--warning);
-}
-
-.annualTotals {
-    border-bottom: 1px solid var(--line);
-    border-top: 1px solid var(--line);
-    margin: 0.9rem 0;
-    padding: 0.35rem 0;
-}
-
-.annualTotals div {
-    align-items: center;
-    display: flex;
-    font-size: 0.55rem;
-    justify-content: space-between;
-    padding: 0.34rem 0;
-}
-
-.annualTotals dt {
-    color: var(--muted);
-}
-
-.annualTotals dd {
-    color: var(--bright);
-    font-variant-numeric: tabular-nums;
-    margin: 0;
-}
-
-.annualBars {
-    display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
-}
-
-.annualBarHeader {
-    align-items: center;
-    display: flex;
-    font-size: 0.5rem;
-    gap: 0.5rem;
-    justify-content: space-between;
-}
-
-.annualBarHeader span:first-child {
-    color: var(--muted);
-}
-
-.annualBarHeader span:last-child {
-    color: var(--bright);
-    font-variant-numeric: tabular-nums;
-}
-
-.annualBarTrack {
-    background: var(--line);
-    height: 2px;
-    margin-top: 0.27rem;
-    overflow: hidden;
-}
-
-.annualBarFill {
-    background: var(--accent);
+.auditMinimum small {
     display: block;
-    height: 100%;
 }
-
-.annualBar.isOver .annualBarFill {
-    background: var(--warning);
-}
-
-.dataPanel p:not(.eyebrow) {
-    color: var(--muted);
-    font-size: 0.56rem;
-    line-height: 1.55;
-    margin: 0.7rem 0;
-}
-
-.dataActions {
-    justify-content: flex-start;
-}
-
-.textButton {
-    background: transparent;
+.budgetStudio .textButton {
     border: 0;
-    color: var(--muted);
-    cursor: pointer;
-    font-size: 0.54rem;
-    margin-top: 0.8rem;
-    min-height: 2.75rem;
-    padding: 0;
     text-decoration: underline;
-    text-underline-offset: 0.22em;
+    text-underline-offset: 0.2em;
+    padding-inline: 0;
+    margin-top: 1rem;
+    text-align: left;
 }
-
-.textButton:hover {
-    color: var(--bright);
+.documentsPanel button {
+    display: block;
+    margin-top: 1rem;
+    width: 100%;
+    text-align: left;
 }
-
-.dangerText {
-    color: var(--warning);
-}
-
-.notepadDialog {
-    background: var(--surface);
-    border: 1px solid var(--muted);
-    border-radius: var(--radius);
-    color: var(--text);
-    max-height: calc(100dvh - 2rem);
-    max-width: 38rem;
-    padding: 0;
-    width: calc(100% - 2rem);
-}
-
-.notepadDialog::backdrop {
-    background: rgba(0, 0, 0, 0.8);
-}
-
-.notepadDialog form > header {
-    align-items: start;
-    border-bottom: 1px solid var(--line);
+.budgetFooter {
     display: flex;
     justify-content: space-between;
-    padding: 1rem;
+    gap: 1rem;
+    border-top: 1px solid var(--line-color);
+    color: var(--muted-color);
+    font-size: 0.875rem;
+    margin-top: 2.5rem;
+    padding-top: 1rem;
 }
-
-.dialogFields {
-    display: grid;
-    gap: 0.8rem;
-    grid-template-columns: 1fr 1fr;
-    padding: 1rem;
-}
-
-.fieldWide {
-    grid-column: 1 / -1;
-}
-
-.currencyField {
-    display: block;
-    position: relative;
-}
-
-.currencyField > span {
-    color: var(--muted);
-    font-size: 0.7rem;
-    left: 0.65rem;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.currencyField input {
-    font-variant-numeric: tabular-nums;
-    padding-left: 1.45rem;
-}
-
-.notepadDialog form > footer {
-    border-top: 1px solid var(--line);
-    display: flex;
-    gap: 0.5rem;
-    justify-content: flex-end;
-    padding: 1rem;
-}
-
-.dialogIntro {
-    color: var(--muted);
-    font-size: 0.58rem;
-    line-height: 1.55;
-    margin: 0;
-    padding: 1rem 1rem 0;
-}
-
-.allocationDialog {
-    max-width: 48rem;
-}
-
-.allocationDialog form {
-    max-height: calc(100dvh - 2rem);
-    overflow: auto;
-}
-
-.allocationGrid {
-    display: grid;
-    gap: 0.6rem;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    padding: 1rem;
-}
-
-.allocationCard {
-    background: rgba(255, 255, 255, 0.018);
-    border: 1px solid var(--line);
-    border-radius: 5px;
-    padding: 0.8rem;
-}
-
-.allocationCard.isOver {
-    border-color: var(--warning);
-}
-
-.allocationTop {
-    align-items: start;
-    display: grid;
-    gap: 0.7rem;
-    grid-template-columns: minmax(0, 1fr) 7.5rem;
-}
-
-.categoryName {
-    align-items: center;
-    display: flex;
-    gap: 0.55rem;
-    min-width: 0;
-}
-
-.categoryCode {
-    align-items: center;
-    background: var(--accent-soft);
-    border-radius: 3px;
-    color: var(--accent);
-    display: flex;
-    flex: 0 0 auto;
-    font-size: 0.46rem;
-    font-weight: 900;
-    height: 1.9rem;
-    justify-content: center;
-    width: 2rem;
-}
-
-.categoryName strong,
-.categoryName small,
-.allocationStats span,
-.allocationStats strong {
-    display: block;
-}
-
-.categoryName strong {
-    color: var(--bright);
-    font-size: 0.62rem;
-}
-
-.categoryName small {
-    color: var(--faint);
-    font-size: 0.48rem;
-    margin-top: 0.15rem;
-}
-
-.allocationInput input {
-    font-size: 0.7rem;
-    min-height: 2.25rem;
-}
-
-.allocationStats {
-    border-top: 1px solid var(--line-soft);
-    display: grid;
-    gap: 0.4rem;
-    grid-template-columns: repeat(3, 1fr);
-    margin-top: 0.65rem;
-    padding-top: 0.6rem;
-}
-
-.allocationStats span {
-    color: var(--faint);
-    font-size: 0.46rem;
-}
-
-.allocationStats strong {
-    color: var(--bright);
-    font-size: 0.56rem;
-    font-variant-numeric: tabular-nums;
-    margin-top: 0.15rem;
-}
-
-.allocationStats div:last-child {
-    text-align: right;
-}
-
-.allocationStats .negative {
-    color: var(--warning);
-}
-
-.allocationStats .positive {
-    color: var(--accent);
-}
-
-.toast {
-    background: var(--bright);
-    border-radius: 4px;
-    bottom: calc(1rem + env(safe-area-inset-bottom));
-    color: var(--background);
-    font-size: 0.64rem;
-    left: 50%;
-    opacity: 0;
-    padding: 0.75rem 0.9rem;
-    pointer-events: none;
+.skipLink {
+    background: #0c0c0c;
+    left: 1rem;
+    padding: 0.7rem;
     position: fixed;
-    transform: translate(-50%, 1rem);
-    transition: opacity 160ms ease, transform 160ms ease;
-    z-index: 90;
+    top: 0;
+    transform: translateY(-150%);
+    z-index: 1;
 }
-
-.toast.isVisible {
-    opacity: 1;
-    transform: translate(-50%, 0);
+.skipLink:focus {
+    transform: translateY(0);
 }
-
-.printOnly {
+.visuallyHidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+}
+.printMonths {
     display: none;
 }
 
-@media (max-width: 64rem) {
+@media (max-width: 54rem) {
     .workspaceGrid {
         grid-template-columns: minmax(0, 1fr);
     }
-
-    .workspaceSide {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.65fr);
-        position: static;
-    }
-}
-
-@media (max-width: 48rem) {
-    .appHeaderInner {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 0.45rem;
-    }
-
-    .siteNav {
-        justify-content: flex-start;
-        width: 100%;
-    }
-
-    .siteNav a {
-        min-height: 2.25rem;
-        padding-inline: 0.45rem;
-    }
-
-    .overviewGrid {
-        grid-template-columns: minmax(0, 1fr);
-    }
-
-    .nextFundingPanel {
-        min-height: 10.5rem;
-    }
-
-    .cashFlowPanel {
-        min-height: auto;
-    }
-
-    .metricGrid {
+    .supportColumn {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-
-    .metricCard:first-child {
-        border-radius: var(--radius) 0 0 0;
-    }
-
-    .metricCard:nth-child(2) {
-        border-radius: 0 var(--radius) 0 0;
-    }
-
-    .metricCard:nth-child(3) {
-        border-radius: 0 0 0 var(--radius);
-    }
-
-    .metricCard:last-child {
-        border-radius: 0 0 var(--radius) 0;
-    }
-
-    .workspaceSide {
-        display: flex;
-    }
-
-    .calendarEntries {
-        grid-template-columns: minmax(0, 1fr);
-    }
-
-    .ledgerHeading {
-        align-items: stretch;
-        flex-direction: column;
-    }
-
-    .ledgerActions {
-        justify-content: flex-start;
-    }
-
-    .ledgerLegend span:first-child {
-        display: none;
-    }
-
-    .ledgerLegend {
-        justify-content: flex-end;
-    }
-
-    .ledgerRow {
-        align-items: center;
-        gap: 0.2rem 0.6rem;
-        grid-template-columns: 2rem minmax(0, 1fr) auto 2.75rem;
-        padding: 0.75rem 0;
-    }
-
-    .ledgerCheck {
-        grid-column: 1;
-        grid-row: 1 / span 2;
-    }
-
-    .ledgerDate {
-        grid-column: 2;
-        grid-row: 1;
-    }
-
-    .ledgerCopy {
-        grid-column: 2;
-        grid-row: 2;
-    }
-
-    .categoryPill {
-        display: none;
-    }
-
-    .ledgerAmount {
-        grid-column: 3;
-        grid-row: 1 / span 2;
-    }
-
-    .deleteButton {
-        grid-column: 4;
-        grid-row: 1 / span 2;
-    }
 }
 
-@media (max-width: 38rem) {
-    .appHeader {
-        position: static;
-    }
-
-    .appHeaderInner,
-    .overview,
-    .weekBar,
-    .metricGrid,
-    .workspaceGrid {
-        padding-left: max(0.85rem, env(safe-area-inset-left));
-        padding-right: max(0.85rem, env(safe-area-inset-right));
-    }
-
-    .studioTitle {
-        font-size: 0.85rem;
-    }
-
-    .overview {
-        padding-top: 1.25rem;
-    }
-
-    .cashFlowPanel .panelMeta {
-        display: none;
-    }
-
-    .cashFlowPanel svg {
-        height: 9rem;
-    }
-
-    .weekBar {
-        grid-template-columns: auto minmax(0, 1fr) auto;
-    }
-
-    .weekControls {
-        display: contents;
-    }
-
-    .dateJump {
-        display: block;
-        grid-column: 1 / -1;
-        grid-row: 2;
-    }
-
-    .dateJump input {
-        font-size: 16px;
-        min-height: 44px;
-        width: 100%;
-    }
-
-    .weekControls .weekArrow {
-        grid-column: 3;
-        grid-row: 1;
-    }
-
-    .weekArrow,
-    .button,
-    .siteNav a,
-    .textButton,
-    .checkRemove,
-    .deleteButton,
-    .dialogClose {
-        min-height: 44px;
-    }
-
-    .skipLink,
-    .studioTitle a,
-    input,
-    select,
-    textarea {
-        min-height: 44px;
-    }
-
-    .studioTitle a {
-        align-items: center;
-        display: inline-flex;
-    }
-
-    .siteNav a {
-        min-width: 44px;
-    }
-
-    .weekArrow,
-    .deleteButton,
-    .dialogClose {
-        min-width: 44px;
-    }
-
-    .weekIdentity > p:last-child {
-        display: none;
-    }
-
-    .metricGrid {
-        padding-top: 0.85rem;
-        padding-bottom: 0.85rem;
-    }
-
-    .metricCard {
-        padding: 0.85rem;
-    }
-
-    .metricCard strong {
-        font-size: 1.25rem;
-    }
-
-    .panel {
-        padding: 0.9rem;
-    }
-
-    .panelHeading {
-        gap: 0.65rem;
-    }
-
-    .panelMeta {
-        max-width: 9rem;
-    }
-
-    .quickTask > div {
-        grid-template-columns: minmax(0, 1fr) auto;
-    }
-
-    .quickTask input[type="date"] {
-        grid-column: 1 / -1;
-        grid-row: 2;
-    }
-
-    input,
-    select,
-    textarea,
-    .quickTask input,
-    .allocationInput input {
-        font-size: 16px;
-    }
-
-    .calendarDay {
-        gap: 0.65rem;
-        grid-template-columns: 3.6rem minmax(0, 1fr);
-        padding: 0.6rem;
-    }
-
-    .calendarDayHeader {
-        padding-right: 0.55rem;
-    }
-
-    .calendarEntry {
+@media (max-width: 36rem) {
+    .yearSummary,
+    .supportColumn {
         grid-template-columns: minmax(0, 1fr);
     }
-
-    .calendarEntry small {
-        white-space: normal;
+    .budgetIntro {
+        margin-top: 2.75rem;
     }
-
-    .ledgerActions {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .ledgerActions .button {
-        padding-inline: 0.55rem;
-    }
-
-    .ledgerAmount {
-        font-size: 0.6rem;
-    }
-
-    .dialogFields,
-    .allocationGrid {
-        grid-template-columns: minmax(0, 1fr);
-    }
-
-    .fieldWide {
-        grid-column: auto;
-    }
-
-    .notepadDialog {
-        border-bottom: 0;
-        border-radius: var(--radius) var(--radius) 0 0;
-        bottom: 0;
-        margin: auto 0 0;
-        max-height: calc(100dvh - env(safe-area-inset-top) - 1rem);
-        max-width: none;
-        width: 100%;
-    }
-
-    .notepadDialog form > footer {
-        padding-bottom: calc(1rem + env(safe-area-inset-bottom));
-    }
-
-    .allocationDialog form {
-        max-height: calc(100dvh - env(safe-area-inset-top) - 1rem);
-    }
-}
-
-@media (max-width: 23rem) {
-    .siteNav {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-    }
-
-    .siteNav a {
-        font-size: 0.62rem;
-        padding-inline: 0.25rem;
-    }
-
-    .weekBar {
-        gap: 0.55rem;
-    }
-
-    .weekIdentity h2 {
+    .yearTotals dd {
         font-size: 1rem;
     }
-
-    .metricCard strong {
-        font-size: 1.08rem;
+    .monthTitle,
+    .monthClose {
+        flex-wrap: wrap;
     }
-
-    .ledgerActions {
+    .monthClose > div:last-child {
+        text-align: left;
+    }
+    .paymentDate small {
+        font-size: 0.75rem;
+    }
+    .budgetStudio summary {
+        gap: 0.5rem;
+    }
+    .budgetFooter {
+        flex-direction: column;
+    }
+    .categoryItems > div {
         grid-template-columns: minmax(0, 1fr);
-    }
-
-    .ledgerRow {
-        grid-template-columns: 2rem minmax(0, 1fr) auto;
-    }
-
-    .ledgerAmount {
-        grid-column: 3;
-    }
-
-    .deleteButton {
-        grid-column: 3;
-        grid-row: 3;
-    }
-
-    .allocationTop {
-        grid-template-columns: minmax(0, 1fr);
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        scroll-behavior: auto !important;
-        transition-duration: 0.01ms !important;
+        gap: 0;
     }
 }
 
 @media print {
     @page {
         margin: 14mm;
-        size: A4;
     }
-
-    html,
-    .budgetStudioBody {
-        background: #fff !important;
-        color: #111 !important;
+    html {
+        color-scheme: light;
     }
-
-    .screenOnly,
-    .skipLink,
-    .notepadDialog,
-    .toast {
-        display: none !important;
+    .budgetStudio {
+        --accent-color: #136b4d;
+        --muted-color: #444444;
+        --line-color: #bbbbbb;
+        --negative-color: #9d3020;
+        background: #ffffff;
+        color: #111111;
+        font-size: 10pt;
     }
-
-    .printOnly {
-        display: block !important;
-    }
-
-    .printReport {
-        color: #111;
-        font-family: Arial, sans-serif;
-        font-size: 9pt;
-    }
-
-    .printReportHeader {
-        align-items: end;
-        border-bottom: 3px solid #26bc89;
-        display: flex;
-        justify-content: space-between;
-        padding-bottom: 10mm;
-    }
-
-    .printReportHeader p,
-    .printReportHeader h1 {
-        margin: 0;
-    }
-
-    .printReportHeader h1 {
-        font-size: 25pt;
-        margin-top: 2mm;
-    }
-
-    .printReportKicker {
-        color: #16825c;
-        font-size: 7pt;
-        font-weight: 700;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-    }
-
-    .printReportWeek {
-        color: #555;
-        font-size: 9pt;
-        text-align: right;
-    }
-
-    .printSummary {
-        display: grid;
-        gap: 3mm;
-        grid-template-columns: repeat(4, 1fr);
-        margin-top: 7mm;
-    }
-
-    .printSummary div {
-        border: 1px solid #bbb;
-        padding: 3mm;
-    }
-
-    .printSummary span,
-    .printSummary strong {
-        display: block;
-    }
-
-    .printSummary span {
-        color: #555;
-        font-size: 7pt;
-    }
-
-    .printSummary strong {
-        font-size: 12pt;
-        margin-top: 1mm;
-    }
-
-    .printSection {
-        break-inside: avoid;
-        margin-top: 7mm;
-    }
-
-    .printSection h2 {
-        border-bottom: 1px solid #222;
-        font-size: 12pt;
-        margin: 0 0 2mm;
-        padding-bottom: 1.5mm;
-    }
-
-    .printReport table {
-        border-collapse: collapse;
-        font-size: 8pt;
+    .budgetContent {
+        padding: 0;
         width: 100%;
     }
-
-    .printReport th,
-    .printReport td {
-        border-bottom: 1px solid #ddd;
-        padding: 2mm;
-        text-align: left;
+    .devHeader,
+    .skipLink,
+    .budgetIntro > a,
+    .monthArea > section:first-child,
+    .documentsPanel,
+    .budgetStudio button,
+    .budgetFooter {
+        display: none;
     }
-
-    .printReport th {
-        background: #eef8f4;
-        font-size: 7pt;
-        text-transform: uppercase;
+    .budgetIntro {
+        margin-top: 0;
     }
-
-    .printReport .numeric {
-        text-align: right;
-        white-space: nowrap;
+    .workspaceGrid,
+    .supportColumn {
+        display: block;
     }
-
-    .printChecklist {
-        margin: 0;
-        padding-left: 5mm;
+    .printMonths {
+        display: block;
     }
-
-    .printChecklist li {
-        line-height: 1.5;
-        margin-bottom: 1mm;
+    .printMonths > section {
+        break-before: page;
     }
-
-    .printFooter {
-        border-top: 1px solid #aaa;
-        color: #555;
-        display: flex;
-        font-size: 7pt;
-        justify-content: space-between;
-        margin-top: 8mm;
-        padding-top: 2mm;
+    .budgetStudio details {
+        break-inside: avoid;
+    }
+    .budgetStudio details[open] > summary {
+        color: inherit;
+    }
+    .budgetStudio summary::after {
+        display: none;
+    }
+    .budgetStudio h2,
+    .budgetStudio h3 {
+        break-after: avoid;
+    }
+    .supportPanel {
+        margin-top: 1.5rem;
+    }
+    .checkBadge {
+        white-space: normal;
     }
 }

@@ -11,6 +11,7 @@ dist/
 coverage/
 tests/
 guestbook-worker/
+university-budget-code/
 wrangler.jsonc
 /README.md
 .gitignore
