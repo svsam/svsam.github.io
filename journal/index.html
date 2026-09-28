@@ -4,10 +4,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="theme-color" content="#090512">
-        <meta
-            name="guestbook-api"
-            content="https://svsam-journal-guestbook.svsam.workers.dev"
-        >
         <link rel="stylesheet" href="../css/base.css">
         <link rel="stylesheet" href="../css/journal.css">
         <title>SvS | Journal Room</title>
@@ -83,70 +79,6 @@
                     <span id="pageNumber"></span>
                     <button id="nextEntry" type="button">Next →</button>
                 </nav>
-            </div>
-        </section>
-
-        <section
-            id="guestbookReader"
-            class="guestbookReader"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="guestbookTitle"
-            hidden
-        >
-            <div class="bookBackdrop" data-close-guestbook></div>
-            <div class="guestbookStage">
-                <button
-                    class="closeBook"
-                    type="button"
-                    data-close-guestbook
-                    aria-label="Close guestbook"
-                >
-                    ×
-                </button>
-
-                <div class="book guestbookBook">
-                    <div class="bookSpine" aria-hidden="true"></div>
-                    <article class="bookPage bookPageLeft guestbookMessagesPage">
-                        <h2 id="guestbookTitle">Visitors' Volume</h2>
-                        <p class="bookIntro">Leave a message!</p>
-                        <div id="guestbookMessages" class="guestbookMessages" aria-live="polite">
-                            <p class="guestbookEmpty">Opening the volume...</p>
-                        </div>
-                    </article>
-
-                    <article class="bookPage bookPageRight guestbookFormPage">
-                        <h2>Write in the book</h2>
-                        <form id="guestbookForm" class="guestbookForm">
-                            <label for="guestbookName">Name</label>
-                            <input
-                                id="guestbookName"
-                                name="name"
-                                type="text"
-                                maxlength="40"
-                                autocomplete="name"
-                                required
-                            >
-
-                            <label for="guestbookMessage">Message</label>
-                            <textarea
-                                id="guestbookMessage"
-                                name="message"
-                                maxlength="500"
-                                rows="7"
-                                required
-                            ></textarea>
-
-                            <label class="guestbookHoneypot" aria-hidden="true">
-                                Website
-                                <input name="website" type="text" tabindex="-1" autocomplete="off">
-                            </label>
-
-                            <button type="submit">Enter</button>
-                            <p id="guestbookStatus" class="guestbookStatus" role="status"></p>
-                        </form>
-                    </article>
-                </div>
             </div>
         </section>
 

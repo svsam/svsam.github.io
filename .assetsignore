@@ -1,4 +1,4 @@
-# Deployment contains the website, not local tools or the separate guestbook Worker.
+# Deployment contains the website, not local tools.
 .git/
 .cache/
 .vscode/
@@ -10,7 +10,6 @@ target/
 dist/
 coverage/
 tests/
-guestbook-worker/
 university-budget-code/
 wrangler.jsonc
 /README.md
