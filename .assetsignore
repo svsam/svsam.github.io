@@ -10,7 +10,6 @@ target/
 dist/
 coverage/
 tests/
-university-budget-code/
 wrangler.jsonc
 /README.md
 .gitignore

@@ -1,8 +1,7 @@
-# EvoXRB v0.2.0 website bundle
+# EvoXRB blog post
 
-This directory is the copy-ready continuation of the first EvoXRB project
-post. It contains no framework, package-manager, CDN, or server-side
-dependency.
+This directory holds the [combined EvoXRB post](index.html), the v0.2.0
+replay and the scientific assets.
 
 ## Publish
 
@@ -10,24 +9,18 @@ Keep this directory at its current depth in the website repository:
 
 ```text
 blog/
-└── evoxrb-v0.2.0/
+└── evoxrb-genetic-algorithms-x-ray-astronomy/
     ├── index.html
     ├── asset-manifest.json
     ├── assets/
     └── article/
 ```
 
-The article uses the parent site's shared `css/dev.css` and
-`css/blog-post.css` stylesheets, plus the shared site favicon at
-`css/Images/web/site-favicon.jpg`. Publish it within the `svsam.com` repository
-so those relative links remain available.
-
-The main navigation and shared assets use relative paths. Project and reference
-links also include absolute public URLs. Preserve this layout when publishing.
+The article uses the shared stylesheets and navigation from the site root.
 
 ## Replay architecture
 
-The main page links to the standalone player at `assets/replay/index.html`. The player:
+The combined post links to the standalone player at `assets/replay/index.html`. The player:
 
 - starts paused;
 - is keyboard operable;
@@ -53,8 +46,8 @@ python scripts/build_blog_bundle.py
 The compiler extracts PNG frames from Matplotlib's self-contained replay,
 copies the comparison figure, strips local paths from the public summary, and
 regenerates `asset-manifest.json` with file sizes and SHA-256 hashes.
-When importing rebuilt assets, retain this site's player and shared stylesheet
-integration, then refresh the manifest for the final published files.
+When importing rebuilt assets, retain this site's player and combined article,
+then refresh the manifest for the final published files.
 
 ## LaTeX edition
 
@@ -62,7 +55,7 @@ The print source is `article/evoxrb-v0.2.0.tex`. With TeX Live, MiKTeX, or
 another pdfLaTeX distribution installed:
 
 ```powershell
-Set-Location blog/evoxrb-v0.2.0/article
+Set-Location blog/evoxrb-genetic-algorithms-x-ray-astronomy/article
 latexmk -pdf evoxrb-v0.2.0.tex
 ```
 

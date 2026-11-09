@@ -13,12 +13,12 @@
       "sha256": "931062ae8baa17d4336e21c8a6f1d026c2acfb7de61a82b998e13bf337a34796"
     },
     "assets/maxi-j1820-reference.csv": {
-      "bytes": 3218,
-      "sha256": "fd5dbdf674c8b8e105b34466106cd06501137d82d45db28010cafa896923be8c"
+      "bytes": 3201,
+      "sha256": "5087b287793da3fb9143ccd5e162ecad62bbefec3f06b416092d1542fa983765"
     },
     "assets/maxi-j1820-reference.provenance.json": {
-      "bytes": 1687,
-      "sha256": "b33058a0d026786797dc1f2b21e1431c5868751c9bfdc8a9db1a087cef794d07"
+      "bytes": 1648,
+      "sha256": "95616e2817a1eff116d76f3e59659d0010f5f6046cd26138aeb4ec20d7b01583"
     },
     "assets/maxi-j1820-reference.request.conf": {
       "bytes": 485,
@@ -125,8 +125,8 @@
       "sha256": "1d3ceae4347d48dd68630fcee33cb3c426559788cf5cd3b6df9227709260ade9"
     },
     "assets/replay/index.html": {
-      "bytes": 3319,
-      "sha256": "c02505eb3994596576d0c37f5dbcdce278d62c90092d82f3e8f5b56e7779412d"
+      "bytes": 3329,
+      "sha256": "66e2d8b43c6b16acd820f437467e271d2c4172814c07b0b8ee5b88540c6ad302"
     },
     "assets/replay/manifest.js": {
       "bytes": 718,
@@ -141,14 +141,52 @@
       "sha256": "ad9f7da1668cbf4831ab4d71694c6393fa95c5ec449b36bcde7283b933d60943"
     },
     "index.html": {
-      "bytes": 23569,
-      "sha256": "16dac7d8b3c47d14bf631c7dedb7592127b913e60a63cc8b326207608308f605"
+      "bytes": 78311,
+      "sha256": "475f2349a1b5ffb8c84a486c23e3791220f1c9d4eab894554ff61538e1fd06eb"
     },
     "README.md": {
-      "bytes": 2890,
-      "sha256": "96e1f258465346702c2390faa6e46821af5c8cf60b8d53ec59e8a290e9be4838"
+      "bytes": 2544,
+      "sha256": "4a82496cbd613dc81550edf1c3515c6b1762076f08bc77566071417b12856d07"
+    },
+    "assets/folded-spectrum.png": {
+      "bytes": 85660,
+      "sha256": "564bab31adb9418f1f01108c4ea4189362a0c60ad060fd9581bdd40a699bbcb7"
+    },
+    "assets/ga-convergence.png": {
+      "bytes": 86875,
+      "sha256": "cf3726902d6cac2374f738836c3c23eb9c6ff8594fab9f9480516a3f389e648c"
+    },
+    "assets/gene-evolution.png": {
+      "bytes": 138508,
+      "sha256": "c9bec1fdc7f2ca46220bb52f85bd20148a4c74199970847828baa592981ab5fe"
+    },
+    "assets/hardness-intensity.png": {
+      "bytes": 73300,
+      "sha256": "98ea3ac629df909de33ac7f53bd5ab0510a49d0fa6b788706d12212ecc1abc04"
+    },
+    "assets/optimizer-comparison.png": {
+      "bytes": 43370,
+      "sha256": "fa9a30b023926736de2341a0bd1cf37c7c31e1dd4f6d4f4f96782a76e8f065c6"
+    },
+    "assets/parameter-recovery.png": {
+      "bytes": 77659,
+      "sha256": "985b3209ff071f34a219120fcea9cb108a15de983a1df3afa79340c698e7c125"
+    },
+    "assets/posterior-corner.png": {
+      "bytes": 165884,
+      "sha256": "57aa1f4c92097807cbce376feed2a37df6b2978684cd34f7cf2d8fc9184a3b42"
+    },
+    "assets/qpo-photon-index.png": {
+      "bytes": 33371,
+      "sha256": "d1d48e65f34dd5ceff9ad3ed223d1b05dc2fee6878eddb11e25f287e70bd691a"
+    },
+    "assets/spectral-timing-evolution.png": {
+      "bytes": 161892,
+      "sha256": "daf96338e997d6b46593c42c7851d954cf32abf3b9b9b5e94661c078e9a86f18"
+    },
+    "assets/synthetic-instrument-response.png": {
+      "bytes": 171626,
+      "sha256": "c78d76dcdec9d0175e42804cf2bf0b979b98a208747145ab2b036fb0cfdc1b43"
     }
-  },
-  "project_version": "0.2.0",
-  "schema_version": 1
+  }
 }
