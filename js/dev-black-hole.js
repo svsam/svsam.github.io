@@ -46,7 +46,7 @@ const revealHomepage = () => {
     blackHoleEntry.setAttribute("role", "img");
     blackHoleEntry.setAttribute(
       "aria-label",
-      "Pixelated simulation of white particles orbiting a black hole with a dotted event horizon"
+      "Pixelated black hole with a single bright ring and orbiting particles"
     );
     blackHoleEntry.removeAttribute("tabindex");
   }
@@ -83,9 +83,9 @@ if (blackHoleCanvas && blackHoleEntry) {
     const photonRingRadius = 22;
     const outerOrbitRadius = 104;
     const discTilt = 0.32;
-    const particleCount = 120;
-    const frameInterval = 1000 / 20;
-    const consumptionDuration = 1150;
+    const particleCount = 200;
+    const frameInterval = 1000 / 30;
+    const consumptionDuration = 1900;
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     );
@@ -97,6 +97,7 @@ if (blackHoleCanvas && blackHoleEntry) {
     let isEnteringHomepage = false;
     let isConsumingParticles = false;
     let consumptionStartTime = 0;
+    let consumptionProgress = 0;
     let isEventHorizonHovered = false;
     let eventHorizonScale = 1;
 
@@ -144,26 +145,20 @@ if (blackHoleCanvas && blackHoleEntry) {
 
     const updateParticles = (elapsedSeconds) => {
       if (isConsumingParticles) {
-        const starPull = 1 - Math.exp(-4.5 * elapsedSeconds);
-
+        const pull = consumptionProgress * consumptionProgress;
         stars.forEach((star) => {
-          star.x += (centerX - star.x) * starPull;
-          star.y += (centerY - star.y) * starPull;
+          const angle = star.startAngle + pull * 5;
+          const radius = star.startRadius * (1 - pull);
+          star.x = centerX + Math.cos(angle) * radius;
+          star.y = centerY + Math.sin(angle) * radius;
         });
 
         particles.forEach((particle) => {
-          const radialDistance = particle.radius - eventHorizonRadius;
-          const inwardSpeed = Math.max(20, radialDistance * 4.4);
-
-          particle.angle =
-            (particle.angle +
-              (particle.speed + 90 / Math.max(particle.radius, 8)) *
-                elapsedSeconds) %
-            fullTurn;
-          particle.radius = Math.max(
-            0,
-            particle.radius - inwardSpeed * elapsedSeconds
-          );
+          particle.radius = particle.startRadius * (1 - pull);
+          // Angular speed rises as the orbit tightens, like a coin in a vortex.
+          particle.angle = (particle.angle + elapsedSeconds *
+            (particle.speed + consumptionProgress * 8) *
+            Math.min(4, particle.startRadius / Math.max(particle.radius, 8))) % fullTurn;
         });
 
         return;
@@ -196,18 +191,37 @@ if (blackHoleCanvas && blackHoleEntry) {
       }
     };
 
-    const drawDottedRing = (radius, dotCount, phase, opacity) => {
-      context.globalAlpha = opacity;
+    const drawPhotonRing = (radius, time) => {
       context.fillStyle = "#FFFFFF";
-
-      for (let index = 0; index < dotCount; index += 1) {
-        const angle = phase + (index / dotCount) * fullTurn;
-        const x = Math.round(centerX + Math.cos(angle) * radius);
-        const y = Math.round(centerY + Math.sin(angle) * radius);
-        const size = index % 7 === 0 ? 2 : 1;
-
-        context.fillRect(x - Math.floor(size / 2), y - Math.floor(size / 2), size, size);
+      for (let index = 0; index < 180; index += 1) {
+        const angle = (index / 180) * fullTurn;
+        context.globalAlpha = 0.55 + 0.35 * Math.sin(angle - time * 0.0002);
+        context.fillRect(
+          Math.round(centerX + Math.cos(angle) * radius),
+          Math.round(centerY + Math.sin(angle) * radius), 1, 1
+        );
       }
+    };
+
+    const drawDisc = (front) => {
+      context.fillStyle = "#FFFFFF";
+      particles.forEach((particle) => {
+        if (particle.radius <= eventHorizonRadius * eventHorizonScale) return;
+        const sin = Math.sin(particle.angle);
+        if ((sin > 0) !== front) return;
+        const radiusProgress = particle.radius / outerOrbitRadius;
+        const tailLength = isConsumingParticles ? 6 : 2;
+        for (let tail = tailLength; tail >= 0; tail -= 1) {
+          const angle = particle.angle - tail * (isConsumingParticles ? 0.065 : 0.018);
+          const x = Math.cos(angle) * particle.radius;
+          const y = Math.sin(angle) * particle.radius * discTilt +
+            particle.depth * radiusProgress;
+          context.globalAlpha = particle.opacity * (1 - tail / (tailLength + 1)) *
+            (front ? 0.9 : 0.65);
+          context.fillRect(Math.round(centerX + x), Math.round(centerY + y),
+            particle.size, 1);
+        }
+      });
     };
 
     const drawScene = (time = 0) => {
@@ -221,40 +235,18 @@ if (blackHoleCanvas && blackHoleEntry) {
         context.fillRect(star.x, star.y, star.size, star.size);
       });
 
-      particles.forEach((particle) => {
-        const radiusProgress = particle.radius / outerOrbitRadius;
-        const x = Math.round(
-          centerX + Math.cos(particle.angle) * particle.radius
-        );
-        const y = Math.round(
-          centerY +
-            Math.sin(particle.angle) * particle.radius * discTilt +
-            particle.depth * radiusProgress
-        );
-        const pulse = 0.9 + Math.sin(time * 0.0015 + particle.twinkle) * 0.1;
-
-        context.globalAlpha = particle.opacity * pulse;
-        context.fillRect(x, y, particle.size, particle.size);
-      });
+      drawDisc(false);
 
       context.globalAlpha = 1;
       context.fillStyle = "#000000";
       const renderedEventHorizonRadius = Math.round(
         eventHorizonRadius * eventHorizonScale
       );
-      const renderedPhotonRingRadius = Math.round(
-        photonRingRadius * eventHorizonScale
-      );
 
       fillPixelCircle(renderedEventHorizonRadius);
 
-      drawDottedRing(renderedEventHorizonRadius + 1, 52, 0, 1);
-      drawDottedRing(
-        renderedPhotonRingRadius,
-        34,
-        time * 0.00012,
-        0.58
-      );
+      drawPhotonRing(renderedEventHorizonRadius + 1, time);
+      drawDisc(true);
       context.globalAlpha = 1;
     };
 
@@ -284,6 +276,9 @@ if (blackHoleCanvas && blackHoleEntry) {
       const elapsed = time - previousFrameTime;
 
       if (elapsed >= frameInterval) {
+        if (isConsumingParticles) {
+          consumptionProgress = Math.min(1, (time - consumptionStartTime) / consumptionDuration);
+        }
         updateParticles(Math.min(elapsed, 100) / 1000);
         updateEventHorizonScale(Math.min(elapsed, 100) / 1000);
         drawScene(time);
@@ -309,6 +304,7 @@ if (blackHoleCanvas && blackHoleEntry) {
     const syncAnimation = () => {
       stopAnimation();
       drawScene();
+      if (isEnteringHomepage && reducedMotion.matches) startHomepageFade();
       startAnimation();
     };
 
@@ -338,17 +334,23 @@ if (blackHoleCanvas && blackHoleEntry) {
         return;
       }
 
+      const bounds = blackHoleCanvas.getBoundingClientRect();
+      const horizonPixels = eventHorizonRadius * eventHorizonScale * bounds.width / width;
+      const coverScale = Math.hypot(window.innerWidth, window.innerHeight) /
+        Math.max(1, horizonPixels);
+      blackHoleEntry.style.setProperty("--horizon-cover-scale", Math.max(1, coverScale));
       pageRoot.classList.add("devIntroExiting");
 
       window.setTimeout(() => {
         particles.forEach((particle) => resetParticle(particle, true));
         stars.forEach(resetStar);
         isConsumingParticles = false;
+        consumptionProgress = 0;
         isEventHorizonHovered = false;
         eventHorizonScale = 1;
         drawScene();
         revealHomepage();
-      }, reducedMotion.matches ? 0 : 650);
+      }, reducedMotion.matches ? 0 : 900);
     };
 
     const enterHomepage = () => {
@@ -367,6 +369,11 @@ if (blackHoleCanvas && blackHoleEntry) {
         return;
       }
 
+      particles.forEach((particle) => { particle.startRadius = particle.radius; });
+      stars.forEach((star) => {
+        star.startRadius = Math.hypot(star.x - centerX, star.y - centerY);
+        star.startAngle = Math.atan2(star.y - centerY, star.x - centerX);
+      });
       isConsumingParticles = true;
       consumptionStartTime = performance.now();
       startAnimation();
