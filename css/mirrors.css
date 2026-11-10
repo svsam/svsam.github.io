@@ -1,0 +1,137 @@
+.mirrorEntry {
+    border-bottom: 1px solid #3D3D3D;
+    box-sizing: border-box;
+    padding: 0.7rem 0 1rem;
+    width: 100%;
+}
+
+.mirrorEntry h2 {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.mirrorEntry h2 a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.mirrorEntry h2 a:hover {
+    color: #FFFFFF;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
+.mirrorEntry h2 a:focus-visible {
+    outline: 2px solid #FFFFFF;
+    outline-offset: 3px;
+}
+
+.mirrorEntry p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0.3rem 0 0;
+    padding-left: 1rem;
+}
+
+.mirrorNote {
+    color: #999999;
+    font-size: 0.85rem;
+}
+
+.mirrorControls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.75rem;
+    width: 100%;
+}
+
+.mirrorControls label {
+    font-size: 0.85rem;
+    width: 100%;
+}
+
+.mirrorControls input,
+.mirrorControls select {
+    background: #171717;
+    border: 1px solid #555555;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: #EEEEEE;
+    font: inherit;
+    font-size: 0.85rem;
+    min-height: 2.5rem;
+    padding: 0.5rem 0.7rem;
+    width: 100%;
+}
+
+.mirrorControls input:focus-visible,
+.mirrorControls select:focus-visible {
+    outline: 2px solid #FFFFFF;
+    outline-offset: 2px;
+}
+
+.resultCount {
+    color: #999999;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+.workList { width: 100%; }
+
+.workGroup { margin-top: 2rem; }
+
+.workGroup h3 {
+    border-bottom: 1px solid #CCCCCC;
+    color: #F1F1F1;
+    font-size: 1rem;
+    margin: 0;
+    padding-bottom: 0.3rem;
+}
+
+.work {
+    border-bottom: 1px solid #3D3D3D;
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+    padding: 0.7rem 0;
+}
+
+.workYear {
+    color: #999999;
+    font-size: 0.85rem;
+    padding-top: 0.15rem;
+}
+
+.work h4 {
+    color: #E7E7E7;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.translationLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-top: 0.45rem;
+}
+
+.translationLinks a {
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+
+.translationLinks .englishText { color: #A8C9FF; }
+
+.unavailableText,
+.addedTranslation small {
+    color: #999999;
+    font-size: 0.75rem;
+    line-height: 1.5;
+}
+
+.addedTranslation {
+    display: flex;
+    flex-direction: column;
+}

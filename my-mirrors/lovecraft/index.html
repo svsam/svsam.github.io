@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="An independent catalogue of H. P. Lovecraft's works with links to English texts and German translations.">
+    <link rel="stylesheet" href="../../css/dev.css">
+    <link rel="stylesheet" href="../../css/projects.css">
+    <link rel="stylesheet" href="../../css/mirrors.css">
+    <title>/ SvS / Lovecraft’s works</title>
+    <link rel="icon" type="image/x-icon" href="../../css/Images/web/site-favicon.jpg">
+    <script src="./mirrors.js" defer></script>
+</head>
+<body>
+    <main class="projectsContent">
+        <article class="projectsProfile" aria-labelledby="lovecraftTitle">
+            <header class="devHeader">
+                <nav class="devNav" aria-label="Primary navigation">
+                    <a href="../../">Home</a>
+                    <a href="../../about/">About</a>
+                    <a href="../../projects/">Projects</a>
+                    <a href="../../blog/">Blog</a>
+                    <a href="../" aria-current="page">My Mirrors</a>
+                </nav>
+            </header>
+            <section class="projectsTextBox">
+                <h1 class="title" id="lovecraftTitle">/Lovecraft’s works</h1>
+                <div class="projectsDescription">
+                    <p>English texts and German translations (if available).</p>
+                    <p>This independent catalogue follows the <a href="https://www.hplovecraft.de/index.php?id=werke" target="_blank" rel="noopener noreferrer">hplovecraft.de works list</a>.
+                    <p class="mirrorNote">This page is unaffiliated with the original site or its publisher. German levels are broad reading estimates.</p>
+                </div>
+                <div class="mirrorControls">
+                    <label for="workSearch">Search titles or translators</label>
+                    <input id="workSearch" type="search" placeholder="e.g. Innsmouth, Dagon, Clevé" autocomplete="off">
+                    <label for="workFilter">Show</label>
+                    <select id="workFilter">
+                        <option value="all">All works</option>
+                        <option value="german">With German links</option>
+                        <option value="added">My additions</option>
+                    </select>
+                    <label for="levelFilter">German level</label>
+                    <select id="levelFilter">
+                        <option value="all">Any level</option>
+                        <option value="A1">A1</option>
+                        <option value="A2">A2</option>
+                        <option value="B1">B1</option>
+                        <option value="B2">B2</option>
+                        <option value="C1">C1</option>
+                    </select>
+                </div>
+                <p id="resultCount" class="resultCount" aria-live="polite"></p>
+                <div id="workList" class="workList"><p>Loading catalogue…</p></div>
+            </section>
+        </article>
+    </main>
+</body>
+</html>

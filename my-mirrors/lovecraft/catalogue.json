@@ -1,0 +1,861 @@
+{
+  "source": "https://www.hplovecraft.de/index.php?id=werke",
+  "captured": "2026-11-10",
+  "works": [
+    {
+      "section": "Early works",
+      "year": "1897",
+      "title": "The Noble Eavesdropper",
+      "sourcePdf": null,
+      "additions": [],
+      "englishStatus": "lost"
+    },
+    {
+      "section": "Early works",
+      "year": "1897",
+      "title": "The Little Glass Bottle",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/lgb.aspx"
+    },
+    {
+      "section": "Early works",
+      "year": "1898",
+      "title": "The Secret Cave or John Lees Adventure",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/sc.aspx"
+    },
+    {
+      "section": "Early works",
+      "year": "1898",
+      "title": "The Mystery of the Graveyard",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/mg.aspx"
+    },
+    {
+      "section": "Early works",
+      "year": "1902",
+      "title": "The Haunted House",
+      "sourcePdf": null,
+      "additions": [],
+      "englishStatus": "lost"
+    },
+    {
+      "section": "Early works",
+      "year": "1902",
+      "title": "The Secret of the Grave",
+      "sourcePdf": null,
+      "additions": [],
+      "englishStatus": "lost"
+    },
+    {
+      "section": "Early works",
+      "year": "1902",
+      "title": "John, the Detective",
+      "sourcePdf": null,
+      "additions": [],
+      "englishStatus": "lost"
+    },
+    {
+      "section": "Early works",
+      "year": "1902",
+      "title": "The Mysterious Ship",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/mys.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1905",
+      "title": "The Beast in the Cave",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/bc.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1908",
+      "title": "The Alchemist",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/a.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1917",
+      "title": "The Tomb",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/t.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1917",
+      "title": "Dagon",
+      "sourcePdf": "https://www.hplovecraft.de/pdf/Dagon.pdf",
+      "additions": [
+        {
+          "title": "Dagon",
+          "translator": "Sebastian Jackel",
+          "format": "Online files",
+          "url": "https://github.com/DerDackel/Lovecraft/tree/master/Dagon",
+          "level": "B2"
+        }
+      ],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/d.aspx",
+      "sourceLevel": "B2"
+    },
+    {
+      "section": "Main works",
+      "year": "1918",
+      "title": "Polaris",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/p.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1919",
+      "title": "Beyond the Wall of Sleep",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/bws.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1919",
+      "title": "Memory (Prosagedicht)",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/m.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1919",
+      "title": "The Transition of Juan Romero",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/tjr.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1919",
+      "title": "The White Ship",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/ws.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1919",
+      "title": "The Doom That Came to Sarnath",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/ds.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1919",
+      "title": "The Statement of Randolph Carter",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/src.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1920",
+      "title": "The Terrible Old Man",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/tom.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1920",
+      "title": "The Tree",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/tr.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1920",
+      "title": "The Cats of Ulthar",
+      "sourcePdf": null,
+      "additions": [
+        {
+          "title": "Die Katzen von Ulthar",
+          "translator": "Sebastian Jackel",
+          "format": "Online files",
+          "url": "https://github.com/DerDackel/Lovecraft/tree/master/The%20Cats%20of%20Ulthar",
+          "level": "B2"
+        }
+      ],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/cu.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1920",
+      "title": "The Temple",
+      "sourcePdf": null,
+      "additions": [
+        {
+          "title": "Der Tempel",
+          "translator": "Sebastian Jackel",
+          "format": "Online files",
+          "url": "https://github.com/DerDackel/Lovecraft/tree/master/The%20Temple",
+          "level": "C1"
+        }
+      ],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/te.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1920",
+      "title": "Facts Concerning the Late Arthur Jermyn and His Family",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/faj.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1920",
+      "title": "The Street",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/s.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1920",
+      "title": "Celephaïs",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/c.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1920",
+      "title": "From Beyond",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/fb.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1920",
+      "title": "Nyarlathotep (Prosagedicht)",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/n.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1920",
+      "title": "The Picture in the House",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/ph.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1921",
+      "title": "Ex Oblivione (Prosagedicht)",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/eo.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1921",
+      "title": "The Nameless City",
+      "sourcePdf": "https://www.hplovecraft.de/pdf/Stadt_ohne_Namen.pdf",
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/nc.aspx",
+      "sourceLevel": "C1"
+    },
+    {
+      "section": "Main works",
+      "year": "1921",
+      "title": "The Quest of Iranon",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/qi.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1921",
+      "title": "The Moon-Bog",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/mb.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1921",
+      "title": "The Outsider",
+      "sourcePdf": "https://www.hplovecraft.de/pdf/der_aussenseiter.pdf",
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/o.aspx",
+      "sourceLevel": "B2"
+    },
+    {
+      "section": "Main works",
+      "year": "1921",
+      "title": "The Other Gods",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/og.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1921",
+      "title": "The Music of Erich Zann",
+      "sourcePdf": "https://www.hplovecraft.de/pdf/die_musik_des_erich_zann.pdf",
+      "additions": [
+        {
+          "title": "Die Musik des Erich Zann",
+          "translator": "Sebastian Jackel",
+          "format": "Online files",
+          "url": "https://github.com/DerDackel/Lovecraft/tree/master/The%20Music%20of%20Erich%20Zann",
+          "level": "B2"
+        }
+      ],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/mez.aspx",
+      "sourceLevel": "B2"
+    },
+    {
+      "section": "Main works",
+      "year": "1921",
+      "title": "Herbert West - Reanimator",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/hwr.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1922",
+      "title": "Hypnos",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/hy.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1922",
+      "title": "What the Moon brings (Prosagedicht)",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/wmb.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1922",
+      "title": "Azathoth (Fragment)",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/az.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1922",
+      "title": "The Hound",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/h.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1922",
+      "title": "The Lurking Fear",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/lf.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1923",
+      "title": "The Rats in the Walls",
+      "sourcePdf": "https://www.hplovecraft.de/pdf/die_ratten_im_gemaeuer.pdf",
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/rw.aspx",
+      "sourceLevel": "C1"
+    },
+    {
+      "section": "Main works",
+      "year": "1923",
+      "title": "The Unnamable",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/u.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1923",
+      "title": "The Festival",
+      "sourcePdf": "https://www.hplovecraft.de/pdf/das_fest.pdf",
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/f.aspx",
+      "sourceLevel": "B2"
+    },
+    {
+      "section": "Main works",
+      "year": "1924",
+      "title": "Under the Pyramids/Imprisioned with the Pharaohs",
+      "sourcePdf": "https://www.hplovecraft.de/pdf/gefangen_bei_den_pharaonen.pdf",
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/up.aspx",
+      "sourceLevel": "C1"
+    },
+    {
+      "section": "Main works",
+      "year": "1924",
+      "title": "The Shunned House",
+      "sourcePdf": "https://www.hplovecraft.de/pdf/das_gemiedene_haus.pdf",
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/sh.aspx",
+      "sourceLevel": "C1"
+    },
+    {
+      "section": "Main works",
+      "year": "1925",
+      "title": "The Horror at Red Hook",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/hrh.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1925",
+      "title": "He",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/he.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1925",
+      "title": "In the Vault",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/iv.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1926",
+      "title": "The Descendant (Fragment)",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/de.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1926",
+      "title": "Cool Air",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/ca.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1926",
+      "title": "The Call of Cthulhu",
+      "sourcePdf": "https://www.hplovecraft.de/pdf/der_ruf_des_cthulhu.pdf",
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/cc.aspx",
+      "sourceLevel": "C1"
+    },
+    {
+      "section": "Main works",
+      "year": "1926",
+      "title": "Pickman's Model",
+      "sourcePdf": "https://www.hplovecraft.de/pdf/pickmans_model.pdf",
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/pm.aspx",
+      "sourceLevel": "B2"
+    },
+    {
+      "section": "Main works",
+      "year": "1926",
+      "title": "The Silver Key",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/sk.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1926",
+      "title": "The Strange High House in the Mist",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/shh.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1927",
+      "title": "The Dream-Quest of Unknown Kadath",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/dq.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1927",
+      "title": "The Case of Charles Dexter Ward",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/cdw.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1927",
+      "title": "The Colour Out of Space",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/cs.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1927",
+      "title": "The Very Old Folk",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/vof.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1927",
+      "title": "History of the Necronomicon",
+      "sourcePdf": "https://www.hplovecraft.de/pdf/geschichte_des_necronomicon.pdf",
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/hn.aspx",
+      "sourceLevel": "C1"
+    },
+    {
+      "section": "Main works",
+      "year": "1927",
+      "title": "The Thing in the Moonlight (Fragment)",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/tm.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1928",
+      "title": "The Dunwich Horror",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/dh.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1930",
+      "title": "The Whisperer in Darkness",
+      "sourcePdf": null,
+      "additions": [
+        {
+          "title": "Der Flüsterer im Dunkeln",
+          "translator": "Bastian Clevé",
+          "format": "PDF",
+          "url": "https://www.bastiancleve.com/wp-content/uploads/Der_Fluesterer_im_Dunkeln.pdf",
+          "level": "C1"
+        }
+      ],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/wid.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1931",
+      "title": "At the Mountains of Madness",
+      "sourcePdf": "https://www.hplovecraft.de/pdf/berge_des_wahnsinns.pdf",
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/mm.aspx",
+      "sourceLevel": "C1"
+    },
+    {
+      "section": "Main works",
+      "year": "1931",
+      "title": "The Shadow Over Innsmouth",
+      "sourcePdf": null,
+      "additions": [
+        {
+          "title": "Der Schatten über Innsmouth",
+          "translator": "Sebastian Jackel",
+          "format": "Online files",
+          "url": "https://github.com/DerDackel/Lovecraft/tree/master/The%20Shadow%20over%20Innsmouth",
+          "level": "C1"
+        }
+      ],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/soi.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1932",
+      "title": "The Dreams in the Witch House",
+      "sourcePdf": "https://www.hplovecraft.de/pdf/traeume_im_hexenhaus.pdf",
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/dwh.aspx",
+      "sourceLevel": "C1"
+    },
+    {
+      "section": "Main works",
+      "year": "1933",
+      "title": "The Thing on the Doorstep",
+      "sourcePdf": "https://www.hplovecraft.de/pdf/das_ding_auf_der_schwelle.pdf",
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/td.aspx",
+      "sourceLevel": "C1"
+    },
+    {
+      "section": "Main works",
+      "year": "1933",
+      "title": "The Evil Clergyman",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/ec.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1933",
+      "title": "The Book (Fragment)",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/b.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1935",
+      "title": "The Shadow Out of Time",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/sot.aspx"
+    },
+    {
+      "section": "Main works",
+      "year": "1935",
+      "title": "The Haunter of the Dark",
+      "sourcePdf": null,
+      "additions": [],
+      "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/hd.aspx"
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1919",
+      "title": "The Green Meadow (mit Winifred V. Jackson)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1920",
+      "title": "Poetry and the Gods (mit Anna Helen Crofts)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1921",
+      "title": "The Crawling Chaos (mit Winifred V. Jackson)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1922",
+      "title": "The Horror at Martin’s Beach (mit Sonia H. Greene)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1923",
+      "title": "The Ghost-Eater (mit C. M. Eddy, Jr.)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1923",
+      "title": "Ashes (mit C. M. Eddy, Jr.)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1923",
+      "title": "The Loved Dead (mit C. M. Eddy, Jr.)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1924",
+      "title": "Deaf, Dumb, and Blind (mit C. M. Eddy, Jr.)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1926",
+      "title": "Two Black Bottles (mit Wilfred Blanch Talman)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1927",
+      "title": "The Last Test (mit Adolphe de Castro)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1928",
+      "title": "The Curse of Yig (mit Zealia Bishop)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1929",
+      "title": "The Electric Executioner (mit Adolphe de Castro)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1930",
+      "title": "The Mound (mit Zealia Bishop)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1930",
+      "title": "Medusa’s Coil (mit Zealia Bishop)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1931",
+      "title": "The Trap (mit Henry S. Whitehead)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1932",
+      "title": "The Horror in the Museum (mit Hazel Heald)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1932",
+      "title": "The Man of Stone (mit Hazel Heald)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1932",
+      "title": "Through the Gates of the Silver Key (mit E. Hoffmann Price)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1933",
+      "title": "The Slaying of the Monster (mit R.H. Barlow)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1933",
+      "title": "The Hoard of the Wizard Beast (mit R.H. Barlow)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1933",
+      "title": "Winged Death (mit Hazel Heald)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1933",
+      "title": "Out of the Aeons (mit Hazel Heald)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1934",
+      "title": "The Battle that Ended the Century (mit R. H. Barlow)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1934",
+      "title": "The Tree on the Hill (mit Duane W. Rimel)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1935",
+      "title": "Till A’ the Seas (mit R.H. Barlow)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1935",
+      "title": "Collapsing Cosmoses (mit R.H. Barlow)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1935",
+      "title": "The Challenge from Beyond (mit vier anderen Autoren)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1935",
+      "title": "The Diary of Alonzo Typer (mit William Lumley)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1935",
+      "title": "The Horror in the Burying-Ground (mit Hazel Heald)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1936",
+      "title": "The Night Ocean (mit R.H. Barlow)",
+      "sourcePdf": null,
+      "additions": []
+    },
+    {
+      "section": "Collaborations and revisions",
+      "year": "1936",
+      "title": "In the Walls of Eryx (mit Kenneth Sterling)",
+      "sourcePdf": null,
+      "additions": []
+    }
+  ]
+}
