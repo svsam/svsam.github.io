@@ -102,6 +102,14 @@
           "format": "Online files",
           "url": "https://github.com/DerDackel/Lovecraft/tree/master/Dagon",
           "level": "B2"
+        },
+        {
+          "title": "Dagon",
+          "format": "PDF",
+          "level": "B2",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2021/04/dagon.pdf",
+          "translator": "Katja Tiltmann"
         }
       ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/d.aspx",
@@ -112,7 +120,16 @@
       "year": "1918",
       "title": "Polaris",
       "sourcePdf": null,
-      "additions": [],
+      "additions": [
+        {
+          "title": "Polaris",
+          "format": "PDF",
+          "level": "B2",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2021/03/polaris.pdf",
+          "translator": "Tim Starke"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/p.aspx"
     },
     {
@@ -128,7 +145,16 @@
       "year": "1919",
       "title": "Memory (Prosagedicht)",
       "sourcePdf": null,
-      "additions": [],
+      "additions": [
+        {
+          "title": "Das Gedächtnis",
+          "format": "PDF",
+          "level": "B2",
+          "source": "Festa Verlag (reading sample, complete story)",
+          "translator": "Usch Kiausch",
+          "url": "https://www.festa-verlag.de/media/Lovecraft_Die-geliebten-Toten_Leseprobe.pdf"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/m.aspx"
     },
     {
@@ -144,7 +170,16 @@
       "year": "1919",
       "title": "The White Ship",
       "sourcePdf": null,
-      "additions": [],
+      "additions": [
+        {
+          "title": "Das weiße Schiff",
+          "format": "PDF",
+          "level": "C1",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2021/06/das-weisse-schiff.pdf",
+          "translator": "Niklas Bischofberger"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/ws.aspx"
     },
     {
@@ -152,7 +187,16 @@
       "year": "1919",
       "title": "The Doom That Came to Sarnath",
       "sourcePdf": null,
-      "additions": [],
+      "additions": [
+        {
+          "title": "Das Verderben, das über Sarnath kam",
+          "format": "PDF",
+          "level": "C1",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2021/07/das-verderben-das-ueber-sarnath-kam.pdf",
+          "translator": "Niklas Bischofberger"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/ds.aspx"
     },
     {
@@ -160,7 +204,16 @@
       "year": "1919",
       "title": "The Statement of Randolph Carter",
       "sourcePdf": null,
-      "additions": [],
+      "additions": [
+        {
+          "title": "Die Aussage des Randolph Carter",
+          "format": "PDF",
+          "level": "C1",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2021/07/die-aussage-des-randolph-carter-1.pdf",
+          "translator": "Niklas Bischofberger"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/src.aspx"
     },
     {
@@ -168,7 +221,16 @@
       "year": "1920",
       "title": "The Terrible Old Man",
       "sourcePdf": null,
-      "additions": [],
+      "additions": [
+        {
+          "title": "Der schreckliche alte Mann",
+          "format": "PDF",
+          "level": "B2",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2021/08/der-schreckliche-alte-mann.pdf",
+          "translator": "Niklas Bischofberger"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/tom.aspx"
     },
     {
@@ -176,7 +238,16 @@
       "year": "1920",
       "title": "The Tree",
       "sourcePdf": null,
-      "additions": [],
+      "additions": [
+        {
+          "title": "Der Baum",
+          "format": "PDF",
+          "level": "B2",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2021/08/der-baum.pdf",
+          "translator": "Niklas Bischofberger"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/tr.aspx"
     },
     {
@@ -191,6 +262,14 @@
           "format": "Online files",
           "url": "https://github.com/DerDackel/Lovecraft/tree/master/The%20Cats%20of%20Ulthar",
           "level": "B2"
+        },
+        {
+          "title": "Die Katzen von Ulthar",
+          "format": "PDF",
+          "level": "B2",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2021/09/die-katzen-von-ulthar.pdf",
+          "translator": "Niklas Bischofberger"
         }
       ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/cu.aspx"
@@ -216,7 +295,16 @@
       "year": "1920",
       "title": "Facts Concerning the Late Arthur Jermyn and His Family",
       "sourcePdf": null,
-      "additions": [],
+      "additions": [
+        {
+          "title": "Die Fakten über den verstorbenen Arthur Jermyn und seine Familie",
+          "format": "PDF",
+          "level": "C1",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2021/10/arthur-jermyn.pdf",
+          "translator": "Niklas Bischofberger"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/faj.aspx"
     },
     {
@@ -232,7 +320,16 @@
       "year": "1920",
       "title": "Celephaïs",
       "sourcePdf": null,
-      "additions": [],
+      "additions": [
+        {
+          "title": "Celephaïs",
+          "format": "PDF",
+          "level": "C1",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2021/11/celephais.pdf",
+          "translator": "Niklas Bischofberger"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/c.aspx"
     },
     {
@@ -240,7 +337,16 @@
       "year": "1920",
       "title": "From Beyond",
       "sourcePdf": null,
-      "additions": [],
+      "additions": [
+        {
+          "title": "Vom Jenseits",
+          "format": "PDF",
+          "level": "C1",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2021/11/vom-jenseits.pdf",
+          "translator": "Niklas Bischofberger"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/fb.aspx"
     },
     {
@@ -248,7 +354,16 @@
       "year": "1920",
       "title": "Nyarlathotep (Prosagedicht)",
       "sourcePdf": null,
-      "additions": [],
+      "additions": [
+        {
+          "title": "Nyarlathotep",
+          "format": "PDF",
+          "level": "B2",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2021/12/nyarlathotep.pdf",
+          "translator": "Niklas Bischofberger"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/n.aspx"
     },
     {
@@ -256,7 +371,16 @@
       "year": "1920",
       "title": "The Picture in the House",
       "sourcePdf": null,
-      "additions": [],
+      "additions": [
+        {
+          "title": "Das Bild im Haus",
+          "format": "PDF",
+          "level": "C1",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2022/01/das-bild-im-haus.pdf",
+          "translator": "Niklas Bischofberger"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/ph.aspx"
     },
     {
@@ -264,7 +388,16 @@
       "year": "1921",
       "title": "Ex Oblivione (Prosagedicht)",
       "sourcePdf": null,
-      "additions": [],
+      "additions": [
+        {
+          "title": "Ex Oblivione",
+          "format": "PDF",
+          "level": "B2",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2022/01/ex-oblivione.pdf",
+          "translator": "Niklas Bischofberger"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/eo.aspx"
     },
     {
@@ -272,7 +405,16 @@
       "year": "1921",
       "title": "The Nameless City",
       "sourcePdf": "https://www.hplovecraft.de/pdf/Stadt_ohne_Namen.pdf",
-      "additions": [],
+      "additions": [
+        {
+          "title": "Stadt ohne Namen",
+          "format": "PDF",
+          "level": "C1",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2022/02/stadt-ohne-namen.pdf",
+          "translator": "Niklas Bischofberger"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/nc.aspx",
       "sourceLevel": "C1"
     },
@@ -281,7 +423,16 @@
       "year": "1921",
       "title": "The Quest of Iranon",
       "sourcePdf": null,
-      "additions": [],
+      "additions": [
+        {
+          "title": "Iranons Suche",
+          "format": "PDF",
+          "level": "C1",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2022/03/iranons-suche.pdf",
+          "translator": "Niklas Bischofberger"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/qi.aspx"
     },
     {
@@ -306,7 +457,16 @@
       "year": "1921",
       "title": "The Other Gods",
       "sourcePdf": null,
-      "additions": [],
+      "additions": [
+        {
+          "title": "Die anderen Götter",
+          "format": "PDF",
+          "level": "C1",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2022/04/die-anderen-goetter.pdf",
+          "translator": "Niklas Bischofberger"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/og.aspx"
     },
     {
@@ -321,6 +481,14 @@
           "format": "Online files",
           "url": "https://github.com/DerDackel/Lovecraft/tree/master/The%20Music%20of%20Erich%20Zann",
           "level": "B2"
+        },
+        {
+          "title": "Die Musik des Erich Zann",
+          "format": "PDF",
+          "level": "C1",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2022/04/die-musik-des-erich-zann.pdf",
+          "translator": "Niklas Bischofberger"
         }
       ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/mez.aspx",
@@ -331,7 +499,16 @@
       "year": "1921",
       "title": "Herbert West - Reanimator",
       "sourcePdf": null,
-      "additions": [],
+      "additions": [
+        {
+          "title": "Herbert West – Der Wiedererwecker",
+          "format": "PDF",
+          "level": "C1",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2022/08/herbert-west.pdf",
+          "translator": "Niklas Bischofberger"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/hwr.aspx"
     },
     {
@@ -347,7 +524,16 @@
       "year": "1922",
       "title": "What the Moon brings (Prosagedicht)",
       "sourcePdf": null,
-      "additions": [],
+      "additions": [
+        {
+          "title": "Was der Mond bringt",
+          "format": "PDF",
+          "level": "B2",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2023/03/was-der-mond-bringt.pdf",
+          "translator": "Niklas Bischofberger"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/wmb.aspx"
     },
     {
@@ -355,7 +541,16 @@
       "year": "1922",
       "title": "Azathoth (Fragment)",
       "sourcePdf": null,
-      "additions": [],
+      "additions": [
+        {
+          "title": "Azathoth",
+          "format": "PDF",
+          "level": "B2",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2023/03/azathoth.pdf",
+          "translator": "Niklas Bischofberger"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/az.aspx"
     },
     {
@@ -363,7 +558,16 @@
       "year": "1922",
       "title": "The Hound",
       "sourcePdf": null,
-      "additions": [],
+      "additions": [
+        {
+          "title": "Der Hund",
+          "format": "PDF",
+          "level": "B2",
+          "source": "Thorsten H. Willert",
+          "translator": "Thorsten Willert",
+          "url": "https://www.thorsten-willert.de/alle-downloads?catid=4&id=151%3Athorsten_h_willert_-_der_hund&task=download.send"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/h.aspx"
     },
     {
@@ -379,7 +583,16 @@
       "year": "1923",
       "title": "The Rats in the Walls",
       "sourcePdf": "https://www.hplovecraft.de/pdf/die_ratten_im_gemaeuer.pdf",
-      "additions": [],
+      "additions": [
+        {
+          "title": "Die Ratten im Gemäuer",
+          "format": "PDF",
+          "level": "C1",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2023/09/die-ratten-im-gemaeuer.pdf",
+          "translator": "Niklas Bischofberger"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/rw.aspx",
       "sourceLevel": "C1"
     },
@@ -388,7 +601,16 @@
       "year": "1923",
       "title": "The Unnamable",
       "sourcePdf": null,
-      "additions": [],
+      "additions": [
+        {
+          "title": "Das Unnennbare",
+          "format": "PDF",
+          "level": "B2",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2024/03/das-unnennbare.pdf",
+          "translator": "Niklas Bischofberger"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/u.aspx"
     },
     {
@@ -396,7 +618,16 @@
       "year": "1923",
       "title": "The Festival",
       "sourcePdf": "https://www.hplovecraft.de/pdf/das_fest.pdf",
-      "additions": [],
+      "additions": [
+        {
+          "title": "Das Fest",
+          "format": "PDF",
+          "level": "C1",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2024/06/das-fest.pdf",
+          "translator": "Niklas Bischofberger"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/f.aspx",
       "sourceLevel": "B2"
     },
@@ -405,7 +636,16 @@
       "year": "1924",
       "title": "Under the Pyramids/Imprisioned with the Pharaohs",
       "sourcePdf": "https://www.hplovecraft.de/pdf/gefangen_bei_den_pharaonen.pdf",
-      "additions": [],
+      "additions": [
+        {
+          "title": "Unter den Pyramiden",
+          "format": "PDF",
+          "level": "C1",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2024/09/pharaonen.pdf",
+          "translator": "Niklas Bischofberger"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/up.aspx",
       "sourceLevel": "C1"
     },
@@ -423,7 +663,15 @@
       "year": "1925",
       "title": "The Horror at Red Hook",
       "sourcePdf": null,
-      "additions": [],
+      "additions": [
+        {
+          "title": "Das Grauen von Red Hook",
+          "format": "PDF",
+          "level": "C1",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2026/03/das-grauen-von-red-hook.pdf"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/hrh.aspx"
     },
     {
@@ -439,7 +687,16 @@
       "year": "1925",
       "title": "In the Vault",
       "sourcePdf": null,
-      "additions": [],
+      "additions": [
+        {
+          "title": "In der Gruft",
+          "format": "PDF",
+          "level": "C1",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2026/05/in-der-gruft.pdf",
+          "translator": "Niklas Bischofberger"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/iv.aspx"
     },
     {
@@ -455,7 +712,16 @@
       "year": "1926",
       "title": "Cool Air",
       "sourcePdf": null,
-      "additions": [],
+      "additions": [
+        {
+          "title": "Kühle Luft",
+          "format": "PDF",
+          "level": "C1",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2026/06/kuehle_luft.pdf",
+          "translator": "Niklas Bischofberger"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/ca.aspx"
     },
     {
@@ -463,7 +729,16 @@
       "year": "1926",
       "title": "The Call of Cthulhu",
       "sourcePdf": "https://www.hplovecraft.de/pdf/der_ruf_des_cthulhu.pdf",
-      "additions": [],
+      "additions": [
+        {
+          "title": "Der Ruf des Cthulhu",
+          "format": "PDF",
+          "level": "C1",
+          "source": "Die Miskatonic-Universität",
+          "url": "https://wirlesenlovecraft.com/wp-content/uploads/2026/07/der-ruf-des-cthulhu.pdf",
+          "translator": "Niklas Bischofberger"
+        }
+      ],
       "englishUrl": "https://www.hplovecraft.com/writings/texts/fiction/cc.aspx",
       "sourceLevel": "C1"
     },

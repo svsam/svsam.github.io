@@ -20,6 +20,7 @@ function render(works) {
     const level = levelFilter.value;
     const matched = works.filter(work => {
         if (mode === 'german' && !work.sourcePdf && !work.additions.length) return false;
+        if (mode === 'missing' && (!work.englishUrl || work.sourcePdf || work.additions.length)) return false;
         if (mode === 'added' && !work.additions.length) return false;
         if (level !== 'all' && work.sourceLevel !== level && !work.additions.some(item => item.level === level)) return false;
         const haystack = [work.title, work.year, ...work.additions.flatMap(item => [item.title, item.translator])].join(' ').toLocaleLowerCase();
@@ -71,7 +72,7 @@ function render(works) {
                 item.className = 'addedTranslation';
                 item.append(externalLink(addition.url, `${addition.title} · ${addition.format} · ${addition.level} ↗`));
                 const credit = document.createElement('small');
-                credit.textContent = `My addition · translated by ${addition.translator}`;
+                credit.textContent = ['My addition', addition.translator && `translated by ${addition.translator}`, addition.source].filter(Boolean).join(' · ');
                 item.append(credit);
                 links.append(item);
             }
